@@ -86,3 +86,25 @@ comparisons against RQ1/RQ2, failures, assumptions, alternative explanations, ev
 resource use, risks, wasted effort and the next most informative experiment. Verify claims against
 artifacts. Record reviews in `research/REVIEWS.md` and update the plan. Running jobs stay monitored.
 Active work began 2026-10-30 ~16:00 EDT; first review due ~18:00 EDT.
+
+## 2026-10-30 — Task and data protocol choices (development; freeze pending at M3)
+
+| Decision | Choice | Reason |
+|---|---|---|
+| Canvas and K | Fixed 21x9 for all K; inactive slots solid wall; gateway (12,4) fixed and yellow | Same tensor and parameter count for every K; same gateway and final key |
+| Boundary | First step with agent x >= 13 | Possible only after every door unlocks (door chain), so the grid certifies the prefix; no hidden flag |
+| Success | On the delivery floor while carrying the purple ball | Pickup alone is not success; key/distractor on delivery is not success |
+| Deadline | Terminal (not truncation) at `H_x` | Remaining time is observed, so the deadline is part of the MDP; bootstrap value is zero |
+| `H_x` | `tau_planner + 24 + 80` (development values) | project.md starting values; may be adjusted once on dev data, then frozen |
+| Time scale | remaining / 200 for every K | Common normalizer; max `H_x` observed is 163 |
+| Suffix matching | Suffix drawn from its own RNG stream; suffix planned on its own stream inside gateway+suffix | Same layout seed gives identical suffix, suffix plan, arrival pose and remaining time across K |
+| Final-key convention | Planner always carries the yellow key across the boundary | Restricted suffix search; same total plan length as unrestricted search (300 layouts tested) |
+| Splits | 10 roles, SeedSequence namespaces; full-layout disjoint; evaluation/bank roles also suffix-disjoint from training and from each other | Removes exact-suffix memorization as an explanation for competence results |
+| Confirmation data | Seeds registered now; layouts/banks generated only at the freeze | `H_x` constants may still change; avoids any early contact with confirmation data |
+| Competence bank | 64 donors per K (64 distinct layouts); bins by donor index 50% entry / 25% retrieval / 25% carrying; retrieval = uniform strictly between entry and pickup; carrying = first half of the delivery leg, never the last action | Fixed mixture; avoids near-terminal dominance; identical items across K (asserted in data generation) |
+| Reset bank | Reset-donor planner states per K; bin by the same 50/25/25 mixture, then uniform state in bin | Same distribution for arms 10 and 11; original remaining time kept |
+| Anchor bank | Anchor-donor planner states per K; 25% prefix / 75% suffix, uniform within | project.md default emphasis on suffix states |
+| BC weighting | Transition-level, balanced across K: each batch is half K=1 and half K=3, uniform within K | Long K=3 prefixes do not dominate; one joint actor serves both K |
+| Evaluation sampling | Per-attempt uniform streams (inverse-CDF), same seeds for every policy | Common random numbers for paired comparisons; batch-independent (tested) |
+| Branch streams | Coin / normal-layout / bank-state streams separate; action-sampling stream continues from the fork | The k-th normal layout is the same in all arms; trajectories diverge naturally |
+| Initial critic | Pre-fit on pi0 normal-start returns (gamma = 1) before the probe; shared by all branches | Avoids a random critic driving early actor updates (WSRL concern); its cost is reported as preprocessing |
