@@ -9,18 +9,18 @@ Dependency-ordered. `[x]` done and verified, `[~]` in progress, `[ ]` planned.
 - [x] `mae profile` on the actual Mac
 - [x] Harness tests 14/14 (after macOS EPERM fix)
 - [x] Owner resource limits -> `mae configure` (4 cores, 6 GiB, 1 job, 8 h safeguard), DECISIONS.md
-- [ ] Commit scaffolding (outer repo)
+- [x] Commit scaffolding (outer repo); pushed to origin/main
 
 ## M0: host and correctness
-- [ ] Resource canaries via runner: CPU throttle, low memory stop (small allocation), wall timeout,
+- [x] Resource canaries via runner: CPU throttle, low memory stop (small allocation), wall timeout,
       owner stop, missing/stale MPS telemetry, CPU child cleanup; restore owner limits
-- [ ] Telemetry module (from template) with background heartbeat thread
-- [ ] Environment: K-module prefix, fixed canvas, gateway, suffix (obstacle, key disposal, pickup, delivery)
-- [ ] Reward contract (1 on full success only), deadline termination, observation encoding with time
-- [ ] State-aware planner; invariants (no alternate routes, drop pockets, solvability within H_x)
-- [ ] Snapshot/restore with exact replay (planner and random continuations), no time refresh
-- [ ] Boundary tests: success => access, first crossing only, turn-back, drop/reacquire, pickup not terminal
-- [ ] Split registry with seed namespaces and canonical layout/state hashes; overlap checks
+- [~] Telemetry module with background heartbeat thread (MPS thread-safety check pending in M1)
+- [x] Environment: K-module prefix, fixed canvas, gateway, suffix (obstacle, key disposal, pickup, delivery)
+- [x] Reward contract (1 on full success only), deadline termination, observation encoding with time
+- [x] State-aware planner; invariants (no alternate routes, drop pockets, solvability within H_x)
+- [x] Snapshot/restore with exact replay (planner and random continuations), no time refresh
+- [x] Boundary tests: success => access, first crossing only, turn-back, drop/reacquire, pickup not terminal
+- [x] Split registry with seed namespaces and canonical layout/state hashes; overlap checks
 
 ## M1: throughput and BC
 - [ ] CPU vs MPS benchmark (same config), sustained 10-15 min thermal check
