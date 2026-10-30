@@ -11,6 +11,7 @@ Contract (project.md sections 6-7):
   The anchor KL is also computed without gradient in arms with b = 0, for diagnostics.
 - Environment actions are counted exactly. A restored state does not count its skipped prefix.
 """
+import copy
 import json
 import os
 from pathlib import Path
@@ -27,21 +28,32 @@ ARMS = {"00": (False, False), "10": (True, False), "01": (False, True), "11": (T
 
 class StartSampler:
     """Chooses each episode start. Normal: uniform rl_train layout of the condition's K.
-    Assisted (prob alpha): bin by fixed mixture, then a reset-bank state uniformly within the bin."""
+    Assisted (prob alpha): bin by fixed mixture, then a reset-bank state uniformly within the bin.
+
+    Three independent streams (coin, normal layout, bank state) make the k-th normal layout the
+    same in every arm that forks from one state, whatever the assist coin does."""
 
     def __init__(self, layouts, reset_bank, alpha, mixture, seed):
         self.layouts = layouts
         self.bank = reset_bank           # dict bin -> list of snapshot builders (callables)
         self.alpha = alpha
         self.mixture = mixture
-        self.rng = np.random.default_rng(seed)
+        self.rngs = {k: np.random.default_rng([seed, i]) for i, k in enumerate(("coin", "layout", "bank"))}
 
     def draw(self):
-        if self.alpha > 0 and self.rng.random() < self.alpha:
-            b = self.rng.choice(len(self.mixture), p=[m[1] for m in self.mixture])
+        if self.alpha > 0 and self.rngs["coin"].random() < self.alpha:
+            r = self.rngs["bank"]
+            b = r.choice(len(self.mixture), p=[m[1] for m in self.mixture])
             items = self.bank[self.mixture[b][0]]
-            return "snapshot", items[self.rng.integers(len(items))](), True
-        return "layout", self.layouts[self.rng.integers(len(self.layouts))], False
+            return "snapshot", items[r.integers(len(items))](), True
+        return "layout", self.layouts[self.rngs["layout"].integers(len(self.layouts))], False
+
+    def get_state(self):
+        return {k: r.bit_generator.state for k, r in self.rngs.items()}
+
+    def set_state(self, st):
+        for k, s in st.items():
+            self.rngs[k].bit_generator.state = s
 
 
 class ResetBank:
@@ -68,6 +80,21 @@ class ResetBank:
 
     def bins(self, names):
         return {n: [self.builder(int(r)) for r in self.rows(n)] for n in names}
+
+
+def gae(reward, value, done, last_value, gamma, lam):
+    """(S, N) tensors. done[s] = episode ended at step s (success or deadline): no bootstrap and
+    no advantage flow from s+1 (the next episode). The last step bootstraps from last_value."""
+    S = reward.shape[0]
+    adv = torch.zeros_like(reward)
+    acc = torch.zeros_like(last_value)
+    for s in reversed(range(S)):
+        next_v = last_value if s == S - 1 else value[s + 1]
+        nonterminal = (~done[s]).float()
+        delta = reward[s] + gamma * next_v * nonterminal - value[s]
+        acc = delta + gamma * lam * nonterminal * acc
+        adv[s] = acc
+    return adv
 
 
 def categorical_kl(ref_logp, logp):
@@ -149,16 +176,9 @@ class PPO:
         g, a, t = self._obs_batch(self.obs)
         last_value = self.critic(g, a, t).float().cpu()
         data = {k: torch.stack(v) for k, v in buf.items()}            # (S, N, ...)
-        adv = torch.zeros(S, N)
-        gae = torch.zeros(N)
-        for s in reversed(range(S)):
-            next_v = last_value if s == S - 1 else data["value"][s + 1]
-            nonterminal = (~data["done"][s]).float()
-            delta = data["reward"][s] + self.cfg["gamma"] * next_v * nonterminal - data["value"][s]
-            gae = delta + self.cfg["gamma"] * self.cfg["gae_lambda"] * nonterminal * gae
-            adv[s] = gae
-        data["adv"] = adv
-        data["ret"] = adv + data["value"]
+        data["adv"] = gae(data["reward"], data["value"], data["done"], last_value,
+                          self.cfg["gamma"], self.cfg["gae_lambda"])
+        data["ret"] = data["adv"] + data["value"]
         return data
 
     # -- update -----------------------------------------------------------------------------------
@@ -227,20 +247,23 @@ class PPO:
 
     # -- exact state for forks and resumption ------------------------------------------------------------
     def state(self):
-        return {"actor": self.actor.state_dict(), "critic": self.critic.state_dict(),
+        # Deep copies: state_dict() and Optimizer.load_state_dict() alias live tensors, so a fork
+        # held in memory would otherwise change when either learner trains.
+        return copy.deepcopy({"actor": self.actor.state_dict(), "critic": self.critic.state_dict(),
                 "opt_a": self.opt_a.state_dict(), "opt_c": self.opt_c.state_dict(),
                 "torch_gen": self.torch_gen.get_state(), "np_rng": self.np_rng.bit_generator.state,
-                "sampler_rng": self.sampler.rng.bit_generator.state,
+                "sampler_rng": self.sampler.get_state(),
                 "envs": [e.snapshot() for e in self.envs], "assisted": list(self.assisted),
-                "counters": dict(self.counters)}
+                "counters": dict(self.counters)})
 
     def load(self, st, load_sampler_rng=True):
+        st = copy.deepcopy(st)
         self.actor.load_state_dict(st["actor"]); self.critic.load_state_dict(st["critic"])
         self.opt_a.load_state_dict(st["opt_a"]); self.opt_c.load_state_dict(st["opt_c"])
         self.torch_gen.set_state(st["torch_gen"])
         self.np_rng.bit_generator.state = st["np_rng"]
         if load_sampler_rng:
-            self.sampler.rng.bit_generator.state = st["sampler_rng"]
+            self.sampler.set_state(st["sampler_rng"])
         for i, snap in enumerate(st["envs"]):
             self.obs[i], _ = self.envs[i].reset(options={"snapshot": snap})
         self.assisted = list(st["assisted"])
@@ -263,4 +286,5 @@ def state_hash(st):
     h.update(json.dumps(st["counters"], sort_keys=True).encode())
     h.update(st["torch_gen"].numpy().tobytes())
     h.update(json.dumps(st["np_rng"], sort_keys=True, default=str).encode())
+    h.update(json.dumps(st["sampler_rng"], sort_keys=True, default=str).encode())
     return h.hexdigest()
