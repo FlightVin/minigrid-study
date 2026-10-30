@@ -144,3 +144,17 @@ target-KL, critic pre-fit with early stopping. Applies to all arms. Open risk: l
 for the planned budgets; the M2 continuation (250k actions per arm, K=3 extended, seed 0) checks
 whether ordinary PPO improves at all. If every arm is flat, the next lever is rollout batch size
 (more environments per update), changed for all arms together, on development data only.
+
+## 2026-10-30 — M2b rollout-size check on ordinary PPO only (prespecified)
+
+Question: is ordinary PPO noise-limited by its 512-action rollout batch? Arms with interventions are
+not run. Conditions (dev, seed 0): (K=1, early) and (K=3, extended). Each run: critic pre-fit, 50k
+probe, 250k continuation of arm 00, final evaluation (dev_eval 32 x 16; dev bank 64 x 4).
+- R1: 4 envs x 128, minibatch 128, actor lr 3e-5 (current; K=3 result reused from batch
+  20261030T211303-98764, arm 00).
+- R2: 16 envs x 128 (2,048 per update), minibatch 512, actor lr 3e-5.
+- R3: 16 envs x 128, minibatch 512, actor lr 1e-4.
+**Rule:** choose the highest mean final P1 of arm 00 over the two conditions. If the best is within
+0.03 of R1, keep R1. Delta-c and all intervention outcomes are excluded from this choice.
+Caveat: R2/R3 also change the probe (same rollout setting in probe and branches); the probe allowance
+stays 50k actions.

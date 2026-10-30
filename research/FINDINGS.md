@@ -64,3 +64,24 @@ pi0: K=1 early p 0.25, q 1.00, c 0.27; K=3 extended p 0.25, q 0.45, c 0.64.
 - Before any update, recomputed log-probabilities equal the rollout values (ratio 1 +/- 2e-5, CPU and
   MPS), so the collapse is optimization dynamics, not a ratio bug.
 - Limitations: one seed, one 50k probe, 128 normal-start attempts per estimate (SE ~0.04 near p = 0.2).
+
+## F4 — Four-arm continuation canary (M2, exploratory, development, ONE seed)
+
+Batch `20261030T211303-98764`; fork from the S4 probe (K=3, extended BC u16000, seed 0; fork hash
+de2f397a...). 250,368 continuation actions per arm. Final evaluation: 32 dev_eval layouts x 16 attempts;
+dev bank 64 x 4 attempts. pi0: p 0.25, q 0.45, c 0.64; post-probe: p 0.17, q 0.43, c 0.55.
+
+| Arm | P1 | q | c | C4 | R4 | Success given arrival | Training successes / episodes |
+|---|---|---|---|---|---|---|---|
+| 00 | 0.21 | 0.52 | 0.50 | 0.42 | 0.06 | 0.40 | 414 / 2,238 |
+| 10 | 0.24 | 0.60 | 0.59 | 0.36 | 0.14 | 0.40 | 1,278 / 3,147 (881 assisted) |
+| 01 | 0.41 | 0.71 | 0.70 | 0.63 | 0.20 | 0.58 | 735 / 2,390 |
+| 11 | 0.41 | 0.70 | 0.62 | 0.69 | 0.17 | 0.59 | 1,577 / 3,336 (1,042 assisted) |
+
+- Engineering checks passed: finite updates; fork hashes verified in every arm; exact action allowance;
+  throughput ~1,100/s (arms 00/10) and ~1,030/s (KL arms), flat over ~17 min of continuous MPS work.
+- Ordinary PPO did not clearly improve over 250k actions (curve p 0.20, 0.14, 0.20, 0.23, 0.25; 64
+  attempts per point) and drifted from pi0 (anchor KL 0.20 -> 0.30). KL arms stayed near pi0 (~0.03).
+- One seed, one condition: no intervention claim. Competing explanation to test first: the 4 x 128
+  rollout batch (~4 episodes per update) may make ordinary PPO noise-limited, so preservation may only
+  stabilize a poorly configured baseline. Next: rollout-size check on arm 00 only.

@@ -257,7 +257,10 @@ def probe(a, cfg):
 
 
 def branch(a, cfg):
-    probe_dir = Path(os.environ.get("MAE_PROJECT", ".")) / ".mae/runs" / a.probe_run
+    if a.probe_run.startswith("@/"):          # a probe job earlier in the same batch
+        probe_dir = Path(os.environ["MAE_RUN_DIR"]).parent / a.probe_run[2:]
+    else:
+        probe_dir = Path(os.environ.get("MAE_PROJECT", ".")) / ".mae/runs" / a.probe_run
     psum = json.loads((probe_dir / "summary.json").read_text())
     pcfg = json.loads((probe_dir / "config.resolved.json").read_text())
     K, seed = psum["K"], psum["seed"]
@@ -279,7 +282,7 @@ def branch(a, cfg):
     assert loaded_hash == psum["fork_hash"], "loaded learner state differs from fork"
     base_actions = learner.counters["env_actions"]
     (ctx.run_dir / "config.resolved.json").write_text(json.dumps({**cfg, "mode": "branch", "arm": a.arm,
-        "alpha": alpha, "kl_coef": cfg["kl_coef"] if use_kl else 0.0, "probe_run": a.probe_run,
+        "alpha": alpha, "kl_coef": cfg["kl_coef"] if use_kl else 0.0, "probe_run": str(probe_dir),
         "fork_hash": psum["fork_hash"], "K": K, "seed": seed, "bc_update": pcfg["bc_update"],
         "device": str(ctx.device)}, indent=1))
     curve = []

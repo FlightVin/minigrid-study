@@ -1,0 +1,204 @@
+{
+ "jobs": [
+  {
+   "id": "m2b-R2-probe-K1-u4000-s0",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "probe",
+    "--config",
+    "experiments/m2/rollout-R2.json",
+    "--K",
+    "1",
+    "--bc-run",
+    "20261030T204407-76602/m1-bc-curve-v1-s0",
+    "--bc-update",
+    "4000",
+    "--seed",
+    "0"
+   ]
+  },
+  {
+   "id": "m2b-R2-arm00-K1-u4000-s0",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m2/rollout-R2.json",
+    "--probe-run",
+    "@/m2b-R2-probe-K1-u4000-s0",
+    "--arm",
+    "00"
+   ]
+  },
+  {
+   "id": "m2b-R2-probe-K3-u16000-s0",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "probe",
+    "--config",
+    "experiments/m2/rollout-R2.json",
+    "--K",
+    "3",
+    "--bc-run",
+    "20261030T204407-76602/m1-bc-curve-v1-s0",
+    "--bc-update",
+    "16000",
+    "--seed",
+    "0"
+   ]
+  },
+  {
+   "id": "m2b-R2-arm00-K3-u16000-s0",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m2/rollout-R2.json",
+    "--probe-run",
+    "@/m2b-R2-probe-K3-u16000-s0",
+    "--arm",
+    "00"
+   ]
+  },
+  {
+   "id": "m2b-R3-probe-K1-u4000-s0",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "probe",
+    "--config",
+    "experiments/m2/rollout-R3.json",
+    "--K",
+    "1",
+    "--bc-run",
+    "20261030T204407-76602/m1-bc-curve-v1-s0",
+    "--bc-update",
+    "4000",
+    "--seed",
+    "0"
+   ]
+  },
+  {
+   "id": "m2b-R3-arm00-K1-u4000-s0",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m2/rollout-R3.json",
+    "--probe-run",
+    "@/m2b-R3-probe-K1-u4000-s0",
+    "--arm",
+    "00"
+   ]
+  },
+  {
+   "id": "m2b-R3-probe-K3-u16000-s0",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "probe",
+    "--config",
+    "experiments/m2/rollout-R3.json",
+    "--K",
+    "3",
+    "--bc-run",
+    "20261030T204407-76602/m1-bc-curve-v1-s0",
+    "--bc-update",
+    "16000",
+    "--seed",
+    "0"
+   ]
+  },
+  {
+   "id": "m2b-R3-arm00-K3-u16000-s0",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m2/rollout-R3.json",
+    "--probe-run",
+    "@/m2b-R3-probe-K3-u16000-s0",
+    "--arm",
+    "00"
+   ]
+  },
+  {
+   "id": "m2b-R1-probe-K1-u4000-s0",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "probe",
+    "--config",
+    "experiments/m2/rollout-R1.json",
+    "--K",
+    "1",
+    "--bc-run",
+    "20261030T204407-76602/m1-bc-curve-v1-s0",
+    "--bc-update",
+    "4000",
+    "--seed",
+    "0"
+   ]
+  },
+  {
+   "id": "m2b-R1-arm00-K1-u4000-s0",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m2/rollout-R1.json",
+    "--probe-run",
+    "@/m2b-R1-probe-K1-u4000-s0",
+    "--arm",
+    "00"
+   ]
+  }
+ ]
+}
