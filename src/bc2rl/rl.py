@@ -36,7 +36,10 @@ class Ctx:
         self.run_dir = Path(os.environ.get("MAE_RUN_DIR", "."))
         threads = int(os.environ.get("OMP_NUM_THREADS", "1"))
         torch.set_num_threads(threads)
-        torch.set_num_interop_threads(1)
+        try:
+            torch.set_num_interop_threads(1)
+        except RuntimeError:              # already set in this process (in-process tests only)
+            assert torch.get_num_interop_threads() == 1
         self.device = torch.device(os.environ.get("MAE_DEVICE", "cpu"))
         lay = json.loads((self.ds / "layouts.json").read_text())
         pick = lambda role: [T.Layout.from_dict(it["layout"]) for it in lay[role] if it["layout"]["K"] == K]

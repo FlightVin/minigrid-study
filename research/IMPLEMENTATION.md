@@ -98,3 +98,14 @@ Fix: `PPO.state()`/`load()` deep-copy. Test: a fork reproduces collect+update ex
 
 **Runner refusal.** One BC launch was refused because the tree had uncommitted edits (no job ran).
 The watcher then reported the previous batch; it was restarted after the new batch was confirmed.
+
+## 2026-10-30 — M2 canary probe: failed launch and fixes
+
+- Batch `20261030T205100-80441` (m2-canary-probe-K1-u4000-s0) failed deterministically after the pi0
+  evaluation: `StartSampler` nested a list seed inside `default_rng([...])` (NumPy TypeError). Unit
+  tests had used integer seeds. Fix: flatten int-or-sequence seeds. The pi0 evaluation that ran
+  (K=1, early BC, seed 0: p 0.25, q 1.00, c 0.27; 23,097 evaluation actions) is retained in that run
+  directory and is consistent with the BC curve. Not reused: the canary is rerun under a new batch.
+- Added `tests/test_rl_smoke.py`: real dev-v2 data and BC checkpoint, tiny budgets, CPU, probe then
+  all four arms in one process (fork hash verified in each branch; assisted steps only in arms 1x).
+  It exposed one more in-process-only issue (`set_num_interop_threads` called twice), now tolerated.

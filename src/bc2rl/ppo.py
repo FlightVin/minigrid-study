@@ -38,7 +38,8 @@ class StartSampler:
         self.bank = reset_bank           # dict bin -> list of snapshot builders (callables)
         self.alpha = alpha
         self.mixture = mixture
-        self.rngs = {k: np.random.default_rng([seed, i]) for i, k in enumerate(("coin", "layout", "bank"))}
+        base = [int(s) for s in np.atleast_1d(seed)]      # int or flat sequence of ints
+        self.rngs = {k: np.random.default_rng(base + [i]) for i, k in enumerate(("coin", "layout", "bank"))}
 
     def draw(self):
         if self.alpha > 0 and self.rngs["coin"].random() < self.alpha:
