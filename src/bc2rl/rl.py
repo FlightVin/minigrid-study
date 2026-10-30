@@ -11,6 +11,7 @@ same eval seeds for every policy (common random numbers). Every environment acti
 role: critic_warmup, probe/continuation training, and evaluation (diagnostic or final).
 """
 import argparse
+import copy
 import json
 import os
 from pathlib import Path
@@ -139,29 +140,44 @@ def critic_prefit(ctx, pi0, critic):
         ctx.hb()
     ctx.actions["critic_warmup"] += actions
     ep = np.array(ep_all)
-    test_eps = rng.random(n_ep) < 0.2
-    is_test = test_eps[ep]
+    # Episode-level split: 60% fit, 20% early-stopping validation, 20% held-out calibration.
+    u_ep = rng.random(n_ep)
+    is_test, is_val = (u_ep < 0.2)[ep], ((u_ep >= 0.2) & (u_ep < 0.4))[ep]
     G = {k: torch.as_tensor(np.stack([o[k] for o in obs_all]), device=ctx.device) for k in ("grid", "aux", "time")}
     y = torch.as_tensor(np.array(ret_all, np.float32), device=ctx.device)
-    tr, te = np.nonzero(~is_test)[0], np.nonzero(is_test)[0]
+    tr, va, te = np.nonzero(~is_test & ~is_val)[0], np.nonzero(is_val)[0], np.nonzero(is_test)[0]
+
+    def predict():
+        with torch.inference_mode():
+            return torch.cat([critic(G["grid"][s:s + 2048], G["aux"][s:s + 2048], G["time"][s:s + 2048])
+                              for s in range(0, len(y), 2048)]).float().cpu().numpy()
+
+    yy = y.cpu().numpy()
     opt = torch.optim.Adam(critic.parameters(), lr=cfg["critic_prefit_lr"])
-    for step in range(cfg["critic_prefit_steps"]):
+    best = (float(np.mean((predict()[va] - yy[va]) ** 2)), 0, copy.deepcopy(critic.state_dict()))
+    for step in range(1, cfg["critic_prefit_steps"] + 1):
         idx = torch.as_tensor(rng.choice(tr, 256), device=ctx.device)
         loss = ((critic(G["grid"][idx], G["aux"][idx], G["time"][idx]) - y[idx]) ** 2).mean()
         opt.zero_grad()
         loss.backward()
         torch.nn.utils.clip_grad_norm_(critic.parameters(), cfg["max_grad_norm"])
         opt.step()
-        if step % 50 == 0:
+        if step % 25 == 0:
             ctx.hb()
+            v = float(np.mean((predict()[va] - yy[va]) ** 2))
+            if v < best[0]:
+                best = (v, step, copy.deepcopy(critic.state_dict()))
+    critic.load_state_dict(best[2])
     ctx.compute["critic_fit_steps"] += cfg["critic_prefit_steps"]
-    with torch.inference_mode():
-        pred = torch.cat([critic(G["grid"][s:s + 2048], G["aux"][s:s + 2048], G["time"][s:s + 2048])
-                          for s in range(0, len(y), 2048)]).float().cpu().numpy()
-    yy = y.cpu().numpy()
+    pred = predict()
     stage, rem = np.array(stage_all), np.array(rem_all)
-    diag = {"episodes": n_ep, "actions": actions, "success_rate": float(np.mean([r for r, e in zip(ret_all, ep_all)]))
-            if ret_all else None, "train_states": int(len(tr)), "test_states": int(len(te))}
+    ep_return = {}
+    for r, e in zip(ret_all, ep_all):
+        ep_return[e] = r
+    diag = {"episodes": n_ep, "actions": actions,
+            "episode_success_rate": float(np.mean(list(ep_return.values()))) if ep_return else None,
+            "state_mean_return": float(np.mean(ret_all)) if ret_all else None, "train_states": int(len(tr)), "val_states": int(len(va)),
+            "test_states": int(len(te)), "best_step": best[1], "best_val_mse": best[0]}
     if len(te):
         base = float(yy[tr].mean())
         diag.update(test_mse=float(np.mean((pred[te] - yy[te]) ** 2)), test_mse_constant=float(np.mean((base - yy[te]) ** 2)))

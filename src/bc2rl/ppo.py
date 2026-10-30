@@ -193,13 +193,18 @@ class PPO:
         flat = {k: v.reshape(-1, *v.shape[2:]) for k, v in data.items()}
         B = flat["action"].shape[0]
         adv = flat["adv"]
-        adv = (adv - adv.mean()) / (adv.std() + 1e-8)
+        if cfg.get("adv_norm", True):
+            adv = (adv - adv.mean()) / (adv.std() + 1e-8)
         dev = lambda x: x.to(self.device)
         g, a, t = dev(flat["grid"]), dev(flat["aux"]), dev(flat["time"])
         act, old_logp, ret, adv = dev(flat["action"]), dev(flat["logp"]), dev(flat["ret"]), dev(adv)
         stats = {k: [] for k in ("pg_loss", "v_loss", "entropy", "approx_kl", "clipfrac", "anchor_kl",
                                  "grad_norm_actor", "grad_norm_critic", "kl_grad_norm", "ratio_max", "ratio_min")}
+        target_kl = cfg.get("target_kl")
+        stopped = False
         for _ in range(cfg["epochs"]):
+            if stopped:
+                break
             perm = torch.randperm(B, generator=self.torch_gen).to(self.device)
             for mb in perm.split(cfg["minibatch"]):
                 logits = self.actor(g[mb], a[mb], t[mb])
@@ -235,13 +240,18 @@ class PPO:
                 stats["entropy"].append(ent.item()); stats["anchor_kl"].append(kl.item())
                 stats["grad_norm_actor"].append(gn.item()); stats["grad_norm_critic"].append(gc.item())
                 self.counters["actor_minibatches"] += 1
+                # Same rule in every arm: stop this update once the sampled-action KL is too large.
+                if target_kl is not None and stats["approx_kl"][-1] > 1.5 * target_kl:
+                    stopped = True
+                    break
         self.counters["updates"] += 1
         out = {k: float(np.mean(v)) for k, v in stats.items() if v}
+        out["minibatches"] = len(stats["pg_loss"])
         out["ratio_max"], out["ratio_min"] = max(stats["ratio_max"]), min(stats["ratio_min"])
         y, yhat = flat["ret"], flat["value"]
         var = y.var().item()
         out["explained_var"] = (1 - (y - yhat).var().item() / var) if var > 1e-12 else None
-        out["batch_return_mean"] = flat["reward"].sum().item()
+        out["batch_successes"] = flat["reward"].sum().item()
         out["frac_suffix_steps"] = (flat["stage"] > 0).float().mean().item()
         out["frac_assisted_steps"] = flat["assisted"].float().mean().item()
         return out

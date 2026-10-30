@@ -120,3 +120,19 @@ see FINDINGS F1). Rule, fixed across all seeds and conditions:
 - **Time constants unchanged: S_prefix = 24, T_suffix = 80.** Access and competence are both measurable
   at both checkpoints for both K, so the feasibility gate gives no reason to adjust.
 - BC replicates for M3 development: seeds 0 and 1 (these runs). Confirmation BC seeds will be new.
+
+## 2026-10-30 — M2 ordinary-PPO stability screen (prespecified before running)
+
+Trigger: canary probe `20261030T205335-81100` collapsed (see FINDINGS F2): first update approx-KL 0.35,
+ratios 0-13.6, entropy 0.24 -> ~1.3, 0 successes in 428 probe episodes, p 0.25 -> 0. The pre-fit
+critic was worse than a constant on held-out episodes. This is an optimization defect, not evidence
+about stage practice. Fixed for all variants: critic pre-fit with episode-level 60/20/20 split and
+early stopping on validation MSE (up to 2,000 steps).
+- Conditions (development, seed 0): (K=1, early BC u4000) and (K=3, extended BC u16000). Probe only
+  (ordinary PPO, 50k actions). No intervention arm is run or inspected.
+- Variants: S1 lr 3e-4 ent 0.01; S2 lr 1e-4 ent 0.01; S3 lr 1e-4 ent 0; S4 lr 3e-5 ent 0;
+  S5 lr 1e-4 ent 0 target-KL 0.02; S6 lr 3e-4 ent 0 target-KL 0.02. Advantage normalization on.
+- **Selection rule:** highest mean post-probe normal-start p over the two conditions (dev_eval,
+  32 layouts x 4 attempts); among variants within 0.03 of the best, the smallest mean approx-KL.
+  Delta-c is reported but **not** used for selection. The chosen setting is then used in M2/M3 for all
+  arms, and frozen at M3.
