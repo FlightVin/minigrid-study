@@ -3,7 +3,8 @@
 Usage: .venv/bin/python tools/summarize_branches.py .mae/runs/<batch> [...] [--csv branches.csv] [--contrasts c.csv]
 
 Rows: one per branch (K, BC update, seed, arm, fork hash, final P1/q/c/C4/R4, actions).
-Contrasts (per K, BC update, seed with all four arms present and one shared fork):
+Contrasts (per K, BC update, seed with all four arms present and one shared fork; replicate jobs
+ending in "-rep" are excluded and reported as replicate-minus-original differences of arm 00):
   reset Y10-Y00, preserve Y01-Y00, combined Y11-Y00, interaction (Y11-Y01)-(Y10-Y00),
   Y11-Y10, Y11-Y01.
 """
@@ -38,6 +39,8 @@ def load(batches):
 def contrasts(rows):
     groups = {}
     for r in rows:
+        if r["job"].endswith("-rep"):
+            continue
         groups.setdefault((r["K"], r["bc_update"], r["seed"], r["fork_hash"]), {})[r["arm"]] = r["P1"]
     out = []
     for (K, u, seed, fh), y in sorted(groups.items()):
@@ -48,6 +51,13 @@ def contrasts(rows):
                     "interaction": (y["11"] - y["01"]) - (y["10"] - y["00"]),
                     "combined_vs_reset": y["11"] - y["10"], "combined_vs_preserve": y["11"] - y["01"]})
     return out
+
+
+def replicates(rows):
+    orig = {(r["fork_hash"], r["arm"]): r["P1"] for r in rows if not r["job"].endswith("-rep")}
+    return [{"K": r["K"], "bc_update": r["bc_update"], "seed": r["seed"], "arm": r["arm"], "fork_hash": r["fork_hash"],
+             "rep_minus_orig": r["P1"] - orig[(r["fork_hash"], r["arm"])]}
+            for r in rows if r["job"].endswith("-rep") and (r["fork_hash"], r["arm"]) in orig]
 
 
 def write(path, rows):
@@ -73,6 +83,8 @@ def main():
     cs = contrasts(rows)
     for c in cs:
         print("contrast", " ".join(f"{k}={fmt(v)}" for k, v in c.items()))
+    for r in replicates(rows):
+        print("replicate", " ".join(f"{k}={fmt(v)}" for k, v in r.items()))
     if a.csv:
         write(a.csv, rows)
     if a.contrasts:

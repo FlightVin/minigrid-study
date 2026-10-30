@@ -180,3 +180,12 @@ checkpoints. Then arm 11 with (alpha*, lambda*) runs on the same 8 forks to comp
 80M cap, reserve ~8M. That reserve is below 20% of the remaining estimate (~13M), so a 500k M4 endpoint is
 **not affordable** under the cap unless M3 curves justify a shorter endpoint or evaluation is trimmed.
 The endpoint will be chosen from M3 development curves before confirmation (DECISIONS at freeze).
+
+## 2026-10-30 — M3 selection applied; arm 11 and replicate batch
+
+Rule applied to batch `20261030T214937-19577` (F6): mean final P1 arm 10 alpha 0.25 = 0.3770, alpha 0.5
+= 0.3901 (difference 0.013 < 0.02 -> weaker value): **alpha* = 0.25**. Arm 01: lambda 0.01 = 0.3589,
+0.1 = 0.3403, 1.0 = 0.3262: **lambda* = 0.01**. Not revised after seeing the data.
+Batch `experiments/m3/arm11.batch.json` (16 jobs, order shuffled with seed 20261031): arm 11 (alpha
+0.25, lambda 0.01) on each of the 8 M3 forks, plus one replicate of arm 00 per fork (`-rep`). The
+replicates are a noise measurement only. They are excluded from contrasts and from every selection.

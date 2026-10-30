@@ -108,3 +108,43 @@ Batch `20261030T213118-9288` (10/10 exited); arm 00 only. Tables: `reports/m2b_r
   critic MSE equal to 4 decimals) but ended at p 0.00 vs 0.22. Runs are not bitwise reproducible on MPS;
   unstable settings amplify the difference. Replication must rely on independent seeds.
 - R2 also trains ~2.3x faster (~2,400 actions/s; 250k in ~105 s).
+
+## F6 — M3 development comparison and intervention screen (development data only)
+
+Batch `20261030T214937-19577`: 56/56 jobs exited 0; 8 forks, and one fork hash per fork across its 6
+branches. All metrics finite. Tables: `reports/m3_probes.csv`, `reports/m3_screen_branches.csv`.
+Final evaluation per branch: dev_eval 32 layouts x 8 attempts (P1), dev bank 64 items x 2 (c).
+
+Ordinary PPO (arm 00), final P1 per fork (seed 0 / seed 1):
+
+| K, BC checkpoint | pi0 p | after 50k probe | arm 00 after +250k |
+|---|---|---|---|
+| K=1, 16k | 0.55 / 0.56 | 0.59 / 0.56 | 0.66 / 0.70 |
+| K=1, 4k | 0.25 / 0.24 | 0.26 / 0.29 | 0.47 / 0.40 |
+| K=3, 16k | 0.25 / 0.22 | 0.23 / 0.31 | 0.33 / 0.32 |
+| K=3, 4k | 0.01 / 0.02 | 0.02 / 0.02 | 0.06 / 0.04 |
+
+Mean over 8 forks: pi0 0.263 -> probe 0.284 -> arm 00 0.373. Ordinary PPO now improves in 7/8 forks.
+The K=3 early-checkpoint forks are near the floor (12-15 training successes in the 50k probe).
+Probe Delta-c: mean -0.039 (range -0.195 to +0.047); 64 items x 2 attempts, so single values are noisy.
+
+Screen, paired final P1 difference versus arm 00 on the same fork (n = 8 forks):
+
+| Arm | mean P1 | mean diff | SD diff | forks > 0 |
+|---|---|---|---|---|
+| 00 | 0.373 | — | — | — |
+| 10, alpha 0.25 | 0.377 | +0.004 | 0.061 | 3 |
+| 10, alpha 0.5 | 0.390 | +0.017 | 0.049 | 5 |
+| 01, lambda 0.01 | 0.359 | -0.014 | 0.039 | 2 |
+| 01, lambda 0.1 | 0.340 | -0.033 | 0.046 | 2 |
+| 01, lambda 1.0 | 0.326 | -0.047 | 0.060 | 2 |
+
+- No screened intervention separates from arm 00. The reset differences are within about 0.4 SD of
+  the fork-to-fork spread. The preservation differences decrease monotonically with lambda; this is
+  a development pattern, not a confirmed effect.
+- Mean bank P1 (suffix competence): 00 0.52; 10/alpha 0.5 0.58; 01 0.53-0.54. Reset starts may raise
+  suffix competence more than normal-start P1. This is a hypothesis for confirmation, not a result.
+- Curves (normal P1, 32 x 2 attempts): arm 00 0.336 at 127k and 0.408 at 252k. Performance is still
+  increasing at 250k; the arm ordering is similar at both points.
+- Selection (prespecified rule, DECISIONS): alpha 0.5 vs 0.25 differ by 0.013 < 0.02, so the rule
+  selects the weaker value, alpha* = 0.25. lambda* = 0.01 (highest; also the weakest).

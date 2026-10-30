@@ -1,6 +1,7 @@
 # State
 
-**Current milestone:** M2 (PPO canary). Four-arm continuation running: batch 20261030T211303-98764.
+**Current milestone:** M3. Screen done (F6): alpha* 0.25, lambda* 0.01. Arm 11 + arm 00 replicates
+running (`experiments/m3/arm11.batch.json`). Then freeze and pause for the owner.
 
 **Established**
 - Manuscript SHA-256 `38326ef0...f92b4`; no substantive conflict with project.md.
@@ -11,17 +12,20 @@
 - M2: default PPO (lr 3e-4, ent 0.01) collapses the BC policy (F2). Screen selected actor lr 3e-5,
   entropy 0, early-stopped critic pre-fit (F3). It holds but does not yet improve p in 50k actions.
 
+- M2b/M3: with R2, ordinary PPO improves in 7/8 forks (mean P1 0.26 -> 0.37 over 250k; F5, F6).
+  No screened intervention separates from arm 00 on development data.
+
 **Uncertain**
-- Whether ordinary PPO improves at all within 250k-500k actions (main risk to RQ1).
+- Size of run-to-run (MPS) noise in paired contrasts; measured by the arm 00 replicates.
 - Critic is near a constant predictor; advantages are noisy.
 
 **Owner limits:** 4 cores, 6 GiB, 1 job (raise after benchmarking), no hour cap, 80M-action cap.
-Pause after PROTOCOL_FREEZE.md. Two-hourly reviews in research/REVIEWS.md (next ~19:25 EDT).
+Pause after PROTOCOL_FREEZE.md. Two-hourly reviews in research/REVIEWS.md (review 2 done 19:25; next ~21:25 EDT).
 
-**Resources used:** ~0.7 h batch wall; ~2.5M of 80M actions.
+**Resources used:** 2.77 h batch wall; 23.8M of 80M actions (29.7%).
 
 **Blockers:** none.
 
 **Next action**
-- Analyse four-arm curves. If arm 00 is flat: prespecified rollout-size check on development data.
-- Then M3 development comparison (K=1/3 x 2 checkpoints x 2 seeds) and intervention screen.
+- Analyse arm 11 and replicates; choose endpoint, evaluation sizes, thresholds; generate confirmation
+  data; commit PROTOCOL_FREEZE.md; pause and report to the owner.

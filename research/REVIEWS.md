@@ -46,3 +46,38 @@ nearly free per action. (3) Estimates from 128 normal-start attempts have SE ~0.
 **Next most informative experiment.** Read the four-arm curves. If arm 00 does not improve, run a
 prespecified development check of rollout size (e.g. 16 envs x 128) at lr 3e-5 and 1e-4, selecting on
 ordinary-PPO p after a fixed action budget, then start M3. Do not tune on intervention arms.
+
+## Review 2 — 2026-10-30 ~19:25 EDT (after the M3 screen; no submissions during review)
+
+**RQ fit.** The main risk from Review 1 is resolved: with R2, ordinary PPO improves in 7/8 forks (mean
+P1 0.26 -> 0.37). RQ1 now compares interventions against a learning baseline. The K x checkpoint grid
+spans P1 from 0.05 to 0.70 and access q from 0.25 to 1.0, so the conditions "where" each intervention
+helps can be tested. The K=3 early forks sit near the floor; they contribute little signal.
+
+**Validity.** Forks are hash-matched across arms; arms share streams; no confirmation data exist. The
+screen chose alpha and lambda only from dev_eval P1 by a rule written before the batch. Applied
+literally, the 0.02 tie rule picks alpha = 0.25 although alpha = 0.5 scored higher. I keep the rule:
+changing it after seeing the data would be selection on the outcome.
+
+**Evidence vs claims.** Screen differences (+0.017 to -0.047) are smaller than the fork-to-fork SD of
+paired differences (0.04-0.06). Part of that SD is MPS nondeterminism (F5). I do not know how much.
+This matters for M4: if the noise of a paired contrast is dominated by run-to-run nondeterminism, more
+forks are the only remedy; if it is dominated by fork heterogeneity, stratified analysis helps.
+
+**Alternative explanations.** (1) Preservation lowers P1 monotonically in lambda. This can be the
+expected cost of holding the policy near a weaker pi0, not a failure of the mechanism. (2) Reset raises
+bank P1 more than normal P1: suffix practice may help competence, while the binding limit for P1 at K=3
+is access (q). This supports measuring q and c separately in M4.
+
+**Leakage, resources.** No leakage found. Batch wall 1.56 h. Actions: 23.8M of 80M (29.7%). Peak
+memory per job < 1 GiB. M3 used ~15.7M (estimate 17M).
+
+**Waste.** None significant. The 3-value lambda grid was informative (monotone pattern).
+
+**Plan update.**
+- Run arm 11 (alpha 0.25, lambda 0.01) on the 8 forks, as prespecified.
+- Add one replicate of arm 00 per fork in the same batch (identical config; differs only by MPS
+  nondeterminism). This measures the null spread of a paired contrast and sizes M4. Cost ~2.5M.
+- Endpoint: 250k is favoured. A 4-arm fork at 250k costs ~1.36M actions versus ~2.36M at 500k. Within
+  the remaining budget less a 20% reserve, that is ~26 versus ~15 forks; with paired SD ~0.05 the
+  forks, not the length, decide power. Final choice at the freeze.
