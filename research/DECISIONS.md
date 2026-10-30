@@ -136,3 +136,11 @@ early stopping on validation MSE (up to 2,000 steps).
   32 layouts x 4 attempts); among variants within 0.03 of the best, the smallest mean approx-KL.
   Delta-c is reported but **not** used for selection. The chosen setting is then used in M2/M3 for all
   arms, and frozen at M3.
+
+## 2026-10-30 — PPO setting selected by the prespecified screen
+
+S4 selected: actor lr 3e-5, critic lr 3e-4, entropy coefficient 0, advantage normalization on, no
+target-KL, critic pre-fit with early stopping. Applies to all arms. Open risk: learning may be too slow
+for the planned budgets; the M2 continuation (250k actions per arm, K=3 extended, seed 0) checks
+whether ordinary PPO improves at all. If every arm is flat, the next lever is rollout batch size
+(more environments per update), changed for all arms together, on development data only.

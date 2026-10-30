@@ -1,0 +1,76 @@
+{
+ "jobs": [
+  {
+   "id": "m2-canary-branch-01-K3-u16000-s0",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m2/branch-canary-v2.json",
+    "--probe-run",
+    "20261030T205703-85741/m2-screen-S4-K3-u16000-s0",
+    "--arm",
+    "01"
+   ]
+  },
+  {
+   "id": "m2-canary-branch-11-K3-u16000-s0",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m2/branch-canary-v2.json",
+    "--probe-run",
+    "20261030T205703-85741/m2-screen-S4-K3-u16000-s0",
+    "--arm",
+    "11"
+   ]
+  },
+  {
+   "id": "m2-canary-branch-00-K3-u16000-s0",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m2/branch-canary-v2.json",
+    "--probe-run",
+    "20261030T205703-85741/m2-screen-S4-K3-u16000-s0",
+    "--arm",
+    "00"
+   ]
+  },
+  {
+   "id": "m2-canary-branch-10-K3-u16000-s0",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m2/branch-canary-v2.json",
+    "--probe-run",
+    "20261030T205703-85741/m2-screen-S4-K3-u16000-s0",
+    "--arm",
+    "10"
+   ]
+  }
+ ]
+}
