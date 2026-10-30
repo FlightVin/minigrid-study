@@ -84,7 +84,7 @@ def _static(layout, dropped):
 
 def plan(layout, seed):
     """Return (actions, tau_index) where tau_index is the action count at first boundary crossing."""
-    rng = np.random.default_rng(seed)
+    rng = np.random.default_rng([seed, 0])
     actions = []
     x, y = layout.agent_pos
     d = layout.agent_dir
@@ -117,8 +117,9 @@ def plan(layout, seed):
     # mobile: 0 = target, 1 = yellow key (held)
     start = (x, y, d, 1, (tuple(layout.target_pos), HELD), True)
     delivery = tuple(layout.delivery_pos)
+    # Separate stream: the suffix plan does not depend on how many prefix ties were broken.
     path = _bfs(start, passable, droppable, [True, False], [False, True], None,
-                lambda st: (st[0], st[1]) == delivery and st[3] == 0, rng)
+                lambda st: (st[0], st[1]) == delivery and st[3] == 0, np.random.default_rng([seed, 1]))
     actions += path
     tau = _first_crossing(layout, actions)
     return actions, tau

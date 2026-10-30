@@ -299,3 +299,42 @@ def test_snapshot_keeps_access_history_and_carrying():
     assert restored.accessed and restored.tau == rec["tau"]
     assert (restored.carrying.type, restored.carrying.color) == ("key", "yellow")
     assert restored.stage() == 1
+
+
+def test_suffix_plan_identical_across_K_for_shared_seed():
+    a, ra = planned(1, 21)
+    b, rb = planned(3, 21)
+    assert ra["actions"][ra["tau"]:] == rb["actions"][rb["tau"]:]
+    assert a.limit - ra["tau"] == b.limit - rb["tau"] == SLACK + SUFFIX
+
+
+def test_dynamics_do_not_consume_env_rng():
+    layout, rec = planned(3, 2)
+    env = T.StageTask()
+    env.reset(options={"layout": layout})
+    state = env.np_random.bit_generator.state
+    rng = np.random.default_rng(0)
+    for a in rng.integers(7, size=layout.limit):
+        if env.step(int(a))[2]:
+            break
+    assert env.np_random.bit_generator.state == state
+
+
+def test_snapshot_from_record_matches_env_snapshot():
+    from bc2rl import data as D
+    layout, rec = planned(3, 12)
+    env = T.StageTask()
+    rows, pickup_t = D.record_trajectory(env, layout, rec["actions"])
+    env.reset(options={"layout": layout})
+    for t, a in enumerate(rec["actions"]):
+        snap = env.snapshot()
+        rebuilt = D.snapshot_from_record(layout, rows["grid"][t], rows["aux"][t], rows["step_count"][t], rec["tau"])
+        snap["np_random"] = None
+        assert json.loads(json.dumps(rebuilt)) == json.loads(json.dumps(snap))
+        env.step(a)
+    assert rows["event"].count(D.EVENT_CROSS) == 1 and rows["event"][-1] == D.EVENT_SUCCESS
+    for b in D.BINS:
+        t = D.competence_choice(rec["tau"], pickup_t, rec["length"], b, 12)
+        assert rec["tau"] <= t < rec["length"] - 1 or b == "entry"
+        assert {"entry": t == rec["tau"], "retrieval": rec["tau"] < t < pickup_t,
+                "carrying": pickup_t <= t < rec["length"]}[b]
