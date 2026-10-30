@@ -85,3 +85,7 @@ dev bank 64 x 4 attempts. pi0: p 0.25, q 0.45, c 0.64; post-probe: p 0.17, q 0.4
 - One seed, one condition: no intervention claim. Competing explanation to test first: the 4 x 128
   rollout batch (~4 episodes per update) may make ordinary PPO noise-limited, so preservation may only
   stabilize a poorly configured baseline. Next: rollout-size check on arm 00 only.
+- Audit (F4): arm 01 metrics recomputed independently from `attempts_final.jsonl` (32 layouts x 16
+  attempts; 64 bank items x 4): P1 0.4102, C4 0.6337, R4 0.2026, c 0.6992, identical to the summary.
+  All successes crossed the boundary; every failure is a deadline timeout. Source tables:
+  `reports/m2_canary_branches.csv`, `reports/m2_canary_contrasts.csv`.
