@@ -1,0 +1,26 @@
+{
+ "jobs": [
+  {
+   "id": "m2-canary-probe-K1-u4000-s0",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "probe",
+    "--config",
+    "experiments/m2/ppo-canary-v1.json",
+    "--K",
+    "1",
+    "--bc-run",
+    "20261030T204407-76602/m1-bc-curve-v1-s0",
+    "--bc-update",
+    "4000",
+    "--seed",
+    "0"
+   ]
+  }
+ ]
+}

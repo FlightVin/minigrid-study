@@ -64,3 +64,37 @@ reads of the MPS driver counter during live MPS training (checked in the M1 benc
   almost-expired snapshot, registry overlap detection.
 - Test defect fixed: one test teleported the agent into the suffix with locked doors; the boundary
   invariant correctly rejected it. The test now crosses legitimately first.
+
+## 2026-10-30 — M1 data and backend benchmark
+
+**Datasets** (`data/`, untracked; hashes in each `manifest.json`):
+- `dev-v1` (batch 20261030T202518-64004): superseded. Its competence bank matched across K for
+  61/64 items only. Cause: the suffix BFS could search the prefix rooms, which differ by K, so
+  tie-break RNG use differed. Fix: suffix search confined to the gateway approach cell, gateway and
+  suffix (no length lost on 300 test layouts). `data.py` now asserts the cross-K bank match.
+- `dev-v2` (batch 20261030T203121-67141, job m1-data-dev-v2): 0 planner failures; 15 registry
+  rejections (suffix rule). Transitions: bc_train 45,212; bc_val 5,114; reset_donor 25,918;
+  anchor_donor 25,522; dev_bank 6,466. Layouts: rl_train 4,096; dev_eval 64. Bank bins 32/16/16 per K.
+  Suffix plan length mean ~24 (range 11-40) for both K; tau mean 12.3 (K=1), 40.9 (K=3); H 110-163.
+
+**Backend benchmark** (same batch; real model and env; 4 envs x 128 steps, 4 epochs x 4 minibatches
+of 128 actor+critic updates + 128-state anchor forward; 150 s each, warmup cycles excluded):
+
+| Backend | Actions/s (1st half -> 2nd half) | Update s/cycle | Rollout s/cycle | BC steps/s (b=256) | Peak RSS |
+|---|---|---|---|---|---|
+| MPS, 1 CPU thread | 1,404 (1,406 -> 1,401) | 0.149 | 0.216 | 96.9 | 0.50 GiB (+0.11 GiB MPS) |
+| CPU 4 threads | 331 (320 -> 341) | 1.458 | 0.097 | 18.0 | 0.41 GiB |
+| CPU 2 threads | 315 | 1.529 | 0.094 | 16.2 | 0.41 GiB |
+| CPU 1 thread | 276 | 1.764 | 0.090 | 13.8 | 0.41 GiB |
+
+Decision: MPS for all scientific runs, one job at a time. The background telemetry thread read the
+MPS driver counter for 150 s while the main thread ran MPS work, with no fault. Batch peak conservative
+memory 0.56 GiB; no swap growth. MPS rollouts are now inference-latency bound (~1.7 ms per step).
+A dedicated 10-15 min sustained thermal check is folded into the M2 canary (continuous MPS work).
+
+**PPO fork aliasing defect.** `Optimizer.load_state_dict` reuses same-dtype CPU tensors, so an
+in-memory fork changed when a learner that loaded it trained. On-disk forks were never affected.
+Fix: `PPO.state()`/`load()` deep-copy. Test: a fork reproduces collect+update exactly on CPU.
+
+**Runner refusal.** One BC launch was refused because the tree had uncommitted edits (no job ran).
+The watcher then reported the previous batch; it was restarted after the new batch was confirmed.

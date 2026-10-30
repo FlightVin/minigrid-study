@@ -108,3 +108,15 @@ Active work began 2026-10-30 ~16:00 EDT; first review due ~18:00 EDT.
 | Evaluation sampling | Per-attempt uniform streams (inverse-CDF), same seeds for every policy | Common random numbers for paired comparisons; batch-independent (tested) |
 | Branch streams | Coin / normal-layout / bank-state streams separate; action-sampling stream continues from the fork | The k-th normal layout is the same in all arms; trajectories diverge naturally |
 | Initial critic | Pre-fit on pi0 normal-start returns (gamma = 1) before the probe; shared by all branches | Avoids a random critic driving early actor updates (WSRL concern); its cost is reported as preprocessing |
+
+## 2026-10-30 — BC checkpoint rule and time constants (before any PPO outcome)
+
+Evidence: BC curve batch `20261030T204407-76602`, dev seeds 0 and 1 (dataset dev-v2; bc_val layouts,
+32+32... see FINDINGS F1). Rule, fixed across all seeds and conditions:
+- **Early (light) BC = 4,000 updates; extended BC = 16,000 updates** (batch 256, Adam 3e-4).
+  Early has useful but limited competence (c 0.26-0.42) and some normal-start success; extended has
+  c ~0.66 and is past the held-out-loss minimum (~8,000), i.e. longer fitting on one training path.
+  Neither saturates (p <= 0.65). Selected on BC validation/dev-bank data only, before any PPO run.
+- **Time constants unchanged: S_prefix = 24, T_suffix = 80.** Access and competence are both measurable
+  at both checkpoints for both K, so the feasibility gate gives no reason to adjust.
+- BC replicates for M3 development: seeds 0 and 1 (these runs). Confirmation BC seeds will be new.
