@@ -1,0 +1,18 @@
+{
+  "purpose": "M1 development BC learning curve: choose early and extended update-count rules (bc_val + dev bank only)",
+  "dataset_id": "dev-v2",
+  "lr": 0.0003,
+  "batch_size": 256,
+  "checkpoints": [
+    250,
+    500,
+    1000,
+    2000,
+    4000,
+    8000,
+    16000
+  ],
+  "eval_attempts": 4,
+  "bank_attempts": 4,
+  "eval_seed": 515000
+}

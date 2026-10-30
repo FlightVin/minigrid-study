@@ -159,6 +159,10 @@ def main():
                                   "suffix_offset": t - it["tau"], "snapshot": snap})
                 bank[str(K)] = snaps
                 bank_counts[f"{role}/K{K}"] = {b: sum(s["bin"] == b for s in snaps) for b in BINS}
+            # Matched across K by construction: same donor, bin, suffix offset and remaining time.
+            keys = lambda s: (s["bin"], s["donor_seed"], s["suffix_offset"], s["remaining"])
+            for K in cfg["Ks"][1:]:
+                assert [keys(s) for s in bank[str(K)]] == [keys(s) for s in bank[str(cfg["Ks"][0])]], "bank not matched"
             (out / f"bank_competence_{role}.json").write_text(json.dumps(bank))
 
         # Reset and anchor sampling indices over donor trajectories (per K, per bin/stage).

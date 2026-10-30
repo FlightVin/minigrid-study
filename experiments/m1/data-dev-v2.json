@@ -1,0 +1,42 @@
+{
+  "dataset_id": "dev-v2",
+  "purpose": "M1 development data: BC demonstrations, reset/anchor donors, dev competence bank, RL/dev-eval layouts; v2: suffix planning confined to gateway approach + suffix (K-invariant tie-breaks)",
+  "Ks": [
+    1,
+    3
+  ],
+  "prefix_slack": 24,
+  "suffix_allowance": 80,
+  "registry_counts": {
+    "bc_train": 450,
+    "bc_val": 50,
+    "rl_train": 2048,
+    "reset_donor": 256,
+    "anchor_donor": 256,
+    "dev_eval": 32,
+    "dev_bank": 64,
+    "conf_select": 64,
+    "conf_bank": 64,
+    "conf_final": 32
+  },
+  "generate_roles": [
+    "bc_train",
+    "bc_val",
+    "rl_train",
+    "reset_donor",
+    "anchor_donor",
+    "dev_eval",
+    "dev_bank"
+  ],
+  "trajectory_roles": [
+    "bc_train",
+    "bc_val",
+    "reset_donor",
+    "anchor_donor",
+    "dev_bank"
+  ],
+  "bank_roles": [
+    "dev_bank"
+  ],
+  "bank_size": 64
+}

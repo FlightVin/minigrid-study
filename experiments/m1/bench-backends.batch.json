@@ -1,0 +1,72 @@
+{
+ "jobs": [
+  {
+   "id": "m1-bench-mps-t1",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.bench",
+    "--device",
+    "mps",
+    "--threads",
+    "1",
+    "--seconds",
+    "150"
+   ]
+  },
+  {
+   "id": "m1-bench-cpu-t4",
+   "cpu_threads": 4,
+   "memory_gb": 3,
+   "device": "cpu",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.bench",
+    "--device",
+    "cpu",
+    "--threads",
+    "4",
+    "--seconds",
+    "150"
+   ]
+  },
+  {
+   "id": "m1-bench-cpu-t2",
+   "cpu_threads": 2,
+   "memory_gb": 3,
+   "device": "cpu",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.bench",
+    "--device",
+    "cpu",
+    "--threads",
+    "2",
+    "--seconds",
+    "150"
+   ]
+  },
+  {
+   "id": "m1-bench-cpu-t1",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "cpu",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.bench",
+    "--device",
+    "cpu",
+    "--threads",
+    "1",
+    "--seconds",
+    "150"
+   ]
+  }
+ ]
+}

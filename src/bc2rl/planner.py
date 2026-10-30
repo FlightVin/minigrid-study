@@ -82,7 +82,7 @@ def _static(layout, dropped):
     return passable, droppable
 
 
-def plan(layout, seed):
+def plan(layout, seed, restrict_suffix=True):
     """Return (actions, tau_index) where tau_index is the action count at first boundary crossing."""
     rng = np.random.default_rng([seed, 0])
     actions = []
@@ -114,6 +114,14 @@ def plan(layout, seed):
     passable, droppable = _static(layout, dropped)
     passable |= opened
     droppable -= opened
+    approach = (T.GATEWAY[0] - 1, T.GATEWAY[1])
+    assert (x, y, d) == (*approach, 0), "suffix segment must start facing the gateway"
+    if restrict_suffix:
+        # Search only the approach cell, the gateway and the suffix. The prefix rooms differ by K,
+        # and searching them would change tie-breaking; returning there never shortens the plan
+        # (checked against the unrestricted search in tests).
+        passable = {c for c in passable if c[0] >= T.GATEWAY[0]} | {approach}
+        droppable = {c for c in droppable if c[0] >= T.SUFFIX_X0}
     # mobile: 0 = target, 1 = yellow key (held)
     start = (x, y, d, 1, (tuple(layout.target_pos), HELD), True)
     delivery = tuple(layout.delivery_pos)

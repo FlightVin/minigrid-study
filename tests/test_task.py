@@ -338,3 +338,27 @@ def test_snapshot_from_record_matches_env_snapshot():
         assert rec["tau"] <= t < rec["length"] - 1 or b == "entry"
         assert {"entry": t == rec["tau"], "retrieval": rec["tau"] < t < pickup_t,
                 "carrying": pickup_t <= t < rec["length"]}[b]
+
+
+@pytest.mark.parametrize("K", [1, 3])
+def test_restricted_suffix_search_loses_no_length(K):
+    for s in range(150):
+        lay = T.generate_layout(K, 5000 + s)
+        a, ta = P.plan(lay, s, restrict_suffix=True)
+        b, tb = P.plan(lay, s, restrict_suffix=False)
+        # Same total length. Ties may drop the key before the boundary when unrestricted; the
+        # restricted planner always carries the final key across (a fixed arrival convention).
+        assert len(a) == len(b) and ta <= tb
+        env = T.StageTask()
+        lay2, _ = P.plan_and_verify(lay, s, 24, 80, env)
+        env.reset(options={"layout": lay2})
+        for act in a[:ta]:
+            env.step(act)
+        assert (env.carrying.type, env.carrying.color) == ("key", "yellow")
+
+
+def test_suffix_plans_identical_across_K_for_many_seeds():
+    for s in range(200):
+        a, ta = P.plan(T.generate_layout(1, 7000 + s), 7000 + s)
+        b, tb = P.plan(T.generate_layout(3, 7000 + s), 7000 + s)
+        assert a[ta:] == b[tb:], s
