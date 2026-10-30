@@ -1,0 +1,13 @@
+{
+  "purpose": "M4 BC: five fresh replicate seeds (10-14); early 4k and extended 16k checkpoints only; evaluation on bc_val + dev bank only",
+  "dataset_id": "conf-v1",
+  "lr": 0.0003,
+  "batch_size": 256,
+  "checkpoints": [
+    4000,
+    16000
+  ],
+  "eval_attempts": 4,
+  "bank_attempts": 4,
+  "eval_seed": 515000
+}

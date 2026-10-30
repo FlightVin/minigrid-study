@@ -189,3 +189,11 @@ Rule applied to batch `20261030T214937-19577` (F6): mean final P1 arm 10 alpha 0
 Batch `experiments/m3/arm11.batch.json` (16 jobs, order shuffled with seed 20261031): arm 11 (alpha
 0.25, lambda 0.01) on each of the 8 M3 forks, plus one replicate of arm 00 per fork (`-rep`). The
 replicates are a noise measurement only. They are excluded from contrasts and from every selection.
+
+## 2026-10-30 — Protocol freeze
+
+`research/PROTOCOL_FREEZE.md` fixes the M4 design: alpha* 0.25, lambda* 0.01, 250k endpoint (budget; F6),
+BC seeds 10-14, conf_final 32 x 16 and conf_bank 64 x 4, smallest effect of interest 0.05 P1, t-interval
+over seeds plus crossed cluster bootstrap, equivalence margin ±0.05 (TOST), stop rule at 72M actions,
+M5 as a costed proposal. Arm 00 replicates (F7) informed the precision estimate only. The freeze SHA-256
+is recorded in the commit that follows it.

@@ -2,6 +2,9 @@
 
 Usage: .venv/bin/python tools/summarize_branches.py .mae/runs/<batch> [...] [--csv branches.csv] [--contrasts c.csv]
 
+--alpha / --kl-coef keep only branches using those values (arms 10/11 and 01/11) in the contrasts.
+A fork with more than one candidate row for an arm is an error, not a silent overwrite.
+
 Rows: one per branch (K, BC update, seed, arm, fork hash, final P1/q/c/C4/R4, actions).
 Contrasts (per K, BC update, seed with all four arms present and one shared fork; replicate jobs
 ending in "-rep" are excluded and reported as replicate-minus-original differences of arm 00):
@@ -36,12 +39,19 @@ def load(batches):
     return rows
 
 
-def contrasts(rows):
+def contrasts(rows, alpha=None, kl=None):
     groups = {}
     for r in rows:
         if r["job"].endswith("-rep"):
             continue
-        groups.setdefault((r["K"], r["bc_update"], r["seed"], r["fork_hash"]), {})[r["arm"]] = r["P1"]
+        if alpha is not None and r["arm"] in ("10", "11") and r["alpha"] != alpha:
+            continue
+        if kl is not None and r["arm"] in ("01", "11") and r["kl_coef"] != kl:
+            continue
+        g = groups.setdefault((r["K"], r["bc_update"], r["seed"], r["fork_hash"]), {})
+        if r["arm"] in g:
+            raise SystemExit(f"several rows for arm {r['arm']} on fork {r['fork_hash']}: pass --alpha/--kl-coef")
+        g[r["arm"]] = r["P1"]
     out = []
     for (K, u, seed, fh), y in sorted(groups.items()):
         if set(y) != {"00", "10", "01", "11"}:
@@ -73,6 +83,8 @@ def main():
     ap.add_argument("batches", nargs="+")
     ap.add_argument("--csv")
     ap.add_argument("--contrasts")
+    ap.add_argument("--alpha", type=float)
+    ap.add_argument("--kl-coef", type=float)
     a = ap.parse_args()
     rows = load(a.batches)
     fmt = lambda v: f"{v:.3f}" if isinstance(v, float) else str(v)
@@ -80,7 +92,7 @@ def main():
     print(" ".join(keys))
     for r in rows:
         print(" ".join(fmt(r[k]) for k in keys))
-    cs = contrasts(rows)
+    cs = contrasts(rows, a.alpha, a.kl_coef)
     for c in cs:
         print("contrast", " ".join(f"{k}={fmt(v)}" for k, v in c.items()))
     for r in replicates(rows):

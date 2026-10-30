@@ -1,7 +1,7 @@
 # State
 
-**Current milestone:** M3. Screen done (F6): alpha* 0.25, lambda* 0.01. Arm 11 + arm 00 replicates
-running (`experiments/m3/arm11.batch.json`). Then freeze and pause for the owner.
+**Current milestone:** M3 complete; protocol frozen (`research/PROTOCOL_FREEZE.md`). Paused for the
+owner before M4.
 
 **Established**
 - Manuscript SHA-256 `38326ef0...f92b4`; no substantive conflict with project.md.
@@ -14,18 +14,19 @@ running (`experiments/m3/arm11.batch.json`). Then freeze and pause for the owner
 
 - M2b/M3: with R2, ordinary PPO improves in 7/8 forks (mean P1 0.26 -> 0.37 over 250k; F5, F6).
   No screened intervention separates from arm 00 on development data.
+- M3 four-arm (F7): all six contrasts average within 0.02 of 0; arm 00 replicate SD 0.027.
+- Frozen: alpha* 0.25, lambda* 0.01, 250k endpoint, 5 new seeds, conf_final 32 x 16, delta 0.05.
 
 **Uncertain**
-- Size of run-to-run (MPS) noise in paired contrasts; measured by the arm 00 replicates.
+- Whether any intervention differs from arm 00 by >= 0.05 on confirmation data (M4).
 - Critic is near a constant predictor; advantages are noisy.
 
 **Owner limits:** 4 cores, 6 GiB, 1 job (raise after benchmarking), no hour cap, 80M-action cap.
 Pause after PROTOCOL_FREEZE.md. Two-hourly reviews in research/REVIEWS.md (review 2 done 19:25; next ~21:25 EDT).
 
-**Resources used:** 2.77 h batch wall; 23.8M of 80M actions (29.7%).
+**Resources used:** 3.25 h batch wall; 28.69M of 80M actions (35.9%).
 
 **Blockers:** none.
 
 **Next action**
-- Analyse arm 11 and replicates; choose endpoint, evaluation sizes, thresholds; generate confirmation
-  data; commit PROTOCOL_FREEZE.md; pause and report to the owner.
+- Wait for the owner. Then: generate conf-v1 and check the data gate, BC seeds 10-14, M4 batch.

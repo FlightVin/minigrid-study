@@ -32,11 +32,13 @@ Dependency-ordered. `[x]` done and verified, `[~]` in progress, `[ ]` planned.
 ## M2: PPO canary
 - [x] Critic pre-check (early stopping), 50k probe, fork hashes, GAE/time tests
 - [x] PPO stability screen (S4 selected)
-- [~] Four-arm 250k continuation canary; learning check for arm 00
+- [x] Four-arm 250k continuation canary; learning check for arm 00
 
 ## M3: development comparison
-- [ ] K=1/3 x two checkpoints x two seeds; alpha and KL screen; extrapolated cost
-- [ ] PROTOCOL_FREEZE.md committed and hashed
+- [x] K=1/3 x two checkpoints x two seeds; alpha and KL screen; extrapolated cost (F6, F7)
+- [x] PROTOCOL_FREEZE.md committed and hashed
+- [ ] conf-v1 data generated; training roles byte-identical to dev-v2
+- [ ] Owner review before M4
 
 ## M4: core confirmation
 - [ ] 5 seeds x 4 conditions x 4 arms on untouched confirmation layouts; audit; report

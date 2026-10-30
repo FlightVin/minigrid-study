@@ -148,3 +148,34 @@ Screen, paired final P1 difference versus arm 00 on the same fork (n = 8 forks):
   increasing at 250k; the arm ordering is similar at both points.
 - Selection (prespecified rule, DECISIONS): alpha 0.5 vs 0.25 differ by 0.013 < 0.02, so the rule
   selects the weaker value, alpha* = 0.25. lambda* = 0.01 (highest; also the weakest).
+
+## F7 — M3 four-arm development comparison and run-to-run noise (development data only)
+
+Batch `20261030T232600-96083`: 16/16 exited 0. Arm 11 (alpha 0.25, lambda 0.01) on the 8 M3 forks, plus
+one replicate of arm 00 per fork. Contrasts use the selected values only (arm 10 alpha 0.25, arm 01
+lambda 0.01); `tools/summarize_branches.py --alpha 0.25 --kl-coef 0.01`. Tables: `reports/m3_branches.csv`
+(all 72 branches), `reports/m3_contrasts.csv` (8 forks). Final P1 from dev_eval 32 x 8 attempts.
+
+Paired contrasts over 8 forks (mean, SD across forks, forks > 0):
+
+| Contrast | mean | SD | > 0 |
+|---|---|---|---|
+| reset Y10 - Y00 | +0.004 | 0.061 | 3/8 |
+| preserve Y01 - Y00 | -0.014 | 0.039 | 2/8 |
+| combined Y11 - Y00 | +0.003 | 0.043 | 4/8 |
+| interaction | +0.013 | 0.066 | 5/8 |
+| Y11 - Y10 | -0.001 | 0.051 | 5/8 |
+| Y11 - Y01 | +0.017 | 0.040 | 7/8 |
+
+- Arm 11 mean P1 0.376 (arm 00 0.373). On development data no arm differs from arm 00 by more than
+  0.02 on average. Per-fork contrasts range from -0.08 to +0.11.
+- Combined is positive at K=3 in 4/4 forks (+0.02 to +0.06) and negative at K=1 in 4/4 (-0.01 to
+  -0.06). This is a pattern in 8 development forks, selected by nothing; it is a candidate for the
+  per-stratum description in M4, not a hypothesis test.
+- Run-to-run noise: arm 00 replicate minus original (same fork, config and seed; MPS nondeterminism
+  only): mean +0.008, SD 0.027, range -0.027 to +0.059. About 30% of the variance of a paired contrast
+  (SD 0.04-0.06) is therefore nondeterminism plus evaluation noise at 32 x 8; the rest is fork-level
+  heterogeneity of the effect or of training.
+- Error found and fixed during analysis: the first contrast table silently took the last of several
+  arm 01 / arm 10 rows per fork. The summarizer now requires `--alpha/--kl-coef` and stops on duplicates.
+  Only the corrected table is saved.
