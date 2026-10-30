@@ -321,8 +321,14 @@ def main():
     ap.add_argument("--seed", type=int)
     ap.add_argument("--probe-run")
     ap.add_argument("--arm", choices=list(PP.ARMS))
+    ap.add_argument("--alpha", type=float, help="override the config's reset probability")
+    ap.add_argument("--kl-coef", type=float, help="override the config's preservation strength")
     a = ap.parse_args()
     cfg = json.loads(Path(a.config).read_text())
+    if a.alpha is not None:
+        cfg["alpha"] = a.alpha
+    if a.kl_coef is not None:
+        cfg["kl_coef"] = a.kl_coef
     (probe if a.mode == "probe" else branch)(a, cfg)
 
 

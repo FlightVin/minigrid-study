@@ -21,6 +21,8 @@ def main():
         if not s.exists():
             continue
         s = json.loads(s.read_text())
+        if s.get("mode") != "probe":
+            continue
         cfg = json.loads((d / "config.resolved.json").read_text())
         tr = [json.loads(l) for l in (d / "metrics.jsonl").read_text().splitlines() if '"phase": "probe"' in l]
         c = s["counters"]

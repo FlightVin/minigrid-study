@@ -89,3 +89,22 @@ dev bank 64 x 4 attempts. pi0: p 0.25, q 0.45, c 0.64; post-probe: p 0.17, q 0.4
   attempts; 64 bank items x 4): P1 0.4102, C4 0.6337, R4 0.2026, c 0.6992, identical to the summary.
   All successes crossed the boundary; every failure is a deadline timeout. Source tables:
   `reports/m2_canary_branches.csv`, `reports/m2_canary_contrasts.csv`.
+
+## F5 — Rollout-size check: ordinary PPO learns with 16-environment batches (M2b, development, seed 0)
+
+Batch `20261030T213118-9288` (10/10 exited); arm 00 only. Tables: `reports/m2b_rollout_arm00.csv`,
+`reports/m2b_rollout_probes.csv`. Final: dev_eval 32 x 16 attempts. pi0 p = 0.25 in both conditions.
+
+| Setting | K=1 early: probe p -> final P1 (curve) | K=3 extended: probe p -> final P1 | Mean final P1 |
+|---|---|---|---|
+| R1 4 envs, lr 3e-5 | 0.00 -> 0.00 (collapsed) | 0.17 -> 0.21 (F4 arm 00) | 0.10 |
+| R2 16 envs, mb 512, lr 3e-5 | 0.27 -> 0.44 (0.20, 0.33, 0.36, 0.39, 0.48) | 0.34 -> 0.37 | 0.41 |
+| R3 16 envs, mb 512, lr 1e-4 | 0.30 -> 0.36 | 0.02 -> 0.25 | 0.30 |
+
+- With 2,048-action batches and small actor steps, ordinary PPO improves from p = 0.25 (K=1: 0.44;
+  K=3: 0.37). The F4 canary baseline was therefore weakened by its small rollout batch; F4's apparent
+  preservation advantage must not be carried forward.
+- MPS nondeterminism: R1 and S4 K=1 probes had identical settings and seeds (pi0 evaluation identical;
+  critic MSE equal to 4 decimals) but ended at p 0.00 vs 0.22. Runs are not bitwise reproducible on MPS;
+  unstable settings amplify the difference. Replication must rely on independent seeds.
+- R2 also trains ~2.3x faster (~2,400 actions/s; 250k in ~105 s).

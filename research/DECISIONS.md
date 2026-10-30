@@ -158,3 +158,25 @@ probe, 250k continuation of arm 00, final evaluation (dev_eval 32 x 16; dev bank
 0.03 of R1, keep R1. Delta-c and all intervention outcomes are excluded from this choice.
 Caveat: R2/R3 also change the probe (same rollout setting in probe and branches); the probe allowance
 stays 50k actions.
+
+## 2026-10-30 — Rollout setting R2 selected; M3 design (prespecified before running)
+
+**PPO setting (all arms, all later runs):** 16 envs x 128 steps (2,048 actions per update), 4 epochs,
+minibatch 512, actor lr 3e-5, critic lr 3e-4, entropy 0, clip 0.2, GAE 0.95, gamma 1, grad clip 0.5,
+advantage normalization on, critic pre-fit (16k actions, early-stopped). Selected by the F5 rule
+(mean final P1 0.41 vs 0.30 and 0.10). Anchor batch stays 128 per actor minibatch.
+
+**M3 design.** 8 forks = K {1,3} x BC {4k,16k} x BC seeds {0,1}; probe 50k each. Branches per fork:
+00; 10 with alpha {0.25, 0.5}; 01 with lambda_KL {0.01, 0.1, 1.0}. 250k continuation actions each.
+Final evaluation dev_eval 32 x 8 attempts, dev bank 64 x 2; curve every 125k (32 x 2, bank 64 x 1).
+Fork order and arm order within each fork are shuffled with a fixed seed (20261030).
+**Selection rule:** alpha* = the alpha with the higher mean final P1 of arm 10 over all 8 forks (equal
+weight per fork); lambda* = the lambda with the highest mean final P1 of arm 01. If candidates are
+within 0.02, choose the weaker intervention (smaller alpha / lambda). One value each, for all K and
+checkpoints. Then arm 11 with (alpha*, lambda*) runs on the same 8 forks to complete the M3 comparison.
+
+**Budget estimate (environment actions).** Used so far ~6.5M. M3: 8 probes x ~0.12M + 56 branches x
+~0.29M ~ 17M. M4 at a 500k endpoint: 20 probes x 0.12M + 80 branches x ~0.57M ~ 48M. Total ~ 72M of the
+80M cap, reserve ~8M. That reserve is below 20% of the remaining estimate (~13M), so a 500k M4 endpoint is
+**not affordable** under the cap unless M3 curves justify a shorter endpoint or evaluation is trimmed.
+The endpoint will be chosen from M3 development curves before confirmation (DECISIONS at freeze).
