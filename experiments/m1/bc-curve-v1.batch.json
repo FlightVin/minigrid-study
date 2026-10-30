@@ -1,0 +1,34 @@
+{
+ "jobs": [
+  {
+   "id": "m1-bc-curve-v1-s0",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.bc",
+    "--config",
+    "experiments/m1/bc-curve-v1.json",
+    "--seed",
+    "0"
+   ]
+  },
+  {
+   "id": "m1-bc-curve-v1-s1",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.bc",
+    "--config",
+    "experiments/m1/bc-curve-v1.json",
+    "--seed",
+    "1"
+   ]
+  }
+ ]
+}
