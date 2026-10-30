@@ -1,0 +1,20 @@
+{
+  "jobs": [
+    {
+      "id": "m0-canary-cpu-throttle",
+      "cpu_threads": 4,
+      "memory_gb": 1,
+      "device": "cpu",
+      "command": [
+        "{python}",
+        "-m",
+        "bc2rl.canary",
+        "cpu",
+        "--children",
+        "6",
+        "--seconds",
+        "40"
+      ]
+    }
+  ]
+}

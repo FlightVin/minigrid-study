@@ -1,0 +1,20 @@
+{
+  "jobs": [
+    {
+      "id": "m0-canary-memory-stop",
+      "cpu_threads": 1,
+      "memory_gb": 1,
+      "device": "cpu",
+      "command": [
+        "{python}",
+        "-m",
+        "bc2rl.canary",
+        "memory",
+        "--memory-mb",
+        "1536",
+        "--seconds",
+        "60"
+      ]
+    }
+  ]
+}

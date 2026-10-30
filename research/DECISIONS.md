@@ -71,5 +71,10 @@ Owner answers, applied with `mae configure --cpus 4 --memory-gb 6 --jobs 1 --hou
 - Pause after committing `research/PROTOCOL_FREEZE.md` (end of M3) and report to the owner before M4.
 - The agent sets scientific thresholds (effect size, equivalence margin, precision rules) as the
   responsible scientist, before seeing confirmation outcomes, and records the reasons here.
-- Git: track `.gitignore` (venv, .DS_Store, caches, `.mae/`, `data/`, harness). Commit on `main`;
-  pushing to `origin` (github.com/FlightVin/minigrid-study) is authorized. The harness repo has no remote.
+- Git: track `.gitignore` (venv, .DS_Store, caches, `.mae/`, `data/`). Commit on `main`;
+  pushing to `origin` (github.com/FlightVin/minigrid-study) is authorized.
+- Harness repository (owner amendment): not listed in `.gitignore`; treated as a nested,
+  independent sub-repository. It is not a Git submodule, because the runner rejects snapshots
+  containing `.gitmodules` and the harness has no remote. The `mae init` local exclusion in
+  `.git/info/exclude` stays, so the outer tree is clean for the runner. Every run manifest records
+  the harness SHA; harness commits are made in its own repository.

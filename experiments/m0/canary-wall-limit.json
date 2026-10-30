@@ -1,0 +1,20 @@
+{
+  "jobs": [
+    {
+      "id": "m0-canary-wall-limit",
+      "cpu_threads": 1,
+      "memory_gb": 1,
+      "device": "cpu",
+      "command": [
+        "{python}",
+        "-m",
+        "bc2rl.canary",
+        "sleep",
+        "--children",
+        "2",
+        "--seconds",
+        "300"
+      ]
+    }
+  ]
+}

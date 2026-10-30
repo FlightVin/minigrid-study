@@ -1,0 +1,20 @@
+{
+  "jobs": [
+    {
+      "id": "m0-canary-mps-no-telemetry",
+      "cpu_threads": 1,
+      "memory_gb": 2,
+      "device": "mps",
+      "command": [
+        "{python}",
+        "-m",
+        "bc2rl.canary",
+        "mps",
+        "--telemetry",
+        "off",
+        "--seconds",
+        "90"
+      ]
+    }
+  ]
+}
