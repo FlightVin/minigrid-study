@@ -78,3 +78,11 @@ Owner answers, applied with `mae configure --cpus 4 --memory-gb 6 --jobs 1 --hou
   containing `.gitmodules` and the harness has no remote. The `mae init` local exclusion in
   `.git/info/exclude` stays, so the outer tree is clean for the runner. Every run manifest records
   the harness SHA; harness commits are made in its own repository.
+
+## 2026-10-30 — Owner amendment: periodic research reviews
+
+Every two hours of active work, pause new submissions and write a research review: validity of
+comparisons against RQ1/RQ2, failures, assumptions, alternative explanations, evaluation leakage,
+resource use, risks, wasted effort and the next most informative experiment. Verify claims against
+artifacts. Record reviews in `research/REVIEWS.md` and update the plan. Running jobs stay monitored.
+Active work began 2026-10-30 ~16:00 EDT; first review due ~18:00 EDT.
