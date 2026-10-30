@@ -14,7 +14,7 @@ Dependency-ordered. `[x]` done and verified, `[~]` in progress, `[ ]` planned.
 ## M0: host and correctness
 - [x] Resource canaries via runner: CPU throttle, low memory stop (small allocation), wall timeout,
       owner stop, missing/stale MPS telemetry, CPU child cleanup; restore owner limits
-- [~] Telemetry module with background heartbeat thread (MPS thread-safety check pending in M1)
+- [x] Telemetry module with background heartbeat thread (MPS thread read verified in benchmark)
 - [x] Environment: K-module prefix, fixed canvas, gateway, suffix (obstacle, key disposal, pickup, delivery)
 - [x] Reward contract (1 on full success only), deadline termination, observation encoding with time
 - [x] State-aware planner; invariants (no alternate routes, drop pockets, solvability within H_x)
@@ -23,14 +23,16 @@ Dependency-ordered. `[x]` done and verified, `[~]` in progress, `[ ]` planned.
 - [x] Split registry with seed namespaces and canonical layout/state hashes; overlap checks
 
 ## M1: throughput and BC
-- [ ] CPU vs MPS benchmark (same config), sustained 10-15 min thermal check
-- [ ] ~1,000 planner demonstrations, balanced over K=1/3, with manifest and hashes
-- [ ] Competence, reset and anchor banks (disjoint donors), per-bin counts
-- [ ] BC curves on development; choose early/extended update rules
-- [ ] Gate: measurable q and c, headroom (0.3 <= c_pi0 <= 0.9 in some checkpoint)
+- [x] CPU vs MPS benchmark (MPS 4.3x faster); [~] sustained 10-15 min check folded into M2 continuation
+- [x] 1,000 planner demonstrations (dev-v2), balanced over K=1/3, manifest and hashes
+- [x] Competence, reset and anchor banks (disjoint donors), per-bin counts; cross-K match asserted
+- [x] BC curves (2 seeds); early 4k / extended 16k
+- [x] Gate passed: measurable q and c, headroom
 
 ## M2: PPO canary
-- [ ] Critic pre-check; 50k probe; four-arm short continuation; exact fork hashes; GAE/time checks
+- [x] Critic pre-check (early stopping), 50k probe, fork hashes, GAE/time tests
+- [x] PPO stability screen (S4 selected)
+- [~] Four-arm 250k continuation canary; learning check for arm 00
 
 ## M3: development comparison
 - [ ] K=1/3 x two checkpoints x two seeds; alpha and KL screen; extrapolated cost
