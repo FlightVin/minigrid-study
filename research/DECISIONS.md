@@ -197,3 +197,6 @@ BC seeds 10-14, conf_final 32 x 16 and conf_bank 64 x 4, smallest effect of inte
 over seeds plus crossed cluster bootstrap, equivalence margin ±0.05 (TOST), stop rule at 72M actions,
 M5 as a costed proposal. Arm 00 replicates (F7) informed the precision estimate only. The freeze SHA-256
 is recorded in the commit that follows it.
+Freeze commit `7f94f18`; `research/PROTOCOL_FREEZE.md` SHA-256
+`2b5c5252de4824910a26e20c06b419a78056b98b1a286c85493abebcc28ab8f1`. Confirmation data are not generated
+yet: per the owner's instruction, work pauses here for review before any M4 step.
