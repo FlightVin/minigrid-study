@@ -1,7 +1,20 @@
 {
  "note": "Environment actions executed outside the runner, added to the campaign total by tools/ledger.py. Estimates use measured per-test action counts (2026-10-31) and the test runs recorded in the session transcript.",
  "entries": [
-  {"role": "software_tests_estimate", "actions": 3100000, "point_estimate": 2750000, "range": [2500000, 3100000],
-   "basis": "23 recorded pytest runs + 2 runs with filtered output + 4 runs on 2026-10-31. Measured per full run: 278,618 (test_task 54,605; test_evaluate 1,654; test_ppo 3,016; RL smoke 163,325; resume 47,331; diagnostics 8,687). Smoke-era runs ~2.15M; earlier runs <=0.6M; interactive checks <=0.35M. Conservative upper bound used."}
+  {
+   "role": "software_tests_estimate",
+   "actions": 3100000,
+   "point_estimate": 2750000,
+   "range": [
+    2500000,
+    3100000
+   ],
+   "basis": "23 recorded pytest runs + 2 runs with filtered output + 4 runs on 2026-10-31. Measured per full run: 278,618 (test_task 54,605; test_evaluate 1,654; test_ppo 3,016; RL smoke 163,325; resume 47,331; diagnostics 8,687). Smoke-era runs ~2.15M; earlier runs <=0.6M; interactive checks <=0.35M. Conservative upper bound used."
+  },
+  {
+   "role": "software_tests_2026-10-31_m4",
+   "actions": 350000,
+   "basis": "Before M4 (Amendment 2, B6): one run of the resume smoke test (~47k, plus one extra 64-layout diagnostic evaluation) and one full suite with BC2RL_SMOKE=1 (measured 278,618 per full run, plus the same extra evaluation). Conservative round-up."
+  }
  ]
 }

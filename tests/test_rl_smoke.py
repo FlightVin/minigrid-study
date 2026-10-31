@@ -63,7 +63,9 @@ def test_scheduled_branch_resumes_exactly(tmp_path, monkeypatch):
     cfg = json.loads((ROOT / "experiments/m2/ppo-canary-v1.json").read_text())
     cfg.update(critic_warmup_actions=300, critic_prefit_steps=5, probe_actions=256, n_steps=64, n_envs=4,
                diag_attempts=1, diag_bank_attempts=1, continuation_actions=1000, alpha=0.5, kl_coef=0.1,
-               eval_schedule=[{"at": 512, "attempts": 1, "bank_attempts": 0, "tag": "mid"},
+               diag_role="dev_bank",
+               eval_schedule=[{"at": 512, "attempts": 1, "bank_attempts": 0, "tag": "mid", "layouts": "diag",
+                               "endpoint": True},
                               {"at": 1024, "attempts": 1, "bank_attempts": 1, "tag": "end"}],
                save_state_at=[512])
     cfg_path = tmp_path / "cfg.json"
@@ -89,6 +91,12 @@ def test_scheduled_branch_resumes_exactly(tmp_path, monkeypatch):
     assert s1["continuation_actions"] == 1024 and [e["actions"] for e in s1["evals"]] == [512, 1024]
     assert set(s1["state_hashes"]) == {"512", "1024"}          # JSON keys
     assert s1["evals"][0]["c"] is None and s1["evals"][1]["c"] is not None
+    # the mid point uses the diag_role layouts (64 per K) and counts as a second endpoint
+    mid = [json.loads(l) for l in (d1 / "attempts_mid.jsonl").read_text().splitlines()]
+    end = [r for r in map(json.loads, (d1 / "attempts_end.jsonl").read_text().splitlines()) if r["kind"] == "normal"]
+    assert len({r["item"] for r in mid}) == 64 and len({r["item"] for r in end}) == 32
+    assert s1["evals"][0]["layouts"] == "diag" and s1["evals"][0]["endpoint"] and s1["evals"][1]["endpoint"]
+    assert s1["actions"]["eval_diagnostic"] == 0 and s1["actions"]["eval_final"] > 0
     d2, s2 = run("resumed", "resume", "--state", "@/straight/state_512.pt")
     assert [e["actions"] for e in s2["evals"]] == [1024]
     assert s1["state_hashes"]["1024"] == s2["state_hashes"]["1024"]

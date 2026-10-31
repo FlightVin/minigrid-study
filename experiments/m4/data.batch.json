@@ -1,0 +1,17 @@
+{
+ "jobs": [
+  {
+   "id": "m4-data-conf-v1",
+   "cpu_threads": 1,
+   "memory_gb": 2,
+   "device": "cpu",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.data",
+    "--config",
+    "experiments/m4/data-conf-v1.json"
+   ]
+  }
+ ]
+}

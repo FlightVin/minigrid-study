@@ -131,7 +131,11 @@ for a random sample of 8 branches (RNG seed 20261031); per-bin bank counts; ledg
 
 ## Amendments
 
-### Amendment 1 — 2026-10-31 (PROPOSED; not in force until the owner approves)
+### Amendment 1 — 2026-10-31 (APPROVED by the owner on 2026-10-31, with Amendment 2)
+
+Approval: the owner chose option A and added the 500k endpoint (verbatim at the end of
+`mac-agentic-engineering/project.md`). The text below is as proposed. Where Amendment 2 differs
+(A3 endpoint, A6 multiplicity, A7 planning table, A8 budget), Amendment 2 replaces it.
 
 Basis: the pre-M4 development campaign (DECISIONS 2026-10-31; FINDINGS F8, F9). Sections 1-12 above stay
 as frozen on 2026-10-30. Where this amendment differs, it replaces them once approved. No confirmation data
@@ -212,3 +216,73 @@ the true effects are near 0.
   to `research/ledger_adjustments.json`.
 
 **A9. RQ2.** Unchanged: costed proposal only.
+
+### Amendment 2 — 2026-10-31 (in force; owner decision of 2026-10-31)
+
+Owner decision, verbatim: "Don't worry about the cap. Do A but for both 250K as well as 500K." Written before
+confirmation data exist; no confirmation outcome has been seen. Amendment 1 stays in force except where this
+amendment replaces it.
+
+**B1. Design.** Option A (section 4 matrix: 5 seeds x K {1, 3} x BC {4k, 16k} x 4 arms = 80 branches) on one
+trajectory per branch with **two endpoints**: **E250 = 251,904** and **E500 = 501,760** continuation actions
+(config `continuation_actions` 500,000 executes 501,760). Each branch is one uninterrupted run; the E250
+evaluation does not touch the training streams (evaluation uses its own RNG and environments). Complete
+hashed learner state is saved at both endpoints.
+
+**B2. Evaluation schedule** (`experiments/m4/conf-v1.json`; common random numbers, eval_seed 939000, bank
+939001; the same attempt seeds at both endpoints, so endpoint changes are paired as well):
+
+| Point | Normal starts | Bank | Use |
+|---|---|---|---|
+| pi0, post-probe | conf_select 64 x 2 | conf_bank 64 x 4 | diagnostics, delta-c |
+| 126,976 | conf_select 64 x 1 | conf_bank 64 x 1 | descriptive curve |
+| **E250** 251,904 | **conf_final 64 x 8** | conf_bank 64 x 4 | endpoint |
+| 376,832 | conf_select 64 x 1 | conf_bank 64 x 1 | descriptive curve |
+| **E500** 501,760 | **conf_final 64 x 8** | conf_bank 64 x 4 | endpoint |
+
+conf_final is used only at the two endpoints.
+
+**B3. Hypotheses and multiplicity** (replaces A6 where different).
+- Confirmatory family: the three primary contrasts (reset, preservation, combined) at both endpoints, i.e.
+  **6 tests**. A directional claim needs the Holm-adjusted two-sided t-test over the 6 tests (alpha 0.05,
+  df 4 each) to reject, and the crossed bootstrap 95% interval to exclude 0.
+- Why one family of 6: the two endpoints come from the same trajectories and are both confirmatory;
+  separate families would let either endpoint carry a claim at an uncontrolled family-wise error rate.
+- Pointwise 95% t-intervals and bootstrap intervals are reported for every contrast at both endpoints.
+- Equivalence: TOST at ±0.05 per contrast and endpoint (90% t-interval inside [-0.05, +0.05]).
+- Verdict labels as section 8 per contrast and endpoint, with "useful benefit" requiring the Holm-adjusted
+  claim (family of 6) and an estimate >= 0.05.
+- Descriptive, not confirmatory: the change E500 - E250 of each contrast (per seed, t-interval); every
+  section 6 secondary and per-stratum result at both endpoints; D_seed moderation at both endpoints.
+
+**B4. Precision planning** (replaces the A7 table; scenarios, not power claims). Same sigma 0.05 and rho as
+A7. Correction to A7: its "80% power" column used the unadjusted critical value 2.776; a Holm claim needs
+the first-step critical value. For one true effect among nulls, the first Holm step is the binding one:
+t(4) two-sided at 0.05/6 = 4.851 (at 0.05/3: 3.961).
+
+| rho | SE (5 seeds) | 95% half-width | effect with 80% power, Holm 6 | (Holm 3, for reference) | equivalence shown if abs(estimate) < |
+|---|---|---|---|---|---|
+| 0 | 0.011 | 0.031 | 0.065 | 0.055 | 0.026 |
+| 0.25 | 0.015 | 0.041 | 0.086 | 0.072 | 0.018 |
+| 0.5 | 0.018 | 0.049 | 0.102 | 0.087 | 0.012 |
+
+80%-power effect = (t_crit + 0.941) SE. With sigma 0.09 every value scales by 1.8. Interpretation: a
+confirmatory directional claim needs an effect of roughly 0.065-0.10 P1; smaller true effects will probably
+be "inconclusive" or "benefit below the useful threshold" by the pointwise intervals only.
+
+**B5. Budget** (replaces section 9 and A8 budget rules). The owner removed the 80M cap as a stop rule for M4.
+Conservative M4 cost from measured per-job maxima:
+- Branches: 501,760 train + 2 curve points (K=1 22,453 / K=3 29,042 each) + 2 endpoints at 69,148 / 94,272
+  each = 684,962 / 748,388; x 40 each = 57.33M.
+- Probes 2.84M (diagnostic attempt totals unchanged by A4); BC evaluation 0.90M; data 0.50M.
+- Total **61.57M**. Ledger before M4: 36.82M + test actions (added to `research/ledger_adjustments.json`).
+  Projected total ~99M.
+- Stop rule: report to the owner, and submit nothing new, if the ledger passes the projected total by more
+  than 10% (109M), or if any batch costs more than 1.25 x its conservative estimate. Resource limits
+  (4 cores, 6 GiB, 1 job) are unchanged.
+
+**B6. Execution order.** Data conf-v1 -> training-role gate (section 1, plus identical rl_train, dev_eval and
+dev_bank layouts; `tools/data_gate.py`) -> RL smoke tests once (`BC2RL_SMOKE=1`) -> one M4 batch per seed,
+seeds 10-14 in order (`experiments/m4/seed-s<S>.batch.json` from `make_batches.py`: BC, 4 probes, 16
+branches; probe and branch order shuffled with seed 20261031 + S). Section 10 failure rules apply. No seed, stratum, arm or
+endpoint is dropped for its result.

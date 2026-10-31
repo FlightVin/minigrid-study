@@ -1,6 +1,6 @@
 {
   "dataset_id": "conf-v1",
-  "purpose": "Freeze-time data: dev-v2 roles regenerated identically (training roles must match dev-v2 SHA-256) plus confirmation roles conf_final and conf_bank. conf_select stays ungenerated (reserved for RQ2).",
+  "purpose": "Confirmation data (Amendment 1): dev-v2 roles regenerated identically (training roles must match dev-v2 SHA-256) plus confirmation roles conf_select (diagnostic normal starts), conf_bank and conf_final (64 per K).",
   "Ks": [
     1,
     3
@@ -17,7 +17,7 @@
     "dev_bank": 64,
     "conf_select": 64,
     "conf_bank": 64,
-    "conf_final": 32
+    "conf_final": 64
   },
   "generate_roles": [
     "bc_train",
@@ -27,6 +27,7 @@
     "anchor_donor",
     "dev_eval",
     "dev_bank",
+    "conf_select",
     "conf_bank",
     "conf_final"
   ],

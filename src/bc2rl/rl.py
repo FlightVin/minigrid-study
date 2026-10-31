@@ -14,6 +14,8 @@ Optional config keys (absent in M3 configs, so earlier runs are unchanged):
   eval_schedule: [{"at": actions, "attempts": n, "bank_attempts": m, "tag": t}, ...]
       evaluations at exact cumulative post-probe action counts (multiples of the rollout size);
       the entry at the endpoint is the final evaluation. Replaces curve_every/final_attempts.
+      Optional per entry: "layouts": "diag" evaluates normal starts on the diag_role layouts
+      (default: eval_role); "endpoint": true counts an earlier point as eval_final (a second endpoint).
   save_state_at: [actions, ...]  complete learner state (actor, critic, both optimizers, all RNGs,
       sampler streams, in-flight environments, counters) + pi0, hashed, as state_<actions>.pt.
 
@@ -369,14 +371,16 @@ def scheduled(ctx, cfg, learner, pi0_state, meta):
             done = since_fork()
             if done in sched:
                 e = sched[done]
-                role = "eval_final" if done == target else "eval_diagnostic"
-                ev = ctx.evaluate(learner.actor, e["attempts"], e["bank_attempts"], role, e.get("tag", f"at_{done}"))
+                role = "eval_final" if done == target or e.get("endpoint") else "eval_diagnostic"
+                lay = ctx.diag_layouts if e.get("layouts") == "diag" else None
+                ev = ctx.evaluate(learner.actor, e["attempts"], e["bank_attempts"], role, e.get("tag", f"at_{done}"), lay)
                 ctx.log({"phase": "eval", "post_probe_actions": done, **ev})
                 evals.append({"actions": done, "tag": ev["tag"], "P1": ev["normal"]["P1"], "q": ev["normal"]["q"],
                               "C4": ev["normal"].get("C4"), "R4": ev["normal"].get("R4"),
                               "P_success_given_arrival": ev["normal"]["P_success_given_arrival"],
                               "c": ev["bank"]["P1"] if ev["bank"] else None, "bins": ev["bank_bins"],
-                              "attempts": e["attempts"], "bank_attempts": e["bank_attempts"]})
+                              "attempts": e["attempts"], "bank_attempts": e["bank_attempts"],
+                              "layouts": e.get("layouts", "eval"), "endpoint": done == target or bool(e.get("endpoint"))})
             if done in saves:
                 states[done] = save_state(ctx, learner, pi0_state, meta, done)
         wall = train_loop(ctx, learner, target - start, "branch", on_update=on_update)

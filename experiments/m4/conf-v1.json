@@ -1,5 +1,5 @@
 {
-  "purpose": "M4 core confirmation (frozen; PROTOCOL_FREEZE.md). conf_final / conf_bank evaluation.",
+  "purpose": "M4 core confirmation (PROTOCOL_FREEZE.md + Amendments 1 and 2). Two endpoints on one trajectory: 251,904 and 501,760 continuation actions, each conf_final 64 x 8 + conf_bank 64 x 4. pi0/post-probe and curve points on conf_select.",
   "dataset_id": "conf-v1",
   "eval_role": "conf_final",
   "bank_role": "conf_bank",
@@ -22,13 +22,43 @@
   "critic_prefit_lr": 0.0003,
   "critic_prefit_steps": 2000,
   "probe_actions": 50000,
-  "diag_attempts": 4,
+  "diag_attempts": 2,
   "diag_bank_attempts": 4,
-  "continuation_actions": 250000,
-  "curve_every": 125000,
-  "curve_attempts": 2,
-  "curve_bank_attempts": 1,
-  "final_attempts": 16,
-  "final_bank_attempts": 4,
-  "eval_seed": 939000
+  "continuation_actions": 500000,
+  "eval_seed": 939000,
+  "diag_role": "conf_select",
+  "eval_schedule": [
+    {
+      "at": 126976,
+      "attempts": 1,
+      "bank_attempts": 1,
+      "tag": "curve_126976",
+      "layouts": "diag"
+    },
+    {
+      "at": 251904,
+      "attempts": 8,
+      "bank_attempts": 4,
+      "tag": "final_251904",
+      "endpoint": true
+    },
+    {
+      "at": 376832,
+      "attempts": 1,
+      "bank_attempts": 1,
+      "tag": "curve_376832",
+      "layouts": "diag"
+    },
+    {
+      "at": 501760,
+      "attempts": 8,
+      "bank_attempts": 4,
+      "tag": "final_501760",
+      "endpoint": true
+    }
+  ],
+  "save_state_at": [
+    251904,
+    501760
+  ]
 }

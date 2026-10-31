@@ -287,3 +287,28 @@ E2 (2.67M) would cut the protected reserve to ~7.5M. Decision: the running batch
 `e2-bc-s2` starts, before it executes any environment action (its first evaluation is at BC update 4,000,
 ~67 s). Reason: budget only. At the time of this decision no E1 or E3 outcome had been read.
 Consequence: no third development seed. Replication evidence stays at 2 seeds; E2 is costed in the report.
+
+## 2026-10-31 — Owner decision on M4: option A at 250k and 500k
+
+Owner, verbatim (end of `mac-agentic-engineering/project.md`, harness `ea3d7ad`): "Don't worry about the cap. Do
+A but for both 250K as well as 500K." Implemented as `PROTOCOL_FREEZE.md` Amendment 2, written before any
+confirmation data. Decisions taken under the delegated scientific judgement:
+- **One trajectory, two endpoints.** Each branch runs once to 501,760 and is evaluated at 251,904 and 501,760
+  with identical conf_final 64 x 8 + conf_bank 64 x 4 evaluations and the same attempt seeds. This costs less
+  than separate 250k and 500k runs, keeps E250 identical in distribution to the frozen design (evaluation does
+  not touch training RNG: separate environments and numpy streams, no dropout or batch norm), and pairs the
+  endpoints.
+- **Multiplicity: one Holm family of 6** (3 primary contrasts x 2 endpoints). Both endpoints are confirmatory;
+  separate families would leave the family-wise error rate uncontrolled. Cost: the first-step critical value
+  rises from 3.96 (Holm 3) to 4.85 (t, df 4). The A7 planning table had used 2.776 for "80% power"; that was
+  optimistic for a Holm claim and is corrected in B4 (detectable effect about 0.065-0.10).
+- **Curves on conf_select** (126,976 and 376,832; 64 x 1, bank 64 x 1). conf_final is touched only at the endpoints.
+- **BC inside each seed batch** (as A8 proposed), so batch files are fixed before launch and reference
+  `@/m4-bc-s<S>`.
+- **Budget.** Conservative M4 cost 61.57M (B5); ledger before M4 37.17M including 0.35M of pre-launch tests.
+  Projected ~98.7M. Stop and report if the ledger passes 109M or a batch exceeds 1.25 x its estimate.
+  Resource limits unchanged (4 cores, 6 GiB, 1 job). Expected wall time ~6-7 h (E1: ~210 s per 501,760-action
+  branch).
+- More seeds would be the most effective lever for precision; the owner chose 5 seeds (option A), so the
+  design is not changed.
+

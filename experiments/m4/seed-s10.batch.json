@@ -1,0 +1,395 @@
+{
+ "jobs": [
+  {
+   "id": "m4-bc-s10",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.bc",
+    "--config",
+    "experiments/m4/bc-v1.json",
+    "--seed",
+    "10"
+   ]
+  },
+  {
+   "id": "m4-probe-K3-u4000-s10",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "probe",
+    "--config",
+    "experiments/m4/conf-v1.json",
+    "--K",
+    "3",
+    "--bc-run",
+    "@/m4-bc-s10",
+    "--bc-update",
+    "4000",
+    "--seed",
+    "10"
+   ]
+  },
+  {
+   "id": "m4-probe-K1-u4000-s10",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "probe",
+    "--config",
+    "experiments/m4/conf-v1.json",
+    "--K",
+    "1",
+    "--bc-run",
+    "@/m4-bc-s10",
+    "--bc-update",
+    "4000",
+    "--seed",
+    "10"
+   ]
+  },
+  {
+   "id": "m4-probe-K3-u16000-s10",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "probe",
+    "--config",
+    "experiments/m4/conf-v1.json",
+    "--K",
+    "3",
+    "--bc-run",
+    "@/m4-bc-s10",
+    "--bc-update",
+    "16000",
+    "--seed",
+    "10"
+   ]
+  },
+  {
+   "id": "m4-probe-K1-u16000-s10",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "probe",
+    "--config",
+    "experiments/m4/conf-v1.json",
+    "--K",
+    "1",
+    "--bc-run",
+    "@/m4-bc-s10",
+    "--bc-update",
+    "16000",
+    "--seed",
+    "10"
+   ]
+  },
+  {
+   "id": "m4-K3-u4000-s10-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m4/conf-v1.json",
+    "--probe-run",
+    "@/m4-probe-K3-u4000-s10",
+    "--arm",
+    "00"
+   ]
+  },
+  {
+   "id": "m4-K3-u4000-s10-01-kl0p01",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m4/conf-v1.json",
+    "--probe-run",
+    "@/m4-probe-K3-u4000-s10",
+    "--arm",
+    "01"
+   ]
+  },
+  {
+   "id": "m4-K3-u4000-s10-11-a0p25-kl0p01",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m4/conf-v1.json",
+    "--probe-run",
+    "@/m4-probe-K3-u4000-s10",
+    "--arm",
+    "11"
+   ]
+  },
+  {
+   "id": "m4-K1-u16000-s10-10-a0p25",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m4/conf-v1.json",
+    "--probe-run",
+    "@/m4-probe-K1-u16000-s10",
+    "--arm",
+    "10"
+   ]
+  },
+  {
+   "id": "m4-K1-u4000-s10-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m4/conf-v1.json",
+    "--probe-run",
+    "@/m4-probe-K1-u4000-s10",
+    "--arm",
+    "00"
+   ]
+  },
+  {
+   "id": "m4-K1-u16000-s10-01-kl0p01",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m4/conf-v1.json",
+    "--probe-run",
+    "@/m4-probe-K1-u16000-s10",
+    "--arm",
+    "01"
+   ]
+  },
+  {
+   "id": "m4-K3-u4000-s10-10-a0p25",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m4/conf-v1.json",
+    "--probe-run",
+    "@/m4-probe-K3-u4000-s10",
+    "--arm",
+    "10"
+   ]
+  },
+  {
+   "id": "m4-K3-u16000-s10-01-kl0p01",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m4/conf-v1.json",
+    "--probe-run",
+    "@/m4-probe-K3-u16000-s10",
+    "--arm",
+    "01"
+   ]
+  },
+  {
+   "id": "m4-K1-u4000-s10-10-a0p25",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m4/conf-v1.json",
+    "--probe-run",
+    "@/m4-probe-K1-u4000-s10",
+    "--arm",
+    "10"
+   ]
+  },
+  {
+   "id": "m4-K1-u4000-s10-11-a0p25-kl0p01",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m4/conf-v1.json",
+    "--probe-run",
+    "@/m4-probe-K1-u4000-s10",
+    "--arm",
+    "11"
+   ]
+  },
+  {
+   "id": "m4-K1-u16000-s10-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m4/conf-v1.json",
+    "--probe-run",
+    "@/m4-probe-K1-u16000-s10",
+    "--arm",
+    "00"
+   ]
+  },
+  {
+   "id": "m4-K1-u16000-s10-11-a0p25-kl0p01",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m4/conf-v1.json",
+    "--probe-run",
+    "@/m4-probe-K1-u16000-s10",
+    "--arm",
+    "11"
+   ]
+  },
+  {
+   "id": "m4-K3-u16000-s10-11-a0p25-kl0p01",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m4/conf-v1.json",
+    "--probe-run",
+    "@/m4-probe-K3-u16000-s10",
+    "--arm",
+    "11"
+   ]
+  },
+  {
+   "id": "m4-K3-u16000-s10-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m4/conf-v1.json",
+    "--probe-run",
+    "@/m4-probe-K3-u16000-s10",
+    "--arm",
+    "00"
+   ]
+  },
+  {
+   "id": "m4-K1-u4000-s10-01-kl0p01",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m4/conf-v1.json",
+    "--probe-run",
+    "@/m4-probe-K1-u4000-s10",
+    "--arm",
+    "01"
+   ]
+  },
+  {
+   "id": "m4-K3-u16000-s10-10-a0p25",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/m4/conf-v1.json",
+    "--probe-run",
+    "@/m4-probe-K3-u16000-s10",
+    "--arm",
+    "10"
+   ]
+  }
+ ]
+}
