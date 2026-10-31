@@ -1,6 +1,7 @@
 # Findings
 
-Not started. Read mac-agentic-engineering/project.md.
+Status 2026-10-31: M0-M4 complete; post-M4 audit F11. Superseded interpretations are marked in place with
+"[Superseded by F11 ...]"; the original text is kept.
 
 ## F1 — BC learning curves (M1, exploratory, development split)
 
@@ -331,6 +332,9 @@ source:
 | planner bank c (64 x 2) | .64/.64 | .66/.69 | .59/.64 | .64/.66 | .67/.69 | .64/.73 |
 
 - Competence on actual arrival states (0.38-0.63) is below planner-bank c (0.59-0.73) for every policy.
+  [Superseded by F11 (bank decomposition): this compares a mixed-progress bank with boundary arrivals. Planner
+  entry-state c is close to own-arrival competence (mean gap +0.03; range -0.07 to +0.14); progress composition
+  explains about 78% of the mixed-bank gap on average. No uniform mismatch.]
   It agrees better with P(success | arrival) from normal attempts (arm 00: 0.46 / 0.50).
 - The "clock_extended" condition (a separate task condition: same states, remaining set to 104) raises P1
   by 0.00 to +0.06 (mean +0.03). Remaining time explains only a small part of the gap.
@@ -379,7 +383,8 @@ recomputation (P1, C4, R4, c; 8 branches x 2 endpoints sampled with RNG 20261031
 | E500 | combined 11-00 | +0.004 | [-0.028, +0.035] | [-0.025, +0.031] | [-0.021, +0.028] | 1.00 | practically equivalent |
 
 Conclusion: at both budgets, every effect larger than 0.05 P1 in either direction is excluded (TOST). No
-directional claim. The observed precision (95% half-widths 0.018-0.032) is close to the rho = 0 planning
+directional claim. [Superseded by F11: this holds for the prespecified equal-weight aggregate estimand only, not
+for each condition.] The observed precision (95% half-widths 0.018-0.032) is close to the rho = 0 planning
 scenario (0.031).
 
 **Secondary (descriptive; pointwise 95% t-intervals, no claims).**
@@ -388,7 +393,7 @@ scenario (0.031).
   a P1 change. Reset and combined q: +0.005 to +0.027, intervals include 0.
 - Bank competence c: all three interventions +0.030 to +0.050; only combined at E500 excludes 0
   (+0.050 [+0.022, +0.079]). Higher planner-bank competence did not translate into normal-start P1 (F9: the
-  bank is not the arrival distribution).
+  bank is not the arrival distribution). [Superseded by F11: coexistence only; no causal link is established.]
 - E500 - E250 change of contrasts: reset +0.014 [+0.006, +0.023], combined +0.024 [+0.000, +0.047], preservation
   +0.009 [-0.015, +0.033]. The small E250 deficits close by E500; no contrast becomes positive.
 - Moderation D (K=3 minus K=1): estimates -0.034 to +0.040; only preservation at E250 reaches +0.040
@@ -398,6 +403,172 @@ scenario (0.031).
   layout set; not directly comparable.)
 - Strata (arm 00, E250 -> E500): K1/4k 0.508 -> 0.551; K1/16k 0.729 -> 0.766; K3/4k 0.046 -> 0.062;
   K3/16k 0.355 -> 0.406. Per-stratum arm differences are all within the seed-to-seed spread.
+  [Superseded by F11: wrong criterion. Paired seed differences show condition-level effects, e.g. preservation at
+  K=3/early BC, E500: +0.045 [+0.035, +0.055], 5/5 seeds positive.]
 
 **Resources.** M4 55.85M actions (data 0.45M + 5 seed batches 55.39M, 11.05-11.11M each, all below the 12.24M
 estimate); 5.38 h of batch wall time. Ledger 93.02M including 3.45M estimated test actions.
+
+## F11 — Post-M4 audit and interpretation revision (2026-10-31, owner instruction after M4)
+
+Tool: `tools/postm4_audit.py` (no environment actions; reads raw attempt files, summaries, configs, saved states
+by explicit job name). Outputs in `reports/postm4/`. Figure: `reports/postm4/effects.svg` (`tools/plot_postm4.py`).
+Status labels: **prespecified** (freeze + Amendments 1-2), **secondary/descriptive** (freeze section 6, pointwise),
+**post hoc** (chosen after M4 outcomes were seen).
+
+**1. Primary aggregate result reproduced (prespecified).** Recomputed from raw attempts, independently of
+`tools/analyze_m4.py`: identical estimates. Structure verified: 5 seed blocks (seeds 10-14), one BC run per seed
+supplying both checkpoints (4k and 16k from `m4-bc-s<S>`), equal weights over the 4 strata, arms paired within a
+fork (same fork hash, same layouts and attempt seeds), endpoints paired within a branch; episodes, checkpoints and
+endpoints are never treated as replicates (df 4).
+
+| Endpoint | Contrast | Estimate | 95% t | TOST t_L / p_L | TOST t_U / p_U | p_TOST | Holm-6 p (directional) |
+|---|---|---|---|---|---|---|---|
+| E250 | reset | -0.0107 | [-0.0306, +0.0091] | 5.49 / 0.0027 | -8.49 / 0.0005 | 0.0027 | 1.00 |
+| E250 | preservation | -0.0062 | [-0.0285, +0.0162] | 5.45 / 0.0028 | -6.98 / 0.0011 | 0.0028 | 1.00 |
+| E250 | combined | -0.0199 | [-0.0473, +0.0075] | 3.05 / 0.0191 | -7.08 / 0.0011 | 0.0191 | 0.68 |
+| E500 | reset | +0.0036 | [-0.0163, +0.0235] | 7.49 / 0.0009 | -6.48 / 0.0015 | 0.0015 | 1.00 |
+| E500 | preservation | +0.0031 | [-0.0146, +0.0208] | 8.32 / 0.0006 | -7.34 / 0.0009 | 0.0009 | 1.00 |
+| E500 | combined | +0.0036 | [-0.0282, +0.0354] | 4.68 / 0.0047 | -4.05 / 0.0077 | 0.0077 | 1.00 |
+
+- TOST: two one-sided t-tests (df 4) against -0.05 and +0.05; p_TOST = max(p_L, p_U). Each is an
+  equivalence test at 0.05; it is a separate procedure from the Holm-6 directional family.
+- Joint statement "all six are within ±0.05": intersection-union test, rejected-null when every p_TOST < 0.05
+  (max 0.0191), level 0.05 without adjustment. Holm over the six TOST p-values also keeps all six (largest
+  adjusted 0.0191).
+- Uncertainty scope: the t-interval is conditional on the fixed evaluation panel (64 conf_final layouts per K,
+  shared by all seeds); it covers training-path and attempt noise. The crossed bootstrap also resamples layouts.
+  Bootstrap agreement is a sensitivity check, not replication.
+- Bootstrap note: conf_final layouts are matched across K (item i has the same generator seed and suffix for K=1
+  and K=3). The frozen bootstrap resampled K=1 and K=3 layout indices independently. A matched-index bootstrap
+  gives nearly the same intervals (largest endpoint difference 0.0014; `primary.csv`). The frozen result stands.
+- Wording that survives: "At the tested strengths and budgets, the equal-weight average intervention effects were
+  practically equivalent to ordinary PPO within an absolute ±0.05 P1 margin." It does not cover each condition,
+  learning curves, other doses, other tasks or budgets beyond 501,760.
+
+**2. Condition-level effects (paired seed differences; `strata.csv`, `strata_seeds.csv`).** Per-stratum contrasts are
+secondary/descriptive in the freeze (section 6); section 8 calls a per-stratum statement exploratory and requires
+its own t-interval to exclude 0. Multiplicity, post hoc: Holm over the 24 arm-vs-00 contrasts (3 x 4 x 2), and over
+the 48 contrasts examined in F10's stratum table (BH as well).
+- **Preservation, K=3/early BC, E500: +0.0453, 95% t [+0.0353, +0.0554], t = 12.5, p = 0.00023; 5/5 seeds
+  positive.** Holm-24 p 0.0056, Holm-48 p 0.011, BH-48 q 0.011. Baseline P1 0.062 -> +73% relative.
+  Exact sign-flip p 0.0625 (the smallest attainable with 5 seeds). The t-based p depends on near-normal seed
+  differences and on a seed SD (0.008) estimated from 5 values; the sign-flip test cannot reach 0.05 with 5 seeds.
+- Preservation, K=1/early BC, E250: -0.0480 [-0.0768, -0.0193], p 0.0097 (Holm-24 0.22); at E500 -0.0008. Access is
+  unchanged (q ~ 1); the deficit is in arrival-conditioned completion and closes by E500 (change +0.047 [+0.016,
+  +0.079]).
+- Preservation, K=3/extended BC, E500: -0.0273 [-0.0572, +0.0025], p 0.064.
+- At K=3/early BC all three interventions are positive at both endpoints (E500: reset +0.031 [-0.010, +0.072],
+  combined +0.043 [-0.001, +0.087]; these share the arm-00 baseline and are not independent tests).
+- No other contrast reaches pointwise p < 0.05. The F10 statement "within the seed-to-seed spread" used an unpaired
+  criterion and is withdrawn.
+- **Checkpoint dependence within K (post hoc).** At K=3, E500: preservation effect at 4k minus at 16k = +0.073
+  [+0.038, +0.108], p 0.0045; combined +0.063 [+0.024, +0.103], p 0.011. At K=1, E250: preservation -0.044
+  [-0.070, -0.018], p 0.0094. Averaging the two checkpoints hides these opposite-signed effects.
+
+**3. K=3/early-BC preservation subgroup audit (`k3early_subgroup.json`).**
+- Rows: `m4-K3-u4000-s<S>-00` vs `m4-K3-u4000-s<S>-01-kl0p01`, S = 10-14; fork hashes match; conf_final K=3, 64
+  layouts x 8 attempts = 512 attempts per branch; equal layout weights.
+
+| Seed | P1 00 | P1 01 | Diff | q 00 | q 01 | Arrivals 00 / 01 |
+|---|---|---|---|---|---|---|
+| 10 | 0.1562 | 0.2012 | +0.0449 | 0.445 | 0.545 | 228 / 279 |
+| 11 | 0.0723 | 0.1309 | +0.0586 | 0.348 | 0.443 | 178 / 227 |
+| 12 | 0.0801 | 0.1211 | +0.0410 | 0.283 | 0.475 | 145 / 243 |
+| 13 | 0.0000 | 0.0371 | +0.0371 | 0.000 | 0.186 | 0 / 95 |
+| 14 | 0.0020 | 0.0469 | +0.0449 | 0.072 | 0.262 | 37 / 134 |
+
+- Seed 13's arm 00 has zero arrivals and zero successes at both endpoints. It is valid data and is kept
+  (its post-probe access was already 0.062, against 0.156 at pi0).
+- Crossed seed x layout bootstrap 95%: [+0.022, +0.074]; layouts only (seeds fixed): [+0.027, +0.065].
+- Per layout (mean over seeds): 36 positive, 12 negative, 16 zero of 64. The top 5 layouts carry 40% of the net
+  gain, the top 10 carry 66%: broad but uneven. Leave-one-seed-out means 0.042-0.047. Leave-one-layout-group-out
+  (8 groups of 8): 0.040-0.052, every 95% t-interval excludes 0.
+- Mechanism (descriptive): the gain accompanies **greater access** (q higher in every seed, by +0.10 to +0.19).
+  Arrival timing is similar (median tau 82 vs 84; median remaining 65 vs 62.5). Pooled arrival-conditioned
+  completion is similar (0.270 vs 0.281). Per-seed decomposition: access part +0.020 to +0.051, completion part
+  -0.010 to +0.035; seed 13 is unsupported (q = 0 for arm 00).
+- Fixed states, longitudinal (conf_bank, the same 64 states throughout; 4 attempts per state at pi0, probe and the
+  endpoints, 1 at the curve points): entry c is pi0 0.278, post-probe 0.234, arm 00 0.259 (E250) and 0.258 (E500),
+  arm 01 0.311 and 0.369. Retrieval c: pi0 0.481, arm 00 0.391, arm 01 0.544 at E500. Normal starts on conf_select
+  (the same layouts throughout; 64 x 2 at pi0/probe, 64 x 1 at curves): pi0 0.052, probe 0.039; arm 00 0.047 and
+  0.053 at 126,976 / 376,832; arm 01 0.072 and 0.097. Reading: ordinary PPO in this condition stays near the
+  pi0 level on fixed states and loses access in some seeds. Preservation keeps retrieval/carrying competence near
+  or above pi0 and raises entry competence beyond pi0. conf_select and conf_final scores are not compared with
+  each other.
+- Ordinary PPO drifts furthest from pi0 in this condition (final anchor KL 0.363 vs 0.16-0.20 in the other strata).
+
+**4. Competence-bank decomposition (`bank_m4.csv`, `bank_dev.csv`, `bank_dev_meta.json`).** The planner bank is
+32 entry, 16 retrieval and 16 carrying states per K, equal weight per state, so mixed c = 0.5 entry + 0.25 retrieval
++ 0.25 carrying. Entry states have 104 steps remaining by construction.
+- Example verified (M3, K=3/16k, seed 0, arm 00): mixed c 0.594, entry 0.391, retrieval 0.750, carrying 0.844; own
+  arrival bank 0.385. Gap mixed - own = 0.209, entry - own = 0.006: progress composition explains 97% of it.
+- Development own-arrival banks (pi0, 00, 11; seeds 0, 1): mixed - own 0.053 to 0.234 (mean 0.146); entry - own
+  -0.072 to +0.141 (mean 0.032), so composition explains about 78% on average. Arrival competence exceeds planner
+  entry competence for arm 11 seed 0 (0.588 vs 0.516) and pi0 seed 0 (0.517 vs 0.516). Arrival banks are small
+  (29-43 states on 18-27 dev_eval layouts, 2 attempts each; SE about 0.06), and they use different layouts from
+  the planner bank (dev_bank). Remaining time at arrival: median 90-98, 10th percentile 22-81 (planner entry: 104).
+- M4 (planner entry c on conf_bank vs own-arrival r on conf_final, different layout sets): K=1 mean r - entry =
+  -0.004, mixed - entry = +0.079; K=3 mean r - entry = -0.056, mixed - entry = +0.102. r exceeds entry c in 33/80
+  K=1 and 15/78 K=3 branch-endpoints (2 have no arrivals; r undefined). K=3 arrivals have less remaining time
+  (median 57-94) than planner entry states (104).
+- Conclusion: the F9 "arrival competence below planner c for every policy" was mainly a progress-composition
+  effect. After progress matching, planner entry competence is close to actual-arrival competence at K=1 and is
+  moderately higher at K=3, where arrivals have less time and come from different layouts. Time and layout
+  differences are not separated by existing data. The mixed bank remains a valid declared nu; its score is a
+  distribution-specific measure, not completion from boundary entry. No causal link between bank scores and the
+  small average P1 effects is established.
+
+**5. Access vs arrival-conditioned completion (`decomposition.csv`, `decomposition_branches.csv`).** Per branch,
+p = q x r holds exactly (every success crosses the boundary; checked on all 160 records).
+- Aggregate figures verified: E500 arm 00 mean p 0.4463, mean q 0.7057, p/q 0.6324; arm 01 0.4494, 0.7459,
+  0.6025. Weighting: every branch has 512 attempts, so p/q = total successes / total arrivals, an arrival-weighted
+  r in which K=1 (q ~ 1) dominates. Means of per-branch r are 0.571 and 0.549 (arm 00 has one undefined branch).
+- Within seed x stratum, delta p = delta q x mean r + delta r x mean q; equal-weight mean over 20 cells.
+
+| Endpoint | Contrast | delta p | access part | completion part | unsupported (q0 = 0) |
+|---|---|---|---|---|---|
+| E250 | reset | -0.0107 | -0.0043 | -0.0076 | +0.0012 |
+| E250 | preservation | -0.0062 | +0.0054 | -0.0130 | +0.0015 |
+| E250 | combined | -0.0199 | -0.0044 | -0.0177 | +0.0021 |
+| E500 | reset | +0.0036 | +0.0048 | -0.0044 | +0.0032 |
+| E500 | preservation | +0.0031 | +0.0080 | -0.0067 | +0.0019 |
+| E500 | combined | +0.0036 | +0.0013 | -0.0010 | +0.0033 |
+
+  Preservation's access gain and lower arrival-conditioned completion partly cancel. r averages over
+  policy-dependent arrival states, so a lower r is not evidence that a fixed skill deteriorated.
+
+**6. Secondary outcomes, curves, optimization (`secondary.csv`, `checkpoint_interaction.csv`, `training.csv`).**
+- C4 and R4 (freeze section 6 secondary; pointwise, unadjusted; 24 pooled secondary-metric contrasts). Preservation,
+  E500: C4 +0.0329 [+0.0098, +0.0560], R4 -0.0189 [-0.0366, -0.0012]. E250: C4 +0.0240 [+0.0020, +0.0460]. Combined,
+  E250: R4 -0.0386 [-0.0720, -0.0053]. Preservation q: +0.036 (E250) and +0.040 (E500), both excluding 0. These
+  describe a redistribution of success across layouts (more layouts with at least one success, fewer with all
+  successes), not generalization, policy-support expansion or broad skill retention.
+- Curves: endpoint equivalence does not establish curve equivalence. Contrast changes E250 -> E500: reset +0.014
+  [+0.006, +0.023], combined +0.024 [+0.000, +0.047]; at K=1/early BC, preservation +0.047 [+0.016, +0.079] and
+  combined +0.039 [+0.010, +0.068]. Early deficits close later in some conditions. No area-under-curve test and no
+  per-arm best checkpoint are used.
+- Optimization: actor lr 3e-5; gradient-norm clipping at 0.5 is active in 100% of updates (median pre-clip norm
+  about 2.4); PPO clip fraction about 0.027 and approx KL about 0.003 per update. Anchor KL to pi0 grows from 0.09 to
+  0.22 (arm 00) and to 0.10 (preservation arms); P1 still rises between endpoints. These are consistent with small
+  per-update policy changes, but no learning-rate or clipping ablation was run at this stage. "Step-size-limited"
+  is a hypothesis, not a diagnosis.
+
+**7. Selection value (`selection.csv`; not an RQ2 result).** Hindsight in-sample reference: best observed arm per
+condition, averaged, vs best observed fixed arm: E500 0.46035 vs 0.44990 (arms 10 and 11 tie), gap 0.01045; E250
+0.41660 vs 0.40938 (arm 00), gap 0.00723. This is optimistic (it selects on the same noisy means) and is not a
+population upper bound. Leave-one-seed-out condition-identity rule (choose per K x checkpoint on 4 seeds, apply to
+the 5th; same conditions, new training replicates): E500 +0.0006 vs the fixed arm chosen the same way, -0.0036
+[-0.026, +0.019] vs ordinary PPO; E250 -0.0055 [-0.019, +0.008]. Demonstrated headroom is about 0.01 P1 in hindsight
+and about 0 out of sample, before any diagnostic cost. An early-measurement selector would have to beat the
+zero-cost condition-identity rule.
+
+**8. Execution verification (`execution.json`).** 20 forks, 160 branch-endpoint records, no problems: probe lineage
+(`@/m4-bc-s<S>`, bc_update, bc_seed, diag_role conf_select, eval_role conf_final); fork hashes recomputed from
+fork.pt; all 160 saved states (state_251904 and state_501760 of 80 branches) rehashed and equal to their summaries; every evaluation's
+per-item time limits match the declared layout role (pi0, probe and curves on conf_select; endpoints on conf_final);
+P1, q, c, C4, R4 and P(success | arrival) recomputed for all 160 records. Pairwise role overlap (structure hash,
+generator seed, suffix signature) among conf_select, conf_bank, conf_final and every dev-v2 role: 0 in all 24 pairs.
+conf_bank: 32/16/16 per K, 64 layouts, matched across K; conf_final matched across K. Missing conditional
+statistics: 2 branch-endpoints with no arrivals (P(success | arrival) reported as missing), 1,193 layout cells with
+no arrivals.

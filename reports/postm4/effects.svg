@@ -1,0 +1,219 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 350" width="920" height="350"
+ role="img" aria-label="Intervention minus ordinary PPO P1 by condition and endpoint, with paired seed differences and 95% t-intervals">
+<style>
+:root{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--grid:#e4e3df;--zero:#8a8984}
+@media (prefers-color-scheme: dark){:root{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--grid:#3a3a37;--zero:#8a8984}}
+svg{background:var(--surface)} .t1{font:600 13px system-ui;fill:var(--ink)} .tick{font:11px system-ui;fill:var(--ink2)}
+.grid{stroke:var(--grid);stroke-width:1} .zero{stroke:var(--zero);stroke-width:1.2} .margin{stroke:var(--zero);stroke-width:1;stroke-dasharray:4 3}
+</style>
+<rect width="100%" height="100%" fill="var(--surface)"/>
+<text x="44" y="22" class="t1">K=1, early BC</text>
+<line x1="44" x2="220" y1="246.4" y2="246.4" class="grid"/>
+<text x="38" y="250.4" class="tick" text-anchor="end">-0.15</text>
+<line x1="44" x2="220" y1="208.1" y2="208.1" class="grid"/>
+<text x="38" y="212.1" class="tick" text-anchor="end">-0.10</text>
+<line x1="44" x2="220" y1="169.9" y2="169.9" class="margin"/>
+<text x="38" y="173.9" class="tick" text-anchor="end">-0.05</text>
+<line x1="44" x2="220" y1="131.7" y2="131.7" class="zero"/>
+<text x="38" y="135.7" class="tick" text-anchor="end">+0.00</text>
+<line x1="44" x2="220" y1="93.5" y2="93.5" class="margin"/>
+<text x="38" y="97.5" class="tick" text-anchor="end">+0.05</text>
+<line x1="44" x2="220" y1="55.3" y2="55.3" class="grid"/>
+<text x="38" y="59.3" class="tick" text-anchor="end">+0.10</text>
+<text x="88.0" y="272" class="tick" text-anchor="middle">251,904</text>
+<g><title>reset (10-00), 251,904, seed 10: -0.0762</title><circle cx="54.6" cy="189.9" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 251,904, seed 11: +0.0098</title><circle cx="56.8" cy="124.3" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 251,904, seed 12: -0.0469</title><circle cx="59.0" cy="167.5" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 251,904, seed 13: -0.0195</title><circle cx="61.2" cy="146.6" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 251,904, seed 14: -0.0781</title><circle cx="63.4" cy="191.4" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<line x1="69.0" x2="69.0" y1="199.7" y2="128.2" stroke="#eb6834" stroke-width="2"/>
+<g><title>reset (10-00), K=1, early BC, 251,904: mean -0.0422, 95% t-interval [-0.0890, +0.0046]</title><rect x="64.5" y="159.5" width="9.0" height="9.0" rx="1" fill="#eb6834" stroke="var(--surface)" stroke-width="1.5"/></g>
+<g><title>preservation (01-00), 251,904, seed 10: -0.0312</title><circle cx="76.6" cy="155.6" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 251,904, seed 11: -0.0410</title><circle cx="78.8" cy="163.1" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 251,904, seed 12: -0.0762</title><circle cx="81.0" cy="189.9" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 251,904, seed 13: -0.0684</title><circle cx="83.2" cy="184.0" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 251,904, seed 14: -0.0234</title><circle cx="85.4" cy="149.6" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<line x1="91.0" x2="91.0" y1="190.4" y2="146.5" stroke="#1baf7a" stroke-width="2"/>
+<g><title>preservation (01-00), K=1, early BC, 251,904: mean -0.0480, 95% t-interval [-0.0768, -0.0193]</title><path d="M91.0,162.4 L97.0,168.4 L91.0,174.4 L85.0,168.4 Z" fill="#1baf7a" stroke="var(--surface)" stroke-width="1.5"/></g>
+<g><title>combined (11-00), 251,904, seed 10: -0.0488</title><circle cx="98.6" cy="169.0" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 251,904, seed 11: -0.0098</title><circle cx="100.8" cy="139.2" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 251,904, seed 12: -0.1328</title><circle cx="103.0" cy="233.2" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 251,904, seed 13: -0.0098</title><circle cx="105.2" cy="139.2" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 251,904, seed 14: -0.0840</title><circle cx="107.4" cy="195.9" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<line x1="113.0" x2="113.0" y1="225.1" y2="125.5" stroke="#eda100" stroke-width="2"/>
+<g><title>combined (11-00), K=1, early BC, 251,904: mean -0.0570, 95% t-interval [-0.1222, +0.0081]</title><path d="M113.0,169.3 L118.0,179.8 L108.0,179.8 Z" fill="#eda100" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="176.0" y="272" class="tick" text-anchor="middle">501,760</text>
+<g><title>reset (10-00), 501,760, seed 10: +0.0039</title><circle cx="142.6" cy="128.7" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 501,760, seed 11: +0.0664</title><circle cx="144.8" cy="81.0" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 501,760, seed 12: +0.0234</title><circle cx="147.0" cy="113.8" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 501,760, seed 13: -0.0430</title><circle cx="149.2" cy="164.6" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 501,760, seed 14: -0.0488</title><circle cx="151.4" cy="169.0" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<line x1="157.0" x2="157.0" y1="176.9" y2="85.9" stroke="#eb6834" stroke-width="2"/>
+<g><title>reset (10-00), K=1, early BC, 501,760: mean +0.0004, 95% t-interval [-0.0592, +0.0600]</title><rect x="152.5" y="126.9" width="9.0" height="9.0" rx="1" fill="#eb6834" stroke="var(--surface)" stroke-width="1.5"/></g>
+<g><title>preservation (01-00), 501,760, seed 10: +0.0020</title><circle cx="164.6" cy="130.2" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 501,760, seed 11: +0.0176</title><circle cx="166.8" cy="118.3" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 501,760, seed 12: -0.0410</title><circle cx="169.0" cy="163.1" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 501,760, seed 13: +0.0176</title><circle cx="171.2" cy="118.3" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 501,760, seed 14: +0.0000</title><circle cx="173.4" cy="131.7" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<line x1="179.0" x2="179.0" y1="155.1" y2="109.6" stroke="#1baf7a" stroke-width="2"/>
+<g><title>preservation (01-00), K=1, early BC, 501,760: mean -0.0008, 95% t-interval [-0.0306, +0.0290]</title><path d="M179.0,126.3 L185.0,132.3 L179.0,138.3 L173.0,132.3 Z" fill="#1baf7a" stroke="var(--surface)" stroke-width="1.5"/></g>
+<g><title>combined (11-00), 501,760, seed 10: -0.0332</title><circle cx="186.6" cy="157.1" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 501,760, seed 11: +0.0059</title><circle cx="188.8" cy="127.2" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 501,760, seed 12: -0.0625</title><circle cx="191.0" cy="179.5" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 501,760, seed 13: +0.0371</title><circle cx="193.2" cy="103.4" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 501,760, seed 14: -0.0371</title><circle cx="195.4" cy="160.1" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<line x1="201.0" x2="201.0" y1="182.8" y2="108.1" stroke="#eda100" stroke-width="2"/>
+<g><title>combined (11-00), K=1, early BC, 501,760: mean -0.0180, 95% t-interval [-0.0668, +0.0308]</title><path d="M201.0,139.4 L206.0,149.9 L196.0,149.9 Z" fill="#eda100" stroke="var(--surface)" stroke-width="1.5"/></g><text x="274" y="22" class="t1">K=1, extended BC</text>
+<line x1="274" x2="450" y1="246.4" y2="246.4" class="grid"/>
+<line x1="274" x2="450" y1="208.1" y2="208.1" class="grid"/>
+<line x1="274" x2="450" y1="169.9" y2="169.9" class="margin"/>
+<line x1="274" x2="450" y1="131.7" y2="131.7" class="zero"/>
+<line x1="274" x2="450" y1="93.5" y2="93.5" class="margin"/>
+<line x1="274" x2="450" y1="55.3" y2="55.3" class="grid"/>
+<text x="318.0" y="272" class="tick" text-anchor="middle">251,904</text>
+<g><title>reset (10-00), 251,904, seed 10: -0.0117</title><circle cx="284.6" cy="140.7" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 251,904, seed 11: +0.0020</title><circle cx="286.8" cy="130.2" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 251,904, seed 12: -0.0391</title><circle cx="289.0" cy="161.6" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 251,904, seed 13: +0.0117</title><circle cx="291.2" cy="122.8" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 251,904, seed 14: +0.0430</title><circle cx="293.4" cy="98.9" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<line x1="299.0" x2="299.0" y1="159.5" y2="102.2" stroke="#eb6834" stroke-width="2"/>
+<g><title>reset (10-00), K=1, extended BC, 251,904: mean +0.0012, 95% t-interval [-0.0363, +0.0386]</title><rect x="294.5" y="126.3" width="9.0" height="9.0" rx="1" fill="#eb6834" stroke="var(--surface)" stroke-width="1.5"/></g>
+<g><title>preservation (01-00), 251,904, seed 10: -0.0137</title><circle cx="306.6" cy="142.2" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 251,904, seed 11: +0.0273</title><circle cx="308.8" cy="110.8" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 251,904, seed 12: -0.0488</title><circle cx="311.0" cy="169.0" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 251,904, seed 13: -0.0117</title><circle cx="313.2" cy="140.7" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 251,904, seed 14: +0.0273</title><circle cx="315.4" cy="110.8" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<line x1="321.0" x2="321.0" y1="165.2" y2="104.2" stroke="#1baf7a" stroke-width="2"/>
+<g><title>preservation (01-00), K=1, extended BC, 251,904: mean -0.0039, 95% t-interval [-0.0438, +0.0360]</title><path d="M321.0,128.7 L327.0,134.7 L321.0,140.7 L315.0,134.7 Z" fill="#1baf7a" stroke="var(--surface)" stroke-width="1.5"/></g>
+<g><title>combined (11-00), 251,904, seed 10: -0.0352</title><circle cx="328.6" cy="158.6" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 251,904, seed 11: -0.0312</title><circle cx="330.8" cy="155.6" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 251,904, seed 12: +0.0254</title><circle cx="333.0" cy="112.3" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 251,904, seed 13: +0.0352</title><circle cx="335.2" cy="104.8" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 251,904, seed 14: -0.0332</title><circle cx="337.4" cy="157.1" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<line x1="343.0" x2="343.0" y1="170.9" y2="104.5" stroke="#eda100" stroke-width="2"/>
+<g><title>combined (11-00), K=1, extended BC, 251,904: mean -0.0078, 95% t-interval [-0.0512, +0.0356]</title><path d="M343.0,131.7 L348.0,142.2 L338.0,142.2 Z" fill="#eda100" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="406.0" y="272" class="tick" text-anchor="middle">501,760</text>
+<g><title>reset (10-00), 501,760, seed 10: -0.0234</title><circle cx="372.6" cy="149.6" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 501,760, seed 11: -0.0176</title><circle cx="374.8" cy="145.1" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 501,760, seed 12: +0.0059</title><circle cx="377.0" cy="127.2" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 501,760, seed 13: -0.0098</title><circle cx="379.2" cy="139.2" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 501,760, seed 14: -0.0195</title><circle cx="381.4" cy="146.6" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<line x1="387.0" x2="387.0" y1="152.6" y2="130.6" stroke="#eb6834" stroke-width="2"/>
+<g><title>reset (10-00), K=1, extended BC, 501,760: mean -0.0129, 95% t-interval [-0.0273, +0.0015]</title><rect x="382.5" y="137.1" width="9.0" height="9.0" rx="1" fill="#eb6834" stroke="var(--surface)" stroke-width="1.5"/></g>
+<g><title>preservation (01-00), 501,760, seed 10: -0.0605</title><circle cx="394.6" cy="178.0" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 501,760, seed 11: +0.0117</title><circle cx="396.8" cy="122.8" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 501,760, seed 12: +0.0117</title><circle cx="399.0" cy="122.8" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 501,760, seed 13: -0.0098</title><circle cx="401.2" cy="139.2" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 501,760, seed 14: +0.0234</title><circle cx="403.4" cy="113.8" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<line x1="409.0" x2="409.0" y1="167.0" y2="103.6" stroke="#1baf7a" stroke-width="2"/>
+<g><title>preservation (01-00), K=1, extended BC, 501,760: mean -0.0047, 95% t-interval [-0.0462, +0.0368]</title><path d="M409.0,129.3 L415.0,135.3 L409.0,141.3 L403.0,135.3 Z" fill="#1baf7a" stroke="var(--surface)" stroke-width="1.5"/></g>
+<g><title>combined (11-00), 501,760, seed 10: -0.0566</title><circle cx="416.6" cy="175.0" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 501,760, seed 11: +0.0312</title><circle cx="418.8" cy="107.8" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 501,760, seed 12: +0.0234</title><circle cx="421.0" cy="113.8" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 501,760, seed 13: -0.0020</title><circle cx="423.2" cy="133.2" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 501,760, seed 14: +0.0566</title><circle cx="425.4" cy="88.4" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<line x1="431.0" x2="431.0" y1="164.4" y2="82.9" stroke="#eda100" stroke-width="2"/>
+<g><title>combined (11-00), K=1, extended BC, 501,760: mean +0.0105, 95% t-interval [-0.0428, +0.0639]</title><path d="M431.0,117.7 L436.0,128.2 L426.0,128.2 Z" fill="#eda100" stroke="var(--surface)" stroke-width="1.5"/></g><text x="504" y="22" class="t1">K=3, early BC</text>
+<line x1="504" x2="680" y1="246.4" y2="246.4" class="grid"/>
+<line x1="504" x2="680" y1="208.1" y2="208.1" class="grid"/>
+<line x1="504" x2="680" y1="169.9" y2="169.9" class="margin"/>
+<line x1="504" x2="680" y1="131.7" y2="131.7" class="zero"/>
+<line x1="504" x2="680" y1="93.5" y2="93.5" class="margin"/>
+<line x1="504" x2="680" y1="55.3" y2="55.3" class="grid"/>
+<text x="548.0" y="272" class="tick" text-anchor="middle">251,904</text>
+<g><title>reset (10-00), 251,904, seed 10: -0.0176</title><circle cx="514.6" cy="145.1" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 251,904, seed 11: +0.0391</title><circle cx="516.8" cy="101.9" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 251,904, seed 12: +0.0410</title><circle cx="519.0" cy="100.4" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 251,904, seed 13: +0.0234</title><circle cx="521.2" cy="113.8" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 251,904, seed 14: +0.0195</title><circle cx="523.4" cy="116.8" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<line x1="529.0" x2="529.0" y1="138.0" y2="93.2" stroke="#eb6834" stroke-width="2"/>
+<g><title>reset (10-00), K=3, early BC, 251,904: mean +0.0211, 95% t-interval [-0.0082, +0.0504]</title><rect x="524.5" y="111.1" width="9.0" height="9.0" rx="1" fill="#eb6834" stroke="var(--surface)" stroke-width="1.5"/></g>
+<g><title>preservation (01-00), 251,904, seed 10: -0.0410</title><circle cx="536.6" cy="163.1" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 251,904, seed 11: +0.0117</title><circle cx="538.8" cy="122.8" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 251,904, seed 12: +0.0645</title><circle cx="541.0" cy="82.5" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 251,904, seed 13: +0.0293</title><circle cx="543.2" cy="109.3" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 251,904, seed 14: +0.0527</title><circle cx="545.4" cy="91.4" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<line x1="551.0" x2="551.0" y1="153.1" y2="74.5" stroke="#1baf7a" stroke-width="2"/>
+<g><title>preservation (01-00), K=3, early BC, 251,904: mean +0.0234, 95% t-interval [-0.0280, +0.0749]</title><path d="M551.0,107.8 L557.0,113.8 L551.0,119.8 L545.0,113.8 Z" fill="#1baf7a" stroke="var(--surface)" stroke-width="1.5"/></g>
+<g><title>combined (11-00), 251,904, seed 10: -0.0078</title><circle cx="558.6" cy="137.7" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 251,904, seed 11: +0.0156</title><circle cx="560.8" cy="119.8" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 251,904, seed 12: +0.0273</title><circle cx="563.0" cy="110.8" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 251,904, seed 13: +0.0430</title><circle cx="565.2" cy="98.9" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 251,904, seed 14: +0.0410</title><circle cx="567.4" cy="100.4" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<line x1="573.0" x2="573.0" y1="133.3" y2="93.7" stroke="#eda100" stroke-width="2"/>
+<g><title>combined (11-00), K=3, early BC, 251,904: mean +0.0238, 95% t-interval [-0.0021, +0.0497]</title><path d="M573.0,107.5 L578.0,118.0 L568.0,118.0 Z" fill="#eda100" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="636.0" y="272" class="tick" text-anchor="middle">501,760</text>
+<g><title>reset (10-00), 501,760, seed 10: -0.0039</title><circle cx="602.6" cy="134.7" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 501,760, seed 11: +0.0273</title><circle cx="604.8" cy="110.8" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 501,760, seed 12: +0.0020</title><circle cx="607.0" cy="130.2" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 501,760, seed 13: +0.0645</title><circle cx="609.2" cy="82.5" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 501,760, seed 14: +0.0645</title><circle cx="611.4" cy="82.5" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<line x1="617.0" x2="617.0" y1="139.3" y2="77.0" stroke="#eb6834" stroke-width="2"/>
+<g><title>reset (10-00), K=3, early BC, 501,760: mean +0.0309, 95% t-interval [-0.0099, +0.0716]</title><rect x="612.5" y="103.6" width="9.0" height="9.0" rx="1" fill="#eb6834" stroke="var(--surface)" stroke-width="1.5"/></g>
+<g><title>preservation (01-00), 501,760, seed 10: +0.0449</title><circle cx="624.6" cy="97.4" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 501,760, seed 11: +0.0586</title><circle cx="626.8" cy="86.9" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 501,760, seed 12: +0.0410</title><circle cx="629.0" cy="100.4" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 501,760, seed 13: +0.0371</title><circle cx="631.2" cy="103.4" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 501,760, seed 14: +0.0449</title><circle cx="633.4" cy="97.4" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<line x1="639.0" x2="639.0" y1="104.8" y2="89.4" stroke="#1baf7a" stroke-width="2"/>
+<g><title>preservation (01-00), K=3, early BC, 501,760: mean +0.0453, 95% t-interval [+0.0353, +0.0554]</title><path d="M639.0,91.1 L645.0,97.1 L639.0,103.1 L633.0,97.1 Z" fill="#1baf7a" stroke="var(--surface)" stroke-width="1.5"/></g>
+<g><title>combined (11-00), 501,760, seed 10: +0.0332</title><circle cx="646.6" cy="106.3" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 501,760, seed 11: +0.0645</title><circle cx="648.8" cy="82.5" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 501,760, seed 12: -0.0156</title><circle cx="651.0" cy="143.7" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 501,760, seed 13: +0.0664</title><circle cx="653.2" cy="81.0" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 501,760, seed 14: +0.0645</title><circle cx="655.4" cy="82.5" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<line x1="661.0" x2="661.0" y1="132.7" y2="65.6" stroke="#eda100" stroke-width="2"/>
+<g><title>combined (11-00), K=3, early BC, 501,760: mean +0.0426, 95% t-interval [-0.0013, +0.0865]</title><path d="M661.0,93.2 L666.0,103.7 L656.0,103.7 Z" fill="#eda100" stroke="var(--surface)" stroke-width="1.5"/></g><text x="734" y="22" class="t1">K=3, extended BC</text>
+<line x1="734" x2="910" y1="246.4" y2="246.4" class="grid"/>
+<line x1="734" x2="910" y1="208.1" y2="208.1" class="grid"/>
+<line x1="734" x2="910" y1="169.9" y2="169.9" class="margin"/>
+<line x1="734" x2="910" y1="131.7" y2="131.7" class="zero"/>
+<line x1="734" x2="910" y1="93.5" y2="93.5" class="margin"/>
+<line x1="734" x2="910" y1="55.3" y2="55.3" class="grid"/>
+<text x="778.0" y="272" class="tick" text-anchor="middle">251,904</text>
+<g><title>reset (10-00), 251,904, seed 10: +0.0039</title><circle cx="744.6" cy="128.7" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 251,904, seed 11: -0.0723</title><circle cx="746.8" cy="186.9" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 251,904, seed 12: -0.0586</title><circle cx="749.0" cy="176.5" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 251,904, seed 13: +0.0352</title><circle cx="751.2" cy="104.8" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 251,904, seed 14: -0.0234</title><circle cx="753.4" cy="149.6" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<line x1="759.0" x2="759.0" y1="191.2" y2="107.4" stroke="#eb6834" stroke-width="2"/>
+<g><title>reset (10-00), K=3, extended BC, 251,904: mean -0.0230, 95% t-interval [-0.0779, +0.0318]</title><rect x="754.5" y="144.8" width="9.0" height="9.0" rx="1" fill="#eb6834" stroke="var(--surface)" stroke-width="1.5"/></g>
+<g><title>preservation (01-00), 251,904, seed 10: +0.0781</title><circle cx="766.6" cy="72.0" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 251,904, seed 11: -0.0469</title><circle cx="768.8" cy="167.5" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 251,904, seed 12: -0.0605</title><circle cx="771.0" cy="178.0" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 251,904, seed 13: +0.0273</title><circle cx="773.2" cy="110.8" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 251,904, seed 14: +0.0215</title><circle cx="775.4" cy="115.3" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<line x1="781.0" x2="781.0" y1="183.0" y2="74.4" stroke="#1baf7a" stroke-width="2"/>
+<g><title>preservation (01-00), K=3, extended BC, 251,904: mean +0.0039, 95% t-interval [-0.0672, +0.0750]</title><path d="M781.0,122.7 L787.0,128.7 L781.0,134.7 L775.0,128.7 Z" fill="#1baf7a" stroke="var(--surface)" stroke-width="1.5"/></g>
+<g><title>combined (11-00), 251,904, seed 10: -0.0039</title><circle cx="788.6" cy="134.7" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 251,904, seed 11: -0.0645</title><circle cx="790.8" cy="181.0" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 251,904, seed 12: -0.0801</title><circle cx="793.0" cy="192.9" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 251,904, seed 13: +0.0020</title><circle cx="795.2" cy="130.2" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 251,904, seed 14: -0.0469</title><circle cx="797.4" cy="167.5" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<line x1="803.0" x2="803.0" y1="195.8" y2="126.7" stroke="#eda100" stroke-width="2"/>
+<g><title>combined (11-00), K=3, extended BC, 251,904: mean -0.0387, 95% t-interval [-0.0839, +0.0065]</title><path d="M803.0,155.3 L808.0,165.8 L798.0,165.8 Z" fill="#eda100" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="866.0" y="272" class="tick" text-anchor="middle">501,760</text>
+<g><title>reset (10-00), 501,760, seed 10: -0.0293</title><circle cx="832.6" cy="154.1" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 501,760, seed 11: +0.0039</title><circle cx="834.8" cy="128.7" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 501,760, seed 12: -0.0762</title><circle cx="837.0" cy="189.9" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 501,760, seed 13: +0.0664</title><circle cx="839.2" cy="81.0" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<g><title>reset (10-00), 501,760, seed 14: +0.0156</title><circle cx="841.4" cy="119.8" r="2.2" fill="#eb6834" opacity="0.75"/></g>
+<line x1="847.0" x2="847.0" y1="185.0" y2="84.4" stroke="#eb6834" stroke-width="2"/>
+<g><title>reset (10-00), K=3, extended BC, 501,760: mean -0.0039, 95% t-interval [-0.0698, +0.0620]</title><rect x="842.5" y="130.2" width="9.0" height="9.0" rx="1" fill="#eb6834" stroke="var(--surface)" stroke-width="1.5"/></g>
+<g><title>preservation (01-00), 501,760, seed 10: -0.0547</title><circle cx="854.6" cy="173.5" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 501,760, seed 11: -0.0312</title><circle cx="856.8" cy="155.6" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 501,760, seed 12: -0.0391</title><circle cx="859.0" cy="161.6" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 501,760, seed 13: +0.0098</title><circle cx="861.2" cy="124.3" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<g><title>preservation (01-00), 501,760, seed 14: -0.0215</title><circle cx="863.4" cy="148.1" r="2.2" fill="#1baf7a" opacity="0.75"/></g>
+<line x1="869.0" x2="869.0" y1="175.4" y2="129.8" stroke="#1baf7a" stroke-width="2"/>
+<g><title>preservation (01-00), K=3, extended BC, 501,760: mean -0.0273, 95% t-interval [-0.0572, +0.0025]</title><path d="M869.0,146.6 L875.0,152.6 L869.0,158.6 L863.0,152.6 Z" fill="#1baf7a" stroke="var(--surface)" stroke-width="1.5"/></g>
+<g><title>combined (11-00), 501,760, seed 10: +0.0195</title><circle cx="876.6" cy="116.8" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 501,760, seed 11: -0.0156</title><circle cx="878.8" cy="143.7" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 501,760, seed 12: -0.0840</title><circle cx="881.0" cy="195.9" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 501,760, seed 13: +0.0098</title><circle cx="883.2" cy="124.3" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<g><title>combined (11-00), 501,760, seed 14: -0.0332</title><circle cx="885.4" cy="157.1" r="2.2" fill="#eda100" opacity="0.75"/></g>
+<line x1="891.0" x2="891.0" y1="186.5" y2="108.6" stroke="#eda100" stroke-width="2"/>
+<g><title>combined (11-00), K=3, extended BC, 501,760: mean -0.0207, 95% t-interval [-0.0716, +0.0302]</title><path d="M891.0,141.5 L896.0,152.0 L886.0,152.0 Z" fill="#eda100" stroke="var(--surface)" stroke-width="1.5"/></g>
+<g transform="translate(16,314)"><g><title>reset (10-00)</title><rect x="-4.5" y="-4.5" width="9.0" height="9.0" rx="1" fill="#eb6834" stroke="var(--surface)" stroke-width="1.5"/></g><text x="11" y="4" class="tick">reset (10-00)</text></g> <g transform="translate(216,314)"><g><title>preservation (01-00)</title><path d="M0.0,-6.0 L6.0,0.0 L0.0,6.0 L-6.0,0.0 Z" fill="#1baf7a" stroke="var(--surface)" stroke-width="1.5"/></g><text x="11" y="4" class="tick">preservation (01-00)</text></g> <g transform="translate(416,314)"><g><title>combined (11-00)</title><path d="M0.0,-6.0 L5.0,4.5 L-5.0,4.5 Z" fill="#eda100" stroke="var(--surface)" stroke-width="1.5"/></g><text x="11" y="4" class="tick">combined (11-00)</text></g>
+<text x="16" y="340" class="tick">P1 difference vs ordinary PPO (5 paired seeds; mean and pointwise 95% t-interval, df 4). Dashed: ±0.05 margin. x: continuation actions. M4 confirmation data.</text>
+</svg>

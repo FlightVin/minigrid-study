@@ -69,14 +69,26 @@ def main():
             rows.append({"batch": b.name, "job": d.name, "batch_status": status, "kind": kind,
                          **{k: acts.get(k, 0) for k in ("planner_replay", "benchmark", "bc_eval", "critic_warmup",
                                                          "train", "eval_diagnostic", "eval_final")}})
+    measured = sum(totals.values())
+    # measured outside the runner (src/bc2rl/accounting.py, from 2026-10-31 post-M4)
+    un = sorted((ROOT / ".mae/unmanaged_actions").glob("*.json")) if (ROOT / ".mae/unmanaged_actions").exists() else []
+    unmanaged = sum(json.loads(p.read_text())["actions"] for p in un)
+    estimated = {}
     adj = ROOT / "research/ledger_adjustments.json"
     if adj.exists():
         for e in json.loads(adj.read_text())["entries"]:
+            estimated[e["role"]] = estimated.get(e["role"], 0) + e["actions"]
             totals[e["role"]] = totals.get(e["role"], 0) + e["actions"]
+    if unmanaged:
+        totals["outside_runner_measured"] = unmanaged
     wall = sum(json.loads(l)["wall_seconds"] for l in (ROOT / ".mae/ledger.jsonl").read_text().splitlines())
     total = sum(totals.values())
-    print(json.dumps({"total_env_actions": total, "by_role": totals, "finished_batch_wall_hours": round(wall / 3600, 2),
-                      "cap": 80_000_000, "fraction_of_cap": round(total / 80e6, 4)}, indent=1))
+    print(json.dumps({"total_env_actions": total, "runner_measured": measured,
+                      "outside_runner_measured": unmanaged, "outside_runner_estimated": sum(estimated.values()),
+                      "by_role": totals, "finished_batch_wall_hours": round(wall / 3600, 2),
+                      "note": "runner_measured includes data planner replay derived from layouts.json; estimated roles are "
+                              "conservative upper estimates (research/ledger_adjustments.json). No hard action cap since "
+                              "2026-10-31 (owner); Amendment 2 submission stop line 109M."}, indent=1))
     if a.csv:
         with open(a.csv, "w", newline="") as f:
             w = csv.DictWriter(f, fieldnames=list(rows[0]))

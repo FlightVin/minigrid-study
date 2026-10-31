@@ -20,6 +20,7 @@ not exist yet. Two qualifications:
 - "Ordinary PPO" is now conservative PPO (lr 3e-5, no entropy bonus), chosen because larger steps
   destroyed the BC policy. This is a legitimate, prespecified development choice, but the report must
   say that the tested PPO is step-size-limited and that results may not transfer to other settings.
+  [Superseded by F11 section 6: "step-size-limited" is a hypothesis; clipping activity alone does not diagnose it.]
 - The critic is barely better than a constant (F3). Advantages are therefore mostly a noisy baseline.
   Any later decline in c could reflect value-estimation noise as much as missing stage practice. The
   analysis must keep this competing explanation explicit.
@@ -122,16 +123,18 @@ they belong in M4. A 750k gate is not justified: no emerging separation, slow le
 
 **Result.** Confirmatory and clear: all three interventions are practically equivalent to ordinary PPO at both
 251,904 and 501,760 (F10). Intervals are tight (half-widths 0.018-0.032), so this is evidence of no useful
-effect, not a lack of evidence.
+effect, not a lack of evidence. [Superseded by F11: true for the equal-weight average only; condition-level
+effects exist (preservation at K=3/early BC, +0.045 at E500, post hoc).]
 
 **Consistency with development.** Development contrasts were within about 0.02 of 0 (F7) and the M3 K=3
 "benefit" did not reproduce (F9). M4 agrees with that pattern. The precision planning was accurate (observed
 half-widths near the rho = 0 scenario).
 
 **Alternative explanations.** (i) Dose: alpha 0.25 and lambda 0.01 were active (F8 E3c) but small; larger doses
-were worse or not better in the screen (F6). (ii) The step-size-limited PPO configuration (lr 3e-5) may leave
+were worse or not better in the screen (F6). (ii) The step-size-limited PPO configuration (lr 3e-5) [hypothesis; F11 section 6] may leave
 little room for any learning-dynamics intervention. (iii) Mechanism signals (q from preservation, c from all
-arms) do not reach P1, consistent with the planner bank differing from arrival states (F9).
+arms) do not reach P1, consistent with the planner bank differing from arrival states (F9). [Superseded by F11 section 4: mostly the
+bank's progress composition; coexistence, not a causal explanation.]
 
 **Leakage / integrity.** Analysis committed before outcomes; no confirmation data used for any development
 decision; no retries; audit exact.

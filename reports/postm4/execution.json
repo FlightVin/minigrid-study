@@ -1,0 +1,172 @@
+{
+ "forks": 20,
+ "branch_endpoint_records": 160,
+ "problems": [],
+ "bc_checkpoint_sha256_16": {
+  "10": {
+   "4000": "fa6e0752bb510910",
+   "16000": "8537d4fd648f0347"
+  },
+  "11": {
+   "4000": "3d940d87ad6a647a",
+   "16000": "8aa754abadd314fd"
+  },
+  "12": {
+   "4000": "4d14f512254d3a1b",
+   "16000": "71876054715c1270"
+  },
+  "13": {
+   "4000": "de0726aff2c78fff",
+   "16000": "445f0db269de7645"
+  },
+  "14": {
+   "4000": "04264c821554935a",
+   "16000": "50c28f79b06cfb4d"
+  }
+ },
+ "state_hashes_checked": true,
+ "role_overlap": {
+  "conf_select|conf_bank": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_select|conf_final": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_select|bc_train": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_select|bc_val": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_select|rl_train": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_select|reset_donor": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_select|anchor_donor": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_select|dev_eval": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_select|dev_bank": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_bank|conf_final": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_bank|bc_train": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_bank|bc_val": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_bank|rl_train": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_bank|reset_donor": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_bank|anchor_donor": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_bank|dev_eval": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_bank|dev_bank": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_final|bc_train": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_final|bc_val": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_final|rl_train": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_final|reset_donor": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_final|anchor_donor": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_final|dev_eval": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  },
+  "conf_final|dev_bank": {
+   "structure_hash": 0,
+   "gen_seed": 0,
+   "suffix_signature": 0
+  }
+ },
+ "conf_bank": {
+  "1": {
+   "bins": {
+    "entry": 32,
+    "retrieval": 16,
+    "carrying": 16
+   },
+   "layouts": 64
+  },
+  "3": {
+   "bins": {
+    "entry": 32,
+    "retrieval": 16,
+    "carrying": 16
+   },
+   "layouts": 64
+  }
+ },
+ "conf_bank_matched_across_K": true,
+ "conf_final_matched_across_K": true,
+ "zero_arrival_branch_endpoints": 2,
+ "zero_arrival_layout_cells": 1193
+}

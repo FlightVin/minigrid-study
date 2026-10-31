@@ -29,6 +29,8 @@ from minigrid.core.mission import MissionSpace
 from minigrid.core.world_object import Ball, Door, Floor, Key, Wall, WorldObj
 from minigrid.minigrid_env import MiniGridEnv
 
+from bc2rl import accounting
+
 WIDTH, HEIGHT = 21, 9
 N_SLOTS = 3
 SLOT_X0 = (1, 5, 9)            # first interior column of each slot
@@ -219,6 +221,7 @@ class StageTask(MiniGridEnv):
     # -- dynamics --------------------------------------------------------------------------------
     def step(self, action):
         assert not self.succeeded and self.step_count < self.layout.limit, "step after episode end"
+        accounting.count()
         _, base_reward, base_term, _, _ = super().step(int(action))
         assert base_reward == 0 and not base_term   # no goal/lava objects exist in this task
         crossed = False

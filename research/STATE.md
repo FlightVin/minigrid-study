@@ -1,8 +1,7 @@
 # State
 
-**Current milestone:** M4 complete (2026-10-31 16:05 EDT). Confirmatory result (F10): reset, preservation and
-combined are practically equivalent to ordinary PPO (±0.05 P1) at 251,904 and 501,760; no directional claim.
-RQ2 stays a costed proposal.
+**Current milestone:** Post-M4 audit and interpretation revision complete (F11; REPORT C1-C9). Waiting for owner
+approval of follow-up R1 (no training before approval).
 
 **Established**
 - Manuscript SHA-256 `38326ef0...f92b4`; no substantive conflict with project.md.
@@ -18,20 +17,25 @@ RQ2 stays a costed proposal.
 - M3 four-arm (F7): all six contrasts average within 0.02 of 0; arm 00 replicate SD 0.027.
 - Frozen: alpha* 0.25, lambda* 0.01, 250k endpoint, 5 new seeds, conf_final 32 x 16, delta 0.05.
 - Audit (F8): no correctness defect; metrics recompute exactly; corrections C1-C5 recorded.
-- M4 (F10): all 6 primary tests practically equivalent; audit exact; 20/20 forks.
+- M4 (F10): all 6 primary tests practically equivalent (equal-weight aggregate only); audit exact; 20/20 forks.
+- Post-M4 (F11): condition-level effects exist: preservation K=3/early BC +0.045 at E500 (post hoc; Holm-24 0.0056;
+  sign-flip 0.0625); K=1/early BC -0.048 at E250 (closes by E500). Bank gap mostly progress composition.
+  Selection headroom ~0.01 hindsight, ~0 out of sample.
 - Campaign (F9): learning continues to 500k (+0.065 mean); no contrast separates; same-fork path SD 0.048;
   the M3 K=3 combined benefit did not reproduce; arrival-state competence < planner-bank c.
 
 **Uncertain**
-- Effects of larger doses, longer training (> 501,760), or other tasks (not tested).
-- Cause of the arrival-state competence gap beyond time (prefix configuration?).
+- Whether the K=3/early-BC preservation benefit replicates (post hoc; 5 seeds) -> proposal R1.
+- K=3 arrival-vs-entry competence difference (~0.056): time vs layout not separated.
+- Whether PPO step size is the bottleneck (hypothesis only).
 
-**Owner limits:** 4 cores, 6 GiB, 1 job. The 80M cap is not binding for M4 (owner, 2026-10-31); Amendment 2
-stop rule: ledger > 109M or a batch > 1.25 x its estimate. Two-hourly reviews in research/REVIEWS.md.
+**Owner limits:** 4 cores, 6 GiB, 1 job. No numeric hard action cap after 2026-10-31 (owner); 109M was the M4
+submission stop line. Battery watch: stop execution below 20% (5-minute checks). Two-hourly self-reviews.
 
-**Resources used:** 93.02M actions (incl. 3.45M estimated test actions); M4 55.85M; batch wall 9.12 h.
+**Resources used:** 93.14M actions = 89.57M runner-measured (incl. 1.31M derived planner replay) + 0.12M measured
+outside the runner + 3.45M estimated outside the runner (conservative). Batch wall 9.12 h.
 
 **Blockers:** none.
 
 **Next action**
-- Owner review of the M4 result. No further experiments are planned.
+- Owner decision on R1 (REPORT C9). If approved: freeze R1 protocol, generate rep roles, gate, run.

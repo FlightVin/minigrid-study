@@ -330,3 +330,30 @@ confirmation data. Decisions taken under the delegated scientific judgement:
   driver.
 - All five seed batches exited normally (105 jobs, 0 failures, 0 retries): 11.06, 11.09, 11.11, 11.08, 11.05M
   actions. Ledger 93.02M. Analysis run unchanged from `c53b63f`; results in FINDINGS F10.
+
+## 2026-10-31 — Post-M4 audit and interpretation revision (owner instruction after M4)
+
+Authority: owner instruction recorded verbatim at the end of `mac-agentic-engineering/project.md` (harness `b37997a`).
+No new training. The frozen primary analysis (`tools/analyze_m4.py`, `reports/m4_*`) is unchanged; new analyses are
+in `tools/postm4_audit.py` -> `reports/postm4/` and FINDINGS F11; report revised (`reports/REPORT.md`, C1-C9).
+- **Provenance** (REPORT C1): Amendment 2 (both endpoints) committed 10:41:34 EDT, before data generation
+  (10:42:04-10:43:57) and before the first conf_final outcome (10:52:55); analysis code `c53b63f` at 10:47:03. The
+  64 x 8 design was first written in `d928291` (01:37) and approved with Amendment 2.
+- **Budget status** recorded as: no numeric hard cap after the owner's 2026-10-31 decision; 109M was a
+  self-set submission stop line; no protected reserve was in force for M4 (Amendment 2 replaced A8 without
+  restating it). The 80M cap is not reinstated.
+- **Bootstrap note**: conf_final is matched across K; the frozen bootstrap resampled K=1/K=3 layouts independently.
+  A matched-index sensitivity bootstrap differs by <= 0.0014 at any endpoint; the frozen analysis stands.
+- **Multiplicity for the stratum family (post hoc)**: Holm over the 24 arm-vs-00 stratum contrasts and over the 48
+  contrasts examined in F10, plus BH-48 and exact sign-flip p. Chosen to match the family actually examined.
+- **Accounting fix**: `src/bc2rl/accounting.py` counts every `StageTask.step`; outside the runner it records
+  per-process totals in `.mae/unmanaged_actions/` (added by `tools/ledger.py` as measured) and stops after 1M steps.
+  The ledger now reports runner-measured, outside-runner measured and outside-runner estimated separately and no
+  longer prints the 80M fraction. Tests `tests/test_accounting.py`.
+- **Data gate** now also checks pairwise separation among conf_select, conf_bank and conf_final (passes;
+  `reports/postm4/data_gate.json`).
+- **Follow-up**: R1 (replication of the conditional preservation effect; 8 fresh seeds; ~25.8M) proposed, not run.
+- **Harness reproducibility**: the harness repository has no remote; commits `b53f29a` (runner fix used by every
+  batch), `366786a`, `ea3d7ad`, `b37997a` are local only. Nothing to push; recorded as a limitation.
+- Battery watch (owner instruction): checks every 5 minutes, stops execution below 20%; scratchpad script
+  `battery_watch2.py`. Two-hour self-reviews scheduled as a session job.

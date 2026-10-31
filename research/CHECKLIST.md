@@ -61,4 +61,20 @@ Dependency-ordered. `[x]` done and verified, `[~]` in progress, `[ ]` planned.
 - [x] Analysis at E250 and E500 (Holm over 6, TOST, bootstrap); audit (section 12); report (F10)
 
 ## M5: conditional RQ2
-- [x] Condition not met (M4: equivalence); RQ2 remains a costed proposal
+- [x] RQ2 deferred: selection headroom small (hindsight ~0.01, out-of-sample ~0) and no held-out conditions (F11 section 7);
+  not because heterogeneity is absent
+
+## Post-M4 audit (owner instruction 2026-10-31)
+- [x] Instruction recorded verbatim in project.md (harness `b37997a`); battery watch (20%, 5 min); 2-hourly self-review job
+- [x] Final protocol and provenance (REPORT C1); budget status; harness/local-only commits recorded
+- [x] Measured vs estimated ledger; step-boundary accounting fix + tests
+- [x] Primary aggregate reproduced independently; TOST statistics; IUT joint statement; matched-K bootstrap
+- [x] Condition-level contrasts (24), multiplicity (Holm-24/48, BH, sign-flip), K=3/early subgroup audit
+- [x] Checkpoint x intervention and E500-E250 (post hoc / descriptive)
+- [x] Progress-matched bank decomposition (M4 and dev E3b)
+- [x] p = q r decomposition with unsupported cells
+- [x] C4/R4, curves, optimization diagnostics; superseded claims marked
+- [x] Hindsight selection reference and leave-one-seed-out condition rule (not RQ2)
+- [x] Execution verification (lineage, 160 state hashes, role separation pairwise, banks, metrics)
+- [x] Effect figure from saved tables; report revised; manuscript-ready wording
+- [ ] Owner decision on follow-up R1 (no training before approval)

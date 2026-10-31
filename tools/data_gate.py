@@ -7,7 +7,8 @@ Passes only if
     (SHA-256, recomputed from the files, and equal to each manifest);
   - bank_competence_dev_bank.json is byte-identical;
   - layouts.json entries for every dev-v2 role are identical in conf-v1;
-  - the confirmation roles exist with the planned counts and share no structure hash with any dev-v2 role.
+  - the confirmation roles exist with the planned counts and share no structure hash with any dev-v2 role;
+  - the confirmation roles share no structure hash or generator seed with each other (added after M4).
 Prints a JSON report; exit status 1 on any failure.
 """
 import argparse
@@ -52,6 +53,15 @@ def main():
         overlap = len({it["structure_hash"] for it in items} & dev_hashes)
         rep["conf_roles"][role] = {"per_K": perK, "planned_registry_entries": planned[role], "overlap_with_dev": overlap}
         ok &= bool(items) and overlap == 0
+    # pairwise separation among the confirmation roles themselves (structure hash and generator seed)
+    rep["conf_pairwise"] = {}
+    for i, r1 in enumerate(CONF_ROLES):
+        for r2 in CONF_ROLES[i + 1:]:
+            a_, b_ = lc.get(r1, []), lc.get(r2, [])
+            n = len({x["structure_hash"] for x in a_} & {x["structure_hash"] for x in b_}) + \
+                len({x["layout"]["gen_seed"] for x in a_} & {x["layout"]["gen_seed"] for x in b_})
+            rep["conf_pairwise"][f"{r1}|{r2}"] = n
+            ok &= n == 0
     rep["registry_sha256"] = {"dev-v2": md["registry_sha256"], "conf-v1": mc["registry_sha256"]}
     rep["planner_failures_conf"] = len(mc["planner_failures"])
     rep["pass"] = bool(ok)

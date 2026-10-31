@@ -1,0 +1,95 @@
+{
+ "planner_bank": {
+  "layout_role": "dev_bank (64 layouts per K)",
+  "states": 64,
+  "bins": {
+   "entry": 32,
+   "retrieval": 16,
+   "carrying": 16
+  },
+  "entry_remaining_values": [
+   104
+  ],
+  "remaining_q10_50_90_all": [
+   87.0,
+   103.0,
+   104.0
+  ]
+ },
+ "arrival_banks": [
+  {
+   "seed": 0,
+   "source_bank": "pi0",
+   "states": 30,
+   "layouts": 20,
+   "remaining_q10_50_90": [
+    60.80000000000001,
+    98.5,
+    104.0
+   ],
+   "max_states_one_layout": 2
+  },
+  {
+   "seed": 0,
+   "source_bank": "00",
+   "states": 39,
+   "layouts": 24,
+   "remaining_q10_50_90": [
+    81.2,
+    98.0,
+    104.0
+   ],
+   "max_states_one_layout": 2
+  },
+  {
+   "seed": 0,
+   "source_bank": "11",
+   "states": 40,
+   "layouts": 23,
+   "remaining_q10_50_90": [
+    40.0,
+    98.0,
+    104.0
+   ],
+   "max_states_one_layout": 2
+  },
+  {
+   "seed": 1,
+   "source_bank": "pi0",
+   "states": 29,
+   "layouts": 18,
+   "remaining_q10_50_90": [
+    22.400000000000002,
+    90.0,
+    104.0
+   ],
+   "max_states_one_layout": 2
+  },
+  {
+   "seed": 1,
+   "source_bank": "00",
+   "states": 43,
+   "layouts": 27,
+   "remaining_q10_50_90": [
+    68.6,
+    94.0,
+    104.0
+   ],
+   "max_states_one_layout": 2
+  },
+  {
+   "seed": 1,
+   "source_bank": "11",
+   "states": 43,
+   "layouts": 27,
+   "remaining_q10_50_90": [
+    68.6,
+    96.0,
+    104.0
+   ],
+   "max_states_one_layout": 2
+  }
+ ],
+ "arrival_layout_role": "dev_eval (32 layouts per K)",
+ "note": "planner bank weights: equal per state, 32 entry / 16 retrieval / 16 carrying"
+}
