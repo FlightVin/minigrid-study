@@ -312,3 +312,15 @@ confirmation data. Decisions taken under the delegated scientific judgement:
 - More seeds would be the most effective lever for precision; the owner chose 5 seeds (option A), so the
   design is not changed.
 
+
+**Execution log (M4).**
+- `PROTOCOL_FREEZE.md` SHA-256 after Amendment 2 (commit `39c7901`):
+  `2037aa145288d0a84f2ca7c6980e8d029a90cea49657a842ab2fd3682bf4691b`.
+- Batch `20261031T144145-65447` (data) failed at import: the runner was started with the system Python, which
+  has no `gymnasium`. 0 environment actions. Deterministic invocation error; rerun with `.venv/bin/python`
+  as batch `20261031T144204-65491` (new ID).
+- conf-v1 generated, 0 planner failures; registry SHA-256 `c2652c12...b8be`. Gate (`reports/m4_data_gate.json`)
+  **passes**: all training trajectory files, banks_index, the dev bank and every dev-v2 role in layouts.json are
+  identical; conf_select, conf_bank, conf_final have 64 layouts per K, disjoint from every dev role and from each
+  other; conf_bank bins 32/16/16 per K. Ledger after data: 37.63M.
+- Seed batches run through `tools/run_m4.py` (B5 checks; conservative estimate 12.24M per seed).
