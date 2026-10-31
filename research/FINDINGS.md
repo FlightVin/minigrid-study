@@ -572,3 +572,18 @@ generator seed, suffix signature) among conf_select, conf_bank, conf_final and e
 conf_bank: 32/16/16 per K, 64 layouts, matched across K; conf_final matched across K. Missing conditional
 statistics: 2 branch-endpoints with no arrivals (P(success | arrival) reported as missing), 1,193 layout cells with
 no arrivals.
+
+**F11 addendum (self-review 2026-10-31 19:05; `reports/postm4/extras.json`).**
+- Three-way intervention x K x checkpoint (post hoc; [(4k - 16k) at K=3] - [(4k - 16k) at K=1] of each contrast; 6
+  tests): preservation E500 +0.069 [+0.005, +0.132], p 0.040; reset E250 +0.088 [+0.016, +0.159], p 0.027; the other
+  four p >= 0.063. Neither survives Holm over these 6 (smallest adjusted 0.16).
+- K=3/early-BC arrival states: in both arms every first crossing carries the yellow key (inventory identical);
+  arrival timing is similar (F11 section 3). The access gain is therefore not a change in arrival inventory.
+- Descriptive curves (means over 5 seeds). conf_select points (pi0 64 x 2, post-probe 64 x 2, 126,976 and 376,832
+  64 x 1) and conf_final endpoints (64 x 8) are different layout sets and are not differenced across sets. K=3/early
+  BC, conf_select: pi0 0.052, probe 0.039, arm 00 0.047 -> 0.053, arm 01 0.072 -> 0.097, arm 10 0.056 -> 0.119, arm
+  11 0.053 -> 0.116. Full table in `extras.json`.
+- Diagnostic cost: the probe's pi0 + post-probe evaluations cost 37k-73k actions per condition (7-15% of a 501,760
+  continuation). The probe itself is shared by every method in the manuscript's RQ2 accounting and is not a
+  selection cost. Against a demonstrated out-of-sample selection gain of about
+  0 (hindsight 0.01), no diagnostic-based selector is supported by M4.

@@ -77,4 +77,5 @@ Dependency-ordered. `[x]` done and verified, `[~]` in progress, `[ ]` planned.
 - [x] Hindsight selection reference and leave-one-seed-out condition rule (not RQ2)
 - [x] Execution verification (lineage, 160 state hashes, role separation pairwise, banks, metrics)
 - [x] Effect figure from saved tables; report revised; manuscript-ready wording
+- [x] Self-review 2026-10-31 19:05: three-way interaction, arrival inventory, curve table, diagnostic costs added; STATE fixed
 - [ ] Owner decision on follow-up R1 (no training before approval)

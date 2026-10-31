@@ -130,6 +130,10 @@ Per-stratum contrasts are secondary or descriptive under the freeze. Figure: `re
 - **Checkpoint dependence (post hoc).** At K=3 and 501,760, the preservation effect at early minus at extended
   BC is +0.073 [+0.038, +0.108]. At K=1 and 251,904 it is -0.044 [-0.070, -0.018]. Averaging checkpoints hides
   these.
+- **Three-way intervention x K x checkpoint (post hoc, 6 tests).** Preservation at 501,760: +0.069 [+0.005,
+  +0.132], p 0.040. Reset at 251,904: +0.088, p 0.027. Neither survives Holm over 6.
+- **Arrival inventory.** Every K=3/early-BC arrival carries the yellow key in both arms, and timing is similar.
+  The access gain is not a change in what the agent carries on arrival.
 - **Status.** This is a post hoc subgroup. It is not promoted to a primary result and needs independent
   replication (C9).
 
@@ -179,8 +183,31 @@ Per-stratum contrasts are secondary or descriptive under the freeze. Figure: `re
   - Endpoint equivalence is not curve equivalence.
   - Some early deficits close later: reset +0.014 and combined +0.024 between endpoints; preservation +0.047 at
     K=1/early BC.
-  - Descriptive curves on conf_select are in `reports/postm4/training.csv`. There is no area-under-curve test
-    and no per-arm best checkpoint.
+  - Descriptive curves are tabulated below (means over 5 seeds; `reports/postm4/extras.json`). There is no
+    area-under-curve test and no per-arm best checkpoint.
+  - "sel" columns are conf_select normal starts: 64 x 2 attempts at pi0 and the probe, 64 x 1 at the curve
+    points. "final" columns are conf_final, 64 x 8.
+  - These are different layout sets. Compare only within a set, never across sets.
+
+| Condition | Arm | sel pi0 | sel probe | sel 126,976 | sel 376,832 | final 251,904 | final 501,760 |
+|---|---|---|---|---|---|---|---|
+| K=1, early | 00 | 0.266 | 0.361 | 0.444 | 0.566 | 0.508 | 0.551 |
+| K=1, early | 10 | 0.266 | 0.361 | 0.463 | 0.547 | 0.466 | 0.552 |
+| K=1, early | 01 | 0.266 | 0.361 | 0.466 | 0.547 | 0.460 | 0.550 |
+| K=1, early | 11 | 0.266 | 0.361 | 0.431 | 0.569 | 0.451 | 0.533 |
+| K=1, extended | 00 | 0.633 | 0.684 | 0.766 | 0.828 | 0.729 | 0.766 |
+| K=1, extended | 10 | 0.633 | 0.684 | 0.719 | 0.787 | 0.730 | 0.753 |
+| K=1, extended | 01 | 0.633 | 0.684 | 0.713 | 0.784 | 0.725 | 0.761 |
+| K=1, extended | 11 | 0.633 | 0.684 | 0.722 | 0.797 | 0.721 | 0.776 |
+| K=3, early | 00 | 0.052 | 0.039 | 0.047 | 0.053 | 0.046 | 0.062 |
+| K=3, early | 10 | 0.052 | 0.039 | 0.056 | 0.119 | 0.067 | 0.093 |
+| K=3, early | 01 | 0.052 | 0.039 | 0.072 | 0.097 | 0.069 | 0.107 |
+| K=3, early | 11 | 0.052 | 0.039 | 0.053 | 0.116 | 0.070 | 0.105 |
+| K=3, extended | 00 | 0.275 | 0.302 | 0.306 | 0.425 | 0.355 | 0.406 |
+| K=3, extended | 10 | 0.275 | 0.302 | 0.375 | 0.416 | 0.332 | 0.402 |
+| K=3, extended | 01 | 0.275 | 0.302 | 0.353 | 0.397 | 0.359 | 0.379 |
+| K=3, extended | 11 | 0.275 | 0.302 | 0.347 | 0.391 | 0.316 | 0.386 |
+
 - **Optimization.**
   - Actor lr 3e-5. Gradient-norm clipping at 0.5 is active in every update (median pre-clip norm about 2.4).
   - Per update: PPO clip fraction about 0.027, approx KL about 0.003. Anchor KL to pi0 grows 0.09 -> 0.22 in
@@ -233,6 +260,9 @@ Per-stratum contrasts are secondary or descriptive under the freeze. Figure: `re
       +0.0006 vs the fixed arm chosen the same way).
   - No held-out conditions exist. An early-measurement selector must beat the condition-identity rule after
     charging diagnostic and trial costs.
+  - **Cost.** The pi0 and post-probe diagnostics cost 37k-73k actions per condition, 7-15% of a 501,760
+    continuation. The shared probe is not charged. A short-trial selector costs several branches. Neither cost
+    can be recovered from an out-of-sample gain of about 0.
 
 ## C9. Recommendation: one follow-up, R1 (awaiting approval; no training before approval)
 

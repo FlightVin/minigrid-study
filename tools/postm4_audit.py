@@ -19,6 +19,8 @@ Outputs (reports/postm4/):
   secondary.csv          C4, R4, q, c, P(success|arrival) contrasts (pooled over strata), pointwise
   selection.csv          hindsight per-condition best arm vs best fixed arm; leave-one-seed-out (same conditions)
   training.csv           learning rate, clipping activity, policy change (anchor KL), learning per branch
+  extras.json            three-way intervention x K x checkpoint (post hoc); descriptive curve table by layout set;
+                         K=3/early arrival-state composition; diagnostic (probe-evaluation) costs
   execution.json         lineage, hashes, split separation, bank composition, recomputation, accounting
 """
 import argparse
@@ -600,6 +602,36 @@ def execution(D, S, out, check_states):
     return ex
 
 
+def extras(D, S, out):
+    ex = {"three_way_post_hoc": [], "curves": [], "k3early_arrival_state": {}, "diagnostic_costs": {}}
+    for ep in EP:
+        for name, arm in CON.items():
+            eff = lambda s, K, u: (D[(s, K, u, arm, ep)]["p"] - D[(s, K, u, "00", ep)]["p"]).mean()
+            x = np.array([(eff(s, 3, 4000) - eff(s, 3, 16000)) - (eff(s, 1, 4000) - eff(s, 1, 16000)) for s in SEEDS])
+            ex["three_way_post_hoc"].append({"endpoint": ep, "contrast": name, **tstats(x)})
+    # curves: conf_select points (126,976 / 376,832; 64 x 1) and conf_final endpoints (64 x 8); never compared across sets
+    for K, u in STRATA:
+        for arm in ARMTAG:
+            row = {"K": K, "bc_update": u, "arm": arm}
+            for tag in ("curve_126976", "curve_376832", "final_251904", "final_501760"):
+                row[tag] = float(np.mean([next(e for e in S[(s, K, u, arm)]["evals"] if e["tag"] == tag)["P1"] for s in SEEDS]))
+            ps = [json.loads((RUNS / BATCHES[s] / f"m4-probe-K{K}-u{u}-s{s}" / "summary.json").read_text()) for s in SEEDS]
+            row["select_pi0"] = float(np.mean([p["pi0"]["p"] for p in ps]))
+            row["select_probe"] = float(np.mean([p["probe"]["p"] for p in ps]))
+            ex["curves"].append(row)
+    for arm in ("00", "01"):
+        car = sum((D[(s, 3, 4000, arm, "E500")]["carry"] for s in SEEDS), [])
+        from collections import Counter
+        c = Counter(car)
+        ex["k3early_arrival_state"][arm] = {"arrivals": len(car), "carrying": {" ".join(k) if k else "nothing": v / len(car) for k, v in c.most_common()}}
+    for K, u in STRATA:
+        ps = [json.loads((RUNS / BATCHES[s] / f"m4-probe-K{K}-u{u}-s{s}" / "summary.json").read_text()) for s in SEEDS]
+        ex["diagnostic_costs"][f"K{K}/{u}"] = {"probe_eval_diagnostic_mean": float(np.mean([p["actions"]["eval_diagnostic"] for p in ps])),
+                                               "probe_total_mean": float(np.mean([sum(p["actions"].values()) for p in ps]))}
+    (out / "extras.json").write_text(json.dumps(ex, indent=1, default=float))
+    return ex
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=str(ROOT / "reports/postm4"))
@@ -618,6 +650,7 @@ def main():
     secondary(D, S, out)
     selection(D, out)
     training(S, out)
+    extras(D, S, out)
     ex = execution(D, S, out, not a.skip_state_hashes)
     print(json.dumps({"primary": [(r["endpoint"], r["contrast"], round(r["estimate"], 5), round(r["tost_p"], 5)) for r in pr],
                       "subgroup": sg["t"], "problems": ex["problems"]}, indent=1, default=float))

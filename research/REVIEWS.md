@@ -142,3 +142,35 @@ decision; no retries; audit exact.
 **Waste.** None in M4. The data-batch launch error cost 0 actions.
 
 **Plan.** Stop experiments. Report to the owner.
+
+## Review 5 — 2026-10-31 19:05 EDT (two-hour self-review; post-M4 audit)
+
+**Checked.** Re-read `project.md` (post-M4 audit instruction, sections 1-10) and `agent.md`. Running tasks: only the
+battery watch (PID 66192, 5-minute checks; 92% on AC at 19:00); no runner batch, no bc2rl worker. No training was
+started. Completed: F11 audit, revised REPORT (C1-C9), accounting fix, data-gate pairwise check, effect figure,
+commit `c6359c3` pushed.
+
+**Against the instruction, item by item.**
+- Sections 1, 2 and 8 are met. One nuance is recorded: analysis-code timing alone does not prove that every choice
+  was prespecified, and the code-level cross-K resampling choice is listed in C1.
+- Section 3 had a gap: the intervention x K x checkpoint analysis was only within K. Added the three-way
+  (post hoc; nothing survives Holm-6).
+- Section 5 had a gap: arrival states for K=3/early BC. Added inventory: identical in both arms.
+- Section 6 had a gap: curves were only referenced. Added a curve table that keeps the layout sets separate.
+- Section 7 had a gap: diagnostic costs were not quantified. Added them (37k-73k actions per condition).
+- Sections 4, 9 and 10: no change needed. R1 is proposed and not run.
+
+**Claims beyond evidence (checked).**
+- The headline limits equivalence to the aggregate.
+- The K=3/early BC effect is labelled post hoc, with sign-flip limits stated.
+- No causal claim about the banks.
+- "Step-size-limited" is a hypothesis.
+- The ledger is split into measured and estimated parts.
+
+**Corrections to state.** STATE still said "7/8 forks" (corrected in F8), quoted the pre-amendment freeze (250k,
+32 x 16), carried the superseded F9 arrival claim and an old test count. All fixed. CHECKLIST is current.
+
+**Leakage / integrity.** No confirmation data were used for any development decision. R1 would use fresh
+seeds and fresh layout roles.
+
+**Next.** Wait for the owner's decision on R1. Keep the battery watch and the two-hourly reviews.
