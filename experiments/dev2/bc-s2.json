@@ -1,0 +1,13 @@
+{
+  "purpose": "Development replicate seed 2 (2026-10-31): unchanged dataset and BC rule; checkpoints 4k (early) and 16k (extended) only. bc_val + dev_bank evaluation.",
+  "dataset_id": "dev-v2",
+  "lr": 0.0003,
+  "batch_size": 256,
+  "checkpoints": [
+    4000,
+    16000
+  ],
+  "eval_attempts": 4,
+  "bank_attempts": 4,
+  "eval_seed": 515000
+}

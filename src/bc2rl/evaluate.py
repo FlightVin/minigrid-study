@@ -22,8 +22,9 @@ def _sample(probs, u):
 
 
 @torch.no_grad()
-def run_attempts(actor, starts, attempts, eval_seed, device, batch=128, greedy=False, heartbeat=None):
-    """starts: list of ("layout", Layout) or ("snapshot", dict). Returns list of per-attempt dicts."""
+def run_attempts(actor, starts, attempts, eval_seed, device, batch=128, greedy=False, heartbeat=None, capture=False):
+    """starts: list of ("layout", Layout) or ("snapshot", dict). Returns list of per-attempt dicts.
+    capture=True stores the complete env snapshot at the first boundary crossing (original clock kept)."""
     actor.eval()
     jobs = [(i, j) for i in range(len(starts)) for j in range(attempts)]
     results = [None] * len(jobs)
@@ -62,6 +63,8 @@ def run_attempts(actor, starts, attempts, eval_seed, device, batch=128, greedy=F
                 rec["arrival"] = {"tau": info["tau"], "remaining": info["remaining"],
                                   "pos": [int(v) for v in env.agent_pos], "dir": int(env.agent_dir),
                                   "carrying": None if env.carrying is None else [env.carrying.type, env.carrying.color]}
+                if capture:
+                    rec["arrival"]["snapshot"] = env.snapshot()
             if term:
                 rec.update(success=bool(info["success"]), accessed=bool(info["accessed"]), tau=info["tau"],
                            end_step=info["step_count"], actions=info["step_count"] - rec["start_step"],

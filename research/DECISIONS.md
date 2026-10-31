@@ -200,3 +200,75 @@ is recorded in the commit that follows it.
 Freeze commit `7f94f18`; `research/PROTOCOL_FREEZE.md` SHA-256
 `2b5c5252de4824910a26e20c06b419a78056b98b1a286c85493abebcc28ab8f1`. Confirmation data are not generated
 yet: per the owner's instruction, work pauses here for review before any M4 step.
+
+## 2026-10-31 — Owner amendment: bounded pre-M4 development campaign (pre-registration)
+
+Authority: owner amendment of 2026-10-31, recorded verbatim at the end of `mac-agentic-engineering/project.md`
+(harness commit `366786a`). The freeze of 2026-10-30 (`7f94f18`) is kept unchanged; changes to the M4
+design will be a dated amendment to `PROTOCOL_FREEZE.md`. No confirmation data are generated.
+Campaign start 00:48 EDT; limit 4 h of active work.
+
+**Development allowance (computed before any new training).**
+- Remaining campaign capacity: 80,000,000 - 28,689,024 = 51,310,976.
+- Conservative cost of the retained M4 design (freeze, 250k), from measured per-job maxima:
+  - Branches: 251,904 train + curves (max 22,453 K=1 / 29,042 K=3) + final at 32 x 16 and 64 x 4 (2 x the M3
+    maximum: 69,148 / 94,272). That is 343,505 / 374,218 per branch, x 40 each = 28.71M.
+  - Probes: 17,003 warm-up + 51,200 + two diagnostics at 32 x 4 and 64 x 4 (135.5k / 148.1k) x 10 each = 2.84M.
+  - BC evaluation: 10 checkpoints x 90k = 0.90M.
+  - Data: 0.50M.
+  - Total: 32.95M.
+- Protected reserve: 10.26M (20% of the 51.31M remaining at the freeze). It is kept for M4 failures and
+  retries, the post-M4 audit and cost overruns. It is not reduced as development spends.
+- Allowance = 51.31 - 32.95 - 10.26 = 8.10M; min(8.10M, 8M) = **8.0M**.
+
+**Engineering finding that shapes the plan.** M3 branch `final.pt` files hold actor, critic and counters only.
+They have no optimizer, RNG, sampler or in-flight environment state. A continuation from them would restart
+from weights alone, which the amendment forbids presenting as a continuous trajectory. All longer runs are
+therefore **fresh runs from the hashed post-probe fork** (a declared separate pipeline segment:
+501,760 continuation actions per branch, full cost counted). The code now saves complete hashed learner
+state (`state_<n>.pt`) at 251,904 and 501,760, and adds a `resume` mode. On CPU, a resume reproduces the
+uninterrupted run exactly (test `test_scheduled_branch_resumes_exactly`). The PPO pipeline has no
+learning-rate or other schedule (constant Adam lr), so nothing ends at 250k and nothing is stretched.
+
+**Quantization (verified in code).** Rollout 16 x 128 = 2,048. The probe executes 51,200 (25 updates; 50,000
+requested). Endpoints 126,976 (62 updates), 251,904 (123), 376,832 (184) and 501,760 (245) are exact.
+Configuration `continuation_actions` 500,000 executes 501,760.
+
+**Pre-registered experiments** (batch `experiments/dev2/campaign.batch.json`; 26 jobs; one job at a time):
+
+| ID | Question | Comparison and sampling | Max cost |
+|---|---|---|---|
+| E3a | Is evaluation repeatable, and how large is Monte Carlo variation for one fixed policy? | Re-evaluate M3 K3/16k/s0 arm 00 `final.pt`: (i) original seed 727000 (expect identical attempts); (ii) seed 727500 (32 x 8, 64 x 2) | 0.09M |
+| E3b | Does the planner bank represent actual arrivals, and does arrival state or time explain the K=3 conditional-success gap? | K3/16k, seeds 0 and 1: first-crossing banks from pi0, arm 00 and arm 11 (32 x 2 normal starts each, success never consulted); evaluate pi0, probe, 00, 01, 10, 11 x 2 attempts per state, original clocks. Labelled separate condition "clock_extended": same 00/11 states with remaining = 104, policies 00 and 11 | 0.25M |
+| E3c | Is lambda = 0.01 materially active? | Anchor KL and gradient norm of 0.01 x KL for probe, 00, 01, 10, 11 actors on all 8 M3 forks, compared with logged PPO actor gradient norms | 0 actions |
+| E1 | Do effects emerge after 250k, and does ordinary PPO keep learning? | K=3, extended BC (16k), seeds 0 and 1, all four selected arms (alpha 0.25, lambda 0.01), fresh from the M3 forks to 501,760. Evaluations: 126,976 and 376,832 at 32 x 2 (normal only); 251,904 and 501,760 at 32 x 8 and 64 x 2. Balanced arm/seed order | 4.79M |
+| E2 | Does the pattern survive an independent initialization? | New development seed 2 (seeds 10-14 untouched): BC with the unchanged dataset and rule (4k, 16k saved); probe and four arms at K=3/16k to 501,760, same evaluation schedule | 2.67M |
+
+Total maximum 7.80M (at most 8.0M). Costs are from measured maxima for K=3/16k: final evaluation 33,222 + 6,653
+and curve 8,331 actions.
+
+**Scope limitation decided now.** All 16 continuations (K=1 and K=3) at fresh-run cost need ~9.6M, so they
+do not fit. Following the amendment's priority, K=3 comes first, and an independent replicate is preferred over
+the K=1 extension. Consequence: the moderation estimand D_seed (K=3 vs K=1) cannot be computed at 501,760.
+Extended-BC-only results are labelled as that narrower estimand. A third seed of the extended-BC K=3 component
+effects becomes available at 251,904 and 501,760.
+
+**Stopping rules.**
+- Engineering: stop a job only for non-finite statistics, a hash mismatch, a crash, a resource-limit breach or
+  a stall of more than 400 s without heartbeat. A deterministic failure gets a fix and a new run ID. A verified
+  transient failure gets one retry. Never stop because of an outcome.
+- Budget: before each new submission, spent development actions plus the conservative remaining cost of the
+  queued jobs must stay at or below 8.0M. If a projection exceeds it, drop E3b's clock-extended part first,
+  then the curve points.
+- Scientific: no extension beyond 501,760 in this batch. A 750k/1M extension needs a separate gate (amendment
+  section 8) and is costed in the report.
+
+**What would change the recommendation.**
+- Arm 00 rises substantially from 251,904 to 501,760 (for example > 0.05 mean P1 over the three seeds):
+  favour a longer M4 endpoint.
+- A paired contrast at 501,760 grows to >= 0.05 with a consistent sign across 3 seeds: keep that arm central
+  and size M4 for it.
+- All contrasts stay within about ±0.03: M4 at 250k is the efficient design, and equivalence becomes the
+  realistic claim.
+- Arrival-bank P1 tracks normal P1 better than planner-bank c: report competence on arrival states as a
+  secondary measure in M4.

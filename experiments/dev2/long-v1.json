@@ -1,0 +1,59 @@
+{
+  "purpose": "Development campaign 2026-10-31 (E1/E2): selected four arms from the post-probe fork to 501,760 continuation actions; fresh runs (M3 branches saved weights only). Dev roles only.",
+  "dataset_id": "dev-v2",
+  "eval_role": "dev_eval",
+  "bank_role": "dev_bank",
+  "n_envs": 16,
+  "n_steps": 128,
+  "gamma": 1.0,
+  "gae_lambda": 0.95,
+  "clip": 0.2,
+  "actor_lr": 3e-05,
+  "critic_lr": 0.0003,
+  "epochs": 4,
+  "minibatch": 512,
+  "ent_coef": 0.0,
+  "max_grad_norm": 0.5,
+  "anchor_batch": 128,
+  "anchor_prefix_weight": 0.25,
+  "alpha": 0.25,
+  "kl_coef": 0.01,
+  "critic_warmup_actions": 16000,
+  "critic_prefit_lr": 0.0003,
+  "critic_prefit_steps": 2000,
+  "probe_actions": 50000,
+  "diag_attempts": 4,
+  "diag_bank_attempts": 2,
+  "continuation_actions": 500000,
+  "eval_seed": 727000,
+  "eval_schedule": [
+    {
+      "at": 126976,
+      "attempts": 2,
+      "bank_attempts": 0,
+      "tag": "curve_126976"
+    },
+    {
+      "at": 251904,
+      "attempts": 8,
+      "bank_attempts": 2,
+      "tag": "at_251904"
+    },
+    {
+      "at": 376832,
+      "attempts": 2,
+      "bank_attempts": 0,
+      "tag": "curve_376832"
+    },
+    {
+      "at": 501760,
+      "attempts": 8,
+      "bank_attempts": 2,
+      "tag": "at_501760"
+    }
+  ],
+  "save_state_at": [
+    251904,
+    501760
+  ]
+}

@@ -1,0 +1,507 @@
+{
+ "jobs": [
+  {
+   "id": "e3-reeval-K3-u16000-s0-00-seed727000",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "reeval",
+    "--config",
+    "experiments/dev2/diag-v1.json",
+    "--branch",
+    "20261030T214937-19577/m3-K3-u16000-s0-00",
+    "--eval-seed",
+    "727000",
+    "--tag",
+    "reeval_727000"
+   ]
+  },
+  {
+   "id": "e3-reeval-K3-u16000-s0-00-seed727500",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "reeval",
+    "--config",
+    "experiments/dev2/diag-v1.json",
+    "--branch",
+    "20261030T214937-19577/m3-K3-u16000-s0-00",
+    "--eval-seed",
+    "727500",
+    "--tag",
+    "reeval_727500"
+   ]
+  },
+  {
+   "id": "e3-arrival-K3-u16000-s0",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "arrival",
+    "--config",
+    "experiments/dev2/diag-v1.json",
+    "--probe",
+    "20261030T214937-19577/m3-probe-K3-u16000-s0",
+    "--branches",
+    "00=20261030T214937-19577/m3-K3-u16000-s0-00",
+    "01=20261030T214937-19577/m3-K3-u16000-s0-01-kl0p01",
+    "10=20261030T214937-19577/m3-K3-u16000-s0-10-a0p25",
+    "11=20261030T232600-96083/m3-K3-u16000-s0-11-a0p25-kl0p01"
+   ]
+  },
+  {
+   "id": "e3-arrival-K3-u16000-s1",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "arrival",
+    "--config",
+    "experiments/dev2/diag-v1.json",
+    "--probe",
+    "20261030T214937-19577/m3-probe-K3-u16000-s1",
+    "--branches",
+    "00=20261030T214937-19577/m3-K3-u16000-s1-00",
+    "01=20261030T214937-19577/m3-K3-u16000-s1-01-kl0p01",
+    "10=20261030T214937-19577/m3-K3-u16000-s1-10-a0p25",
+    "11=20261030T232600-96083/m3-K3-u16000-s1-11-a0p25-kl0p01"
+   ]
+  },
+  {
+   "id": "e3-grad-K1-u4000-s0",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "gradcheck",
+    "--config",
+    "experiments/dev2/diag-v1.json",
+    "--probe",
+    "20261030T214937-19577/m3-probe-K1-u4000-s0",
+    "--branches",
+    "00=20261030T214937-19577/m3-K1-u4000-s0-00",
+    "01=20261030T214937-19577/m3-K1-u4000-s0-01-kl0p01",
+    "10=20261030T214937-19577/m3-K1-u4000-s0-10-a0p25",
+    "11=20261030T232600-96083/m3-K1-u4000-s0-11-a0p25-kl0p01"
+   ]
+  },
+  {
+   "id": "e3-grad-K1-u4000-s1",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "gradcheck",
+    "--config",
+    "experiments/dev2/diag-v1.json",
+    "--probe",
+    "20261030T214937-19577/m3-probe-K1-u4000-s1",
+    "--branches",
+    "00=20261030T214937-19577/m3-K1-u4000-s1-00",
+    "01=20261030T214937-19577/m3-K1-u4000-s1-01-kl0p01",
+    "10=20261030T214937-19577/m3-K1-u4000-s1-10-a0p25",
+    "11=20261030T232600-96083/m3-K1-u4000-s1-11-a0p25-kl0p01"
+   ]
+  },
+  {
+   "id": "e3-grad-K1-u16000-s0",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "gradcheck",
+    "--config",
+    "experiments/dev2/diag-v1.json",
+    "--probe",
+    "20261030T214937-19577/m3-probe-K1-u16000-s0",
+    "--branches",
+    "00=20261030T214937-19577/m3-K1-u16000-s0-00",
+    "01=20261030T214937-19577/m3-K1-u16000-s0-01-kl0p01",
+    "10=20261030T214937-19577/m3-K1-u16000-s0-10-a0p25",
+    "11=20261030T232600-96083/m3-K1-u16000-s0-11-a0p25-kl0p01"
+   ]
+  },
+  {
+   "id": "e3-grad-K1-u16000-s1",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "gradcheck",
+    "--config",
+    "experiments/dev2/diag-v1.json",
+    "--probe",
+    "20261030T214937-19577/m3-probe-K1-u16000-s1",
+    "--branches",
+    "00=20261030T214937-19577/m3-K1-u16000-s1-00",
+    "01=20261030T214937-19577/m3-K1-u16000-s1-01-kl0p01",
+    "10=20261030T214937-19577/m3-K1-u16000-s1-10-a0p25",
+    "11=20261030T232600-96083/m3-K1-u16000-s1-11-a0p25-kl0p01"
+   ]
+  },
+  {
+   "id": "e3-grad-K3-u4000-s0",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "gradcheck",
+    "--config",
+    "experiments/dev2/diag-v1.json",
+    "--probe",
+    "20261030T214937-19577/m3-probe-K3-u4000-s0",
+    "--branches",
+    "00=20261030T214937-19577/m3-K3-u4000-s0-00",
+    "01=20261030T214937-19577/m3-K3-u4000-s0-01-kl0p01",
+    "10=20261030T214937-19577/m3-K3-u4000-s0-10-a0p25",
+    "11=20261030T232600-96083/m3-K3-u4000-s0-11-a0p25-kl0p01"
+   ]
+  },
+  {
+   "id": "e3-grad-K3-u4000-s1",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "gradcheck",
+    "--config",
+    "experiments/dev2/diag-v1.json",
+    "--probe",
+    "20261030T214937-19577/m3-probe-K3-u4000-s1",
+    "--branches",
+    "00=20261030T214937-19577/m3-K3-u4000-s1-00",
+    "01=20261030T214937-19577/m3-K3-u4000-s1-01-kl0p01",
+    "10=20261030T214937-19577/m3-K3-u4000-s1-10-a0p25",
+    "11=20261030T232600-96083/m3-K3-u4000-s1-11-a0p25-kl0p01"
+   ]
+  },
+  {
+   "id": "e3-grad-K3-u16000-s0",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "gradcheck",
+    "--config",
+    "experiments/dev2/diag-v1.json",
+    "--probe",
+    "20261030T214937-19577/m3-probe-K3-u16000-s0",
+    "--branches",
+    "00=20261030T214937-19577/m3-K3-u16000-s0-00",
+    "01=20261030T214937-19577/m3-K3-u16000-s0-01-kl0p01",
+    "10=20261030T214937-19577/m3-K3-u16000-s0-10-a0p25",
+    "11=20261030T232600-96083/m3-K3-u16000-s0-11-a0p25-kl0p01"
+   ]
+  },
+  {
+   "id": "e3-grad-K3-u16000-s1",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "gradcheck",
+    "--config",
+    "experiments/dev2/diag-v1.json",
+    "--probe",
+    "20261030T214937-19577/m3-probe-K3-u16000-s1",
+    "--branches",
+    "00=20261030T214937-19577/m3-K3-u16000-s1-00",
+    "01=20261030T214937-19577/m3-K3-u16000-s1-01-kl0p01",
+    "10=20261030T214937-19577/m3-K3-u16000-s1-10-a0p25",
+    "11=20261030T232600-96083/m3-K3-u16000-s1-11-a0p25-kl0p01"
+   ]
+  },
+  {
+   "id": "e1-K3-u16000-s0-00-to501760",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/dev2/long-v1.json",
+    "--probe-run",
+    "20261030T214937-19577/m3-probe-K3-u16000-s0",
+    "--arm",
+    "00"
+   ]
+  },
+  {
+   "id": "e1-K3-u16000-s1-10-to501760",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/dev2/long-v1.json",
+    "--probe-run",
+    "20261030T214937-19577/m3-probe-K3-u16000-s1",
+    "--arm",
+    "10"
+   ]
+  },
+  {
+   "id": "e1-K3-u16000-s0-11-to501760",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/dev2/long-v1.json",
+    "--probe-run",
+    "20261030T214937-19577/m3-probe-K3-u16000-s0",
+    "--arm",
+    "11"
+   ]
+  },
+  {
+   "id": "e1-K3-u16000-s1-01-to501760",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/dev2/long-v1.json",
+    "--probe-run",
+    "20261030T214937-19577/m3-probe-K3-u16000-s1",
+    "--arm",
+    "01"
+   ]
+  },
+  {
+   "id": "e1-K3-u16000-s0-01-to501760",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/dev2/long-v1.json",
+    "--probe-run",
+    "20261030T214937-19577/m3-probe-K3-u16000-s0",
+    "--arm",
+    "01"
+   ]
+  },
+  {
+   "id": "e1-K3-u16000-s1-11-to501760",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/dev2/long-v1.json",
+    "--probe-run",
+    "20261030T214937-19577/m3-probe-K3-u16000-s1",
+    "--arm",
+    "11"
+   ]
+  },
+  {
+   "id": "e1-K3-u16000-s0-10-to501760",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/dev2/long-v1.json",
+    "--probe-run",
+    "20261030T214937-19577/m3-probe-K3-u16000-s0",
+    "--arm",
+    "10"
+   ]
+  },
+  {
+   "id": "e1-K3-u16000-s1-00-to501760",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/dev2/long-v1.json",
+    "--probe-run",
+    "20261030T214937-19577/m3-probe-K3-u16000-s1",
+    "--arm",
+    "00"
+   ]
+  },
+  {
+   "id": "e2-bc-s2",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.bc",
+    "--config",
+    "experiments/dev2/bc-s2.json",
+    "--seed",
+    "2"
+   ]
+  },
+  {
+   "id": "e2-probe-K3-u16000-s2",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "probe",
+    "--config",
+    "experiments/m3/dev-v1.json",
+    "--K",
+    "3",
+    "--bc-run",
+    "@/e2-bc-s2",
+    "--bc-update",
+    "16000",
+    "--seed",
+    "2"
+   ]
+  },
+  {
+   "id": "e2-K3-u16000-s2-11-to501760",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/dev2/long-v1.json",
+    "--probe-run",
+    "@/e2-probe-K3-u16000-s2",
+    "--arm",
+    "11"
+   ]
+  },
+  {
+   "id": "e2-K3-u16000-s2-00-to501760",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/dev2/long-v1.json",
+    "--probe-run",
+    "@/e2-probe-K3-u16000-s2",
+    "--arm",
+    "00"
+   ]
+  },
+  {
+   "id": "e2-K3-u16000-s2-10-to501760",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/dev2/long-v1.json",
+    "--probe-run",
+    "@/e2-probe-K3-u16000-s2",
+    "--arm",
+    "10"
+   ]
+  },
+  {
+   "id": "e2-K3-u16000-s2-01-to501760",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/dev2/long-v1.json",
+    "--probe-run",
+    "@/e2-probe-K3-u16000-s2",
+    "--arm",
+    "01"
+   ]
+  }
+ ]
+}
