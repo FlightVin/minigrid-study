@@ -1,7 +1,8 @@
 # State
 
-**Current milestone:** Pre-M4 development campaign complete (owner amendment 2026-10-31). Protocol
-Amendment 1 proposed. **Waiting for owner approval** before confirmation data or M4.
+**Current milestone:** M4 running (owner decision 2026-10-31: option A at both 251,904 and 501,760; cap not
+binding). PROTOCOL_FREEZE Amendment 1 approved, Amendment 2 in force. conf-v1 generated; gate passes.
+Seed batches s10-s14 run in order via `tools/run_m4.py`.
 
 **Established**
 - Manuscript SHA-256 `38326ef0...f92b4`; no substantive conflict with project.md.
@@ -26,13 +27,14 @@ Amendment 1 proposed. **Waiting for owner approval** before confirmation data or
 - Cause of the arrival-state competence gap beyond time (prefix configuration?).
 - Critic is near a constant predictor; advantages are noisy.
 
-**Owner limits:** 4 cores, 6 GiB, 1 job (raise after benchmarking), no hour cap, 80M-action cap.
-Pause after PROTOCOL_FREEZE.md. Two-hourly reviews in research/REVIEWS.md (review 3 done 2026-10-31 01:35).
+**Owner limits:** 4 cores, 6 GiB, 1 job. The 80M cap is not binding for M4 (owner, 2026-10-31); Amendment 2
+stop rule: ledger > 109M or a batch > 1.25 x its estimate. Two-hourly reviews in research/REVIEWS.md.
 
-**Resources used:** 3.74 h batch wall; 36.82M of 80M actions (46.0%), including 3.10M estimated test actions.
+**Resources used:** 37.63M actions before the seed batches (incl. 3.45M estimated test actions); M4 conservative
+cost 61.57M; projected ~99M.
 
 **Blockers:** none.
 
 **Next action**
-- Owner decision on M4 option A + Amendment 1. Then: generate conf-v1 (with conf_final 64), data gate, BC
-  seeds 10-14, M4 batches per seed.
+- Wait for the seed batches; on failure apply section 10 rules. Then run `tools/analyze_m4.py` (written before
+  outcomes), audit (section 12), report.
