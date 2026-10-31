@@ -272,3 +272,18 @@ effects becomes available at 251,904 and 501,760.
   realistic claim.
 - Arrival-bank P1 tracks normal P1 better than planner-bank c: report competence on arrival states as a
   secondary measure in M4.
+
+## 2026-10-31 01:05 EDT — Ledger gap found; E2 deferred for budget (no outcome inspected)
+
+The ledger audit found environment actions executed outside the runner. These are the pytest runs (one full
+run = 278,618 actions, mostly the RL smoke tests) and interactive checks. Estimated from measured per-test
+counts and the test runs in the session transcript: point estimate 2.75M, range 2.5-3.1M. The conservative
+3.1M is now a ledger role (`research/ledger_adjustments.json`, read by `tools/ledger.py`). The RL smoke tests
+now run only with `BC2RL_SMOKE=1`.
+
+Recomputed allowance: 80 - (28.69 + 3.10) - 32.95 (retained M4) - 10.26 (reserve) = **5.0M** (5.35M at the point
+estimate). E3 + E1 cost at most 5.13M; that fits at the point estimate and is 0.13M over at the upper bound.
+E2 (2.67M) would cut the protected reserve to ~7.5M. Decision: the running batch is stopped when job
+`e2-bc-s2` starts, before it executes any environment action (its first evaluation is at BC update 4,000,
+~67 s). Reason: budget only. At the time of this decision no E1 or E3 outcome had been read.
+Consequence: no third development seed. Replication evidence stays at 2 seeds; E2 is costed in the report.

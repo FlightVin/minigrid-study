@@ -37,8 +37,21 @@ Dependency-ordered. `[x]` done and verified, `[~]` in progress, `[ ]` planned.
 ## M3: development comparison
 - [x] K=1/3 x two checkpoints x two seeds; alpha and KL screen; extrapolated cost (F6, F7)
 - [x] PROTOCOL_FREEZE.md committed and hashed
-- [ ] conf-v1 data generated; training roles byte-identical to dev-v2
-- [ ] Owner review before M4
+- [x] Owner review of freeze (owner requested a bounded development campaign, 2026-10-31)
+
+## Pre-M4 development campaign (owner amendment 2026-10-31)
+- [x] Owner amendment recorded verbatim in project.md (harness `366786a`)
+- [x] Development allowance computed (8.0M; 5.0M after ledger correction)
+- [x] Audit: manifest, raw recomputation, selection timing, ledger, contract (F8)
+- [x] Information map and regimes (`reports/m3_info_map.csv`, F9)
+- [x] Intervention activity (E3c), evaluation repeatability (E3a)
+- [x] E1: four arms to 501,760, K=3 extended BC, seeds 0-1 (fresh runs; F9)
+- [~] E2: seed-2 replicate deferred for budget (0 actions spent)
+- [x] E3b: arrival-state banks + labelled clock-extended condition
+- [x] No targeted family (section 7) and no 750k gate: not justified (Review 3)
+- [x] Proposed Amendment 1 to PROTOCOL_FREEZE.md; costed M4 options in REPORT
+- [ ] Owner approval of M4 design
+- [ ] conf-v1 data generated (conf_final 64); training roles byte-identical to dev-v2
 
 ## M4: core confirmation
 - [ ] 5 seeds x 4 conditions x 4 arms on untouched confirmation layouts; audit; report

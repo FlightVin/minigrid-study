@@ -1,11 +1,16 @@
 """End-to-end probe -> branch smoke test on real development data with tiny budgets (CPU).
-Skipped when the dev dataset or a BC checkpoint is not present locally."""
+Skipped when the dev dataset or a BC checkpoint is not present locally.
+
+These tests execute ~220k environment actions per run, which count against the campaign cap
+(research/ledger_adjustments.json). They run only with BC2RL_SMOKE=1, before launching changed RL code."""
 import json
 import os
 from pathlib import Path
 import sys
 
 import pytest
+
+pytestmark = pytest.mark.skipif(os.environ.get("BC2RL_SMOKE") != "1", reason="set BC2RL_SMOKE=1 (costs ~220k env actions)")
 
 ROOT = Path(__file__).resolve().parents[1]
 DS = ROOT / "data/dev-v2"

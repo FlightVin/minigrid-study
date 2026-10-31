@@ -109,3 +109,30 @@ The watcher then reported the previous batch; it was restarted after the new bat
 - Added `tests/test_rl_smoke.py`: real dev-v2 data and BC checkpoint, tiny budgets, CPU, probe then
   all four arms in one process (fork hash verified in each branch; assisted steps only in arms 1x).
   It exposed one more in-process-only issue (`set_num_interop_threads` called twice), now tolerated.
+
+## 2026-10-31 — Pre-M4 development campaign: code changes
+
+- `rl.py`:
+  - Optional `eval_schedule` (evaluations at exact cumulative post-probe action counts) and `save_state_at`
+    (complete hashed learner state: actor, critic, both Adam states, torch/numpy/sampler RNGs, in-flight
+    environments, counters, pi0).
+  - `resume` mode, which refuses changed frozen settings.
+  - `diag_role` for separate pi0/probe diagnostic layouts.
+  - `@/job` paths for `--bc-run`.
+  - Bank evaluation skipped when bank_attempts = 0.
+  - M3 configurations are unaffected: the keys are absent.
+- `evaluate.py`: `capture=True` stores the full snapshot at first crossing.
+- `diag.py`: `reeval`, `arrival` (first-crossing banks, cross-policy evaluation, labelled clock-extended
+  condition) and `gradcheck`.
+- Tools:
+  - `audit_m3.py`: manifest and independent recomputation.
+  - `info_map.py`.
+  - `analyze_dev2.py`: within-seed layout-resampling intervals.
+  - `plot_dev2.py`: dependency-free SVG.
+  - `ledger.py`: reads `research/ledger_adjustments.json`.
+- Tests:
+  - Exact CPU resume (`test_scheduled_branch_resumes_exactly`).
+  - Diagnostics smoke test.
+  - Registry extension keeps earlier entries.
+  - `diag_role` layout separation.
+  - RL smoke tests are opt-in (`BC2RL_SMOKE=1`) because each run executes ~220k environment actions.

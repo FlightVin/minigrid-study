@@ -81,3 +81,39 @@ memory per job < 1 GiB. M3 used ~15.7M (estimate 17M).
 - Endpoint: 250k is favoured. A 4-arm fork at 250k costs ~1.36M actions versus ~2.36M at 500k. Within
   the remaining budget less a 20% reserve, that is ~26 versus ~15 forks; with paired SD ~0.05 the
   forks, not the length, decide power. Final choice at the freeze.
+
+## Review 3 — 2026-10-31 ~01:35 EDT (end of the pre-M4 development campaign; no submissions running)
+
+**RQ fit.** RQ1 asks whether the interventions change P1 after BC. On development data, no arm separates from
+ordinary PPO at 250k (8 forks) or at 500k (K=3, extended BC, 2 seeds). The design still answers RQ1. The
+realistic M4 outcome is "small or no effect, bounded by precision". M4 should be sized to bound effects, not
+to find a large one.
+
+**Validity.** The audit found no correctness defect (F8). The comparisons are paired on hashed forks with
+common random numbers. Two of my own earlier claims were wrong and are corrected:
+- improvement in 7/8 forks (actually 8/8);
+- the cause of repeat variation and the precision/power statement (withdrawn).
+
+The selection rule was recorded before its outcomes.
+
+**Evidence vs claims.** The most interesting development pattern, the K=3 combined benefit, did not survive a
+rerun of the same forks (F9). This is the main lesson: single-path development contrasts are dominated by
+training-path variation (SD about 0.05). Development rankings must not guide M4 hypotheses.
+
+**Alternative explanations.** The planner bank overstates competence on actual arrival states (F9 E3b).
+Time pressure explains about 0.03 of that gap. The rest is untested (prefix configuration or layout
+selection). Planner-bank c is therefore a valid but different estimand from arrival competence. The report
+must keep "p = q x c" out.
+
+**Leakage.** None. No confirmation data exist. Seeds 10-14 were not touched. All diagnostics used dev roles.
+
+**Resources and waste.**
+- Campaign 5.03M actions, 0.49 h of batch wall time.
+- Ledger gap of about 2.75M from tests (now counted conservatively as 3.1M). This cost E2, the third seed.
+- Waste: the full-suite runs with RL smoke tests (~0.22M each) were avoidable. They are now opt-in.
+
+**Next most informative experiment.** None within the development allowance. More seeds would help most, and
+they belong in M4. A 750k gate is not justified: no emerging separation, slow learning (+0.04 to +0.07 per
+250k), and path noise dominates.
+
+**Plan update.** Stop development. Recommend M4 option A with Amendment 1. Wait for owner approval.

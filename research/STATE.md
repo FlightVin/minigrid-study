@@ -1,7 +1,7 @@
 # State
 
-**Current milestone:** M3 complete; protocol frozen (`research/PROTOCOL_FREEZE.md`). Paused for the
-owner before M4.
+**Current milestone:** Pre-M4 development campaign complete (owner amendment 2026-10-31). Protocol
+Amendment 1 proposed. **Waiting for owner approval** before confirmation data or M4.
 
 **Established**
 - Manuscript SHA-256 `38326ef0...f92b4`; no substantive conflict with project.md.
@@ -16,17 +16,23 @@ owner before M4.
   No screened intervention separates from arm 00 on development data.
 - M3 four-arm (F7): all six contrasts average within 0.02 of 0; arm 00 replicate SD 0.027.
 - Frozen: alpha* 0.25, lambda* 0.01, 250k endpoint, 5 new seeds, conf_final 32 x 16, delta 0.05.
+- Audit (F8): no correctness defect; metrics recompute exactly; corrections C1-C5 recorded.
+- Campaign (F9): learning continues to 500k (+0.065 mean); no contrast separates; same-fork path SD 0.048;
+  the M3 K=3 combined benefit did not reproduce; arrival-state competence < planner-bank c.
 
 **Uncertain**
 - Whether any intervention differs from arm 00 by >= 0.05 on confirmation data (M4).
+- Within-seed correlation of stratum contrasts (precision scenarios rho 0-0.5).
+- Cause of the arrival-state competence gap beyond time (prefix configuration?).
 - Critic is near a constant predictor; advantages are noisy.
 
 **Owner limits:** 4 cores, 6 GiB, 1 job (raise after benchmarking), no hour cap, 80M-action cap.
-Pause after PROTOCOL_FREEZE.md. Two-hourly reviews in research/REVIEWS.md (review 2 done 19:25; next ~21:25 EDT).
+Pause after PROTOCOL_FREEZE.md. Two-hourly reviews in research/REVIEWS.md (review 3 done 2026-10-31 01:35).
 
-**Resources used:** 3.25 h batch wall; 28.69M of 80M actions (35.9%).
+**Resources used:** 3.74 h batch wall; 36.82M of 80M actions (46.0%), including 3.10M estimated test actions.
 
 **Blockers:** none.
 
 **Next action**
-- Wait for the owner. Then: generate conf-v1 and check the data gate, BC seeds 10-14, M4 batch.
+- Owner decision on M4 option A + Amendment 1. Then: generate conf-v1 (with conf_final 64), data gate, BC
+  seeds 10-14, M4 batches per seed.

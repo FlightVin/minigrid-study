@@ -10,6 +10,8 @@ Sources per job directory under .mae/runs/<batch>/<job>/:
                             recording replay for trajectory roles), from layouts.json;
   failed/partial jobs    -> actions recorded in attempts_*.jsonl and metrics.jsonl when no summary.
 Running batches are included up to their last written record.
+Actions executed outside the runner (software tests, interactive checks) are added from
+research/ledger_adjustments.json as their own roles; the conservative value is used.
 """
 import argparse
 import csv
@@ -67,6 +69,10 @@ def main():
             rows.append({"batch": b.name, "job": d.name, "batch_status": status, "kind": kind,
                          **{k: acts.get(k, 0) for k in ("planner_replay", "benchmark", "bc_eval", "critic_warmup",
                                                          "train", "eval_diagnostic", "eval_final")}})
+    adj = ROOT / "research/ledger_adjustments.json"
+    if adj.exists():
+        for e in json.loads(adj.read_text())["entries"]:
+            totals[e["role"]] = totals.get(e["role"], 0) + e["actions"]
     wall = sum(json.loads(l)["wall_seconds"] for l in (ROOT / ".mae/ledger.jsonl").read_text().splitlines())
     total = sum(totals.values())
     print(json.dumps({"total_env_actions": total, "by_role": totals, "finished_batch_wall_hours": round(wall / 3600, 2),

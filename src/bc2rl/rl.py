@@ -10,6 +10,7 @@ resume: python -m bc2rl.rl resume --config C --state DIR/state_<n>.pt
         config's cumulative continuation_actions; scheduled evaluations and states beyond n only.
 
 Optional config keys (absent in M3 configs, so earlier runs are unchanged):
+  diag_role: layout role for the pi0 and post-probe normal-start diagnostics (default: eval_role).
   eval_schedule: [{"at": actions, "attempts": n, "bank_attempts": m, "tag": t}, ...]
       evaluations at exact cumulative post-probe action counts (multiples of the rollout size);
       the entry at the endpoint is the final evaluation. Replaces curve_every/final_attempts.
@@ -57,6 +58,8 @@ class Ctx:
         pick = lambda role: [T.Layout.from_dict(it["layout"]) for it in lay[role] if it["layout"]["K"] == K]
         self.train_layouts = pick("rl_train")
         self.eval_layouts = pick(cfg["eval_role"])
+        # pi0 / post-probe diagnostics may use their own layouts (diag_role); default: the eval role.
+        self.diag_layouts = pick(cfg.get("diag_role", cfg["eval_role"]))
         self.bank = json.loads((self.ds / f"bank_competence_{cfg['bank_role']}.json").read_text())[str(K)]
         self.metrics = (self.run_dir / "metrics.jsonl").open("a")
         self.actions = {"critic_warmup": 0, "train": 0, "eval_diagnostic": 0, "eval_final": 0}
@@ -93,8 +96,8 @@ class Ctx:
         bins = PP.ResetBank(self.ds, "reset_donor", self.K, "reset").bins([b for b, _ in RESET_MIXTURE]) if alpha > 0 else {}
         return PP.StartSampler(self.train_layouts, bins, alpha, RESET_MIXTURE, [self.seed, 31])
 
-    def evaluate(self, actor, attempts, bank_attempts, role, tag):
-        starts = [("layout", L) for L in self.eval_layouts]
+    def evaluate(self, actor, attempts, bank_attempts, role, tag, layouts=None):
+        starts = [("layout", L) for L in (self.eval_layouts if layouts is None else layouts)]
         res, n1 = E.run_attempts(actor, starts, attempts, self.cfg["eval_seed"], self.device, heartbeat=self.hb)
         snaps = [("snapshot", s["snapshot"]) for s in self.bank]
         bres, n2 = (E.run_attempts(actor, snaps, bank_attempts, self.cfg["eval_seed"] + 1, self.device, heartbeat=self.hb)
@@ -251,14 +254,14 @@ def probe(a, cfg):
         "threads": torch.get_num_threads(), "actor_params": M.n_params(actor), "critic_params": M.n_params(critic)}, indent=1))
     t0 = time.time()
     with Heartbeat(interval=5):
-        ev0 = ctx.evaluate(pi0, cfg["diag_attempts"], cfg["diag_bank_attempts"], "eval_diagnostic", "pi0")
+        ev0 = ctx.evaluate(pi0, cfg["diag_attempts"], cfg["diag_bank_attempts"], "eval_diagnostic", "pi0", ctx.diag_layouts)
         ctx.log({"phase": "eval", **ev0})
         cdiag = critic_prefit(ctx, pi0, critic)
         ctx.log({"phase": "critic_prefit", **cdiag})
         anchors, anchor_info = ctx.anchors(pi0)
         learner = PP.PPO(actor, critic, cfg, ctx.device, ctx.sampler(0.0), anchors, use_kl=False, seed=a.seed)
         probe_wall = train_loop(ctx, learner, cfg["probe_actions"], "probe")
-        ev1 = ctx.evaluate(actor, cfg["diag_attempts"], cfg["diag_bank_attempts"], "eval_diagnostic", "probe")
+        ev1 = ctx.evaluate(actor, cfg["diag_attempts"], cfg["diag_bank_attempts"], "eval_diagnostic", "probe", ctx.diag_layouts)
         ctx.log({"phase": "eval", **ev1})
         st = learner.state()
         st["pi0"] = pi0.state_dict()

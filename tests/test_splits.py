@@ -35,3 +35,14 @@ def test_check_catches_suffix_leak():
     bad = {**reg, "roles": {**reg["roles"], "conf_final": reg["roles"]["conf_final"][1:] + [leak]}}
     with pytest.raises(AssertionError):
         S.check_registry(bad)
+
+
+def test_enlarging_last_role_keeps_every_earlier_entry():
+    """conf_final is last in ROLE_ORDER: a larger count only appends conf_final layouts."""
+    small = {"dev_eval": 4, "conf_select": 3, "conf_bank": 3, "conf_final": 2}
+    big = dict(small, conf_final=5)
+    a, b = S.build_registry(small), S.build_registry(big)
+    for role in small:
+        n = small[role]
+        assert b["roles"][role][:n] == a["roles"][role]
+    assert len(b["roles"]["conf_final"]) == 5

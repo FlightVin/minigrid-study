@@ -131,4 +131,84 @@ for a random sample of 8 branches (RNG seed 20261031); per-bin bank counts; ledg
 
 ## Amendments
 
-None.
+### Amendment 1 — 2026-10-31 (PROPOSED; not in force until the owner approves)
+
+Basis: the pre-M4 development campaign (DECISIONS 2026-10-31; FINDINGS F8, F9). Sections 1-12 above stay
+as frozen on 2026-10-30. Where this amendment differs, it replaces them once approved. No confirmation data
+or outcome was used.
+
+**A1. Task, data roles, seeds.** Task, H_x rule, dev-v2 training roles and BC seeds 10-14 are unchanged.
+- `conf_final` count goes from 32 to 64 layouts per K. `conf_final` is last in the role order, so this only
+  appends layouts; all earlier roles and the first 32 `conf_final` layouts are unchanged (test
+  `test_enlarging_last_role_keeps_every_earlier_entry`). The new registry hash is recorded at generation.
+- pi0 and post-probe diagnostics move to `conf_select` (`diag_role`; declared use "confirmation
+  selection/diagnostic normal starts"). Final layouts are then used only for the curve-free final
+  evaluation.
+- The training-role byte-identity gate of section 1 still applies.
+
+**A2. Checkpoints and pipeline.** BC rule and PPO settings are unchanged (section 3), alpha* 0.25, lambda* 0.01.
+Each branch saves its complete hashed learner state at 251,904. That allows a separately approved later
+extension of the same trajectories without a restart. It does not change the endpoint.
+
+**A3. Endpoint.** Kept at **251,904** continuation actions. Reasons (F9):
+- From 251,904 to 501,760, P1 rose by +0.065 on average (K=3, extended BC, 2 seeds), but no paired contrast
+  separated: estimates -0.04 to +0.06, all within-seed layout intervals include 0.
+- Training-path variation is large (same-fork repeat SD 0.048). Independent seeds, not length, limit
+  precision.
+- A 500k full matrix does not fit (option B in the report).
+
+**A4. Evaluation sizes** (same attempt totals as the freeze; layouts doubled):
+
+| Point | Normal starts | Bank |
+|---|---|---|
+| pi0, post-probe | conf_select 64 x 2 | conf_bank 64 x 4 |
+| 126,976 (descriptive curve) | conf_select 64 x 1 | conf_bank 64 x 1 |
+| 251,904 final (primary) | **conf_final 64 x 8** | conf_bank 64 x 4 |
+
+Reason: one policy's P1 has a Monte Carlo SE of 0.020 at 32 x 8, but a layout-sampling SE of 0.064
+(per-layout SD 0.36; F8). The layouts are shared across seeds, so their component does not average out
+over seeds. 64 layouts x 8 attempts costs the same as 32 x 16. C4 and R4 use n = 8 per layout.
+Secondary: P(success | arrival) and arrival remaining-time quantiles from the same attempts. The
+arrival-state bank (E3b) stays a development diagnostic.
+
+**A5. Hypotheses and estimand.** As section 6: three primary contrasts, two-sided, no expected direction.
+Development data gave no directional evidence. Estimand: mean over seeds of the equal-weight mean over the
+four strata.
+
+**A6. Uncertainty, multiplicity, equivalence** (replaces sections 7-8 where different):
+- Pointwise: a 95% t-interval over the 5 seed-level contrasts (df 4) for every contrast, plus the crossed
+  seed x layout cluster bootstrap. Both are reported.
+- Directional claims: only for the three primary contrasts. A claim needs the Holm-adjusted t-test (family
+  of 3, alpha 0.05) to reject and the bootstrap 95% interval to exclude 0.
+- Practical equivalence: TOST at ±0.05 per contrast, i.e. the 90% t-interval inside [-0.05, +0.05].
+- Verdict labels as section 8, with "useful benefit" requiring the Holm-adjusted directional claim and an
+  estimate >= 0.05. All secondary and per-stratum results are descriptive.
+
+**A7. Precision planning** (replaces the withdrawn section 8 statement). These are scenarios, not power
+claims. sigma = SD of one stratum's paired contrast from training-path and evaluation noise; development
+gives about 0.05 (same-fork path repeats 0.048; M3 fork contrasts 0.04-0.06; 8 values each, so sigma could
+plausibly be 0.035-0.09). rho = within-seed correlation of the four stratum contrasts (shared BC run). The
+layout component shared across seeds is not included.
+
+| rho | seed-level SD | SE (5 seeds) | 95% half-width | effect with 80% power | equivalence shown if abs(estimate) < |
+|---|---|---|---|---|---|
+| 0 | 0.025 | 0.011 | 0.031 | 0.042 | 0.026 |
+| 0.25 | 0.033 | 0.015 | 0.041 | 0.055 | 0.018 |
+| 0.5 | 0.040 | 0.018 | 0.049 | 0.066 | 0.012 |
+
+Formulas: seed SD = sigma x sqrt((1 + 3 rho) / 4); half-width = 2.776 SE; 80%-power effect =
+(2.776 + 0.941) SE; equivalence bound = 0.05 - 2.132 SE. With sigma = 0.09, every value scales by 1.8.
+Interpretation: M4 can probably detect effects of about 0.05-0.07. It can show equivalence at ±0.05 only if
+the true effects are near 0.
+
+**A8. Budget controls** (replace the 72M rule).
+- Conservative M4 cost: 32.95M (per-job maxima; A4 keeps attempt totals). Ledger at amendment: 36.82M,
+  including 3.10M for tests run outside the runner. Reserve: 10.26M. Margin: 80 - 36.82 - 32.95 - 10.26 =
+  -0.03M, i.e. the reserve would be 10.23M at worst. Measured means give ~31.5M, leaving a reserve of ~11.7M.
+- Execution: one batch per seed (BC, 4 probes, 16 branches in a fixed shuffled order). Before each batch:
+  ledger + conservative cost of all remaining M4 batches <= 69.77M (80M minus a reserve of at least 10.23M).
+  If not, stop and report. Never drop a seed or stratum to fit.
+- RL smoke tests run only with `BC2RL_SMOKE=1`, once before the M4 code is launched; their actions are added
+  to `research/ledger_adjustments.json`.
+
+**A9. RQ2.** Unchanged: costed proposal only.
