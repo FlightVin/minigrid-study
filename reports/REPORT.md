@@ -1,9 +1,36 @@
 # MiniGrid study: demonstration-state starts and BC preservation after BC
 
-Status 2026-10-31 01:40 EDT: M0-M3 complete; pre-M4 development campaign complete. **No confirmatory result
-exists.** Every number below comes from development layouts and is exploratory. The protocol freeze
-(`research/PROTOCOL_FREEZE.md`, commit `7f94f18`) is unchanged. A proposed Amendment 1 waits for owner
-approval. No confirmation data have been generated.
+Status 2026-10-31 16:30 EDT: **M4 confirmation complete.** Design: PROTOCOL_FREEZE (`7f94f18`) with
+Amendment 1 (approved) and Amendment 2 (owner decision: option A at both 251,904 and 501,760 continuation
+actions). Sections 1-7 below are development evidence (exploratory) and are kept as written before M4.
+
+## Confirmatory result (M4, FINDINGS F10)
+
+**Demonstration-state starts, BC-preservation and their combination are practically equivalent to ordinary
+PPO after BC, at both training budgets.** All six primary tests are equivalent within ±0.05 P1 (TOST);
+none supports a directional claim (Holm over 6).
+
+| Endpoint | reset 10-00 | preservation 01-00 | combined 11-00 |
+|---|---|---|---|
+| 251,904 | -0.011 [-0.031, +0.009] | -0.006 [-0.029, +0.016] | -0.020 [-0.047, +0.007] |
+| 501,760 | +0.004 [-0.016, +0.023] | +0.003 [-0.015, +0.021] | +0.004 [-0.028, +0.035] |
+
+Mean over 5 seeds of the equal-weight mean over the 4 strata (K {1, 3} x BC {4k, 16k}); 95% t-interval (df 4).
+Crossed seed x layout bootstrap intervals agree (`reports/m4_contrasts.csv`).
+
+- **Where the effects could have appeared.** Strata span full access with high competence (K=1/16k, arm 00
+  P1 0.73 -> 0.77), low access (K=3/16k, 0.36 -> 0.41) and near-floor (K=3/4k, 0.05 -> 0.06). No stratum shows
+  an arm difference outside the seed-to-seed spread. Moderation by K (D) is not supported (descriptive).
+- **Mechanism signals without outcome change (descriptive).** Preservation raises access q by about +0.04
+  at both endpoints; the interventions raise planner-bank competence c by +0.03 to +0.05. Neither moves
+  normal-start success.
+- **Ordinary PPO keeps learning** from 251,904 to 501,760 (+0.037 ± 0.024, every seed positive). The
+  interventions neither accelerate nor stall it; their small 250k deficits close by 500k.
+- **Integrity.** 20/20 forks complete and hash-matched; 105 jobs, no failures or retries; independent
+  recomputation exact. Analysis code was committed before the first outcome existed.
+- **Scope.** One task family (MiniGrid prerequisite rooms), one PPO configuration (step-size-limited), fixed
+  alpha 0.25 / lambda 0.01 (selected on development data), budgets up to 501,760 actions. Larger doses,
+  other tasks and longer training are not tested.
 
 ## Question
 RQ1: when do demonstration-state starts (arm 10), forward-KL preservation toward the BC policy (arm 01),
@@ -117,7 +144,7 @@ paths and layouts, not by training length. A keeps all four regimes, which is wh
 needs. It fits the cap and protects the reserve. It also saves complete states at 251,904, so a later,
 separately funded extension can continue the same trajectories.
 
-## Resources
+## Resources (development, before M4)
 - Total: 36.82M of 80M environment actions (46.0%), including 3.10M estimated outside the runner.
 - Batch wall time: 3.74 h.
 - Campaign: 5.03M actions, 0.49 h batch wall time; active work 00:48-01:40 EDT.
@@ -129,11 +156,11 @@ separately funded extension can continue the same trajectories.
 - The 250k endpoint is a fixed budget, not convergence (arm 00 still improves at 500k).
 - The planner bank measures a different state distribution from actual arrivals.
 
-## Readiness
-Ready for M4 on approval of option A and Amendment 1. On approval, in order:
-1. Generate conf-v1 with conf_final 64 per K.
-2. Check that the training roles are byte-identical to dev-v2.
-3. Run the BC for seeds 10-14.
-4. Run M4 one seed-batch at a time, with a budget check before each batch.
+## Resources (final)
+- Ledger 93.02M environment actions (including 3.45M estimated test actions outside the runner); the owner
+  lifted the 80M cap for M4 (Amendment 2 stop line 109M was not reached).
+- M4: 55.85M actions, 5.38 h of batch wall time. Total batch wall time 9.12 h.
 
-RQ2 stays a costed follow-up proposal.
+## Next
+RQ2 stays a costed proposal (section 11 of the freeze). Given equivalence at both budgets, RQ2's
+condition ("useful heterogeneous effects in M4") is not met.

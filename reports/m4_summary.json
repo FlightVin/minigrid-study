@@ -1,0 +1,174 @@
+{
+ "complete_forks": 20,
+ "excluded": [],
+ "branches_endpoints": 160,
+ "audit": [
+  {
+   "job": "m4-K1-u16000-s11-11-a0p25-kl0p01",
+   "endpoint": "E250",
+   "max_abs_diff": 0.0
+  },
+  {
+   "job": "m4-K1-u16000-s11-11-a0p25-kl0p01",
+   "endpoint": "E500",
+   "max_abs_diff": 0.0
+  },
+  {
+   "job": "m4-K1-u16000-s14-11-a0p25-kl0p01",
+   "endpoint": "E250",
+   "max_abs_diff": 0.0
+  },
+  {
+   "job": "m4-K1-u16000-s14-11-a0p25-kl0p01",
+   "endpoint": "E500",
+   "max_abs_diff": 0.0
+  },
+  {
+   "job": "m4-K1-u16000-s13-11-a0p25-kl0p01",
+   "endpoint": "E250",
+   "max_abs_diff": 0.0
+  },
+  {
+   "job": "m4-K1-u16000-s13-11-a0p25-kl0p01",
+   "endpoint": "E500",
+   "max_abs_diff": 0.0
+  },
+  {
+   "job": "m4-K1-u4000-s14-00",
+   "endpoint": "E250",
+   "max_abs_diff": 0.0
+  },
+  {
+   "job": "m4-K1-u4000-s14-00",
+   "endpoint": "E500",
+   "max_abs_diff": 0.0
+  },
+  {
+   "job": "m4-K3-u4000-s10-01-kl0p01",
+   "endpoint": "E250",
+   "max_abs_diff": 0.0
+  },
+  {
+   "job": "m4-K3-u4000-s10-01-kl0p01",
+   "endpoint": "E500",
+   "max_abs_diff": 0.0
+  },
+  {
+   "job": "m4-K3-u4000-s12-11-a0p25-kl0p01",
+   "endpoint": "E250",
+   "max_abs_diff": 0.0
+  },
+  {
+   "job": "m4-K3-u4000-s12-11-a0p25-kl0p01",
+   "endpoint": "E500",
+   "max_abs_diff": 0.0
+  },
+  {
+   "job": "m4-K1-u4000-s10-11-a0p25-kl0p01",
+   "endpoint": "E250",
+   "max_abs_diff": 0.0
+  },
+  {
+   "job": "m4-K1-u4000-s10-11-a0p25-kl0p01",
+   "endpoint": "E500",
+   "max_abs_diff": 0.0
+  },
+  {
+   "job": "m4-K3-u4000-s11-10-a0p25",
+   "endpoint": "E250",
+   "max_abs_diff": 0.0
+  },
+  {
+   "job": "m4-K3-u4000-s11-10-a0p25",
+   "endpoint": "E500",
+   "max_abs_diff": 0.0
+  }
+ ],
+ "audit_max_abs_diff": 0.0,
+ "primary": [
+  {
+   "endpoint": "E250",
+   "contrast": "reset",
+   "estimate": -0.0107421875,
+   "t95_lo": -0.030597319850534883,
+   "t95_hi": 0.009112944850534883,
+   "boot95_lo": -0.03193359375,
+   "boot95_hi": 0.01103515625,
+   "t90_lo": -0.025987617840064807,
+   "t90_hi": 0.004503242840064807,
+   "p": 0.20747591708511526,
+   "p_holm6": 1.0,
+   "verdict": "practically equivalent"
+  },
+  {
+   "endpoint": "E250",
+   "contrast": "preservation",
+   "estimate": -0.00615234375,
+   "t95_lo": -0.028501025185781036,
+   "t95_hi": 0.016196337685781034,
+   "boot95_lo": -0.028515625,
+   "boot95_hi": 0.015627441406249963,
+   "t90_lo": -0.023312403930224417,
+   "t90_hi": 0.011007716430224416,
+   "p": 0.4872731372459149,
+   "p_holm6": 1.0,
+   "verdict": "practically equivalent"
+  },
+  {
+   "endpoint": "E250",
+   "contrast": "combined",
+   "estimate": -0.019921875,
+   "t95_lo": -0.047343621297683144,
+   "t95_hi": 0.007499871297683144,
+   "boot95_lo": -0.04599609375,
+   "boot95_hi": 0.006350097656249965,
+   "t90_lo": -0.04097720294260101,
+   "t90_hi": 0.0011334529426010112,
+   "p": 0.11387537179580898,
+   "p_holm6": 0.6832522307748539,
+   "verdict": "practically equivalent"
+  },
+  {
+   "endpoint": "E500",
+   "contrast": "reset",
+   "estimate": 0.00361328125,
+   "t95_lo": -0.016267752327807514,
+   "t95_hi": 0.023494314827807512,
+   "boot95_lo": -0.01796875,
+   "boot95_hi": 0.025390625,
+   "t90_lo": -0.01165203691297808,
+   "t90_hi": 0.01887859941297808,
+   "p": 0.6403656975338043,
+   "p_holm6": 1.0,
+   "verdict": "practically equivalent"
+  },
+  {
+   "endpoint": "E500",
+   "contrast": "preservation",
+   "estimate": 0.003125,
+   "t95_lo": -0.014595637398374162,
+   "t95_hi": 0.02084563739837416,
+   "boot95_lo": -0.01865478515625,
+   "boot95_hi": 0.02421875,
+   "t90_lo": -0.010481494193486582,
+   "t90_hi": 0.016731494193486584,
+   "p": 0.650040004604596,
+   "p_holm6": 1.0,
+   "verdict": "practically equivalent"
+  },
+  {
+   "endpoint": "E500",
+   "contrast": "combined",
+   "estimate": 0.00361328125,
+   "t95_lo": -0.02816476399039203,
+   "t95_hi": 0.03539132649039203,
+   "boot95_lo": -0.02451416015625,
+   "boot95_hi": 0.0306640625,
+   "t90_lo": -0.02078695776642607,
+   "t90_hi": 0.02801352026642607,
+   "p": 0.7680216711835623,
+   "p_holm6": 1.0,
+   "verdict": "practically equivalent"
+  }
+ ]
+}

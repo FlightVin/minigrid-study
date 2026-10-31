@@ -324,3 +324,9 @@ confirmation data. Decisions taken under the delegated scientific judgement:
   identical; conf_select, conf_bank, conf_final have 64 layouts per K, disjoint from every dev role and from each
   other; conf_bank bins 32/16/16 per K. Ledger after data: 37.63M.
 - Seed batches run through `tools/run_m4.py` (B5 checks; conservative estimate 12.24M per seed).
+- Battery guard (owner request, 15:30 EDT): the laptop ran on a 20 W adapter, and the battery drained slowly under
+  MPS load. A scratchpad script checked the battery every 5 minutes (interval set by the owner) and would write
+  the batch STOP file at the next job start below 25%. It never triggered (minimum 52%); it exited with the
+  driver.
+- All five seed batches exited normally (105 jobs, 0 failures, 0 retries): 11.06, 11.09, 11.11, 11.08, 11.05M
+  actions. Ledger 93.02M. Analysis run unchanged from `c53b63f`; results in FINDINGS F10.

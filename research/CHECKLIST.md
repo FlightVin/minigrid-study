@@ -52,13 +52,13 @@ Dependency-ordered. `[x]` done and verified, `[~]` in progress, `[ ]` planned.
 - [x] Proposed Amendment 1 to PROTOCOL_FREEZE.md; costed M4 options in REPORT
 - [x] Owner decision 2026-10-31: option A at both 251,904 and 501,760; cap not binding (harness `ea3d7ad`)
 - [x] Amendment 1 approved; Amendment 2 (two endpoints, Holm over 6, budget) written before confirmation data
-- [ ] conf-v1 data generated (conf_select, conf_bank, conf_final 64); gate `tools/data_gate.py` passes
+- [x] conf-v1 data generated (conf_select, conf_bank, conf_final 64); gate `tools/data_gate.py` passes
 
 ## M4: core confirmation (Amendments 1 and 2)
 - [x] Configs and batch files (`experiments/m4/`); schedule supports diag layouts and a second endpoint
 - [x] Full test suite with smoke tests once before launch (255 passed; 0.35M actions in the ledger)
-- [ ] Seed batches s10, s11, s12, s13, s14 (BC, 4 probes, 16 branches each), budget check before each
-- [ ] Analysis at E250 and E500 (Holm over 6, TOST, bootstrap); audit (section 12); report
+- [x] Seed batches s10, s11, s12, s13, s14 (BC, 4 probes, 16 branches each), budget check before each
+- [x] Analysis at E250 and E500 (Holm over 6, TOST, bootstrap); audit (section 12); report (F10)
 
 ## M5: conditional RQ2
-- [ ] Only if M4 shows useful heterogeneous effects and budget permits; else costed proposal
+- [x] Condition not met (M4: equivalence); RQ2 remains a costed proposal

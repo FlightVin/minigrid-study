@@ -354,3 +354,50 @@ source:
 - Regime 5 (optimization): no instability. Approx KL per update 0.002-0.006; explained variance
   0.60-0.88. The pre-clip actor gradient norm (1.9-3.1) exceeds the clip (0.5) on every minibatch, so
   clipping scales every step. That is identical across arms.
+
+## F10 — M4 confirmation: no intervention changes P1 at 251,904 or 501,760 (confirmatory, 2026-10-31)
+
+Design: PROTOCOL_FREEZE + Amendments 1 and 2. 5 seeds (10-14) x K {1, 3} x BC {4k, 16k} x 4 arms; one trajectory
+per branch, endpoints E250 = 251,904 and E500 = 501,760 continuation actions; conf_final 64 x 8 + conf_bank 64 x 4
+at each endpoint, common random numbers. Batches `20261031T144443-65814`, `...154838-81881`, `...165349-92672`,
+`...175829-2090`, `...190210-20242` (105 jobs, all exited 0; 21 per seed) plus data batch `...144204-65491`.
+Analysis `tools/analyze_m4.py` (committed `c53b63f` before outcomes); outputs `reports/m4_*.csv`, `m4_summary.json`.
+
+**Completeness and audit (section 12).** 20/20 forks complete; every arm matches its probe's fork hash; no
+exclusion, no retry, no missing value. P1, q, c recomputed from every attempt file equal the summaries. Independent
+recomputation (P1, C4, R4, c; 8 branches x 2 endpoints sampled with RNG 20261031): maximum difference 0.0.
+
+**Primary contrasts (P1; estimate, 95% t-interval df 4, crossed bootstrap 95%, Holm-6 p, verdict).**
+
+| Endpoint | Contrast | Estimate | t 95% | Bootstrap 95% | 90% t (TOST) | p Holm-6 | Verdict |
+|---|---|---|---|---|---|---|---|
+| E250 | reset 10-00 | -0.011 | [-0.031, +0.009] | [-0.032, +0.011] | [-0.026, +0.005] | 1.00 | practically equivalent |
+| E250 | preservation 01-00 | -0.006 | [-0.029, +0.016] | [-0.029, +0.016] | [-0.023, +0.011] | 1.00 | practically equivalent |
+| E250 | combined 11-00 | -0.020 | [-0.047, +0.007] | [-0.046, +0.006] | [-0.041, +0.001] | 0.68 | practically equivalent |
+| E500 | reset 10-00 | +0.004 | [-0.016, +0.023] | [-0.018, +0.025] | [-0.012, +0.019] | 1.00 | practically equivalent |
+| E500 | preservation 01-00 | +0.003 | [-0.015, +0.021] | [-0.019, +0.024] | [-0.010, +0.017] | 1.00 | practically equivalent |
+| E500 | combined 11-00 | +0.004 | [-0.028, +0.035] | [-0.025, +0.031] | [-0.021, +0.028] | 1.00 | practically equivalent |
+
+Conclusion: at both budgets, every effect larger than 0.05 P1 in either direction is excluded (TOST). No
+directional claim. The observed precision (95% half-widths 0.018-0.032) is close to the rho = 0 planning
+scenario (0.031).
+
+**Secondary (descriptive; pointwise 95% t-intervals, no claims).**
+- Interaction and arm-11 vs arm-10 / arm-01 P1 contrasts: all within [-0.047, +0.025]; estimates -0.014 to +0.000.
+- Access q: preservation raises q by +0.036 [+0.027, +0.045] at E250 and +0.040 [+0.027, +0.053] at E500, without
+  a P1 change. Reset and combined q: +0.005 to +0.027, intervals include 0.
+- Bank competence c: all three interventions +0.030 to +0.050; only combined at E500 excludes 0
+  (+0.050 [+0.022, +0.079]). Higher planner-bank competence did not translate into normal-start P1 (F9: the
+  bank is not the arrival distribution).
+- E500 - E250 change of contrasts: reset +0.014 [+0.006, +0.023], combined +0.024 [+0.000, +0.047], preservation
+  +0.009 [-0.015, +0.033]. The small E250 deficits close by E500; no contrast becomes positive.
+- Moderation D (K=3 minus K=1): estimates -0.034 to +0.040; only preservation at E250 reaches +0.040
+  [+0.000, +0.079] (pointwise, 1 of 12 descriptive tests; not a claim).
+- Arm 00 learning: E500 - E250 = +0.037 (95% +-0.024; every seed positive, +0.018 to +0.066). Mean arm-00 P1:
+  E250 0.409, E500 0.446 on conf_final. (pi0 0.306 and post-probe 0.346 are on conf_select, a different
+  layout set; not directly comparable.)
+- Strata (arm 00, E250 -> E500): K1/4k 0.508 -> 0.551; K1/16k 0.729 -> 0.766; K3/4k 0.046 -> 0.062;
+  K3/16k 0.355 -> 0.406. Per-stratum arm differences are all within the seed-to-seed spread.
+
+**Resources.** M4 55.85M actions (data 0.45M + 5 seed batches 55.39M, 11.05-11.11M each, all below the 12.24M
+estimate); 5.38 h of batch wall time. Ledger 93.02M including 3.45M estimated test actions.

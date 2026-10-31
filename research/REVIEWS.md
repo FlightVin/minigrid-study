@@ -117,3 +117,25 @@ they belong in M4. A 750k gate is not justified: no emerging separation, slow le
 250k), and path noise dominates.
 
 **Plan update.** Stop development. Recommend M4 option A with Amendment 1. Wait for owner approval.
+
+## Review 4 — 2026-10-31 16:20 EDT (after M4)
+
+**Result.** Confirmatory and clear: all three interventions are practically equivalent to ordinary PPO at both
+251,904 and 501,760 (F10). Intervals are tight (half-widths 0.018-0.032), so this is evidence of no useful
+effect, not a lack of evidence.
+
+**Consistency with development.** Development contrasts were within about 0.02 of 0 (F7) and the M3 K=3
+"benefit" did not reproduce (F9). M4 agrees with that pattern. The precision planning was accurate (observed
+half-widths near the rho = 0 scenario).
+
+**Alternative explanations.** (i) Dose: alpha 0.25 and lambda 0.01 were active (F8 E3c) but small; larger doses
+were worse or not better in the screen (F6). (ii) The step-size-limited PPO configuration (lr 3e-5) may leave
+little room for any learning-dynamics intervention. (iii) Mechanism signals (q from preservation, c from all
+arms) do not reach P1, consistent with the planner bank differing from arrival states (F9).
+
+**Leakage / integrity.** Analysis committed before outcomes; no confirmation data used for any development
+decision; no retries; audit exact.
+
+**Waste.** None in M4. The data-batch launch error cost 0 actions.
+
+**Plan.** Stop experiments. Report to the owner.

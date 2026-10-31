@@ -1,8 +1,8 @@
 # State
 
-**Current milestone:** M4 running (owner decision 2026-10-31: option A at both 251,904 and 501,760; cap not
-binding). PROTOCOL_FREEZE Amendment 1 approved, Amendment 2 in force. conf-v1 generated; gate passes.
-Seed batches s10-s14 run in order via `tools/run_m4.py`.
+**Current milestone:** M4 complete (2026-10-31 16:05 EDT). Confirmatory result (F10): reset, preservation and
+combined are practically equivalent to ordinary PPO (±0.05 P1) at 251,904 and 501,760; no directional claim.
+RQ2 stays a costed proposal.
 
 **Established**
 - Manuscript SHA-256 `38326ef0...f92b4`; no substantive conflict with project.md.
@@ -18,23 +18,20 @@ Seed batches s10-s14 run in order via `tools/run_m4.py`.
 - M3 four-arm (F7): all six contrasts average within 0.02 of 0; arm 00 replicate SD 0.027.
 - Frozen: alpha* 0.25, lambda* 0.01, 250k endpoint, 5 new seeds, conf_final 32 x 16, delta 0.05.
 - Audit (F8): no correctness defect; metrics recompute exactly; corrections C1-C5 recorded.
+- M4 (F10): all 6 primary tests practically equivalent; audit exact; 20/20 forks.
 - Campaign (F9): learning continues to 500k (+0.065 mean); no contrast separates; same-fork path SD 0.048;
   the M3 K=3 combined benefit did not reproduce; arrival-state competence < planner-bank c.
 
 **Uncertain**
-- Whether any intervention differs from arm 00 by >= 0.05 on confirmation data (M4).
-- Within-seed correlation of stratum contrasts (precision scenarios rho 0-0.5).
+- Effects of larger doses, longer training (> 501,760), or other tasks (not tested).
 - Cause of the arrival-state competence gap beyond time (prefix configuration?).
-- Critic is near a constant predictor; advantages are noisy.
 
 **Owner limits:** 4 cores, 6 GiB, 1 job. The 80M cap is not binding for M4 (owner, 2026-10-31); Amendment 2
 stop rule: ledger > 109M or a batch > 1.25 x its estimate. Two-hourly reviews in research/REVIEWS.md.
 
-**Resources used:** 37.63M actions before the seed batches (incl. 3.45M estimated test actions); M4 conservative
-cost 61.57M; projected ~99M.
+**Resources used:** 93.02M actions (incl. 3.45M estimated test actions); M4 55.85M; batch wall 9.12 h.
 
 **Blockers:** none.
 
 **Next action**
-- Wait for the seed batches; on failure apply section 10 rules. Then run `tools/analyze_m4.py` (written before
-  outcomes), audit (section 12), report.
+- Owner review of the M4 result. No further experiments are planned.
