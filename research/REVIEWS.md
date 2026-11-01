@@ -308,3 +308,12 @@ cal-s67..69 -> `tools/analyze_cal.py` -> pilot batch files via `make_batches.py 
 - **Power note.** The battery falls by about 5 percentage points per hour while the charger is connected (93% at 10:48, 80% at 13:13): under this load the charger does not keep up. At this rate the 20% stop arrives in about 12 h. The rest of the required work plus the pilot needs about 7–8 h, so the margin is adequate. The battery watch stays the hard guard. If the battery reaches 20% it stops the driver, and the failure policy applies (resume with a new run ID).
 - **Monitors.** One process each, verified by PID and create time: battery watch 69759, driver 71896 (create 1793540164.945303) and one watch_batch loop. The review cron is active. There are no duplicates.
 - **Next step.** Seeds 57–66 (about 3.5 h). Then the A3 analysis with `--check-states`, the full verifier, the figures and F19. Then calibration s67–69 → `analyze_cal` → the pilot if a variant is selected.
+
+## Review 13 — 2026-11-01 ~15:15 local
+
+- **State.** A3 seeds 43–62 finished (20/24) and seed 63 is running. All exit codes are 0. The seeds log has no refusal or error lines, and the watcher has reported no stall.
+- **Validity.** The design has not changed and I read no A3 aggregate outcomes. The frozen analysis, verifier and figure code are unchanged since their commits.
+- **Resources.** Spent 76,540,622 of 130M (A3 76,469,316). The remaining conservative cost of the required work is 17.72M and the projected conservative total is 94.56M. Projected A3 spend at 24/24 is about 91M, under the 103M A3 ceiling. The 12M reserve and the 15M development ceiling are still available.
+- **Power.** The battery is at 68% with the charger connected and falls about 6 points per hour. The 20% stop is about 8 h away. The work left needs about 6–7 h: A3 about 1.4 h, calibration about 0.5 h and the pilot about 4 h. The margin is narrower than at Review 12, but the battery watch remains the hard guard. If the margin becomes too small before the pilot, I will check the battery before launching it rather than start a batch that is likely to be cut.
+- **Monitors.** One process each, verified by PID and create time: battery watch 69759, driver 71896 (create 1793540164.945303) and one watch_batch loop. The cron is active. There are no duplicates.
+- **Next step.** Seeds 63–66. Then `analyze_a3.py --check-states`, `verify_program2.py`, `plot_program.py --which a3` and F19. Then calibration s67–69.
