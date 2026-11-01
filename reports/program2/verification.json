@@ -208,7 +208,94 @@
    "contrasts": true
   }
  },
- "cal": null,
- "pilot": null,
+ "cal": {
+  "variants_qualifying": {
+   "rho0.2/u4000": false,
+   "rho0.2/u8000": true,
+   "rho0.5/u4000": false,
+   "rho0.5/u8000": false,
+   "rho0.8/u4000": false,
+   "rho0.8/u8000": false
+  },
+  "selected": {
+   "rho": 0.2,
+   "update": 8000
+  },
+  "agrees_with_analyze_cal": true
+ },
+ "pilot": {
+  "K1/10-00": {
+   "per_seed": [
+    0.03125,
+    0.0546875,
+    -0.03125
+   ],
+   "mean": 0.018229166666666668,
+   "agrees": true
+  },
+  "K1/01s-00": {
+   "per_seed": [
+    -0.03515625,
+    0.01953125,
+    0.01171875
+   ],
+   "mean": -0.0013020833333333333,
+   "agrees": true
+  },
+  "K1/11s-00": {
+   "per_seed": [
+    -0.0078125,
+    0.0625,
+    -0.0390625
+   ],
+   "mean": 0.005208333333333333,
+   "agrees": true
+  },
+  "K1/interaction": {
+   "per_seed": [
+    -0.00390625,
+    -0.01171875,
+    -0.01953125
+   ],
+   "mean": -0.01171875,
+   "agrees": true
+  },
+  "K3/10-00": {
+   "per_seed": [
+    -0.03515625,
+    0.0234375,
+    0.015625
+   ],
+   "mean": 0.0013020833333333333,
+   "agrees": true
+  },
+  "K3/01s-00": {
+   "per_seed": [
+    0.01171875,
+    -0.03515625,
+    0.03125
+   ],
+   "mean": 0.0026041666666666665,
+   "agrees": true
+  },
+  "K3/11s-00": {
+   "per_seed": [
+    0.04296875,
+    -0.01171875,
+    0.015625
+   ],
+   "mean": 0.015625,
+   "agrees": true
+  },
+  "K3/interaction": {
+   "per_seed": [
+    0.06640625,
+    0.0,
+    -0.03125
+   ],
+   "mean": 0.01171875,
+   "agrees": true
+  }
+ },
  "problems": []
 }

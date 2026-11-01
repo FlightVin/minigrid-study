@@ -1,12 +1,20 @@
 # MiniGrid study: demonstration-state starts and BC preservation after BC
 
-Status 2026-11-01b: M0-M4, R1 (Amendment 3) and the Amendment 4 programme (R1 audit, R2, E1, E2; section P) are
-closed studies; their verdicts are preserved. A new owner programme is active (PROTOCOL_FREEZE Amendment 5): the
-A3 anchor-allocation study (seeds 43-66), initialization calibration (seeds 67-69) and a calibrated-regime pilot.
-Interpretation corrections of 2026-11-01b are marked in section P. Earlier sections are kept; R1
-interpretations corrected on 2026-11-01 are marked in place. M4 and R1 frozen verdicts are unchanged.
+Status 2026-11-01b (final): the Amendment 5 programme is complete (section Q): A3 (24 seeds), initialization
+calibration and the calibrated-regime pilot, with independent verification. M0-M4, R1 and the Amendment 4
+programme (section P) are closed studies; their verdicts are preserved. Interpretation corrections of 2026-11-01b
+are marked in section P. Earlier sections are kept as written.
 
 ## Headline
+
+**Programme 2026-11-01b (section Q):** on 24 fresh paired seeds (K=3, early BC), preserving the BC policy only on
+post-boundary (suffix) states raised normal-start success at 251,904 actions by +0.0106 (95% t [+0.0019, +0.0193],
+p 0.019; prespecified test supported; the crossed seed x layout bootstrap [-0.0014, +0.0235] includes 0). The gain
+persisted at 501,760 (+0.016, descriptive) and came mainly from completion after arrival. The full mixed penalty and a
+0.75x mixed penalty did as well (gate tests C-D and C-E not supported; both within about ±0.01). The state restriction
+is therefore not needed in this regime. A calibrated initialization with high boundary competence and low K=3
+access exists (rho 0.2, 8,000 updates). In it, resets and suffix preservation raised K=3 boundary-entry competence but
+did not detectably change normal-start success (3-seed pilot). A per-condition selector is not justified.
 
 **Programme 2026-11-01 (section P):** the R2 20-seed replication gave +0.0097 [-0.0035, +0.0229], p 0.142:
 not supported; the K=3/early-BC preservation effect did not replicate at the M4 or R1 size. The paragraphs below
@@ -27,6 +35,89 @@ checkpoint interaction was not supported (adjusted p 0.096). The result did not 
 inconclusive, not negative. The estimates are compatible with a positive effect similar to M4's (corrected
 2026-11-01). The seed SD of the effect (0.043) was larger than in the M4 subgroup (0.008); the reasons are not
 resolved (R1.10).
+
+## Q. Programme 2026-11-01b (Amendment 5): consolidated report
+
+Sources: FINDINGS F18-F22; PROTOCOL_FREEZE Amendment 5; DECISIONS 2026-11-01b; `reports/a3/`, `reports/cal/`,
+`reports/pilot/`, `reports/program2/verification.json`. The sections are kept separate. A3 is confirmatory; the
+calibration is development work; the pilot is exploratory.
+
+### Q1. Closed results and corrections (before A3)
+Verdicts of M4 (F10), R1 (F12), R2 (F14), E1 (F15) and E2 (F16) are unchanged. The interpretation corrections are in
+F18 and section P, marked "corrected 2026-11-01b". The component-code audit (forward KL, detached teacher, stage
+masks, coefficients, RNG streams, fork state, no hidden PPO/reward/horizon change) found no defect, so no earlier
+result is affected.
+
+### Q2. A3 confirmatory result (F19; 24 seeds 43-66; fresh roles; analysis blinded until 24/24)
+- **Arms:** A ordinary; B prefix 0.0025; C suffix 0.0075; D both; E 0.75x both.
+- **H1, C-A at 251,904:** +0.0106 [+0.0019, +0.0193], p 0.019, 17/24 positive, exact sign-flip p 0.014.
+  **Supported.**
+  - Arm means were 0.066 (A) and 0.076 (C).
+  - The crossed bootstrap includes 0, so the support is modest once layout-panel uncertainty is included.
+- **Gate (Holm):** C-D +0.0007 [-0.0079, +0.0093] and C-E -0.0003 [-0.0101, +0.0094]. **Neither supported.**
+- **Secondary (descriptive):**
+  - B-A was about 0 at both endpoints. B is a weak manipulation: its prefix KL was barely reduced.
+  - D-A +0.0098 and E-A +0.0109 at 250k.
+  - C-A +0.0160 [+0.0054, +0.0265] at 500k.
+  - The interaction was about 0.
+  - Decomposition of C-A at 250k: completion +0.0069 [+0.0017, +0.0121], access +0.0042 [-0.0029, +0.0113].
+- **Training diagnostics:** the suffix term halved suffix-row anchor KL. Update size, approx-KL and entropy were the
+  same in every arm.
+- Figures: `reports/a3/paired_effects.svg`, `reports/a3/diagnostics.svg`.
+
+### Q3. Calibration (F20; development roles)
+Only rho 0.2 at 8,000 BC updates met every frozen target on three-seed means:
+- K1: q 0.962, entry 0.604, P1 0.577.
+- K3: q 0.205, entry 0.604, P1 0.110.
+
+More prefix sampling bought access at the cost of boundary-entry competence. The selection is fragile: 1/3 seeds
+meets every target on its own, and K1 has little room. Figure: `reports/cal/access_entry.svg`.
+
+### Q4. Calibrated-regime pilot (F21; exploratory; 3 seeds; never pooled with normal access)
+- **K1:** at a ceiling. q was about 1 and P1 about 0.71 in every arm.
+- **K3:** normal-start P1 was 0.240 (00), 0.241 (10), 0.242 (01s) and 0.255 (11s). The intervals were about ±0.08.
+- **K3 bank boundary-entry competence:** 0.500 (00), 0.586 (10), 0.633 (01s), 0.599 (11s). 01s-00 was +0.133, with
+  3/3 seeds positive.
+- **RQ2 hindsight headroom:** +0.0065 in-sample.
+- Figure: `reports/pilot/contrasts.svg`.
+
+### Q5. Synthesis
+See F22 for the full list. In short:
+- **Objective 1:** suffix-only preservation gives a small, persistent improvement. It acts through completion after
+  arrival.
+- **Objectives 2-3:** where the penalty is placed and its strength in the tested range made no measurable difference.
+  The 3-seed E2 pattern was not reproduced.
+- **Objective 4:** the gain persisted at 500k.
+- **Objective 5:** a high-competence, low-access initialization can be built, but only fragilely.
+- **Objective 6:** in that regime neither intervention moved normal-start success within 251,904 actions, although
+  both preserved boundary competence.
+- **RQ2:** there is no basis for condition-adaptive selection.
+- **Novelty:** state-selective retention is known (Wolczyk et al. 2024). The contribution is a controlled, adequately
+  powered allocation test in one task family, which finds the restriction unnecessary at these strengths.
+
+### Q6. Verification, costs and deviations
+- **Verification:** `tools/verify_program2.py` recomputes every reported number from the raw attempt records with its
+  own statistics code, and agrees on A3, the calibration selection and the pilot. 240 A3 and 24 pilot saved states
+  match their hashes. All step records equal their summaries. The final suite gave 289 passed, 3 skipped.
+- **Spend:** 97,351,286 of 130M, with the 12M reserve unused.
+  - A3: 88,138,774.
+  - Calibration: 1,475,592.
+  - Pilot: 7,601,832.
+  - Final tests: 63,782.
+- **Execution:** no failures, retries, exclusions or design changes.
+- **Deviations:** none.
+
+### Q7. Recommendation
+**Stop new training on this question and write up the A3 result with its stated scope.**
+- In this K=3 early-BC regime, a forward-KL anchor to the BC policy on stored demonstration states gives about +1
+  point of normal-start success at 250k, rising to about +1.6 at 500k.
+- The anchor can be applied to all stored states. Restricting it to suffix states is not needed.
+- Do not train a selector.
+- Do not replicate automatically.
+
+If the owner funds one more study, the most informative one asks whether the K3 gain in boundary-entry competence from
+suffix preservation becomes normal-start success with a longer budget in the calibrated regime. That would need
+pre-registration and at least 16 seeds, because the pilot intervals are about ±0.08.
 
 ## P. Programme 2026-11-01 (Amendment 4): consolidated report
 

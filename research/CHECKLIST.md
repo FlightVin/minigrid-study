@@ -140,13 +140,13 @@ Dependencies: each line needs the lines above it unless marked (parallel-safe: d
 - [x] A3 analysis `--check-states` (unblinded at 24/24); figures (paired arm effects at both endpoints, component
       contrasts, penalty/update-size diagnostics) — F19; H1 supported, gate not supported
 - [x] Calibration batches s67-69 -> analyze_cal -> selection (rho 0.2 / 8000; DECISIONS)
-- [ ] (if selected) pilot batch files written; pilot runs; analysis; figures (analysis script and figure code
+- [x] (if selected) pilot batch files written; pilot runs; analysis; figures (analysis script and figure code
       `plot_program.py --which pilot` committed before any pilot run)
 - [x] Figure: initial access vs boundary-entry competence (`reports/cal/access_entry.svg`)
-- [ ] Final runner tests (p2-tests); ledger and cost reconciliation
-- [ ] Independent verification from raw attempts (A3 inventory, coefficients, lineage, roles, formulas, actions;
+- [x] Final runner tests (p2-tests); ledger and cost reconciliation
+- [x] Independent verification from raw attempts (A3 inventory, coefficients, lineage, roles, formulas, actions;
       calibration; pilot) — `tools/verify_program2.py` committed; `--engineering` passes on 43-51
-- [ ] Synthesis: RQ1 distinctions; RQ2 assessment; literature positioning; one decisive recommendation
-- [ ] Consolidated report (closed / A3 confirmatory / secondary / calibration / pilot / remaining hypotheses);
+- [x] Synthesis: RQ1 distinctions; RQ2 assessment; literature positioning; one decisive recommendation
+- [x] Consolidated report (closed / A3 confirmatory / secondary / calibration / pilot / remaining hypotheses);
       FINDINGS; review; commit + push
-- [ ] Stop owned monitors by verified identity only when the programme is complete
+- [x] Stop owned monitors by verified identity only when the programme is complete

@@ -348,3 +348,25 @@ cal-s67..69 -> `tools/analyze_cal.py` -> pilot batch files via `make_batches.py 
   5. cost reconciliation
   6. synthesis (RQ1 distinctions, RQ2 assessment, literature)
   7. consolidated report and decisive recommendation
+
+## Review 15 — 2026-11-01 ~18:00 local (programme completion)
+
+- **State.** Every phase of the 2026-11-01b programme is complete: A3 (F19), calibration (F20), pilot (F21),
+  synthesis and costs (F22), and the consolidated report section Q with one recommendation.
+  - Pilot batches s67–s69 all exited with code 0.
+  - The frozen pilot analysis passed its state checks with no problems.
+  - p2-tests: 289 passed, 3 skipped.
+  - The independent verifier agrees with A3, the calibration selection and all 8 pilot contrasts, and found no
+    problems.
+- **Validity.**
+  - The pilot was interpreted only descriptively.
+  - Assisted and normal access were kept separate.
+  - One wording error was found in my own draft before commit and corrected: the K3 entry drop happened mostly in the
+    shared probe, not in ordinary PPO, so the comparison is made against the probe. The pilot saved-state count was
+    also corrected to 24.
+  - The A3 claim keeps its limits: small size, crossed bootstrap including 0, and a single regime.
+- **Resources.** Final spend 97,351,286 of 130M (74.9%); the 12M reserve was unused. Every batch stayed under its
+  conservative cost. No failures, retries or exclusions.
+- **Monitors.** The programme is complete, so the owned monitors stop now, by verified identity: battery watch 69759
+  and review cron d308a314. The driver watchers already exited with their drivers.
+- **Next step.** None is authorised. The owner decides on the REPORT Q7 recommendation.

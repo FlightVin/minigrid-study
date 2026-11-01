@@ -805,3 +805,100 @@ the improvement, and it persisted to 500k. It is small in absolute terms. Its su
 uncertainty is added, and it should not be generalized beyond this task, K and BC checkpoint. The full penalty and
 the 0.75× split performed as well as suffix-only, so restricting the anchor to suffix states is not necessary within
 this range.
+
+## F20 — Initialization calibration (2026-11-01b; Amendment 5 C; development roles; seeds 67-69)
+
+Tools: `tools/analyze_cal.py` (frozen), `tools/verify_program2.py` (agrees), `reports/cal/` (`cal_summary.json`,
+`cal_variants.csv`, `access_entry.svg`). 9 BC jobs (rho 0.2 / 0.5 / 0.8 × 3 seeds), checkpoints 4,000 and 8,000,
+1,475,592 actions.
+
+| variant (three-seed means) | K1 q | K1 entry | K1 P1 | K3 q | K3 entry | K3 P1 | qualifies |
+|---|---|---|---|---|---|---|---|
+| rho 0.2, 4k | 0.865 | 0.315 | 0.293 | 0.047 | 0.307 | 0.013 | no (entry, K3 q) |
+| rho 0.2, 8k | 0.962 | 0.604 | 0.577 | 0.205 | 0.604 | 0.110 | **yes (selected)** |
+| rho 0.5, 4k | 0.920 | 0.190 | 0.207 | 0.167 | 0.167 | 0.040 | no (entry) |
+| rho 0.5, 8k | 0.985 | 0.516 | 0.540 | 0.385 | 0.456 | 0.200 | no (entry −0.03 / −0.09) |
+| rho 0.8, 4k | 0.998 | 0.060 | 0.058 | 0.287 | 0.049 | 0.010 | no (entry) |
+| rho 0.8, 8k | 1.000 | 0.229 | 0.247 | 0.525 | 0.188 | 0.108 | no (entry, K3 q) |
+
+- **Answer to objective 5.** An initialization with high boundary-entry competence and low K3 access exists.
+  Sampling prefix states less (rho 0.2) and training longer (8k) gave entry about 0.60 in both conditions with K3
+  access 0.21.
+- **Trade-off.** Across variants, more prefix sampling raised access and lowered entry competence. More updates
+  raised both.
+- **Fragility.** Only 1/3 seeds meets every target on its own: s67 has K3 entry 0.531; s68 has K1 P1 0.645, above
+  the room limit. K1 P1 0.577 leaves little room for normal-start learning. The selection is on means, as frozen.
+
+## F21 — Calibrated-regime pilot (2026-11-01b; Amendment 5 D; exploratory; 3 seeds × K1, K3)
+
+Tools: `tools/analyze_pilot.py --check-states` (frozen before the runs), `tools/verify_program2.py` (agrees on all
+8 contrasts), `reports/pilot/` (`pilot_summary.json`, `pilot_branches.csv`, `contrasts.svg`). Forks of the selected
+calibration checkpoints (rho 0.2, 8k). Arms 00, 10 (resets, alpha 0.25), 01s (suffix KL, effective 0.0075) and
+11s. 251,904 actions. pl_final 64 × 4 per K; pl_bank 64 × 4. 24/24 branches, no problems. 7,601,832 actions.
+
+Normal-start P1 (arm means; contrasts with 95% t, df 2):
+
+| K | 00 | 10 | 01s | 11s | 10−00 | 01s−00 | 11s−00 |
+|---|---|---|---|---|---|---|---|
+| 1 | 0.711 | 0.729 | 0.710 | 0.716 | +0.018 [−0.092, +0.129] | −0.001 [−0.075, +0.072] | +0.005 [−0.124, +0.134] |
+| 3 | 0.240 | 0.241 | 0.242 | 0.255 | +0.001 [−0.078, +0.080] | +0.003 [−0.082, +0.087] | +0.016 [−0.052, +0.084] |
+
+- **K1 is at a ceiling.** Normal-start access was about 1.0 in every arm and P1 about 0.71. Interventions that act
+  on access or post-boundary retention have little to change.
+- **K3 normal-start P1 showed no detectable difference.** The intervals (about ±0.08) are compatible with effects
+  several times the A3 size. The pilot cannot detect a 1–2 point effect.
+- **K3 boundary-entry competence on the fixed bank was higher in every intervention arm:** 00 0.500, 10 0.586,
+  01s 0.633, 11s 0.599. The shared post-probe policy scored 0.505 and pi0 scored 0.591; the probe drop is mostly
+  s69, 0.547 → 0.336. 01s−00 was +0.133 [−0.003, +0.269], positive in 3/3 seeds (+0.07, +0.17, +0.16). Bank c rose
+  by +0.08 to +0.09. The gain did not appear in normal-start completion r (+0.007): within 251,904 actions, better
+  competence on fixed boundary states did not translate into normal-start success.
+- **Training records.** Assisted (reset) and normal episodes are reported separately. In K3 the assisted success rate
+  was about 0.70–0.72 and the normal success rate about 0.16–0.18 in every arm. Resets used about 9% of K3 training
+  steps and 15% of K1 steps. The suffix term lowered suffix-row anchor KL (K3 0.102 → 0.052).
+- **RQ2 hindsight (in-sample, 3 seeds).**
+  - Best arm per K: K1 10, K3 11s.
+  - Best fixed arm: 11s (mean P1 0.486).
+  - The condition-identity rule gives 0.492, a headroom of +0.0065.
+  - The K1−K3 differences of each contrast were between −0.023 and +0.017, and their per-seed signs were mixed.
+  - Choosing by condition identity has no demonstrated value here.
+
+## F22 — Programme synthesis and costs (2026-11-01b; Amendment 5 F–G)
+
+**RQ1 (does preserving BC behaviour on chosen states help, and where?)**
+1. Suffix-only preservation helps on independent seeds, by a small amount. H1 was supported at +0.011 (A3, 24
+   seeds). The crossed bootstrap includes 0.
+2. Allocation versus a weaker coefficient: not distinguished. C (suffix 0.0075) and E (prefix 0.001875 + suffix
+   0.005625; same total) differ by −0.0003 ± 0.010.
+3. Adding the prefix component did not reduce the suffix benefit (C−D +0.0007 ± 0.009). The E2 contrast
+   "suffix-only positive, full penalty null" (F16) did not replicate.
+4. The effect persisted to 501,760 (C−A +0.016, descriptive). The full penalty's 500k estimate (+0.009) matches R2's
+   (+0.0097). R2's "not supported" verdict for the full penalty and A3's supported suffix-only result do not
+   contradict each other: the estimates are similar, and A3 tested at 251,904 with 24 seeds.
+5. The gain acts mainly through completion after arrival, not through access.
+6. In the calibrated regime, neither resets nor suffix preservation changed normal-start P1 detectably (3 seeds). Both
+   raised K3 boundary-entry competence on the fixed bank.
+
+**RQ2 (should the intervention be chosen per condition?)**
+- Variation across conditions was small and inconsistent between seeds. The hindsight headroom was 0.0065 even
+  in-sample.
+- q, entry competence and delta-c separate the regimes descriptively: K1 has q about 1, so there is no access deficit.
+  None of them predicted a normal-start gain.
+- The cost of a selector would exceed any demonstrated benefit. Training a selector is not justified on this
+  evidence.
+
+**Novelty.** State-selective retention on stored demonstration states is an established remedy (Wołczyk et al.
+2024; LITERATURE.md). This programme adds controlled evidence from one task family on four points:
+- with the bank, sampler, estimator and PPO fixed, restricting the forward-KL penalty to post-boundary states gives
+  no measurable advantage over the full or reduced mixed penalty;
+- all three preserve about +1 point of normal-start success at 250k in this regime;
+- the gain comes through completion after the boundary;
+- gains in boundary-state competence do not necessarily appear as normal-start success within the budget.
+
+**Costs (start ledger 158,314,282; budget 130M).**
+- Spent 97,351,286 (74.9% of the budget):
+  - A3 88,138,774 (ceiling 103M; data, tests and canary included);
+  - calibration 1,475,592 and pilot 7,601,832 (development 9,077,424; ceiling 15M);
+  - final tests 63,782.
+- The 12M protected reserve was not used.
+- Every batch was under its conservative cost: A3 seeds about 0.92, pilot about 0.84.
+- No failures, retries or exclusions. Final suite 289 passed, 3 skipped.
