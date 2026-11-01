@@ -8,6 +8,11 @@ r2:         reports/r2/paired_effects.svg  per-seed d = P1(01) - P1(00) at 251,9
             reports/r2/endpoints.svg  per-seed P1 of each arm at 251,904 and 501,760 (one line per seed and arm).
 crosspanel: reports/crosspanel/cells.svg  per-seed d in the four cohort x panel cells, mean and 95% t-interval.
 comp:       reports/comp/contrasts.svg  per-seed prefix, suffix, both and interaction contrasts (3 seeds), mean.
+a3:         reports/a3/paired_effects.svg  per-seed P1 contrasts (B-A, C-A, D-A, E-A, D-C, interaction) at 251,904
+            and 501,760, mean and 95% t-interval; C-A at 251,904 is the confirmatory H1, the rest are descriptive.
+            reports/a3/diagnostics.svg  per-arm means of training anchor KL (prefix, suffix), applied penalty and
+            update size (successive-policy KL on prefix and suffix anchor rows, actor parameter-change norm), to
+            251,904 and over the whole run. Small multiples, one scale each.
 Intervals are the analysis scripts' t-intervals. Hover titles give values.
 """
 import argparse
@@ -157,10 +162,78 @@ def comp():
                                          "Exploratory, 3 seeds; bars are 95% t-intervals with df 2 (wide). Dots: seeds."))
 
 
+A3_COL = {"B-A": ORANGE, "C-A": BLUE, "D-A": GREEN, "E-A": VIOLET, "D-C": GREY, "interaction D-B-C+A": GREY}
+
+
+def a3(d=None):
+    d = Path(d) if d else ROOT / "reports/a3"
+    S = json.loads((d / "a3_summary.json").read_text())
+    assert S["primary_computed"], "A3 analysis is blinded or incomplete; no figure"
+    rows = list(csv.DictReader(open(d / "a3_contrasts.csv")))
+    sec = S["secondary_contrasts"]
+    names = list(A3_COL)
+    W, H, PL, PT, PB = 880, 360, 50, 34, 74
+    vals = [float(r["d_P1"]) for r in rows if r["d_P1"] not in ("", "None")]
+    vals += [sec[e][n]["P1"][k] for e in ("E250", "E500") for n in names for k in ("t95_lo", "t95_hi")]
+    lo_y, hi_y = min(-0.10, min(vals) - 0.01), max(0.10, max(vals) + 0.01)
+    sy = lambda v: PT + (H - PT - PB) * (hi_y - v) / (hi_y - lo_y)
+    ticks = [x / 100 for x in range(int(lo_y * 100) // 5 * 5, int(hi_y * 100) + 1, 5)]
+    body = [f'<text x="{PL}" y="20" class="t1">A3: paired P1 contrasts (K=3, early BC, normal starts; '
+            f'{S["n"]} seeds; a3_final 128 x 4)</text>']
+    body += axis(PL, W - 40, sy, ticks, (0.03,))
+    for i, n in enumerate(names):
+        for j, ep in enumerate(("E250", "E500")):
+            b = sec[ep][n]["P1"]
+            cx = PL + 55 + i * 130 + j * 58
+            pts = [(f"seed {r['seed']}", float(r["d_P1"])) for r in rows
+                   if r["endpoint"] == ep and r["contrast"] == n and r["d_P1"] not in ("", "None")]
+            lab = f"{n} at {'251,904' if ep == 'E250' else '501,760'}" + (" (confirmatory H1)" if (n, ep) == ("C-A", "E250") else "")
+            body += group(cx, sy, pts, b["estimate"], b["t95_lo"], b["t95_hi"], A3_COL[n], lab)
+            body.append(f'<text x="{cx}" y="{H - PB + 16}" class="tick" text-anchor="middle">{"250k" if ep == "E250" else "500k"}</text>')
+        short = "interaction" if n.startswith("inter") else n
+        body.append(f'<text x="{PL + 55 + i * 130 + 29}" y="{H - PB + 32}" class="t1" text-anchor="middle">{short}</text>')
+    h1 = S["H1"]
+    cap = (f"H1 (C-A at 251,904): {h1['estimate']:+.4f} [{h1['t95_lo']:+.4f}, {h1['t95_hi']:+.4f}], p {h1['p']:.3f}, "
+           f"{h1['decision']}. Other contrasts descriptive. Dots: seeds; bar: 95% t-interval; dashed: 0.03.")
+    (d / "paired_effects.svg").write_text(svg(W, H, "A3 paired contrasts", "\n".join(body), cap))
+    metrics = [("anchor_kl_prefix", "anchor KL, prefix rows"), ("anchor_kl_suffix", "anchor KL, suffix rows"),
+               ("anchor_penalty", "applied penalty"), ("update_kl_prefix", "update KL, prefix rows"),
+               ("update_kl_suffix", "update KL, suffix rows"), ("actor_update_norm", "actor update norm")]
+    arms = [("A", "A 00", GREY), ("B", "B prefix", ORANGE), ("C", "C suffix", BLUE), ("D", "D both", GREEN), ("E", "E 0.75x", VIOLET)]
+    PW, PH, W2 = 270, 190, 860
+    H2 = 40 + 2 * PH + 30
+    body2 = ['<text x="16" y="20" class="t1">A3 training diagnostics: per-arm mean over seeds (solid: to 251,904; '
+             'outline: whole run to 501,760)</text>']
+    for k, (m, title) in enumerate(metrics):
+        ox, oy = 16 + (k % 3) * (PW + 6), 36 + (k // 3) * PH
+        v = [(S["arms"][f"E500/{a}"]["training"].get(f"{m}_mean_to_251904"), S["arms"][f"E500/{a}"]["training"].get(f"{m}_mean"))
+             for a, _, _ in arms]
+        top = max([x for pair in v for x in pair if x is not None] + [1e-12]) * 1.15
+        x0, y0, y1 = ox + 44, oy + 24, oy + PH - 36
+        sy2 = lambda u: y1 - (y1 - y0) * u / top
+        body2.append(f'<text x="{ox}" y="{oy + 12}" class="t1">{title}</text>')
+        for f in (0, 0.5, 1):
+            body2.append(f'<line x1="{x0}" x2="{ox + PW - 8}" y1="{sy2(top * f):.1f}" y2="{sy2(top * f):.1f}" class="{"zero" if f == 0 else "grid"}"/>')
+            body2.append(f'<text x="{x0 - 4}" y="{sy2(top * f) + 4:.1f}" class="tick" text-anchor="end">{top * f:.2g}</text>')
+        for i, ((a, lab, col), (h, w)) in enumerate(zip(arms, v)):
+            cx = x0 + 22 + i * 42
+            if h is not None:
+                body2.append(f'<g><title>{lab}, {title}, to 251,904: {h:.4g}</title><rect x="{cx - 8}" y="{sy2(h):.1f}" width="8" '
+                             f'height="{max(y1 - sy2(h), 0):.1f}" rx="2" fill="{col}"/></g>')
+            if w is not None:
+                body2.append(f'<g><title>{lab}, {title}, whole run: {w:.4g}</title><rect x="{cx + 2}" y="{sy2(w):.1f}" width="8" '
+                             f'height="{max(y1 - sy2(w), 0):.1f}" rx="2" fill="none" stroke="{col}" stroke-width="1.5"/></g>')
+            body2.append(f'<text x="{cx + 1}" y="{y1 + 14}" class="tick" text-anchor="middle">{a}</text>')
+    body2.append(f'<text x="16" y="{H2 - 26}" class="tick">' + "  ".join(
+        f'<tspan fill="{c}">\u25a0</tspan> {l}' for _, l, c in arms) + '</text>')
+    (d / "diagnostics.svg").write_text(svg(W2, H2, "A3 training diagnostics", "\n".join(body2),
+                                           "Means over seeds of per-update values from the branch metrics. Each panel has its own scale."))
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--which", nargs="*", default=["r2", "crosspanel", "comp"])
     a = ap.parse_args()
     for w in a.which:
-        {"r2": r2, "crosspanel": crosspanel, "comp": comp}[w]()
+        {"r2": r2, "crosspanel": crosspanel, "comp": comp, "a3": a3}[w]()
         print(w, "done")
