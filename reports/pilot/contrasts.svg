@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 876 340" width="876" height="340" role="img" aria-label="Pilot contrasts">
+<style>
+:root{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--grid:#e4e3df;--zero:#8a8984}
+@media (prefers-color-scheme: dark){:root{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--grid:#3a3a37;--zero:#8a8984}}
+svg{background:var(--surface)} .t1{font:600 13px system-ui;fill:var(--ink)} .tick{font:11px system-ui;fill:var(--ink2)}
+.grid{stroke:var(--grid);stroke-width:1} .zero{stroke:var(--zero);stroke-width:1.2} .ref{stroke:var(--zero);stroke-width:1;stroke-dasharray:4 3}
+</style>
+<rect width="100%" height="100%" fill="var(--surface)"/>
+<text x="16" y="20" class="t1">Pilot (calibrated regime): normal-start P1 contrasts at 251,904 (3 seeds; exploratory)</text>
+<text x="16" y="38" class="t1">K=1</text>
+<line x1="56" x2="426" y1="288.9" y2="288.9" class="grid"/>
+<text x="50" y="292.9" class="tick" text-anchor="end">-0.15</text>
+<line x1="56" x2="426" y1="248.5" y2="248.5" class="grid"/>
+<text x="50" y="252.5" class="tick" text-anchor="end">-0.10</text>
+<line x1="56" x2="426" y1="208.1" y2="208.1" class="grid"/>
+<text x="50" y="212.1" class="tick" text-anchor="end">-0.05</text>
+<line x1="56" x2="426" y1="167.7" y2="167.7" class="zero"/>
+<text x="50" y="171.7" class="tick" text-anchor="end">+0.00</text>
+<line x1="56" x2="426" y1="127.3" y2="127.3" class="grid"/>
+<text x="50" y="131.3" class="tick" text-anchor="end">+0.05</text>
+<line x1="56" x2="426" y1="86.9" y2="86.9" class="grid"/>
+<text x="50" y="90.9" class="tick" text-anchor="end">+0.10</text>
+<g><title>K1: resets (10-00), seed 0: +0.0312</title><circle cx="74.0" cy="142.4" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>K1: resets (10-00), seed 1: +0.0547</title><circle cx="82.0" cy="123.5" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>K1: resets (10-00), seed 2: -0.0312</title><circle cx="90.0" cy="192.9" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<line x1="110.0" x2="110.0" y1="242.1" y2="63.8" stroke="#eb6834" stroke-width="2"/>
+<g><title>K1: resets (10-00): mean +0.0182, 95% t [-0.0921, +0.1286]</title><circle cx="110.0" cy="153.0" r="5" fill="#eb6834" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="96" y="302" class="tick" text-anchor="middle">resets</text>
+<g><title>K1: suffix (01s-00), seed 0: -0.0352</title><circle cx="166.0" cy="196.1" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>K1: suffix (01s-00), seed 1: +0.0195</title><circle cx="174.0" cy="151.9" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>K1: suffix (01s-00), seed 2: +0.0117</title><circle cx="182.0" cy="158.2" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<line x1="202.0" x2="202.0" y1="228.1" y2="109.4" stroke="#3b7dd8" stroke-width="2"/>
+<g><title>K1: suffix (01s-00): mean -0.0013, 95% t [-0.0748, +0.0722]</title><circle cx="202.0" cy="168.7" r="5" fill="#3b7dd8" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="188" y="302" class="tick" text-anchor="middle">suffix</text>
+<g><title>K1: both (11s-00), seed 0: -0.0078</title><circle cx="258.0" cy="174.0" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>K1: both (11s-00), seed 1: +0.0625</title><circle cx="266.0" cy="117.2" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>K1: both (11s-00), seed 2: -0.0391</title><circle cx="274.0" cy="199.3" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<line x1="294.0" x2="294.0" y1="267.9" y2="59.0" stroke="#1baf7a" stroke-width="2"/>
+<g><title>K1: both (11s-00): mean +0.0052, 95% t [-0.1240, +0.1344]</title><circle cx="294.0" cy="163.5" r="5" fill="#1baf7a" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="280" y="302" class="tick" text-anchor="middle">both</text>
+<g><title>K1: interaction, seed 0: -0.0039</title><circle cx="350.0" cy="170.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>K1: interaction, seed 1: -0.0117</title><circle cx="358.0" cy="177.2" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>K1: interaction, seed 2: -0.0195</title><circle cx="366.0" cy="183.5" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<line x1="386.0" x2="386.0" y1="192.8" y2="161.5" stroke="#8a8984" stroke-width="2"/>
+<g><title>K1: interaction: mean -0.0117, 95% t [-0.0311, +0.0077]</title><circle cx="386.0" cy="177.2" r="5" fill="#8a8984" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="372" y="302" class="tick" text-anchor="middle">interaction</text>
+<text x="446" y="38" class="t1">K=3</text>
+<line x1="486" x2="856" y1="288.9" y2="288.9" class="grid"/>
+<text x="480" y="292.9" class="tick" text-anchor="end">-0.15</text>
+<line x1="486" x2="856" y1="248.5" y2="248.5" class="grid"/>
+<text x="480" y="252.5" class="tick" text-anchor="end">-0.10</text>
+<line x1="486" x2="856" y1="208.1" y2="208.1" class="grid"/>
+<text x="480" y="212.1" class="tick" text-anchor="end">-0.05</text>
+<line x1="486" x2="856" y1="167.7" y2="167.7" class="zero"/>
+<text x="480" y="171.7" class="tick" text-anchor="end">+0.00</text>
+<line x1="486" x2="856" y1="127.3" y2="127.3" class="grid"/>
+<text x="480" y="131.3" class="tick" text-anchor="end">+0.05</text>
+<line x1="486" x2="856" y1="86.9" y2="86.9" class="grid"/>
+<text x="480" y="90.9" class="tick" text-anchor="end">+0.10</text>
+<g><title>K3: resets (10-00), seed 0: -0.0352</title><circle cx="504.0" cy="196.1" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>K3: resets (10-00), seed 1: +0.0234</title><circle cx="512.0" cy="148.7" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>K3: resets (10-00), seed 2: +0.0156</title><circle cx="520.0" cy="155.1" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<line x1="540.0" x2="540.0" y1="230.5" y2="102.8" stroke="#eb6834" stroke-width="2"/>
+<g><title>K3: resets (10-00): mean +0.0013, 95% t [-0.0777, +0.0803]</title><circle cx="540.0" cy="166.6" r="5" fill="#eb6834" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="526" y="302" class="tick" text-anchor="middle">resets</text>
+<g><title>K3: suffix (01s-00), seed 0: +0.0117</title><circle cx="596.0" cy="158.2" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>K3: suffix (01s-00), seed 1: -0.0352</title><circle cx="604.0" cy="196.1" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>K3: suffix (01s-00), seed 2: +0.0312</title><circle cx="612.0" cy="142.4" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<line x1="632.0" x2="632.0" y1="234.1" y2="97.1" stroke="#3b7dd8" stroke-width="2"/>
+<g><title>K3: suffix (01s-00): mean +0.0026, 95% t [-0.0822, +0.0874]</title><circle cx="632.0" cy="165.6" r="5" fill="#3b7dd8" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="618" y="302" class="tick" text-anchor="middle">suffix</text>
+<g><title>K3: both (11s-00), seed 0: +0.0430</title><circle cx="688.0" cy="133.0" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>K3: both (11s-00), seed 1: -0.0117</title><circle cx="696.0" cy="177.2" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>K3: both (11s-00), seed 2: +0.0156</title><circle cx="704.0" cy="155.1" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<line x1="724.0" x2="724.0" y1="210.0" y2="100.2" stroke="#1baf7a" stroke-width="2"/>
+<g><title>K3: both (11s-00): mean +0.0156, 95% t [-0.0523, +0.0836]</title><circle cx="724.0" cy="155.1" r="5" fill="#1baf7a" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="710" y="302" class="tick" text-anchor="middle">both</text>
+<g><title>K3: interaction, seed 0: +0.0664</title><circle cx="780.0" cy="114.0" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>K3: interaction, seed 1: +0.0000</title><circle cx="788.0" cy="167.7" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>K3: interaction, seed 2: -0.0312</title><circle cx="796.0" cy="192.9" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<line x1="816.0" x2="816.0" y1="258.3" y2="58.1" stroke="#8a8984" stroke-width="2"/>
+<g><title>K3: interaction: mean +0.0117, 95% t [-0.1122, +0.1356]</title><circle cx="816.0" cy="158.2" r="5" fill="#8a8984" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="802" y="302" class="tick" text-anchor="middle">interaction</text>
+<text x="16" y="330" class="tick">Dots: seeds; marker and bar: mean, 95% t-interval with df 2. Assisted (reset) access is not part of these normal-start values.</text>
+</svg>
