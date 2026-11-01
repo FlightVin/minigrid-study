@@ -1,0 +1,35 @@
+{
+ "r2": {
+  "primary_E500": {
+   "n": 20,
+   "estimate": 0.00966796875,
+   "sd": 0.028200247417986418,
+   "t": 1.5331947276147182,
+   "p": 0.1417107714753415,
+   "lo": -0.0035301533062237957,
+   "hi": 0.022866090806223795,
+   "signflip_p": 0.14585113525390625
+  },
+  "agrees_with_analyze_r2": {
+   "estimate": true,
+   "sd": true,
+   "p": true,
+   "t95_lo": true,
+   "t95_hi": true,
+   "signflip_p_exact": true
+  },
+  "panels_distinct": 1,
+  "n_seeds": 20,
+  "n_positive": 12,
+  "decomposition": {
+   "n_defined": 20,
+   "access_mean": 0.0036163458475674086,
+   "completion_mean": 0.006051622902432593,
+   "sum_equals_d": true
+  },
+  "step_records_equal_summary_jobs": 60
+ },
+ "crosspanel": null,
+ "comp": null,
+ "problems": []
+}
