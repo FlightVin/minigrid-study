@@ -1,0 +1,254 @@
+{
+ "files": {
+  "traj_bc_train.npz": {
+   "sha256": "9ff0760312bbacea5f2332d739799b56a4bed829845e319229d2ed37875916dc",
+   "identical": true
+  },
+  "traj_bc_val.npz": {
+   "sha256": "d1d9ce56050e44cc7b7682c55b4e65e0b7fd760806e47fbce06515afba6aac4b",
+   "identical": true
+  },
+  "traj_reset_donor.npz": {
+   "sha256": "b7f758809dbb53372c80482f2b3d15fbb618b10e0b01f671bc3520ddb090e059",
+   "identical": true
+  },
+  "traj_anchor_donor.npz": {
+   "sha256": "0e98986d748dbb2c1c92d2188b47265eca849887444f5a50d198fe6ddc15dd3d",
+   "identical": true
+  },
+  "traj_dev_bank.npz": {
+   "sha256": "57ffb7a67f29a3279b60bfec6fbbf2d2c8e089e22de780fd37a5c3409828d944",
+   "identical": true
+  },
+  "banks_index.npz": {
+   "sha256": "5520f646f4225a973c3e01cd3a3e2f248a7ecd6cdfa413ed71e06f4c9d26f49a",
+   "identical": true
+  },
+  "bank_competence_dev_bank.json": {
+   "sha256": "5c46c44f6ab901525bf87c21cdde11b460964c827eef53bf530adf519ea7d5e6",
+   "identical": true
+  }
+ },
+ "roles": {
+  "bc_train": {
+   "items": 900,
+   "identical": true
+  },
+  "bc_val": {
+   "items": 100,
+   "identical": true
+  },
+  "rl_train": {
+   "items": 4096,
+   "identical": true
+  },
+  "reset_donor": {
+   "items": 512,
+   "identical": true
+  },
+  "anchor_donor": {
+   "items": 512,
+   "identical": true
+  },
+  "dev_eval": {
+   "items": 64,
+   "identical": true
+  },
+  "dev_bank": {
+   "items": 128,
+   "identical": true
+  }
+ },
+ "conf_roles": {
+  "conf_select": {
+   "per_K": {
+    "1": 64,
+    "3": 64
+   },
+   "planned_registry_entries": 64,
+   "overlap_with_dev": 0
+  },
+  "conf_bank": {
+   "per_K": {
+    "1": 64,
+    "3": 64
+   },
+   "planned_registry_entries": 64,
+   "overlap_with_dev": 0
+  },
+  "conf_final": {
+   "per_K": {
+    "1": 64,
+    "3": 64
+   },
+   "planned_registry_entries": 64,
+   "overlap_with_dev": 0
+  }
+ },
+ "conf_pairwise": {
+  "conf_select|conf_bank": 0,
+  "conf_select|conf_final": 0,
+  "conf_bank|conf_final": 0
+ },
+ "registry_sha256": {
+  "dev-v2": "1c2af199e44fc2d8cf1293bd227915d0bf8c223f4dcb705492eaff88661e0c6c",
+  "conf-v1": "c2652c12aebe1c5ffc512a7335fdd589c179a0cfcdb671b4ef0af57caec8b8be"
+ },
+ "planner_failures_conf": 0,
+ "r1": {
+  "files": {
+   "bank_competence_conf_bank.json": true,
+   "bank_competence_dev_bank.json": true,
+   "banks_index.npz": true,
+   "traj_anchor_donor.npz": true,
+   "traj_bc_train.npz": true,
+   "traj_bc_val.npz": true,
+   "traj_conf_bank.npz": true,
+   "traj_dev_bank.npz": true,
+   "traj_reset_donor.npz": true
+  },
+  "conf_roles": {
+   "bc_train": true,
+   "bc_val": true,
+   "rl_train": true,
+   "reset_donor": true,
+   "anchor_donor": true,
+   "dev_eval": true,
+   "dev_bank": true,
+   "conf_select": true,
+   "conf_bank": true,
+   "conf_final": true
+  },
+  "new_roles": {
+   "r1_select": {
+    "per_K": {
+     "1": 64,
+     "3": 64
+    },
+    "planned": 64,
+    "overlap_with_all_earlier": {
+     "structure": 0,
+     "gen_seed": 0,
+     "suffix": 0
+    }
+   },
+   "r1_bank": {
+    "per_K": {
+     "1": 64,
+     "3": 64
+    },
+    "planned": 64,
+    "overlap_with_all_earlier": {
+     "structure": 0,
+     "gen_seed": 0,
+     "suffix": 0
+    }
+   },
+   "r1_final": {
+    "per_K": {
+     "1": 128,
+     "3": 128
+    },
+    "planned": 128,
+    "overlap_with_all_earlier": {
+     "structure": 0,
+     "gen_seed": 0,
+     "suffix": 0
+    }
+   }
+  },
+  "new_pairwise": {
+   "r1_select|r1_bank": 0,
+   "r1_select|r1_final": 0,
+   "r1_bank|r1_final": 0
+  },
+  "bank_bins_K3": {
+   "entry": 32,
+   "retrieval": 16,
+   "carrying": 16
+  },
+  "planner_failures_new": 0,
+  "registry_sha256_new": "a9494d05f6f76a7c2ce4b2610718acfcf4f9fcb7a963ba192dfd73cd6c12e869"
+ },
+ "r2": {
+  "files": {
+   "bank_competence_conf_bank.json": true,
+   "bank_competence_dev_bank.json": true,
+   "bank_competence_r1_bank.json": true,
+   "banks_index.npz": true,
+   "traj_anchor_donor.npz": true,
+   "traj_bc_train.npz": true,
+   "traj_bc_val.npz": true,
+   "traj_conf_bank.npz": true,
+   "traj_dev_bank.npz": true,
+   "traj_r1_bank.npz": true,
+   "traj_reset_donor.npz": true
+  },
+  "conf_roles": {
+   "bc_train": true,
+   "bc_val": true,
+   "rl_train": true,
+   "reset_donor": true,
+   "anchor_donor": true,
+   "dev_eval": true,
+   "dev_bank": true,
+   "conf_select": true,
+   "conf_bank": true,
+   "conf_final": true,
+   "r1_select": true,
+   "r1_bank": true,
+   "r1_final": true
+  },
+  "new_roles": {
+   "r2_select": {
+    "per_K": {
+     "1": 64,
+     "3": 64
+    },
+    "planned": 64,
+    "overlap_with_all_earlier": {
+     "structure": 0,
+     "gen_seed": 0,
+     "suffix": 0
+    }
+   },
+   "r2_bank": {
+    "per_K": {
+     "1": 64,
+     "3": 64
+    },
+    "planned": 64,
+    "overlap_with_all_earlier": {
+     "structure": 0,
+     "gen_seed": 0,
+     "suffix": 0
+    }
+   },
+   "r2_final": {
+    "per_K": {
+     "1": 128,
+     "3": 128
+    },
+    "planned": 128,
+    "overlap_with_all_earlier": {
+     "structure": 0,
+     "gen_seed": 0,
+     "suffix": 0
+    }
+   }
+  },
+  "new_pairwise": {
+   "r2_select|r2_bank": 0,
+   "r2_select|r2_final": 0,
+   "r2_bank|r2_final": 0
+  },
+  "bank_bins_K3": {
+   "entry": 32,
+   "retrieval": 16,
+   "carrying": 16
+  },
+  "planner_failures_new": 0,
+  "registry_sha256_new": "56317f1868ba66d61d24ac81c235893b5c27b6f8e64e4c34808c2dbda6a23b7e"
+ },
+ "pass": true
+}
