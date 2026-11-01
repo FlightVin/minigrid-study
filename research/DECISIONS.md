@@ -438,3 +438,11 @@ superseded limits. Reconciliation with the evidence and the decisions taken:
   and tested; the actions are added as a conservative estimate (250,000; point 219,343) rather than rerunning the
   smoke tests to measure them (that would spend ~0.22M again). No rerun of the test batch: the fix touches only
   the record path; the final runner test job and the canary exercise it.
+- 2026-11-01 (R2 complete): all 20 seeds finished; the frozen analysis was run once on 20/20 (F14). Result
+  not supported, interval excludes 0.03. Replication stops as instructed; no further R2 work. E1 and E2 proceed
+  as exploratory studies inside their 4M ceilings (admission checked; reserve held).
+- 2026-11-01 (deviation, agent error): the runner refused batch xp-r1 at its start because I had left an
+  uncommitted file (tools/verify_program.py) in the tree. 0 actions; no run directory was created. The tree
+  was cleaned by commit and the remaining batches (xp-r1, comp-s15..17, final-tests) were restarted unchanged
+  (driver PID 83489, log `.mae/monitor/explore2.log`). xp-m4 had completed normally (1,088,680 actions).
+  Not a failure of the job; no retry counted. New files are now written and committed in one command.
