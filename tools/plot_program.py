@@ -16,6 +16,9 @@ a3:         reports/a3/paired_effects.svg  per-seed P1 contrasts (B-A, C-A, D-A,
 cal:        reports/cal/access_entry.svg  initial normal-start access q (x) against fixed-bank boundary-entry competence
             (y) for each calibration variant (rho, BC updates), one panel per K; seeds as small dots, the three-seed
             mean as a large marker; the frozen target region shaded. Development only.
+pilot:      reports/pilot/contrasts.svg  per-seed normal-start P1 contrasts 10-00 (resets), 01s-00 (suffix
+            preservation), 11s-00 (both) and the interaction at 251,904, one panel per K; mean and 95% t-interval
+            (df 2, wide). Exploratory.
 Intervals are the analysis scripts' t-intervals. Hover titles give values.
 """
 import argparse
@@ -279,10 +282,41 @@ def cal(d=None):
     (d / "access_entry.svg").write_text(svg(W, H, "Calibration access vs entry", "\n".join(body), cap + " Room-to-learn (P1) target is in the hover text."))
 
 
+def pilot(d=None):
+    d = Path(d) if d else ROOT / "reports/pilot"
+    S = json.loads((d / "pilot_summary.json").read_text())
+    names = [("10-00", "resets (10-00)", ORANGE), ("01s-00", "suffix (01s-00)", BLUE), ("11s-00", "both (11s-00)", GREEN),
+             ("interaction", "interaction", GREY)]
+    Ks = [K for K in ("K1", "K3") if K in S["conditions"]]
+    vals = []
+    for K in Ks:
+        for n, _, _ in names:
+            b = S["conditions"][K]["contrasts"][n]["P1"]
+            vals += b["per_seed"] + [b.get("t95_lo", 0), b.get("t95_hi", 0)]
+    lo_y, hi_y = min(-0.10, min(vals) - 0.01), max(0.10, max(vals) + 0.01)
+    PW, H, PT, PB = 420, 340, 50, 64
+    W = 16 + len(Ks) * (PW + 10)
+    sy = lambda v: PT + (H - PT - PB) * (hi_y - v) / (hi_y - lo_y)
+    ticks = [x / 100 for x in range(int(lo_y * 100) // 5 * 5, int(hi_y * 100) + 1, 5)]
+    body = ['<text x="16" y="20" class="t1">Pilot (calibrated regime): normal-start P1 contrasts at 251,904 (3 seeds; exploratory)</text>']
+    for k, K in enumerate(Ks):
+        ox = 16 + k * (PW + 10)
+        body.append(f'<text x="{ox}" y="{PT - 12}" class="t1">{K[0]}={K[1]}</text>')
+        body += axis(ox + 40, ox + PW - 10, sy, ticks, (), labels=True)
+        for i, (n, lab, col) in enumerate(names):
+            b = S["conditions"][K]["contrasts"][n]["P1"]
+            cx = ox + 80 + i * 92
+            body += group(cx, sy, [(f"seed {j}", v) for j, v in enumerate(b["per_seed"])], b.get("estimate", float("nan")),
+                          b.get("t95_lo"), b.get("t95_hi"), col, f"{K}: {lab}")
+            body.append(f'<text x="{cx}" y="{H - PB + 26}" class="tick" text-anchor="middle">{lab.split(" ")[0]}</text>')
+    cap = "Dots: seeds; marker and bar: mean, 95% t-interval with df 2. Assisted (reset) access is not part of these normal-start values."
+    (d / "contrasts.svg").write_text(svg(W, H, "Pilot contrasts", "\n".join(body), cap))
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--which", nargs="*", default=["r2", "crosspanel", "comp"])
     a = ap.parse_args()
     for w in a.which:
-        {"r2": r2, "crosspanel": crosspanel, "comp": comp, "a3": a3, "cal": cal}[w]()
+        {"r2": r2, "crosspanel": crosspanel, "comp": comp, "a3": a3, "cal": cal, "pilot": pilot}[w]()
         print(w, "done")
