@@ -1,0 +1,42 @@
+{
+ "purpose": "Anchor-component experiment (owner instruction 2026-11-01, section 7; exploratory, development-only evaluation). R1 early-BC forks of seeds 15, 16, 17 (fixed rule). Arms 00 (no preservation), 01p (prefix rows only, effective 0.0025 E_prefix KL), 01s (suffix rows only, effective 0.0075 E_suffix KL), 01 (both = original loss), lambda 0.01, anchor prefix weight 0.25, normal starts. 251,904 continuation actions; evaluation at the endpoint only: first 32 K=3 r1_select layouts x 4 attempts and r1_bank 64 x 2, new eval seed. Complete state saved at the endpoint.",
+ "dataset_id": "r1-v1",
+ "eval_role": "r1_select",
+ "bank_role": "r1_bank",
+ "n_envs": 16,
+ "n_steps": 128,
+ "gamma": 1.0,
+ "gae_lambda": 0.95,
+ "clip": 0.2,
+ "actor_lr": 3e-05,
+ "critic_lr": 0.0003,
+ "epochs": 4,
+ "minibatch": 512,
+ "ent_coef": 0.0,
+ "max_grad_norm": 0.5,
+ "anchor_batch": 128,
+ "anchor_prefix_weight": 0.25,
+ "alpha": 0.0,
+ "kl_coef": 0.01,
+ "critic_warmup_actions": 16000,
+ "critic_prefit_lr": 0.0003,
+ "critic_prefit_steps": 2000,
+ "probe_actions": 50000,
+ "diag_attempts": 2,
+ "diag_bank_attempts": 4,
+ "continuation_actions": 251904,
+ "eval_seed": 979000,
+ "diag_role": "r1_select",
+ "eval_schedule": [
+  {
+   "at": 251904,
+   "attempts": 4,
+   "bank_attempts": 2,
+   "tag": "comp_251904"
+  }
+ ],
+ "save_state_at": [
+  251904
+ ],
+ "eval_layouts_n": 32
+}

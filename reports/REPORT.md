@@ -1,8 +1,10 @@
 # MiniGrid study: demonstration-state starts and BC preservation after BC
 
-Status 2026-11-01: M0-M4 and the R1 focused replication (Amendment 3) are complete. Scientific execution has
-stopped. The R1 result is in section R1. The M4 sections below (C1-C8) are unchanged, and R1 does not modify the
-M4 aggregate equivalence result.
+Status 2026-11-01: M0-M4 and the R1 focused replication (Amendment 3) are complete. The owner authorized one final
+fixed-size replication (R2, 20 seeds) and two exploratory studies on 2026-11-01 (PROTOCOL_FREEZE Amendment 4). R1
+was audited first (section R1.10); its Holm-2 verdict is unchanged, and some R1 interpretations were corrected in
+place (marked "corrected 2026-11-01"). The M4 sections below (C1-C8) are unchanged except the access wording
+noted in R1.10, and R1 does not modify the M4 aggregate equivalence result.
 
 ## Headline
 
@@ -17,8 +19,10 @@ bank, not a different arrival state.
 
 **R1 (prespecified replication, 8 fresh seeds, new panel):** the K=3/early-BC preservation effect was +0.040
 (95% t +0.004 to +0.076), close to M4. It did not pass the prespecified Holm-2 test (adjusted p 0.067), and the
-checkpoint interaction was not supported (adjusted p 0.096). The result is inconclusive, not negative: the
-effect is positive but unconfirmed, and the seed spread (SD 0.043) was 5 times the M4 subgroup's.
+checkpoint interaction was not supported (adjusted p 0.096). The result did not meet its frozen criterion and is
+inconclusive, not negative. The estimates are compatible with a positive effect similar to M4's (corrected
+2026-11-01). The seed SD of the effect (0.043) was larger than in the M4 subgroup (0.008); the reasons are not
+resolved (R1.10).
 
 ## R1. Focused replication of the K=3/early-BC preservation effect (Amendment 3; complete)
 
@@ -27,9 +31,10 @@ post-probe actions by **+0.040** (95% t-interval +0.004 to +0.076; unadjusted p 
 The frozen decision rule needs Holm-adjusted p < 0.05, so **H1 is not supported**. The checkpoint interaction
 (early minus extended) was +0.039 (95% t -0.009 to +0.087; Holm p 0.096), so **H2 is not supported**. By the
 frozen interpretation rule the result is **inconclusive**: the interval does not exclude the M4 estimate
-(+0.045). It is not a failure to replicate. The direction and size agree with M4. But the seed-to-seed spread
-was 5 times larger than in the selected M4 subgroup, and 8 seeds cannot confirm an effect of this size at this
-spread.
+(+0.045). It is not a failure to replicate. The estimates are compatible with a positive effect similar to M4's;
+interval overlap is not evidence of replication. The seed SD of the effect (0.043) was larger than in the M4
+subgroup (0.008). With 8 seeds, power at this SD for an effect of this size was limited (about 0.62 for H1 alone,
+lower under Holm-2), not zero. (Corrected 2026-11-01; R1.10.)
 
 ### R1.1 Frozen protocol and provenance
 - Protocol: `research/PROTOCOL_FREEZE.md` Amendment 3 (C1-C9), frozen in `01beef9` before any R1 data. Owner
@@ -49,8 +54,11 @@ spread.
 - Reproduction: project commits `01beef9` (freeze) through `dd597ea` (telemetry fix); harness branch
   `mac-host-fixes`, HEAD `4d4fc31`, runner fix `b53f29a` (local only; remote reproducibility is not claimed).
   Package versions: `reports/r1/pip_freeze.txt`. Each batch manifest records both SHAs.
-- Verification: all 48 branch summaries recompute exactly from raw attempt files. All fork hashes match. All saved
-  state hashes check (`--check-states`). All job step records equal the summary action counts.
+- Verification (corrected 2026-11-01): all **64 endpoint records** (8 seeds x 2 checkpoints x 2 arms x 2
+  endpoints; 32 branches) recompute exactly from raw attempt files. The earlier "48 branch summaries" counted the
+  16 probe and 32 branch summaries; it was a documentation error (`tools/audit_r1.py`, `reports/r1/audit.json`).
+  All fork hashes match. All saved state hashes check (`--check-states`). All completed-job step records equal the
+  summary action counts.
 
 ### R1.2 Per-seed paired results (P1, 512 attempts per cell)
 
@@ -112,9 +120,11 @@ advantage closes earlier. This is a descriptive pattern and is not tested.
 | Fixed-bank c | +0.029 [-0.041, +0.098] | +0.019 [-0.020, +0.057] |
 | Bank entry / retrieval / carrying | +0.031 / +0.035 / +0.018 (all CIs include 0) | -0.001 / -0.004 / +0.080 (all include 0) |
 
-- With early BC, the gain is mainly access (q). The bank competence difference is positive but not resolved. This
-  agrees with the M4 audit ("mainly through retained stage access"). An access gain is not read as protection
-  of a suffix skill.
+- (Corrected 2026-11-01.) The earlier reading "the gain is mainly access" is withdrawn. It compared a significant
+  q difference with a non-significant bank difference, and q and fixed-bank c are on different scales. The exact
+  per-seed decomposition of dp into access and arrival-conditioned completion (R1.10) gives, with early BC at
+  501,760: access part +0.0115 and completion part +0.0288 (71% of +0.040). Fixed-bank c is not r and is not
+  used in it.
 - With extended BC, preservation slightly lowers access and all-4 reliability. Its P1 is unchanged.
 - Anchor KL to pi0 (mean over training) is 0.093 vs 0.162 (early) and 0.088 vs 0.159 (extended): the anchor
   does what it is meant to do. Arrival time (~80 steps early, ~54 extended) and inventory are the same in both arms.
@@ -133,25 +143,29 @@ advantage closes earlier. This is a descriptive pattern and is not tested.
 | Seeds positive | 5/5 | 6/8 |
 | Interaction at 501,760 | +0.073 [+0.038, +0.108] | +0.039 [-0.009, +0.087] |
 
-- The point estimates are close. Each lies inside the other's interval.
-- The M4 interval was narrow because its seed SD (0.008) was the smallest of the 8 M4 cells, which is a
-  selection effect. The power analysis anticipated this and did not use that SD for planning. R1's SD (0.043) is
-  between the M4 median (0.028) and maximum (0.057). At that SD and a true effect of 0.040, the chance that
-  8 seeds pass H1 alone is about 0.62. It is lower under Holm-2.
+- The point estimates are close. The estimates are compatible with a positive effect similar to M4's; interval
+  overlap is not proof of replication.
+- (Corrected 2026-11-01.) The M4 subgroup's seed SD (0.008) was the smallest of the 8 M4 cells, and R1's (0.043)
+  lies between the M4 median (0.028) and maximum (0.057). Possible reasons, not separated: post hoc selection of
+  the subgroup; small-sample variance estimation (an SD from 5 values is very imprecise); panel differences
+  (conf_final 64 x 8 vs r1_final 128 x 4, different layouts); and training-path variability. The cross-panel
+  study (Amendment 4, E1) tests the panel part. At SD 0.043 and a true effect of 0.040, the chance that 8 seeds
+  pass H1 alone is about 0.62. It is lower under Holm-2.
 - The M4 interaction was smaller in R1 and is not confirmed.
 
 ### R1.7 Costs, failures and exclusions
-- **Spend:** R1 used **25,471,099** environment actions (ledger 93,199,203 -> 118,670,302), which is 89.7% of the
+- **Spend (corrected 2026-11-01):** R1 used **25,471,227** environment actions (ledger 93,199,203 -> 118,670,430;
+  first reported as 25,471,099 before the 128-action failed-job correction, R1.10), which is 89.7% of the
   28.4M authorization. 2.93M was not used. The conservative plan was 26.97M and the expected cost 25.54M. Every
   batch exited 0 and cost less than its conservative estimate. Completion was secure at every admission.
 - **Batches:** data `20261101T001930-86871` (32,184); tests `20261101T001959-87087` (59,274); canary
   `20261101T002041-87256` (1,002,393); seed 15 rest `20261101T002815-88091`; seed 16 `20261101T003945-89279`;
-  failed seed 17 `20261101T005849-94851` (86,095, kept); seeds 17-22 `20261101T010311-99104`, `T012123-1751`,
+  failed seed 17 `20261101T005849-94851` (86,223 by step record, kept); seeds 17-22 `20261101T010311-99104`, `T012123-1751`,
   `T013935-7336`, `T015804-10217`, `T021657-15496`, `T023515-17380` (3.13M to 3.18M each); final tests `20261101T025500-19209` (266 passed, 3 skipped).
 - **One failure:** the first seed 17 BC job stopped on a heartbeat-file race in `src/bc2rl/telemetry.py`. Two
   threads shared one temporary file name. This was classified as a deterministic code defect. It was fixed
   with per-process and per-thread names, plus a test that fails on the old code (`dd597ea`). The seed was rerun
-  under a new batch ID with the same seed. The failed run and its 86,095 actions stay in the record and the
+  under a new batch ID with the same seed. The failed run and its 86,223 actions stay in the record and the
   ledger. No new canary was run, because only the heartbeat write changed (DECISIONS).
 - **Exclusions:** none. All 8 seeds and 32 branches are complete. No seed was replaced. No design element
   changed after the freeze, and the canary's outcome was not read before all seeds finished.
@@ -160,16 +174,17 @@ advantage closes earlier. This is a descriptive pattern and is not tested.
 - **What R1 shows.** The preservation effect at K=3 with early BC is positive in direction and similar in size
   to M4 (+0.040 vs +0.045). The unadjusted test and the crossed bootstrap both exclude zero. But the prespecified
   confirmatory test (Holm over 2) does not reach 0.05. So **R1 does not confirm the benefit, and it does not
-  refute it.** The correct statement is "a positive but unconfirmed effect, likely between 0 and about 0.08 P1".
+  refute it.** R1 did not meet its frozen Holm-2 criterion. Its estimates are compatible with a positive effect
+  similar to M4's (corrected 2026-11-01).
 - **Checkpoint dependence is not established.** At 501,760 the extended-BC effect is zero and the interaction is
   positive but not significant. At 251,904 both checkpoints benefit to a similar degree. The best-supported
   description is that preservation speeds up early learning with both checkpoints, and the advantage lasts
   longer with early BC. This is descriptive only.
-- **Seed variance is the main finding for planning.** The M4 subgroup's tight interval greatly understated
-  seed-to-seed spread. Any claim that rests on five seeds and a selected subgroup is fragile here.
+- **Seed variance matters for planning.** The seed SD in R1 was larger than in the M4 subgroup. The reasons are
+  not separated (R1.6). Claims that rest on five seeds and a selected subgroup are fragile here.
 - **Unchanged:** the M4 aggregate equivalence result (C2) stands as it was. R1 does not modify or pool with it.
 
-### R1.9 One next research question (proposal only; not run)
+### R1.9 One next research question (proposal; superseded 2026-11-01 by the owner's R2 design, Amendment 4)
 **Does preservation improve K=3/early-BC P1 at 501,760 when tested as a single prespecified hypothesis with
 enough seeds for the observed spread?** Test only the early checkpoint (BC, early probe, arms 00/01; about
 1.81M actions per seed, conservative). Plan with R1's seed SD of 0.043. A single two-sided test at 0.05 needs
@@ -184,9 +199,56 @@ owner decision. R1 has stopped scientific execution, and nothing further was sta
 > actions by 0.040 (95% CI 0.004-0.076; 6 of 8 seeds positive; baseline 0.118), close to the post hoc estimate
 > from the main study (0.045). The effect did not survive the prespecified Holm correction over two hypotheses
 > (adjusted p = 0.067), and the checkpoint interaction was not supported (0.039, 95% CI -0.009 to 0.087;
-> adjusted p = 0.096). The seed-to-seed spread of the effect (SD 0.043) was five times larger than in the
-> selected subgroup, so the replication is inconclusive rather than negative. The benefit was carried mainly by
-> stage access (+0.038), and at 251,904 actions preservation was ahead with both BC checkpoints.
+> adjusted p = 0.096). The replication is therefore inconclusive rather than negative; its estimates are
+> compatible with a positive effect similar to the original. In an exact decomposition of the success difference,
+> about 29% came from more frequent arrival at the final stage and about 71% from higher completion after arrival.
+> At 251,904 actions preservation was ahead with both BC checkpoints. *(Corrected 2026-11-01.)*
+
+### R1.10 Targeted audit (2026-11-01, before R2; `tools/audit_r1.py`, `reports/r1/audit.json`)
+
+Independent of `tools/analyze_r1.py`: raw attempt files, summaries, configs, step records and the registry.
+- **Inventory (exact):** 13 batches; 8 complete BC jobs + 1 failed (seed 17, batch `20261101T005849-94851`, no
+  summary, partial checkpoint kept); 16 probes; 32 branches; **64 endpoint records**, each 512 normal attempts
+  (128 x 4) and 256 bank attempts (64 x 4); 2 runner test jobs; 1 data job. No record is missing or duplicated.
+- **Roles and panel:** every branch config names r1-v1, r1_final, r1_bank, r1_select. The per-item time limits of
+  all 64 records equal the r1_final K=3 registry in order, and all 64 records share one identical panel.
+- **Lineage:** every branch carries its probe's fork hash. Every probe references its own seed's BC job (seed 15's
+  extended probe references the canary batch, by design).
+- **Statistics:** P1, d_early, d_extended, the interaction, the t-tests (own t CDF by numerical integration) and
+  Holm-2 reproduce the frozen values exactly (H1 p 0.0335, Holm 0.0670; H2 p 0.0957, Holm 0.0957).
+- **Actions:** step records of all R1 jobs total **25,471,227**, against the ledger's 25,471,099. The 128-action
+  gap is the failed seed 17 BC job: it ran 128 evaluation actions after its last metrics row. `tools/ledger.py` now
+  takes the step record when it is larger for a job without a summary (role `partial_unrecorded`). R1's corrected
+  spend is 25,471,227; the ledger total is 118,670,430.
+- **Failure record:** the runner ledger records the failed batch as stopped (job_failed). Its files are kept.
+
+**Exact decomposition** (per seed, `reports/r1/decomposition.csv`): dp = dq (r1 + r0)/2 + dr (q1 + q0)/2, with r
+= P(success | actual arrival) on the normal-start panel. This is arithmetic, not causal mediation: each policy
+reaches a different arrival-state distribution. All 8 seeds have r defined in both arms.
+
+| R1 cell | dp mean (SD) | access part mean (SD) [95% t] | completion part mean (SD) [95% t] | access share |
+|---|---|---|---|---|
+| E500 early | +0.040 (0.043) | +0.0115 (0.010) [+0.003, +0.020], 7/8 > 0 | +0.0288 (0.038) [-0.003, +0.061], 6/8 > 0 | 29% |
+| E500 extended | +0.001 (0.028) | -0.0152 (0.013) [-0.026, -0.004], 1/8 > 0 | +0.0165 (0.023) [-0.003, +0.036], 6/8 > 0 | - |
+| E250 early | +0.030 (0.016) | +0.0080 (0.008) [+0.001, +0.015] | +0.0218 (0.011) [+0.013, +0.031], 8/8 > 0 | 27% |
+| E250 extended | +0.042 (0.033) | +0.0215 (0.031) [-0.005, +0.048] | +0.0205 (0.011) [+0.011, +0.030], 8/8 > 0 | 51% |
+
+The same decomposition of the M4 subgroup (K=3, early BC, E500; `reports/r1/m4_decomposition.json`): seed 13's
+ordinary arm never arrived (q 0), so its split is undefined and not imputed. Over the other 4 seeds: dp +0.047,
+access part +0.033 (SD 0.014), completion part +0.015 (SD 0.020).
+
+**Corrected interpretations.**
+1. R1 did not meet its frozen Holm-2 criterion. This stands.
+2. R1's estimates are compatible with a positive effect similar to M4's. Interval overlap is not proof of
+   replication.
+3. Eight seeds had limited power at the R1 SD (about 0.62 for H1 alone at +0.040), not zero power.
+4. The larger SD is not attributed only to subgroup selection: small-sample variance estimation, panel differences
+   and training variability are also possible (E1 tests the panel part).
+5. "Mainly access" is withdrawn for R1. With early BC at E500 the completion part is the larger share (about 71%).
+   In the M4 subgroup the access part was larger (about 69% over 4 defined seeds). So the split was not stable
+   across the two studies, and neither study supports a general "mainly access" statement. The M4 manuscript
+   wording ("mainly through retained stage access", section "Manuscript-ready wording") is qualified accordingly:
+   it describes the M4 subgroup only.
 
 ## C1. Final protocol and provenance
 
@@ -484,7 +546,8 @@ Per-stratum contrasts are secondary or descriptive under the freeze. Figure: `re
 > 251,904 and 501,760 continuation actions (all six TOST p < 0.02 for a ±0.05 margin; largest absolute estimate
 > 0.020). Averages concealed condition-dependent effects. In a post hoc analysis, preservation improved success
 > with early BC and the longer prerequisite (K = 3) by 0.045 (95% CI 0.035-0.055; 5 of 5 seeds; baseline 0.062),
-> mainly through retained stage access, while it transiently reduced success with early BC at K = 1 (-0.048 at
+> in that subgroup mostly through more frequent arrival at the final stage *(qualified 2026-11-01: the split was
+> not reproduced in R1)*, while it transiently reduced success with early BC at K = 1 (-0.048 at
 > 251,904; 0.00 at 501,760). Later-stage competence measured on a fixed saved-state bank depended strongly on the
 > bank's progress composition: when compared at the stage boundary, planner-state competence was close to
 > competence on the policy's own arrival states (mean difference -0.004 at K = 1, -0.056 at K = 3).

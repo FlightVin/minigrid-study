@@ -385,3 +385,124 @@ results. Reviews may fix defects, not adapt the design. After R1: stop scientifi
 **C9. Reproduction.** Harness (local only, no remote): branch `mac-host-fixes`, HEAD `4d4fc31` at freeze; the
 runner change used since M4 is `b53f29a`. Each batch manifest records project and harness SHAs. The harness
 commits are not available remotely, so remote reproducibility is not claimed.
+
+### Amendment 4 — 2026-11-01 (in force): R2 final replication, E1 cross-panel, E2 anchor components
+
+Owner instruction recorded verbatim in `mac-agentic-engineering/project.md` (harness commit `000fd83`). Frozen
+before any R2, E1 or E2 data exist. M4's aggregate equivalence result and R1's Holm-2 verdict are unchanged, and no
+R2 result can change them. R2 is a new study. It is an RQ1 intervention study, not RQ2 selection.
+
+**A. Authority and budget.** New hard incremental budget: **50,000,000** environment actions for everything under
+this instruction (generation, tests, training, diagnostics, evaluation, failures, retries). Start: corrected
+ledger total **118,670,430** (`tools/ledger.py` after the R1-audit correction of +128 actions; the agent note in
+project.md gave 118,670,302 before that correction). The unused R1 allowance is not added. This replaces the R1
+28.4M budget and the 109M M4 submission stop line. There is no wall-time limit; resource limits stay (4 cores,
+6 GiB, one job, native MPS under the runner). Allocation ceilings: R2 38M (guidance; R2 may use the reserve for
+failures), E1 4M and E2 4M (hard), reserve 4M for validation, failures and completion, audit 0.3M.
+
+**B. Admission** (`tools/run_program.py`, plan `experiments/program/plan.json`). Before each batch, with
+committed = conservative cost of every other incomplete R2 batch + audit 0.3M:
+R2 batch: spent + conservative(batch) + committed <= 50M. Exploratory batch: spent + conservative(batch) +
+committed + 4M reserve <= 50M, its study's spend + conservative(batch) <= 4M, and no R2 batch incomplete (R2
+finishes first). After a batch: exit 0 and cost <= 1.10 x conservative, else stop and report.
+Conservative per-job costs (R1 early-job maxima; evaluation x 1.10; train exact; warm-up bound 17,100): BC to 4k
+95,906; probe 153,954; branch 740,904; per seed 1,731,668; 20 seeds 34,633,360. Data 0.1M, tests 0.1M, smoke
+tests 0.3M. E1: 26 policies x 111,548 (hard bound: every episode at its limit) = 2,900,248. E2: 12 x 283,302
+(hard bound) = 3,399,624. Projected conservative total 41.84M (+0.3M audit) <= 50M; the complete design fits.
+
+**C. R2 design.** One question: does preservation (lambda 0.01) improve normal-start P1 at K=3 with early BC after
+501,760 continuation actions?
+- 20 fresh seeds 23-42 (fixed; never reduced, extended or replaced). K=3 only. Early BC (4,000 updates) only.
+- BC: unchanged joint conf-v1 dataset, K-balanced sampler, architecture, constant lr 3e-4, batch 256
+  (`experiments/r2/bc-r2.json` = bc-v1 with checkpoints [4000]; no lr schedule exists, so the 4k checkpoint
+  procedure is unchanged; BC evaluation as before).
+- Probe, critic preparation, PPO settings, anchor bank and weights, task, reward, horizon, observation: as conf-v1
+  / r1-v1 (`experiments/r2/r2-v1.json` differs from r1-v1 only in dataset r2-v1, roles r2_*, eval seed 949000).
+- Arms: 00 (lambda 0) and 01 (lambda 0.01, the original mixed loss), both alpha 0, forked from one hash-verified
+  post-probe state. Reference = the seed's own BC checkpoint.
+- Data: dataset r2-v1 (`experiments/r2/data-r2-v1.json`) copies every r1-v1 file and role (which include every
+  conf-v1 file and role) and appends r2_select (64), r2_bank (64; bins 32/16/16) and r2_final (128) from new
+  namespaces 115-117. Gate `tools/data_gate.py --r1 data/r1-v1 --r2 data/r2-v1`: training files byte-identical,
+  every earlier role identical, zero structure/seed/suffix overlap of r2 roles with every earlier role and each
+  other, r2_bank bins equal conf_bank's. A failed gate stops R2 (fix, new dataset id).
+- Evaluation: r2_final 128 K=3 layouts x 4 attempts and r2_bank 64 x 4 at 251,904 (descriptive) and 501,760
+  (primary); curves on r2_select (64 x 1) at 126,976 and 376,832; pi0/probe on r2_select (64 x 2) and r2_bank
+  (64 x 4). One panel and attempt schedule (`default_rng([949000, item, attempt])`, bank 949001) for every arm
+  and seed. States saved at 251,904 and 501,760 (actor, critic, optimizers, RNGs, sampler and in-flight
+  environments, counters, pi0), hashed. Remaining time is kept on every restoration.
+
+**D. R2 inference** (`tools/analyze_r2.py`, tests `tests/test_analyze_r2.py`; committed here).
+- Unit: training seed (n = 20). d_i = P1(01_i) - P1(00_i) at 501,760. One two-sided paired t-test at 0.05
+  (df 19) and its 95% t-interval. R2 data only; M4 and R1 are never pooled into it.
+- Decision cells: lower > 0 -> positive effect supported (magnitude: lower > 0.05 "exceeds 0.05"; > 0.03
+  "exceeds 0.03"; else "positive; not shown to exceed 0.03"). upper < 0 -> negative effect supported.
+  Otherwise not supported: upper < 0.03 -> informative (excludes the 0.03 planning effect); upper < 0.0453 ->
+  excludes the M4 estimate but not 0.03; else inconclusive. One-sided p-values against 0, 0.03 and 0.05 are
+  reported as descriptive uncertainty only.
+- Sensitivity, not the decision: crossed seed x layout bootstrap (10,000, RNG 20261102; same item indices for
+  both arms; assumes seeds and layouts exchangeable), layouts-only bootstrap, exact sign-flip (2^20 patterns;
+  assumes symmetric d under the null). 251,904 is descriptive.
+- Blinding: the script computes no primary statistic, paired difference or arm mean until all 20 seeds are
+  complete. Progress checks use execution health only (exit status, counters, finite losses, telemetry).
+- Exclusion: a seed with a missing branch, a fork-hash/lineage mismatch or a saved-state hash mismatch after the
+  failure policy is exhausted is excluded and reported; the design is then incomplete (`--final-incomplete` only
+  after the campaign has ended). Very poor or zero-success seeds are valid and kept.
+- Planning effect 0.03 (`tools/power_r2.py` -> `reports/r2/power.md`). It does not replace M4's ±0.05
+  equivalence margin. P(lower > 0) at true 0.03: 0.95 / 0.84 / 0.72 / 0.57 for seed SD 0.035 / 0.043 / 0.05 /
+  0.06 (normal; heavy-tailed and R1-shaped differences similar). At true 0.03 the chance to show "exceeds 0.03" is
+  about 0.025, so an "exceeds" statement needs a larger true effect. No power is computed from R2's observed
+  effect.
+- Synthesis (separate, descriptive): an R1+R2 precision-weighted mean with an approximate interval and no p-value,
+  disclosing adaptive study selection; M4 excluded. Never presented as the confirmatory test.
+- If R2 is inconclusive: report and stop. No further replication is scheduled.
+
+**E. Execution order and failure policy.** Freeze commit (this) -> data batch -> gate -> test batch (suite + RL
+smoke incl. exact CPU resume) -> runner interruption drill (sleep canary with children, stopped with `mae stop`;
+verify status and child cleanup) -> canary (`canary-s23`: r2-bc-s23, probe, branch 01; first planned seed) ->
+`tools/r2_canary_check.py` engineering check without outcomes (configs, hashes, counters, telemetry,
+schemas, finite losses) -> `seed-s23-rest` (branch 00, written with the canary batch id) -> seeds 24-42 (one batch
+each: BC, probe, both branches; branch order shuffled with 20261101 + S) -> E1 -> E2 -> final runner tests ->
+independent audit -> report. Code is frozen at this commit; only correctness fixes, each with the affected runs
+identified. Failure policy (section 10): a deterministic failure gets a fix and a new run ID; a verified transient
+infrastructure failure gets one documented retry. An interrupted job (battery stop, owner stop, crash) is rerun in
+full from its latest complete input checkpoint (BC checkpoint -> probe; fork -> branch) under a new batch ID;
+partial outputs and their actions are kept. A seed is never replaced and never selected by outcome; an operational
+interruption does not change the sample or permit analysis of a subset.
+
+**E1. Cross-panel study (exploratory)** (`src/bc2rl/diag.py crosspanel`, `experiments/crosspanel/`,
+`tools/analyze_crosspanel.py`). The saved 501,760 actors of the K=3/early-BC arms 00 and 01 of M4 (seeds 10-14)
+and R1 (seeds 15-22), 26 policies, each evaluated on conf_final (64 K=3 layouts) and r1_final (128) with **4
+attempts** per layout (the 4M hard bound is 2.90M, so the 4-attempt preference holds; frozen before outcomes) and a
+new common eval seed 969000. New records only. Cells: cohort x panel (4). Reported: arm means, paired effect
+(mean, seed SD, t-interval, n positive), q, r, C4/R4, the decomposition, cohort and panel contrasts, and
+own-panel repeatability against the original records. Exploratory; it cannot attribute residual differences to
+subgroup selection, hardware or training seeds.
+
+**E2. Anchor-component experiment (exploratory)** (`experiments/comp/`, `tools/analyze_comp.py`). Forks: the R1
+early-BC probes of seeds 15, 16, 17 (fixed rule: the first three R1 seeds). Four contemporaneous branches per fork,
+normal starts, PPO settings unchanged, 251,904 continuation actions: 00 (no preservation), 01p (prefix rows only),
+01s (suffix rows only), 01 (both = the original loss). Penalty `src/bc2rl/ppo.anchor_penalty`: the same sampled
+anchor batch (0.25 prefix / 0.75 suffix weights, batch 128); removed rows are zeroed and the sum is divided by
+the full batch size, so the expected penalty is 0.0025 E_prefix KL, 0.0075 E_suffix KL, or both; no
+renormalization. Tests: "both" equals the original loss and gradients exactly; prefix + suffix = both; every
+arm leaves the action, permutation, anchor and start-sampler RNG states identical (anchor draws use their own
+RNG, which no other part of training uses). Evaluation (development-only, frozen): the first 32 K=3 r1_select
+layouts x 4 attempts and r1_bank 64 x 2 at 251,904, eval seed 979000; state saved at 251,904. Reported per seed:
+prefix, suffix, both and interaction contrasts (01 - 01p - 01s + 00) for P1, q, r, C4/R4, c and bins, the
+decomposition, bank change from pi0/probe on the same bank states, anchor KL by stage and applied penalty. Three
+seeds: exploratory; a component effect identifies that penalty term's contribution in this implementation, not
+a skill or pathway; the 251,904 endpoint does not explain the 501,760 effect.
+
+**F. Stage measurements.** As section 8 of the instruction: p, q, r on normal starts; fixed-bank entry,
+retrieval, carrying and mixed c; changes from pi0/probe on the same states; arrival timing, inventory; anchor KL and
+penalty; visitation and reward exposure. Effect sizes with uncertainty; no stage ranking by p-values; p = q x c is
+never assumed; normal-start values on r2_select are never differenced against r2_final values as learning.
+No shaped rewards, demonstration resets, new architectures, larger lambda or other BC depths.
+
+**G. Monitoring.** Battery watch `tools/battery_watch.py` (5-minute checks; below 20% it writes STOP to the
+running batch and exits 2). Batch watcher `tools/watch_batch.py` bound to the driver PID and create time. Two-hour
+research reviews (session cron). State for a fresh session: `research/STATE.md`, `research/CHECKLIST.md`,
+`experiments/program/plan.json`, `tools/run_program.py --status`.
+
+**H. Reproduction.** Harness branch `mac-host-fixes`, HEAD `000fd83` at this freeze (local only). Package versions
+`reports/r2/pip_freeze.txt`. Each batch manifest records project and harness SHAs.

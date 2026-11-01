@@ -1,0 +1,77 @@
+{
+ "jobs": [
+  {
+   "id": "r2-bc-s24",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.bc",
+    "--config",
+    "experiments/r2/bc-r2.json",
+    "--seed",
+    "24"
+   ]
+  },
+  {
+   "id": "r2-probe-K3-u4000-s24",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "probe",
+    "--config",
+    "experiments/r2/r2-v1.json",
+    "--K",
+    "3",
+    "--bc-run",
+    "@/r2-bc-s24",
+    "--bc-update",
+    "4000",
+    "--seed",
+    "24"
+   ]
+  },
+  {
+   "id": "r2-K3-u4000-s24-01-kl0p01",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/r2/r2-v1.json",
+    "--probe-run",
+    "@/r2-probe-K3-u4000-s24",
+    "--arm",
+    "01"
+   ]
+  },
+  {
+   "id": "r2-K3-u4000-s24-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/r2/r2-v1.json",
+    "--probe-run",
+    "@/r2-probe-K3-u4000-s24",
+    "--arm",
+    "00"
+   ]
+  }
+ ]
+}

@@ -95,3 +95,28 @@ Dependency-ordered. `[x]` done and verified, `[~]` in progress, `[ ]` planned.
 - [x] Seeds 17-22 (rerun from seed 17; 6/6 batches exit 0; 3.13-3.18M each)
 - [x] Analysis (`tools/analyze_r1.py --check-states`), final runner tests (266 pass), report, F12, Review 7
 - [x] Stop scientific execution and report (R1 total 25,471,099 actions)
+
+## Programme 2026-11-01 (Amendment 4): R2, E1, E2
+Dependencies: each line needs the lines above it unless marked (parallel-safe: documentation).
+- [x] Instruction recorded verbatim (harness `000fd83`); superseded limits noted
+- [x] Monitors checked by process identity (none running); battery watch and 2-h review restarted
+- [x] Targeted R1 audit (`tools/audit_r1.py`): inventory 64 records, lineage, roles, stats, actions, failure
+- [x] Ledger correction (+128, failed-job step records); start total 118,670,430
+- [x] Exact R1 and M4 decomposition; report corrections in place (R1.10); F13
+- [x] Implementation: r2 roles + gate, component penalty + tests, crosspanel mode, eval_layouts_n
+- [x] Frozen analyses: analyze_r2 (+ synthetic tests), analyze_crosspanel, analyze_comp; power_r2 (executable)
+- [x] Budget driver run_program.py + plan.json; batch files; canary check script
+- [x] PROTOCOL_FREEZE Amendment 4; DECISIONS; IMPLEMENTATION; STATE
+- [ ] Freeze commit + push (code frozen from here; only correctness fixes)
+- [ ] Data r2-v1 (runner) -> gate `--r1 data/r1-v1 --r2 data/r2-v1` (stop on failure)
+- [ ] Tests batch: full suite + RL smoke (exact CPU resume, heartbeat race, atomic writes)
+- [ ] Interruption drill: sleep canary stopped by `mae stop`; status stopped; children gone
+- [ ] Canary s23 (BC, probe, branch 01) -> `tools/r2_canary_check.py` (no outcomes) -> seed-s23-rest written + committed
+- [ ] R2 seeds 23-42 complete (20/20; watcher armed; no interim outcome reads)
+- [ ] R2 analysis `--check-states` (unblinded only at 20/20); figures
+- [ ] E1 cross-panel (26 policies x 2 panels x 4 attempts) -> analysis
+- [ ] E2 components (3 forks x 4 arms, 251,904) -> analysis `--check-states`
+- [ ] Final runner test job (prog-tests); ledger and cost reconciliation (measured vs conservative)
+- [ ] Independent verification of R2/E1/E2 numbers from raw records (separate script or fresh-agent review)
+- [ ] Consolidated report (sections 1-8 of the instruction), FINDINGS, review; commit + push
+- [ ] Stop owned monitors (battery watch, cron, watchers) by verified identity; stop scientific execution

@@ -9,6 +9,11 @@ Contract (project.md sections 6-7):
 - Arm (a, b): a = demonstration-state starts with probability alpha at each reset; b = add
   lambda_kl * mean_s KL(pi0(.|s) || pi_theta(.|s)) on anchor states (128 per actor minibatch).
   The anchor KL is also computed without gradient in arms with b = 0, for diagnostics.
+- Anchor components (2026-11-01, component experiment): arms 01p / 01s keep only the prefix / suffix anchor
+  rows of the same sampled batch in the penalty, divided by the full batch size (the original denominator), so
+  the expected penalty is lambda * w_stage * E_stage KL with the original stage weight (0.25 prefix, 0.75 suffix).
+  Arm 01 ("both") uses the original expression unchanged. All arms draw the same anchor batches from np_rng,
+  which no other part of training uses, so the environment-action stream does not depend on the component.
 - Environment actions are counted exactly. A restored state does not count its skipped prefix.
 """
 import copy
@@ -23,7 +28,9 @@ from bc2rl import data as D
 from bc2rl import model as M
 from bc2rl import task as T
 
-ARMS = {"00": (False, False), "10": (True, False), "01": (False, True), "11": (True, True)}
+ARMS = {"00": (False, False), "10": (True, False), "01": (False, True), "11": (True, True),
+        "01p": (False, True), "01s": (False, True)}
+COMPONENT = {"01p": "prefix", "01s": "suffix"}         # every other arm: "both" (the original loss)
 
 
 class StartSampler:
@@ -103,14 +110,26 @@ def categorical_kl(ref_logp, logp):
     return (ref_logp.exp() * (ref_logp - logp)).sum(-1)
 
 
+def anchor_penalty(kl_rows, is_prefix, component, coef):
+    """Preservation penalty on one sampled anchor batch. "both": coef * mean KL (the original loss, same
+    operations). "prefix" / "suffix": the other stage's rows are zeroed and the sum is divided by the full batch
+    size, so prefix + suffix = both and neither component is renormalized."""
+    if component == "both":
+        return coef * kl_rows.mean()
+    keep = (is_prefix if component == "prefix" else ~is_prefix).to(kl_rows.dtype)
+    return coef * (kl_rows * keep).sum() / kl_rows.shape[0]
+
+
 class PPO:
-    def __init__(self, actor, critic, cfg, device, sampler, anchors=None, use_kl=False, seed=0):
+    def __init__(self, actor, critic, cfg, device, sampler, anchors=None, use_kl=False, seed=0, component="both"):
         self.actor, self.critic, self.cfg, self.device = actor, critic, cfg, device
         self.opt_a = torch.optim.Adam(actor.parameters(), lr=cfg["actor_lr"], eps=1e-5)
         self.opt_c = torch.optim.Adam(critic.parameters(), lr=cfg["critic_lr"], eps=1e-5)
         self.sampler = sampler
         self.anchors = anchors           # dict(grid, aux, time, ref_logp, stage_weights) on device
         self.use_kl = use_kl
+        assert component in ("both", "prefix", "suffix")
+        self.component = component
         self.n_envs, self.n_steps = cfg["n_envs"], cfg["n_steps"]
         self.envs = [T.StageTask() for _ in range(self.n_envs)]
         self.obs = [None] * self.n_envs
@@ -186,7 +205,8 @@ class PPO:
     def _anchor_batch(self, n):
         A = self.anchors
         idx = torch.as_tensor(self.np_rng.choice(len(A["weights"]), size=n, p=A["weights"]), device=self.device)
-        return A["grid"][idx], A["aux"][idx], A["time"][idx], A["ref_logp"][idx]
+        pre = A["is_prefix"][idx] if "is_prefix" in A else None
+        return A["grid"][idx], A["aux"][idx], A["time"][idx], A["ref_logp"][idx], pre
 
     def update(self, data):
         cfg = self.cfg
@@ -199,6 +219,7 @@ class PPO:
         g, a, t = dev(flat["grid"]), dev(flat["aux"]), dev(flat["time"])
         act, old_logp, ret, adv = dev(flat["action"]), dev(flat["logp"]), dev(flat["ret"]), dev(adv)
         stats = {k: [] for k in ("pg_loss", "v_loss", "entropy", "approx_kl", "clipfrac", "anchor_kl",
+                                 "anchor_kl_prefix", "anchor_kl_suffix", "anchor_penalty",
                                  "grad_norm_actor", "grad_norm_critic", "kl_grad_norm", "ratio_max", "ratio_min")}
         target_kl = cfg.get("target_kl")
         stopped = False
@@ -214,13 +235,22 @@ class PPO:
                 pg = -torch.min(ratio * adv[mb], ratio.clamp(1 - cfg["clip"], 1 + cfg["clip"]) * adv[mb]).mean()
                 ent = -(logp_all.exp() * logp_all).sum(-1).mean()
                 loss = pg - cfg["ent_coef"] * ent
-                ag, aa, at, ref = self._anchor_batch(cfg["anchor_batch"])
+                ag, aa, at, ref, pre = self._anchor_batch(cfg["anchor_batch"])
                 if self.use_kl:
-                    kl = categorical_kl(ref, torch.log_softmax(self.actor(ag, aa, at), -1)).mean()
-                    loss = loss + cfg["kl_coef"] * kl
+                    kl_rows = categorical_kl(ref, torch.log_softmax(self.actor(ag, aa, at), -1))
+                    kl = kl_rows.mean()
+                    pen = anchor_penalty(kl_rows, pre, self.component, cfg["kl_coef"])
+                    loss = loss + pen
+                    stats["anchor_penalty"].append(pen.item())
                 else:
                     with torch.no_grad():
-                        kl = categorical_kl(ref, torch.log_softmax(self.actor(ag, aa, at), -1)).mean()
+                        kl_rows = categorical_kl(ref, torch.log_softmax(self.actor(ag, aa, at), -1))
+                        kl = kl_rows.mean()
+                if pre is not None:
+                    with torch.no_grad():
+                        for name, m in (("anchor_kl_prefix", pre), ("anchor_kl_suffix", ~pre)):
+                            if m.any():
+                                stats[name].append(kl_rows.detach()[m].mean().item())
                 self.opt_a.zero_grad()
                 loss.backward()
                 gn = torch.nn.utils.clip_grad_norm_(self.actor.parameters(), cfg["max_grad_norm"])

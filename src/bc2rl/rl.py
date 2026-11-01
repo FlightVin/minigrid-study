@@ -60,6 +60,8 @@ class Ctx:
         pick = lambda role: [T.Layout.from_dict(it["layout"]) for it in lay[role] if it["layout"]["K"] == K]
         self.train_layouts = pick("rl_train")
         self.eval_layouts = pick(cfg["eval_role"])
+        if cfg.get("eval_layouts_n"):        # component experiment: the first n layouts of the role (fixed rule)
+            self.eval_layouts = self.eval_layouts[:cfg["eval_layouts_n"]]
         # pi0 / post-probe diagnostics may use their own layouts (diag_role); default: the eval role.
         self.diag_layouts = pick(cfg.get("diag_role", cfg["eval_role"]))
         self.bank = json.loads((self.ds / f"bank_competence_{cfg['bank_role']}.json").read_text())[str(K)]
@@ -85,7 +87,8 @@ class Ctx:
                             np.full(len(suf), (1 - self.cfg["anchor_prefix_weight"]) / len(suf))])
         dev = self.device
         A = {"grid": torch.as_tensor(bank.grid[rows], device=dev), "aux": torch.as_tensor(bank.aux[rows], device=dev),
-             "time": torch.as_tensor(bank.d["time"][rows][:, None], device=dev), "weights": w / w.sum()}
+             "time": torch.as_tensor(bank.d["time"][rows][:, None], device=dev), "weights": w / w.sum(),
+             "is_prefix": torch.as_tensor(np.arange(len(rows)) < len(pre), device=dev)}
         with torch.inference_mode():
             pi0.eval()
             A["ref_logp"] = torch.cat([torch.log_softmax(pi0(A["grid"][s:s + 1024], A["aux"][s:s + 1024],
@@ -298,19 +301,22 @@ def branch(a, cfg):
     actor, critic = M.Actor().to(ctx.device), M.Critic().to(ctx.device)
     anchors, anchor_info = ctx.anchors(pi0)
     alpha = cfg["alpha"] if use_reset else 0.0
+    component = PP.COMPONENT.get(a.arm, "both")
     learner = PP.PPO(actor, critic, {**cfg, "kl_coef": cfg["kl_coef"] if use_kl else 0.0}, ctx.device,
-                     ctx.sampler(alpha), anchors, use_kl=use_kl, seed=seed)
+                     ctx.sampler(alpha), anchors, use_kl=use_kl, seed=seed, component=component)
     learner.load(st)
     loaded_hash = PP.state_hash({**learner.state(), "pi0": st["pi0"]})
     assert loaded_hash == psum["fork_hash"], "loaded learner state differs from fork"
     base_actions = learner.counters["env_actions"]
     (ctx.run_dir / "config.resolved.json").write_text(json.dumps({**cfg, "mode": "branch", "arm": a.arm,
-        "alpha": alpha, "kl_coef": cfg["kl_coef"] if use_kl else 0.0, "probe_run": str(probe_dir),
+        "alpha": alpha, "kl_coef": cfg["kl_coef"] if use_kl else 0.0, "anchor_component": component,
+        "probe_run": str(probe_dir),
         "fork_hash": psum["fork_hash"], "K": K, "seed": seed, "bc_update": pcfg["bc_update"],
         "device": str(ctx.device)}, indent=1))
     if "eval_schedule" in cfg:
         return scheduled(ctx, cfg, learner, st["pi0"], {"mode": "branch", "arm": a.arm, "alpha": alpha,
-                         "kl_coef": cfg["kl_coef"] if use_kl else 0.0, "K": K, "seed": seed,
+                         "kl_coef": cfg["kl_coef"] if use_kl else 0.0, "anchor_component": component,
+                         "K": K, "seed": seed,
                          "bc_update": pcfg["bc_update"], "fork_hash": psum["fork_hash"],
                          "probe_run": str(probe_dir), "base_actions": base_actions, "resumed_from": None,
                          "anchors": anchor_info})
@@ -413,7 +419,8 @@ def resume(a, cfg):
     anchors, anchor_info = ctx.anchors(pi0)
     learner = PP.PPO(M.Actor().to(ctx.device), M.Critic().to(ctx.device),
                      {**cfg, "alpha": meta["alpha"], "kl_coef": meta["kl_coef"]}, ctx.device,
-                     ctx.sampler(meta["alpha"]), anchors, use_kl=use_kl, seed=seed)
+                     ctx.sampler(meta["alpha"]), anchors, use_kl=use_kl, seed=seed,
+                     component=meta.get("anchor_component", "both"))
     learner.load(st)
     assert PP.state_hash({**learner.state(), "pi0": st["pi0"]}) == saved["hash"], "loaded learner differs from saved state"
     assert learner.counters["env_actions"] - meta["base_actions"] == meta["post_probe_actions"]

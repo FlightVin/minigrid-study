@@ -1,0 +1,12 @@
+{
+  "purpose": "R2 BC: fresh seeds 23-42; unchanged joint conf-v1 dataset, sampler, architecture, constant lr; stops at the early 4k checkpoint (the extended checkpoint is unused; no lr schedule, so the 4k checkpoint procedure is unchanged); evaluation on bc_val + dev bank as before",
+  "dataset_id": "conf-v1",
+  "lr": 0.0003,
+  "batch_size": 256,
+  "checkpoints": [
+    4000
+  ],
+  "eval_attempts": 4,
+  "bank_attempts": 4,
+  "eval_seed": 515000
+}

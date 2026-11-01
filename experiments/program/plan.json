@@ -1,0 +1,124 @@
+{
+ "batches": [
+  {
+   "file": "experiments/r2/data.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/tests.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/drill.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/canary-s23.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/seed-s23-rest.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/seed-s24.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/seed-s25.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/seed-s26.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/seed-s27.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/seed-s28.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/seed-s29.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/seed-s30.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/seed-s31.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/seed-s32.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/seed-s33.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/seed-s34.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/seed-s35.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/seed-s36.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/seed-s37.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/seed-s38.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/seed-s39.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/seed-s40.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/seed-s41.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/r2/seed-s42.batch.json",
+   "study": "r2"
+  },
+  {
+   "file": "experiments/crosspanel/xp-m4.batch.json",
+   "study": "xp"
+  },
+  {
+   "file": "experiments/crosspanel/xp-r1.batch.json",
+   "study": "xp"
+  },
+  {
+   "file": "experiments/comp/comp-s15.batch.json",
+   "study": "comp"
+  },
+  {
+   "file": "experiments/comp/comp-s16.batch.json",
+   "study": "comp"
+  },
+  {
+   "file": "experiments/comp/comp-s17.batch.json",
+   "study": "comp"
+  },
+  {
+   "file": "experiments/program/final-tests.batch.json",
+   "study": "prog"
+  }
+ ]
+}

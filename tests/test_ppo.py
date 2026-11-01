@@ -1,3 +1,4 @@
+import json
 import numpy as np
 import torch
 
@@ -95,3 +96,55 @@ def test_normal_layout_stream_is_shared_across_alpha():
     a = [s0.draw()[1] for _ in range(20)]
     b = [x[1] for x in (s1.draw() for _ in range(60)) if x[0] == "layout"][:20]
     assert a == b
+
+
+def _original_penalty(ref, actor, ag, aa, at, coef):
+    """The pre-2026-11-01 anchor term, verbatim: coef * categorical_kl(ref, log_softmax(actor)).mean()."""
+    return coef * PP.categorical_kl(ref, torch.log_softmax(actor(ag, aa, at), -1)).mean()
+
+
+def test_anchor_components_match_original_loss_and_gradients():
+    """Component experiment (owner instruction 2026-11-01, section 7): "both" equals the original loss and its
+    gradients exactly; prefix + suffix = both (same denominator, no renormalization)."""
+    actor, _, _, A = _setup(0.0)
+    pre = torch.arange(32) < 8
+    idx = torch.as_tensor(np.random.default_rng(0).integers(0, 32, 16))
+    ag, aa, at, ref, p = A["grid"][idx], A["aux"][idx], A["time"][idx], A["ref_logp"][idx], pre[idx]
+
+    def grads(fn):
+        actor.zero_grad()
+        v = fn()
+        v.backward()
+        return v.detach().clone(), [q.grad.clone() for q in actor.parameters()]
+
+    kl_rows = lambda: PP.categorical_kl(ref, torch.log_softmax(actor(ag, aa, at), -1))
+    v0, g0 = grads(lambda: _original_penalty(ref, actor, ag, aa, at, 0.01))
+    vb, gb = grads(lambda: PP.anchor_penalty(kl_rows(), p, "both", 0.01))
+    assert torch.equal(v0, vb) and all(torch.equal(x, y) for x, y in zip(g0, gb))
+    vp, gp = grads(lambda: PP.anchor_penalty(kl_rows(), p, "prefix", 0.01))
+    vs, gs = grads(lambda: PP.anchor_penalty(kl_rows(), p, "suffix", 0.01))
+    assert torch.allclose(vp + vs, vb, atol=1e-9) and all(torch.allclose(x + y, z, atol=1e-8) for x, y, z in zip(gp, gs, gb))
+    with torch.no_grad():
+        r = kl_rows()
+    assert torch.allclose(vp, 0.01 * r[p].sum() / 16) and torch.allclose(vs, 0.01 * r[~p].sum() / 16)
+
+
+def test_components_share_rng_streams_and_both_equals_unlabelled():
+    """After one rollout + update: every component arm leaves the action, permutation, anchor and start-sampler
+    streams in the same state; "both" with stage labels equals the unlabelled original path bitwise."""
+    states, params = {}, {}
+    for comp in ("none", "both", "prefix", "suffix", "unlabelled"):
+        actor, critic, sampler, A = _setup(0.0)
+        if comp != "unlabelled":
+            A = {**A, "is_prefix": torch.arange(32) < 8}
+        L = PP.PPO(actor, critic, CFG, torch.device("cpu"), sampler, A, use_kl=comp != "none", seed=5,
+                   component="both" if comp in ("none", "unlabelled") else comp)
+        L.update(L.collect())
+        states[comp] = (L.torch_gen.get_state().clone(), json.dumps(L.np_rng.bit_generator.state, default=str),
+                        json.dumps(L.sampler.get_state(), default=str))
+        params[comp] = [q.detach().clone() for q in actor.parameters()]
+    ref = states["none"]
+    for comp, s in states.items():
+        assert torch.equal(s[0], ref[0]) and s[1:] == ref[1:], comp
+    assert all(torch.equal(x, y) for x, y in zip(params["both"], params["unlabelled"]))
+    assert not all(torch.equal(x, y) for x, y in zip(params["prefix"], params["suffix"]))

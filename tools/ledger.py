@@ -23,6 +23,19 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def job_actions(d):
+    """Actions by role for one job. A job without a summary (failed or partial) never counts fewer actions than its
+    managed step records: the excess over the metrics-derived count is added as "partial_unrecorded" (R1 audit
+    2026-11-01: the failed r1-bc-s17 ran 128 evaluation actions after its last metrics row)."""
+    acts, kind = _job_actions(d)
+    if kind in ("bc", "rl_partial", "benchmark_partial") and not (d / "summary.json").exists():
+        steps = sum(json.loads(p.read_text())["actions"] for p in (d / "env_steps").glob("*.json"))
+        extra = steps - sum(acts.values())
+        if extra > 0:
+            acts = {**acts, "partial_unrecorded": extra}
+    return acts, kind
+
+
+def _job_actions(d):
     out = {}
     s = d / "summary.json"
     s = json.loads(s.read_text()) if s.exists() else None

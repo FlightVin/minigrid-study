@@ -1,0 +1,64 @@
+{
+ "purpose": "R2 replication (PROTOCOL_FREEZE Amendment 4; owner instruction 2026-11-01): K=3, early BC (4k) only, arms 00 and 01 (normal starts, alpha 0; lambda 0 vs 0.01). Primary endpoint 501,760 (r2_final 128 x 4 + r2_bank 64 x 4); descriptive checkpoint 251,904 (same panel). pi0/post-probe diagnostics and curve points on r2_select. All other settings as r1-v1 / conf-v1.",
+ "dataset_id": "r2-v1",
+ "eval_role": "r2_final",
+ "bank_role": "r2_bank",
+ "n_envs": 16,
+ "n_steps": 128,
+ "gamma": 1.0,
+ "gae_lambda": 0.95,
+ "clip": 0.2,
+ "actor_lr": 3e-05,
+ "critic_lr": 0.0003,
+ "epochs": 4,
+ "minibatch": 512,
+ "ent_coef": 0.0,
+ "max_grad_norm": 0.5,
+ "anchor_batch": 128,
+ "anchor_prefix_weight": 0.25,
+ "alpha": 0.0,
+ "kl_coef": 0.01,
+ "critic_warmup_actions": 16000,
+ "critic_prefit_lr": 0.0003,
+ "critic_prefit_steps": 2000,
+ "probe_actions": 50000,
+ "diag_attempts": 2,
+ "diag_bank_attempts": 4,
+ "continuation_actions": 500000,
+ "eval_seed": 949000,
+ "diag_role": "r2_select",
+ "eval_schedule": [
+  {
+   "at": 126976,
+   "attempts": 1,
+   "bank_attempts": 1,
+   "tag": "curve_126976",
+   "layouts": "diag"
+  },
+  {
+   "at": 251904,
+   "attempts": 4,
+   "bank_attempts": 4,
+   "tag": "final_251904",
+   "endpoint": true
+  },
+  {
+   "at": 376832,
+   "attempts": 1,
+   "bank_attempts": 1,
+   "tag": "curve_376832",
+   "layouts": "diag"
+  },
+  {
+   "at": 501760,
+   "attempts": 4,
+   "bank_attempts": 4,
+   "tag": "final_501760",
+   "endpoint": true
+  }
+ ],
+ "save_state_at": [
+  251904,
+  501760
+ ]
+}

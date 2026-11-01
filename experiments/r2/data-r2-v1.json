@@ -1,0 +1,41 @@
+{
+  "dataset_id": "r2-v1",
+  "purpose": "R2 replication data (owner instruction 2026-11-01; PROTOCOL_FREEZE Amendment 4): every r1-v1 file and role (which include every conf-v1 file and role) copied unchanged; new roles r2_select (diagnostic normal starts, 64), r2_bank (competence bank donors, 64) and r2_final (final normal-start panel, 128). Only K=3 items are evaluated; K=1 items exist so the bank is built with the unchanged matched-across-K procedure.",
+  "base_dataset": "r1-v1",
+  "Ks": [
+    1,
+    3
+  ],
+  "prefix_slack": 24,
+  "suffix_allowance": 80,
+  "registry_counts": {
+    "bc_train": 450,
+    "bc_val": 50,
+    "rl_train": 2048,
+    "reset_donor": 256,
+    "anchor_donor": 256,
+    "dev_eval": 32,
+    "dev_bank": 64,
+    "conf_select": 64,
+    "conf_bank": 64,
+    "conf_final": 64,
+    "r1_select": 64,
+    "r1_bank": 64,
+    "r1_final": 128,
+    "r2_select": 64,
+    "r2_bank": 64,
+    "r2_final": 128
+  },
+  "generate_roles": [
+    "r2_select",
+    "r2_bank",
+    "r2_final"
+  ],
+  "trajectory_roles": [
+    "r2_bank"
+  ],
+  "bank_roles": [
+    "r2_bank"
+  ],
+  "bank_size": 64
+}

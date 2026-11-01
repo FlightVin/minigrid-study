@@ -398,3 +398,39 @@ in `tools/postm4_audit.py` -> `reports/postm4/` and FINDINGS F11; report revised
   Nothing was re-analysed with other rules. The unadjusted p and bootstrap are reported as sensitivity only.
 - The next-question power figures (R1.9) use R1's observed seed SD. They are planning numbers, not a test, and
   nothing is launched. Per the owner's instruction, no RQ2, no other task family, no further training.
+
+## 2026-11-01 — Owner programme: R2 final replication, E1 cross-panel, E2 anchor components (Amendment 4)
+Instruction recorded verbatim in `mac-agentic-engineering/project.md` (harness `000fd83`), with an agent note on
+superseded limits. Reconciliation with the evidence and the decisions taken:
+- **Scope and why.** M4's K=3/early-BC preservation effect was post hoc; R1 (8 seeds) met neither Holm-2 hypothesis
+  but estimated +0.040 with seed SD 0.043. The one open RQ1 question is whether that single effect is real. R2
+  tests it alone (early BC only; the checkpoint interaction is dropped, which is not a retroactive R1 success).
+  E1 asks whether the M4/R1 differences in baseline and seed SD depend on the evaluation panel. E2 asks which
+  anchor component carries the penalty's effect. RQ2 selection, other task families and more replications stay
+  out of scope.
+- **Budget.** 50M incremental from the corrected ledger 118,670,430 (R1 audit added 128 actions). Unused R1
+  allowance not carried. The 109M M4 stop line and the R1 28.4M budget are replaced. No wall-time limit.
+  Allocation: R2 <= 38M (may use the reserve for failures), E1 <= 4M, E2 <= 4M (hard), reserve 4M, audit 0.3M.
+  Enforcement: `tools/run_program.py` (admission before every batch, committed R2 cost always held; exploratory
+  work only after R2 and never from the reserve). Projected conservative total 41.84M + 0.3M: the design fits.
+- **Fixed design.** R2: seeds 23-42, K=3, BC to 4k only (constant lr, so the 4k checkpoint is unchanged), arms
+  00/01 at alpha 0, 501,760 primary, 251,904 descriptive, fresh roles r2_select/r2_bank/r2_final, eval seed 949000,
+  one two-sided paired t-test at 0.05 on R2 data only. Decision cells relative to 0, 0.03 and 0.05 (Amendment 4 D).
+  E1: 4 attempts per layout (hard bound 2.90M <= 4M). E2: forks of R1 seeds 15-17, arms 00/01p/01s/01, 251,904
+  actions, 32 r1_select layouts x 4 + r1_bank 64 x 2.
+- **Choices made here (ordinary engineering, recorded):** E2's development-only evaluation uses r1_select (first
+  32 K=3 layouts) and r1_bank, because pi0/probe values exist on those states and these roles were never a
+  confirmatory panel; r2 roles are reserved for R2. Interrupted jobs are rerun in full from their last complete
+  input checkpoint rather than resumed mid-branch, so every R2 branch record has the same shape (resume stays
+  available and is tested on CPU). The interruption drill uses the sleep canary (no environment actions).
+- **Interpretation rules.** Training seed is the only replicate. No interim look at paired differences or arm
+  means (the analysis is blinded until 20/20). If R2 is inconclusive: report and stop. A positive R2 states the
+  condition (K=3, early BC, lambda 0.01, 501,760) and magnitude only; no checkpoint dependence is inferred.
+  Synthesis with R1 is descriptive, without a p-value, and discloses adaptive study selection; M4 is excluded.
+- **R1 audit outcome** (before any new training; REPORT R1.10): inventory exact (64 endpoint records; "48" was a
+  documentation error); statistics reproduce; one accounting correction (+128); interpretations corrected
+  (compatible-with wording; limited not zero power; SD reasons not separated; "mainly access" withdrawn for R1 and
+  qualified for M4 by the exact decomposition).
+- **Monitoring.** Battery watch moved into the repo (`tools/battery_watch.py`, log `.mae/monitor/`), session task
+  brnp52lai; two-hour review cron 19ac8cf7 (session-only; recreate in a new session). No duplicate monitor existed
+  (checked by process listing before start).

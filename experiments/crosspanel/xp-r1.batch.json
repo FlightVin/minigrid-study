@@ -1,0 +1,260 @@
+{
+ "jobs": [
+  {
+   "id": "xp-r1-s15-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "crosspanel",
+    "--config",
+    "experiments/crosspanel/crosspanel-v1.json",
+    "--branch",
+    "20261101T002815-88091/r1-K3-u4000-s15-00"
+   ]
+  },
+  {
+   "id": "xp-r1-s15-01",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "crosspanel",
+    "--config",
+    "experiments/crosspanel/crosspanel-v1.json",
+    "--branch",
+    "20261101T002041-87256/r1-K3-u4000-s15-01-kl0p01"
+   ]
+  },
+  {
+   "id": "xp-r1-s16-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "crosspanel",
+    "--config",
+    "experiments/crosspanel/crosspanel-v1.json",
+    "--branch",
+    "20261101T003945-89279/r1-K3-u4000-s16-00"
+   ]
+  },
+  {
+   "id": "xp-r1-s16-01",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "crosspanel",
+    "--config",
+    "experiments/crosspanel/crosspanel-v1.json",
+    "--branch",
+    "20261101T003945-89279/r1-K3-u4000-s16-01-kl0p01"
+   ]
+  },
+  {
+   "id": "xp-r1-s17-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "crosspanel",
+    "--config",
+    "experiments/crosspanel/crosspanel-v1.json",
+    "--branch",
+    "20261101T010311-99104/r1-K3-u4000-s17-00"
+   ]
+  },
+  {
+   "id": "xp-r1-s17-01",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "crosspanel",
+    "--config",
+    "experiments/crosspanel/crosspanel-v1.json",
+    "--branch",
+    "20261101T010311-99104/r1-K3-u4000-s17-01-kl0p01"
+   ]
+  },
+  {
+   "id": "xp-r1-s18-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "crosspanel",
+    "--config",
+    "experiments/crosspanel/crosspanel-v1.json",
+    "--branch",
+    "20261101T012123-1751/r1-K3-u4000-s18-00"
+   ]
+  },
+  {
+   "id": "xp-r1-s18-01",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "crosspanel",
+    "--config",
+    "experiments/crosspanel/crosspanel-v1.json",
+    "--branch",
+    "20261101T012123-1751/r1-K3-u4000-s18-01-kl0p01"
+   ]
+  },
+  {
+   "id": "xp-r1-s19-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "crosspanel",
+    "--config",
+    "experiments/crosspanel/crosspanel-v1.json",
+    "--branch",
+    "20261101T013935-7336/r1-K3-u4000-s19-00"
+   ]
+  },
+  {
+   "id": "xp-r1-s19-01",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "crosspanel",
+    "--config",
+    "experiments/crosspanel/crosspanel-v1.json",
+    "--branch",
+    "20261101T013935-7336/r1-K3-u4000-s19-01-kl0p01"
+   ]
+  },
+  {
+   "id": "xp-r1-s20-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "crosspanel",
+    "--config",
+    "experiments/crosspanel/crosspanel-v1.json",
+    "--branch",
+    "20261101T015804-10217/r1-K3-u4000-s20-00"
+   ]
+  },
+  {
+   "id": "xp-r1-s20-01",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "crosspanel",
+    "--config",
+    "experiments/crosspanel/crosspanel-v1.json",
+    "--branch",
+    "20261101T015804-10217/r1-K3-u4000-s20-01-kl0p01"
+   ]
+  },
+  {
+   "id": "xp-r1-s21-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "crosspanel",
+    "--config",
+    "experiments/crosspanel/crosspanel-v1.json",
+    "--branch",
+    "20261101T021657-15496/r1-K3-u4000-s21-00"
+   ]
+  },
+  {
+   "id": "xp-r1-s21-01",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "crosspanel",
+    "--config",
+    "experiments/crosspanel/crosspanel-v1.json",
+    "--branch",
+    "20261101T021657-15496/r1-K3-u4000-s21-01-kl0p01"
+   ]
+  },
+  {
+   "id": "xp-r1-s22-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "crosspanel",
+    "--config",
+    "experiments/crosspanel/crosspanel-v1.json",
+    "--branch",
+    "20261101T023515-17380/r1-K3-u4000-s22-00"
+   ]
+  },
+  {
+   "id": "xp-r1-s22-01",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag",
+    "crosspanel",
+    "--config",
+    "experiments/crosspanel/crosspanel-v1.json",
+    "--branch",
+    "20261101T023515-17380/r1-K3-u4000-s22-01-kl0p01"
+   ]
+  }
+ ]
+}

@@ -12,6 +12,12 @@ arrival:  python -m bc2rl.diag arrival --config C --probe BATCH/JOB --branches 0
           "clock_extended": the same states from sources 00 and 11 with remaining time set to 104 (the
           planner-bank entry value; the time input changes accordingly), for policies 00 and 11 only.
           This is a new task condition and is never merged with the original one.
+crosspanel: python -m bc2rl.diag crosspanel --config C --branch BATCH/JOB
+          Cross-panel study (owner instruction 2026-11-01, section 6). Loads the branch's saved complete state at
+          cfg["policy_actions"] (hash checked against the file and the branch summary) and evaluates its actor
+          on every role in cfg["panels"] (K of the branch only) with cfg["attempts"] attempts per layout and the
+          study's own eval seed. New records only (attempts_crosspanel_<role>.jsonl); originals are untouched.
+          C4/R4 only when attempts >= 4.
 gradcheck: python -m bc2rl.diag gradcheck --config C --probe BATCH/JOB --branches 00=B/J 01=B/J
           No environment actions. On 16 anchor batches of 128 (the training anchor distribution), the
           anchor KL to pi0 and the norm of the gradient of lambda * KL for each saved actor.
@@ -170,6 +176,33 @@ def reeval(a, cfg):
     print(json.dumps({k: out[k] for k in out if k != "original_final"}), flush=True)
 
 
+def crosspanel(a, cfg):
+    bdir = run_path(a.branch)
+    bs = json.loads((bdir / "summary.json").read_text())
+    n = cfg["policy_actions"]
+    saved = torch.load(bdir / f"state_{n}.pt", map_location="cpu", weights_only=False)
+    assert PP.state_hash(saved["state"]) == saved["hash"] == bs["state_hashes"][str(n)], "saved state hash mismatch"
+    ctx = Ctx(cfg, bs["K"], bs["seed"])
+    actor = load_actor(saved["state"]["actor"], ctx.device)
+    lay = json.loads((ctx.ds / "layouts.json").read_text())
+    ks = (4,) if cfg["attempts"] >= 4 else ()
+    out = {"mode": "diag_crosspanel", "branch": str(bdir), "arm": bs["arm"], "K": bs["K"], "seed": bs["seed"],
+           "bc_update": bs["bc_update"], "policy_actions": n, "state_hash": saved["hash"],
+           "eval_seed": cfg["eval_seed"], "attempts": cfg["attempts"], "panels": {}}
+    t0 = time.time()
+    with Heartbeat(interval=5):
+        for role in cfg["panels"]:
+            L = [T.Layout.from_dict(it["layout"]) for it in lay[role] if it["layout"]["K"] == bs["K"]]
+            res, m = E.run_attempts(actor, [("layout", x) for x in L], cfg["attempts"], cfg["eval_seed"], ctx.device,
+                                    heartbeat=ctx.hb)
+            ctx.actions["eval_diagnostic"] += m
+            write_attempts(ctx.run_dir / f"attempts_crosspanel_{role}.jsonl", res)
+            out["panels"][role] = {**E.summarize(res, len(L), ks=ks), "layouts": len(L), "actions": m}
+    out.update(actions=ctx.actions, wall_seconds=time.time() - t0)
+    (ctx.run_dir / "summary.json").write_text(json.dumps(out, indent=1))
+    print(json.dumps({"arm": out["arm"], "seed": out["seed"], "actions": ctx.actions}), flush=True)
+
+
 def gradcheck(a, cfg):
     pdir = run_path(a.probe)
     psum = json.loads((pdir / "summary.json").read_text())
@@ -204,7 +237,7 @@ def gradcheck(a, cfg):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("mode", choices=["reeval", "arrival", "gradcheck"])
+    ap.add_argument("mode", choices=["reeval", "arrival", "gradcheck", "crosspanel"])
     ap.add_argument("--config", required=True)
     ap.add_argument("--branch")
     ap.add_argument("--probe")
@@ -213,7 +246,7 @@ def main():
     ap.add_argument("--tag", default="reeval")
     a = ap.parse_args()
     cfg = json.loads(Path(a.config).read_text())
-    {"reeval": reeval, "arrival": arrival, "gradcheck": gradcheck}[a.mode](a, cfg)
+    {"reeval": reeval, "arrival": arrival, "gradcheck": gradcheck, "crosspanel": crosspanel}[a.mode](a, cfg)
 
 
 if __name__ == "__main__":

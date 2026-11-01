@@ -156,3 +156,23 @@ The watcher then reported the previous batch; it was restarted after the new bat
   300 writes) fails on the old code and passes on the fix. Telemetry only; no training, evaluation or data code
   changed. The failed job (86,095 BC-evaluation actions, counted in the ledger) is kept. Seed 17 reruns under a
   new batch ID with the same seed and batch file; seeds 15-16 ran the earlier code, which differs only here.
+
+## 2026-11-01 — Programme under Amendment 4 (R2, E1, E2)
+- `tools/ledger.py`: a job without a summary counts at least its managed step records (`partial_unrecorded`).
+  Found by the R1 audit: the failed r1-bc-s17 ran 128 evaluation actions after its last metrics row. Ledger total
+  118,670,302 -> 118,670,430.
+- `tools/audit_r1.py`: targeted, independent R1 audit (inventory, lineage, panel fingerprint, statistics with its
+  own t CDF, action counts, failure record, exact decomposition). Outputs `reports/r1/audit.json`,
+  `decomposition.csv`.
+- `src/bc2rl/ppo.py`: `anchor_penalty()` and arms `01p`/`01s` (`COMPONENT`). Arm 01 keeps the original expression.
+  New per-update stats: `anchor_kl_prefix`, `anchor_kl_suffix`, `anchor_penalty` (no effect on any RNG).
+  `src/bc2rl/rl.py`: anchors carry `is_prefix`; the component is passed to PPO, recorded in configs and summaries,
+  and restored on resume; optional `eval_layouts_n` (first n layouts of the eval role).
+  Tests (`tests/test_ppo.py`): "both" equals the original loss and gradients bitwise; prefix + suffix = both;
+  all RNG streams identical across component arms after an update; "both" with labels equals the unlabelled path.
+- `src/bc2rl/diag.py crosspanel`: evaluates a saved branch state (hash checked) on several panels with its own
+  eval seed; new attempt files only.
+- `src/bc2rl/splits.py`: namespaces r2_select 115, r2_bank 116, r2_final 117 appended. `tools/data_gate.py --r2`.
+- New tools: `tools/analyze_r2.py` (blinded until 20/20), `tools/power_r2.py`, `tools/analyze_crosspanel.py`,
+  `tools/analyze_comp.py`, `tools/run_program.py`, `tools/r2_canary_check.py`, `tools/battery_watch.py`;
+  `experiments/program/make_batches.py` and `plan.json`.

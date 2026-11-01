@@ -610,3 +610,22 @@ Tool: `tools/analyze_r1.py --check-states` (frozen at `01beef9`). Outputs: `repo
 - M4 aggregate equivalence (F10, F11 section 1) is unchanged.
 - Cost: 25,471,099 actions (89.7% of 28.4M). One deterministic failure (telemetry race) was fixed and rerun, and
   is kept in the record.
+
+## F13 — Targeted R1 audit and corrected interpretations (2026-11-01; before R2)
+
+Tool: `tools/audit_r1.py` (independent of `tools/analyze_r1.py`; no environment actions). Outputs:
+`reports/r1/audit.json`, `reports/r1/decomposition.csv`, `reports/r1/m4_decomposition.json`. Full text: REPORT R1.10.
+- Inventory exact: 8 complete BC + 1 failed BC (kept), 16 probes, 32 branches, **64 endpoint records** (512 normal +
+  256 bank attempts each), one identical panel equal to the r1_final K=3 registry. "48 branch summaries" in F12/
+  REPORT was a documentation error (16 probe + 32 branch summaries).
+- Statistics reproduce exactly with an independent t CDF (H1 p 0.0335, Holm 0.0670; H2 0.0957).
+- Actions: step records 25,471,227 vs ledger 25,471,099; the failed seed 17 BC job ran 128 actions after its last
+  metrics row. Ledger fixed; R1 spend 25,471,227.
+- Exact decomposition dp = dq (r1+r0)/2 + dr (q1+q0)/2 (arithmetic, not mediation), K=3/early BC at E500:
+  R1 access +0.0115 (SD 0.010), completion +0.0288 (SD 0.038), sum +0.040; M4 subgroup (4 seeds with r defined;
+  seed 13's ordinary arm never arrived) access +0.033, completion +0.015. The split differs between the studies.
+- Corrections to F12: "the gain is mainly access q" is withdrawn (it compared significance across measures on
+  different scales); "8 seeds cannot confirm" -> power was limited (~0.62 for H1 alone), not zero; the larger SD is
+  not attributed to subgroup selection alone (small-sample SD estimation, panel, training variability); R1 is
+  described as compatible with a positive effect similar to M4's, without treating interval overlap as replication.
+  R1's frozen Holm-2 verdict (not supported) is unchanged.

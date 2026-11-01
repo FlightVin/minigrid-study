@@ -1,0 +1,76 @@
+{
+ "jobs": [
+  {
+   "id": "comp-K3-u4000-s17-01p",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/comp/comp-v1.json",
+    "--probe-run",
+    "20261101T010311-99104/r1-probe-K3-u4000-s17",
+    "--arm",
+    "01p"
+   ]
+  },
+  {
+   "id": "comp-K3-u4000-s17-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/comp/comp-v1.json",
+    "--probe-run",
+    "20261101T010311-99104/r1-probe-K3-u4000-s17",
+    "--arm",
+    "00"
+   ]
+  },
+  {
+   "id": "comp-K3-u4000-s17-01s",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/comp/comp-v1.json",
+    "--probe-run",
+    "20261101T010311-99104/r1-probe-K3-u4000-s17",
+    "--arm",
+    "01s"
+   ]
+  },
+  {
+   "id": "comp-K3-u4000-s17-01",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/comp/comp-v1.json",
+    "--probe-run",
+    "20261101T010311-99104/r1-probe-K3-u4000-s17",
+    "--arm",
+    "01"
+   ]
+  }
+ ]
+}
