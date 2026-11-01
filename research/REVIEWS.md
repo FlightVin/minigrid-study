@@ -317,3 +317,34 @@ cal-s67..69 -> `tools/analyze_cal.py` -> pilot batch files via `make_batches.py 
 - **Power.** The battery is at 68% with the charger connected and falls about 6 points per hour. The 20% stop is about 8 h away. The work left needs about 6–7 h: A3 about 1.4 h, calibration about 0.5 h and the pilot about 4 h. The margin is narrower than at Review 12, but the battery watch remains the hard guard. If the margin becomes too small before the pilot, I will check the battery before launching it rather than start a batch that is likely to be cut.
 - **Monitors.** One process each, verified by PID and create time: battery watch 69759, driver 71896 (create 1793540164.945303) and one watch_batch loop. The cron is active. There are no duplicates.
 - **Next step.** Seeds 63–66. Then `analyze_a3.py --check-states`, `verify_program2.py`, `plot_program.py --which a3` and F19. Then calibration s67–69.
+
+## Review 14 — 2026-11-01 ~17:15 local
+
+- **State.**
+  - A3 is complete and verified (F19). H1 is supported with a small effect (+0.0106 [+0.0019, +0.0193]); the crossed
+    bootstrap includes 0. The gate is not supported.
+  - Calibration is complete. The frozen rule selected rho 0.2 / 8,000 updates (the only qualifying variant; 1/3
+    seeds individually; DECISIONS).
+  - Pilot batches s67 and s68 finished with every exit code 0 (2.54M and 2.51M; conservative 3.03M each). In s69 the
+    K3 probe has finished and the K3 branches are running.
+- **Validity.**
+  - The A3 conclusions were written with the required limits: modest absolute size, bootstrap disagreement, no
+    generalization beyond the tested regime, and B as a weak manipulation.
+  - The pilot runs under its frozen analysis. I have read no pilot outcome yet and will not retune.
+  - The calibration caveats (seed-level target failures; K1 near the room limit) were recorded before the pilot
+    started.
+- **Resources.**
+  - Spent 96,099,270 of 130M: A3 88,138,774 and development 7,889,190 (ceiling 15M).
+  - The only remaining required batch is p2-tests (0.1M). Projected total about 96.5M plus the rest of the pilot.
+    Audit reserve is held.
+  - Battery is 57% with the charger connected, and the drain has slowed to about 1 point per hour since 16:18.
+- **Monitors.** One process each, verified by PID and create time: battery watch 69759, pilot driver 81053 (create
+  1793568888.59) and one watch_batch loop. The cron is active. There are no duplicates.
+- **Next step.** Pilot s69 finishes (about 25 min). Then:
+  1. `analyze_pilot.py --check-states`
+  2. pilot figure
+  3. full `verify_program2.py`
+  4. p2-tests
+  5. cost reconciliation
+  6. synthesis (RQ1 distinctions, RQ2 assessment, literature)
+  7. consolidated report and decisive recommendation
