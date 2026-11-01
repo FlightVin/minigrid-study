@@ -1,0 +1,3 @@
+{"batch": "20261101T041229-41949", "job": "r2-drill (bc2rl.canary sleep, 2 children, 600 s)", "action": "mae stop after ~25 s",
+ "status": "stopped", "reason": "owner_stop", "job_returncode": 143, "children": {"41963": "gone", "41964": "gone"},
+ "runner_ledger_record": "stopped/owner_stop", "environment_actions": 0, "pass": true}
