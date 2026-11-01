@@ -139,10 +139,10 @@ Dependencies: each line needs the lines above it unless marked (parallel-safe: d
 - [x] A3 seeds 44-66 (24/24; watcher armed; no interim outcome reads)
 - [x] A3 analysis `--check-states` (unblinded at 24/24); figures (paired arm effects at both endpoints, component
       contrasts, penalty/update-size diagnostics) — F19; H1 supported, gate not supported
-- [ ] Calibration batches s67-69 -> analyze_cal -> selection (or documented failure)
+- [x] Calibration batches s67-69 -> analyze_cal -> selection (rho 0.2 / 8000; DECISIONS)
 - [ ] (if selected) pilot batch files written; pilot runs; analysis; figures (analysis script and figure code
       `plot_program.py --which pilot` committed before any pilot run)
-- [ ] Figure: initial access vs boundary-entry competence (calibration; code `plot_program.py --which cal` ready)
+- [x] Figure: initial access vs boundary-entry competence (`reports/cal/access_entry.svg`)
 - [ ] Final runner tests (p2-tests); ledger and cost reconciliation
 - [ ] Independent verification from raw attempts (A3 inventory, coefficients, lineage, roles, formulas, actions;
       calibration; pilot) — `tools/verify_program2.py` committed; `--engineering` passes on 43-51
