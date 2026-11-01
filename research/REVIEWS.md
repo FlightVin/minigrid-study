@@ -252,3 +252,21 @@ Seeds, lambda, panels and endpoints are unchanged. The frozen design remains exe
 
 **Next.** Let seeds 28-42 finish (~2.7 h). Then E1 cross-panel, E2 components, final tests, R2 analysis with
 `--check-states`, independent verification, report.
+
+## Review 9 — 2026-11-01 ~07:45 local (programme complete; final)
+
+**State.** R2 seeds 23-42 finished (20/20, every batch exit 0, 0.925-0.973 of conservative). The frozen analysis
+ran once at 20/20: +0.0097 [-0.0035, +0.0229], p 0.142, not supported, interval excludes 0.03 (F14). E1 (F15),
+E2 (F16) and final tests (274 passed) completed inside their ceilings. Spend 39.64M of 50M; reserve unused (F17).
+
+**Validity.** No design change after any outcome. No interim read of R2 outcomes. R2 data only for the decision;
+the R1+R2 synthesis is descriptive with adaptive selection disclosed. Independent verifier
+(`tools/verify_program.py`) reproduces R2, E1 and E2 from raw attempts. M4 and R1 verdicts unchanged.
+
+**Deviation.** One runner refusal at the start of xp-r1 because I left an uncommitted file in the tree (0 actions;
+rerun unchanged; DECISIONS). Rule kept since: write and commit new files in one command.
+
+**Interpretation risks checked.** E2's suffix-only result is not promoted to a claim (3 seeds, development panel,
+inconsistent with the "both" arm). E1 does not count as replication. The decomposition is arithmetic, not mediation.
+
+**Next.** Stop owned monitors by verified identity; report to the owner; stop.

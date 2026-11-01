@@ -1,12 +1,15 @@
 # MiniGrid study: demonstration-state starts and BC preservation after BC
 
-Status 2026-11-01: M0-M4 and the R1 focused replication (Amendment 3) are complete. The owner authorized one final
-fixed-size replication (R2, 20 seeds) and two exploratory studies on 2026-11-01 (PROTOCOL_FREEZE Amendment 4). R1
-was audited first (section R1.10); its Holm-2 verdict is unchanged, and some R1 interpretations were corrected in
-place (marked "corrected 2026-11-01"). The M4 sections below (C1-C8) are unchanged except the access wording
-noted in R1.10, and R1 does not modify the M4 aggregate equivalence result.
+Status 2026-11-01 (programme complete): M0-M4, the R1 focused replication (Amendment 3) and the owner's
+2026-11-01 programme (PROTOCOL_FREEZE Amendment 4: R1 audit, R2 20-seed replication, E1 cross-panel, E2 anchor
+components) are complete. The consolidated programme report is section P below. Earlier sections are kept; R1
+interpretations corrected on 2026-11-01 are marked in place. M4 and R1 frozen verdicts are unchanged.
 
 ## Headline
+
+**Programme 2026-11-01 (section P):** the R2 20-seed replication gave +0.0097 [-0.0035, +0.0229], p 0.142:
+not supported; the K=3/early-BC preservation effect did not replicate at the M4 or R1 size. The paragraphs below
+are the M4 and R1 headlines as written then.
 
 At the tested strengths (alpha 0.25, lambda 0.01) and budgets (251,904 and 501,760 continuation actions), the
 equal-weight average effects of demonstration-state starts, BC preservation and their combination were
@@ -23,6 +26,97 @@ checkpoint interaction was not supported (adjusted p 0.096). The result did not 
 inconclusive, not negative. The estimates are compatible with a positive effect similar to M4's (corrected
 2026-11-01). The seed SD of the effect (0.043) was larger than in the M4 subgroup (0.008); the reasons are not
 resolved (R1.10).
+
+## P. Programme 2026-11-01 (Amendment 4): consolidated report
+
+### P1. What completed and what remains
+Completed, all under the frozen design: targeted R1 audit (R1.10, F13); R2 with all 20 planned seeds (23-42, no
+exclusions, no failures); E1 cross-panel (26 policies x 2 panels); E2 anchor components (3 forks x 4 arms); final
+runner tests (274 passed, 3 skipped); independent verification from raw records (`tools/verify_program.py`, no
+problems). Nothing authorised remains. R2 is not extended (owner rule: no repeated testing).
+
+### P2. R2 primary result (prespecified, R2 data only; F14)
+K=3, early BC (4k), lambda 0.01 vs 0, normal-start P1 at 501,760 actions on r2_final (128 x 4), training seed
+the unit, n = 20 paired seeds:
+
+**d = +0.0097, 95% t-interval [-0.0035, +0.0229], t = 1.53, df 19, p = 0.142** (12/20 seeds positive;
+baseline P1 0.093; seed SD 0.028).
+
+Frozen decision: **not supported.** The interval excludes the 0.03 planning effect and the M4 estimate (0.045):
+an effect of the size that motivated R2 is ruled out under this protocol; a small effect below about 0.023 is
+not. The observed SD was below all planning SDs, so this is not a power failure. Relative to reference values
+(descriptive one-sided p for "effect > value"): 0: 0.071; 0.03: 0.998; 0.05: >0.999.
+251,904 (descriptive): +0.0099 [-0.0033, +0.0230]. Figures: `reports/r2/paired_effects.svg`, `endpoints.svg`.
+
+### P3. Sensitivity checks (not the decision rule)
+Exact sign-flip test over 2^20 patterns p = 0.146; crossed seed x layout bootstrap (10,000, RNG 20261102) 95%
+[-0.0071, +0.0260]. Both agree with the t-test. The layouts-only bootstrap [0.0019, 0.0177] holds the 20 trained
+policies fixed and ignores training variation, so it is not an interval for the estimand. Descriptive R1+R2
+precision-weighted mean +0.014 (approx. 95% [0.003, 0.026]); no p-value; R1 and R2 exist because M4's post hoc
+subgroup looked positive (adaptive study selection), so this mean is biased upward if anything.
+
+### P4. Cross-panel (E1; exploratory; F15)
+Saved 501,760 actors re-evaluated on both final panels, 4 attempts, new attempt seed. Paired d = 01 - 00:
+
+| cohort / panel | P1 00 | P1 01 | d [95% t] | seed SD | n pos |
+|---|---|---|---|---|---|
+| M4 (5) / conf_final | 0.064 | 0.105 | +0.041 [+0.017, +0.065] | 0.019 | 5/5 |
+| M4 (5) / r1_final | 0.066 | 0.123 | +0.058 [+0.025, +0.091] | 0.026 | 5/5 |
+| R1 (8) / conf_final | 0.108 | 0.133 | +0.025 [-0.006, +0.056] | 0.037 | 5/8 |
+| R1 (8) / r1_final | 0.128 | 0.148 | +0.020 [-0.008, +0.048] | 0.033 | 6/8 |
+
+The effect follows the trained policies, not the panel: the M4 policies keep a clear gain on R1's panel, and the
+R1 policies show a smaller gain on M4's panel. The panel does not explain the larger R1 seed SD. With new attempt
+seeds, R1's own-panel d is +0.020 (originally +0.040): part of R1's estimate was attempt-level evaluation noise.
+Together with R2, the M4 subgroup effect is best read as a favourable set of five training seeds, not a property of
+the method. Figure: `reports/crosspanel/cells.svg`.
+
+### P5. Anchor components (E2; exploratory, 3 seeds, 251,904, development panel; F16)
+P1 contrasts (mean [95% t, df 2]): prefix-only -0.010 [-0.059, +0.038]; suffix-only **+0.055 [+0.035, +0.074]**
+(3/3 seeds, +0.047 to +0.063); both -0.010 [-0.079, +0.058]; interaction -0.055 [-0.139, +0.030]. The suffix term
+lowered suffix-state anchor KL (0.082 vs 0.138); the prefix term (weight 0.0025) hardly changed prefix KL. The
+suffix-only result is not consistent with the null "both" arm, which contains the same suffix term; with 3 seeds,
+128 attempts per branch and four unadjusted contrasts, it is hypothesis-generating only. No component claim is
+made. Figure: `reports/comp/contrasts.svg`.
+
+### P6. Corrected access / completion interpretation
+Exact per-seed decomposition dp = dq (r1+r0)/2 + dr (q1+q0)/2, r = P(success | actual arrival) (arithmetic, not
+mediation; undefined cases reported, never imputed):
+
+| data | access part | completion part | sum |
+|---|---|---|---|
+| M4 subgroup E500 (4 defined seeds) | +0.033 | +0.015 | +0.048 |
+| R1 E500 (8) | +0.0115 | +0.0288 | +0.040 |
+| R2 E500 (20; primary data) | +0.0036 (SD 0.013) | +0.0061 (SD 0.026) | +0.0097 |
+| E1 M4 / conf, r1 panels | +0.034, +0.023 | +0.005, +0.026 | |
+| E1 R1 / conf, r1 panels | +0.012, +0.008 | +0.012, +0.013 | |
+
+The split is not stable across studies, panels or seeds. **"The preservation gain is mainly access" is withdrawn**
+(R1 and R2 do not support it; it holds only in M4's subgroup on its own panel). In R2 neither part differs clearly
+from 0. Stage measures (bank bins, KL, timing, visitation) are in `reports/r2/r2_summary.json` (secondary block);
+they are descriptive and are not read as p = q x c.
+
+### P7. Measured versus estimated cost, failures and deviations (F17)
+Spend 39,643,852 of 50M (total ledger 158,314,282); reserve unused. R2 33.40M (plan 35.13M conservative; ceiling
+38M), E1 2.81M (2.90M; 4M), E2 3.36M (3.40M; 4M), final tests 0.06M, development test before freeze 6,032. Each
+batch 0.925-0.976 of its conservative estimate. No job failed. Deviations: lost r2-smoke step record (fixed;
+conservative 250,000 entered); run_program completion detection (fixed, no job effect); one runner refusal at the
+start of xp-r1 because I left an uncommitted file (0 actions; rerun unchanged; DECISIONS). Engineering: heartbeat
+fix, atomic writes, interruption drill and exact CPU resume passed (canary and test batches); no interruption
+occurred, so no resume was needed.
+
+### P8. Recommendation
+**Close the RQ1 line: report preservation at K=3 with early BC as not replicated.** M4's aggregate result
+(practically equivalent within +-0.05) stands; R2, the largest and prespecified test, excludes the M4-size subgroup
+effect, and E1 is consistent with the earlier estimates coming from a favourable set of trained policies (M4) and
+attempt-level evaluation noise (R1).
+Do not spend further budget on this effect. The E2 suffix-only signal is the only new lead; it should be pursued
+only under a new owner decision with a prespecified design, not as a continuation of this programme.
+
+Manuscript-ready wording (not inserted): "In a prespecified 20-seed replication, preservation at K=3 with early
+BC changed normal-start success by +0.010 (95% CI -0.004 to +0.023; p = 0.14), excluding the +0.045 effect seen
+in the post hoc M4 subgroup. Re-evaluating the M4 and R1 policies on both test panels showed that the earlier gain
+belonged to the trained policies, not the panel."
 
 ## R1. Focused replication of the K=3/early-BC preservation effect (Amendment 3; complete)
 

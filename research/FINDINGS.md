@@ -655,3 +655,75 @@ aggregate R2 outcome: after the 20th seed finished.
   is not excluded. The M4 post hoc subgroup estimate (+0.045) did not replicate at its size; R1's +0.040 was
   probably an overestimate (consistent with selection after M4 and with sampling variation). M4 (F10) and R1 (F12)
   frozen verdicts are unchanged. Per the owner instruction, this replication stops here; no further R2 testing.
+
+## F15 — E1 cross-panel re-evaluation (2026-11-01; Amendment 4, exploratory)
+
+Tool: `tools/analyze_crosspanel.py`; outputs `reports/crosspanel/` (summary, per-policy CSV, `cells.svg`). 26 saved
+501,760 actors (M4 seeds 10-14, R1 seeds 15-22; K=3, early BC, arms 00 and 01) evaluated on conf_final (64 K=3
+layouts) and r1_final (128) with 4 attempts each and a new attempt seed (969000). No records overwritten. 0 missing,
+0 problems. 2,810,699 actions (ceiling 4M).
+
+| cohort / panel | P1 00 | P1 01 | d (95% t) | seed SD | n pos |
+|---|---|---|---|---|---|
+| M4 / conf_final | 0.064 | 0.105 | +0.041 [+0.017, +0.065] | 0.019 | 5/5 |
+| M4 / r1_final | 0.066 | 0.123 | +0.058 [+0.025, +0.091] | 0.026 | 5/5 |
+| R1 / conf_final | 0.108 | 0.133 | +0.025 [-0.006, +0.056] | 0.037 | 5/8 |
+| R1 / r1_final | 0.128 | 0.148 | +0.020 [-0.008, +0.048] | 0.033 | 6/8 |
+
+- The M4-R1 difference in d follows the **cohort (the trained policies)**, not the panel: on the same panel the R1
+  policies show a smaller d (-0.016 on conf_final, -0.038 on r1_final). Within a cohort the panel change is small
+  (M4 +0.017 [-0.007, +0.042]; R1 -0.005 [-0.029, +0.020]). Panel difficulty does not explain the SD difference
+  either: the R1 SD stays 0.033-0.037 on both panels.
+- Re-evaluation with new attempt seeds: per-policy P1 correlates 0.93 (M4) and 0.95 (R1) with the original final
+  records; mean absolute change 0.020 and 0.015. The R1 cohort's own-panel d fell from +0.040 (original) to +0.020
+  (new attempts on the same policies and panel). About half of R1's original estimate was therefore attempt-level
+  evaluation noise with a favourable draw; the M4 cohort's d (+0.045 -> +0.041) was stable.
+- Interpretation: the M4 subgroup effect is a property of those five trained policy pairs, and it holds on a
+  different panel. It did not transfer to new training seeds (R1 +0.020 on re-evaluation; R2 +0.0097 with 20 seeds,
+  F14). Exploratory; already observed policies; not a replication.
+
+## F16 — E2 anchor components (2026-11-01; Amendment 4, exploratory, 3 seeds, development panel)
+
+Tool: `tools/analyze_comp.py --check-states`; outputs `reports/comp/` (summary, per-branch CSV, `contrasts.svg`).
+Forks of R1 early-BC probes, seeds 15-17; arms 00, 01p (prefix term only, 0.0025), 01s (suffix term only, 0.0075),
+01 (both); 251,904 actions; evaluation 32 r1_select layouts x 4 and r1_bank 64 x 2 (seed 979000). 12/12 branches,
+states match hashes, lineage correct. 3,359,919 actions (ceiling 4M). P1 contrasts (per seed 15/16/17; mean, 95% t df 2):
+
+| contrast | per seed | mean [95% t] |
+|---|---|---|
+| prefix (01p - 00) | -0.008, +0.008, -0.031 | -0.010 [-0.059, +0.038] |
+| suffix (01s - 00) | +0.055, +0.047, +0.063 | +0.055 [+0.035, +0.074] |
+| both (01 - 00) | +0.016, -0.039, -0.008 | -0.010 [-0.079, +0.058] |
+| interaction | -0.031, -0.094, -0.039 | -0.055 [-0.139, +0.030] |
+
+- The suffix-only arm was higher in all 3 seeds, while the full penalty ("both", the R1/R2 arm) was not. Arm means:
+  00 0.070, 01p 0.060, 01s 0.125, 01 0.060. Suffix decomposition (access, completion): s15 +0.009/+0.046, s16
+  +0.067/-0.020, s17 +0.031/+0.032 — no consistent stage.
+- Training: the suffix term lowered suffix-state anchor KL (01s 0.082, 01 0.074 vs 00 0.138); the prefix term at
+  0.0025 hardly moved prefix KL (01p 0.125 vs 00 0.128). Training access/success rates were similar across arms.
+- Caution: 3 seeds, 128 normal attempts per branch (binomial SE ~0.02 per arm), development panel, 4 contrasts
+  without correction, one checkpoint. The small seed SD of the suffix contrast (0.008) is itself poorly estimated.
+  The pattern (suffix-only positive, both null) has no mechanism that this design can identify; "both" contains the
+  same suffix term. Hypothesis-generating only. A component effect here describes this penalty implementation,
+  not a skill or pathway.
+- Engineering: the 00 and 01 branches did not reproduce the R1 branches' 251,904 state hashes (not required; the
+  Amendment 4 anchor RNG stream and MPS execution change the trajectories).
+
+## F17 — Programme cost and execution (2026-11-01; Amendment 4)
+
+Spend 39,643,852 of the 50M budget (start 118,670,430; total 158,314,282). Reserve not used.
+
+| study | measured | conservative plan | ceiling |
+|---|---|---|---|
+| R2 (data, tests, smoke est., canary, 20 seeds) | 33,404,912 | 35,133,360 | 38M |
+| E1 cross-panel | 2,810,699 | 2,900,248 | 4M |
+| E2 components | 3,359,919 | 3,399,624 | 4M |
+| final tests | 62,290 | 100,000 | (audit 0.3M) |
+| development test before freeze (outside runner) | 6,032 | - | - |
+
+R2 smoke is the conservative estimate (250,000; point 219,343) after the lost step record (IMPLEMENTATION).
+Every batch exited 0 at 0.925-0.976 of its conservative estimate. Failures: none in any job. Deviations: (1) lost
+r2-smoke step record (fixed, estimated); (2) run_program completion detection (fixed at Review 8, no effect on
+jobs); (3) xp-r1 refused at start because of an uncommitted file (agent error, 0 actions, rerun unchanged).
+Final runner test job: 274 passed, 3 skipped. Independent verification (`tools/verify_program.py`,
+`reports/program/verification.json`): R2, E1 and E2 numbers reproduce from raw attempts; no problems.

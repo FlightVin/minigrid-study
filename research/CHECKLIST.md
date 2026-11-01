@@ -112,11 +112,11 @@ Dependencies: each line needs the lines above it unless marked (parallel-safe: d
 - [x] Tests batch: full suite + RL smoke (exact CPU resume, heartbeat race, atomic writes)
 - [x] Interruption drill: sleep canary stopped by `mae stop`; status stopped; children gone
 - [x] Canary s23 (BC, probe, branch 01) -> `tools/r2_canary_check.py` (no outcomes) -> seed-s23-rest written + committed
-- [ ] R2 seeds 23-42 complete (20/20; watcher armed; no interim outcome reads)
-- [ ] R2 analysis `--check-states` (unblinded only at 20/20); figures
-- [ ] E1 cross-panel (26 policies x 2 panels x 4 attempts) -> analysis
-- [ ] E2 components (3 forks x 4 arms, 251,904) -> analysis `--check-states`
-- [ ] Final runner test job (prog-tests); ledger and cost reconciliation (measured vs conservative)
-- [ ] Independent verification of R2/E1/E2 numbers from raw records (separate script or fresh-agent review)
-- [ ] Consolidated report (sections 1-8 of the instruction), FINDINGS, review; commit + push
-- [ ] Stop owned monitors (battery watch, cron, watchers) by verified identity; stop scientific execution
+- [x] R2 seeds 23-42 complete (20/20; watcher armed; no interim outcome reads)
+- [x] R2 analysis `--check-states` (unblinded only at 20/20); figures
+- [x] E1 cross-panel (26 policies x 2 panels x 4 attempts) -> analysis
+- [x] E2 components (3 forks x 4 arms, 251,904) -> analysis `--check-states`
+- [x] Final runner test job (prog-tests); ledger and cost reconciliation (measured vs conservative)
+- [x] Independent verification of R2/E1/E2 numbers from raw records (separate script or fresh-agent review)
+- [x] Consolidated report (sections 1-8 of the instruction), FINDINGS, review; commit + push
+- [x] Stop owned monitors (battery watch, cron, watchers) by verified identity; stop scientific execution

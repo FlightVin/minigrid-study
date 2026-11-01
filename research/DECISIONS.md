@@ -446,3 +446,6 @@ superseded limits. Reconciliation with the evidence and the decisions taken:
   was cleaned by commit and the remaining batches (xp-r1, comp-s15..17, final-tests) were restarted unchanged
   (driver PID 83489, log `.mae/monitor/explore2.log`). xp-m4 had completed normally (1,088,680 actions).
   Not a failure of the job; no retry counted. New files are now written and committed in one command.
+- 2026-11-01 (programme complete): E1, E2 and final tests done; independent verification passed; report section
+  P written. Recommendation: close the RQ1 line (REPORT P8). Owned monitors stopped (battery watch 35448 by PID
+  and create time; review cron a43d3f65). No further scientific execution.
