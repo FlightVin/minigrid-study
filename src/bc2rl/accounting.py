@@ -21,6 +21,9 @@ _managed = bool(os.environ.get("MAE_RUN_DIR"))
 _limit = int(os.environ.get("BC2RL_UNMANAGED_ACTION_LIMIT", "1000000"))
 _start = time.time()
 _path = None
+# The record directory is fixed at import, before any in-process test can change MAE_RUN_DIR (the RL smoke tests
+# point it at temporary job directories; fixed 2026-11-01 after r2-smoke's records were lost with them).
+_steps_dir = Path(os.environ["MAE_RUN_DIR"]) / "env_steps" if _managed else None
 
 
 def _record():
@@ -29,7 +32,7 @@ def _record():
         return
     if _path is None:
         if _managed:
-            d = Path(os.environ["MAE_RUN_DIR"]) / "env_steps"
+            d = _steps_dir
         else:
             root = Path(os.environ.get("MAE_PROJECT", Path(__file__).resolve().parents[2]))
             d = root / ".mae" / "unmanaged_actions"

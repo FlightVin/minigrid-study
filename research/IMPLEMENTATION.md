@@ -176,3 +176,10 @@ The watcher then reported the previous batch; it was restarted after the new bat
 - New tools: `tools/analyze_r2.py` (blinded until 20/20), `tools/power_r2.py`, `tools/analyze_crosspanel.py`,
   `tools/analyze_comp.py`, `tools/run_program.py`, `tools/r2_canary_check.py`, `tools/battery_watch.py`;
   `experiments/program/make_batches.py` and `plan.json`.
+- 2026-11-01, after the R2 test batch: **accounting defect.** The r2-smoke runner job ran ~0.22M environment actions
+  that no step record kept: `src/bc2rl/accounting.py` chose the record directory at the first flush, after the
+  smoke tests had pointed `MAE_RUN_DIR` at temporary directories. Fix: the directory is fixed at import (the job's
+  own directory). Test: `test_record_dir_fixed_at_import_not_by_later_env_changes` (fails on the old code: the
+  record lands in the changed directory). Affected: r2-smoke only (the ordinary suite's count, 59,274, matches the
+  earlier measurement; R1's test jobs skipped the smoke tests). Ledger: +250,000 conservative estimate
+  (`research/ledger_adjustments.json`). Training and evaluation code are unaffected; the R2 canary runs after it.

@@ -15,6 +15,12 @@
    "role": "software_tests_2026-10-31_m4",
    "actions": 350000,
    "basis": "Before M4 (Amendment 2, B6): one run of the resume smoke test (~47k, plus one extra 64-layout diagnostic evaluation) and one full suite with BC2RL_SMOKE=1 (measured 278,618 per full run, plus the same extra evaluation). Conservative round-up."
+  },
+  {
+   "role": "software_tests_2026-11-01_r2_smoke_unrecorded",
+   "actions": 250000,
+   "point_estimate": 219343,
+   "basis": "Runner job r2-smoke (batch of experiments/r2/tests.batch.json, 2026-11-01): the RL smoke tests point MAE_RUN_DIR at temporary job directories, so the process's step record was written there and deleted. Point estimate = the same three tests measured on 2026-10-31 (163,325 + 47,331 + 8,687; CPU, fixed seeds). Conservative round-up. Fixed in src/bc2rl/accounting.py (record directory fixed at import) with tests/test_accounting.py::test_record_dir_fixed_at_import_not_by_later_env_changes."
   }
  ]
 }

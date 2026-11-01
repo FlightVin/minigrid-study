@@ -434,3 +434,7 @@ superseded limits. Reconciliation with the evidence and the decisions taken:
 - **Monitoring.** Battery watch moved into the repo (`tools/battery_watch.py`, log `.mae/monitor/`), session task
   brnp52lai; two-hour review cron 19ac8cf7 (session-only; recreate in a new session). No duplicate monitor existed
   (checked by process listing before start).
+- 2026-11-01 (after the R2 test batch): the lost r2-smoke step record is a deterministic accounting defect. Fixed
+  and tested; the actions are added as a conservative estimate (250,000; point 219,343) rather than rerunning the
+  smoke tests to measure them (that would spend ~0.22M again). No rerun of the test batch: the fix touches only
+  the record path; the final runner test job and the canary exercise it.

@@ -50,3 +50,14 @@ def test_runner_jobs_record_in_their_run_dir(tmp_path):
     assert not (tmp_path / ".mae/unmanaged_actions").exists()
     recs = [json.loads(p.read_text()) for p in (tmp_path / "job/env_steps").glob("*.json")]
     assert len(recs) == 1 and recs[0]["actions"] == 100
+
+
+def test_record_dir_fixed_at_import_not_by_later_env_changes(tmp_path):
+    """A test inside a runner job that changes MAE_RUN_DIR (RL smoke tests) must not move the job's step record."""
+    code = ("import os; from bc2rl import accounting as A; os.environ['MAE_RUN_DIR'] = %r\n"
+            "for _ in range(25): A.count()\n" % str(tmp_path / "elsewhere"))
+    e = {**os.environ, "MAE_RUN_DIR": str(tmp_path / "job"), "PYTHONPATH": str(ROOT / "src")}
+    subprocess.run([sys.executable, "-c", code], env=e, check=True)
+    recs = list((tmp_path / "job/env_steps").glob("*.json"))
+    assert len(recs) == 1 and json.loads(recs[0].read_text())["actions"] == 25
+    assert not (tmp_path / "elsewhere").exists()
