@@ -27,7 +27,7 @@ Budget: 50M actions from corrected ledger 118,670,430 (`tools/run_program.py --s
 **Owner limits:** 4 cores, 6 GiB, one job, native MPS via the runner, no paid/remote compute. Battery watch:
 stop below 20% (`tools/battery_watch.py`, log `.mae/monitor/battery_watch.log`). Two-hour research reviews.
 
-**Monitoring state:** battery watch running (session task brnp52lai); review cron 19ac8cf7 (session-only, every
+**Monitoring state:** battery watch running (session task brnp52lai); review cron a43d3f65 (session-only, every
 2 h at :53; recreate in a new session). R2 seeds driver `tools/run_program.py` (PID 42665, create 1793506742.71;
 log `.mae/monitor/r2_seeds.log`) running seed-s23-rest then seeds 24-42; watcher bound to it.
 
