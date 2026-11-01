@@ -13,7 +13,7 @@
     "--config",
     "experiments/r2/r2-v1.json",
     "--probe-run",
-    "CANARY_BATCH/r2-probe-K3-u4000-s23",
+    "20261101T041310-42031/r2-probe-K3-u4000-s23",
     "--arm",
     "00"
    ]
