@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 320" width="420" height="320" role="img" aria-label="R2 P1 by arm and endpoint">
+<style>
+:root{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--grid:#e4e3df;--zero:#8a8984}
+@media (prefers-color-scheme: dark){:root{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--grid:#3a3a37;--zero:#8a8984}}
+svg{background:var(--surface)} .t1{font:600 13px system-ui;fill:var(--ink)} .tick{font:11px system-ui;fill:var(--ink2)}
+.grid{stroke:var(--grid);stroke-width:1} .zero{stroke:var(--zero);stroke-width:1.2} .ref{stroke:var(--zero);stroke-width:1;stroke-dasharray:4 3}
+</style>
+<rect width="100%" height="100%" fill="var(--surface)"/>
+<text x="50" y="20" class="t1">R2: P1 by arm at both endpoints (r2_final 128 x 4)</text>
+<line x1="50" x2="390" y1="260.0" y2="260.0" class="zero"/>
+<text x="44" y="264.0" class="tick" text-anchor="end">+0.00</text>
+<line x1="50" x2="390" y1="199.3" y2="199.3" class="grid"/>
+<text x="44" y="203.3" class="tick" text-anchor="end">+0.10</text>
+<line x1="50" x2="390" y1="138.6" y2="138.6" class="grid"/>
+<text x="44" y="142.6" class="tick" text-anchor="end">+0.20</text>
+<line x1="50" x2="390" y1="77.9" y2="77.9" class="grid"/>
+<text x="44" y="81.9" class="tick" text-anchor="end">+0.30</text>
+<g><title>seed 23, arm 00: 0.033 -> 0.055</title><line x1="110" x2="330" y1="239.8" y2="226.8" stroke="#8a8984" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 24, arm 00: 0.023 -> 0.021</title><line x1="110" x2="330" y1="245.8" y2="247.0" stroke="#8a8984" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 25, arm 00: 0.090 -> 0.074</title><line x1="110" x2="330" y1="205.5" y2="214.9" stroke="#8a8984" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 26, arm 00: 0.047 -> 0.062</title><line x1="110" x2="330" y1="231.5" y2="222.1" stroke="#8a8984" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 27, arm 00: 0.033 -> 0.062</title><line x1="110" x2="330" y1="239.8" y2="222.1" stroke="#8a8984" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 28, arm 00: 0.109 -> 0.162</title><line x1="110" x2="330" y1="193.6" y2="161.6" stroke="#8a8984" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 29, arm 00: 0.115 -> 0.227</title><line x1="110" x2="330" y1="190.0" y2="122.5" stroke="#8a8984" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 30, arm 00: 0.139 -> 0.152</title><line x1="110" x2="330" y1="175.8" y2="167.5" stroke="#8a8984" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 31, arm 00: 0.018 -> 0.043</title><line x1="110" x2="330" y1="249.3" y2="233.9" stroke="#8a8984" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 32, arm 00: 0.021 -> 0.018</title><line x1="110" x2="330" y1="247.0" y2="249.3" stroke="#8a8984" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 33, arm 00: 0.004 -> 0.000</title><line x1="110" x2="330" y1="257.6" y2="260.0" stroke="#8a8984" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 34, arm 00: 0.082 -> 0.047</title><line x1="110" x2="330" y1="210.2" y2="231.5" stroke="#8a8984" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 35, arm 00: 0.049 -> 0.078</title><line x1="110" x2="330" y1="230.4" y2="212.6" stroke="#8a8984" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 36, arm 00: 0.029 -> 0.031</title><line x1="110" x2="330" y1="242.2" y2="241.0" stroke="#8a8984" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 37, arm 00: 0.092 -> 0.139</title><line x1="110" x2="330" y1="204.3" y2="175.8" stroke="#8a8984" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 38, arm 00: 0.066 -> 0.049</title><line x1="110" x2="330" y1="219.7" y2="230.4" stroke="#8a8984" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 39, arm 00: 0.100 -> 0.135</title><line x1="110" x2="330" y1="199.5" y2="178.2" stroke="#8a8984" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 40, arm 00: 0.201 -> 0.322</title><line x1="110" x2="330" y1="137.9" y2="64.4" stroke="#8a8984" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 41, arm 00: 0.102 -> 0.172</title><line x1="110" x2="330" y1="198.3" y2="155.7" stroke="#8a8984" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 42, arm 00: 0.004 -> 0.002</title><line x1="110" x2="330" y1="257.6" y2="258.8" stroke="#8a8984" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 23, arm 01: 0.076 -> 0.039</title><line x1="110" x2="330" y1="213.8" y2="236.3" stroke="#1baf7a" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 24, arm 01: 0.045 -> 0.055</title><line x1="110" x2="330" y1="232.7" y2="226.8" stroke="#1baf7a" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 25, arm 01: 0.078 -> 0.059</title><line x1="110" x2="330" y1="212.6" y2="224.4" stroke="#1baf7a" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 26, arm 01: 0.086 -> 0.074</title><line x1="110" x2="330" y1="207.8" y2="214.9" stroke="#1baf7a" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 27, arm 01: 0.068 -> 0.105</title><line x1="110" x2="330" y1="218.5" y2="196.0" stroke="#1baf7a" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 28, arm 01: 0.102 -> 0.162</title><line x1="110" x2="330" y1="198.3" y2="161.6" stroke="#1baf7a" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 29, arm 01: 0.145 -> 0.189</title><line x1="110" x2="330" y1="172.3" y2="145.0" stroke="#1baf7a" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 30, arm 01: 0.129 -> 0.176</title><line x1="110" x2="330" y1="181.7" y2="153.3" stroke="#1baf7a" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 31, arm 01: 0.025 -> 0.035</title><line x1="110" x2="330" y1="244.6" y2="238.7" stroke="#1baf7a" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 32, arm 01: 0.055 -> 0.037</title><line x1="110" x2="330" y1="226.8" y2="237.5" stroke="#1baf7a" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 33, arm 01: 0.012 -> 0.023</title><line x1="110" x2="330" y1="252.9" y2="245.8" stroke="#1baf7a" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 34, arm 01: 0.098 -> 0.117</title><line x1="110" x2="330" y1="200.7" y2="188.9" stroke="#1baf7a" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 35, arm 01: 0.023 -> 0.059</title><line x1="110" x2="330" y1="245.8" y2="224.4" stroke="#1baf7a" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 36, arm 01: 0.033 -> 0.039</title><line x1="110" x2="330" y1="239.8" y2="236.3" stroke="#1baf7a" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 37, arm 01: 0.076 -> 0.139</title><line x1="110" x2="330" y1="213.8" y2="175.8" stroke="#1baf7a" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 38, arm 01: 0.047 -> 0.092</title><line x1="110" x2="330" y1="231.5" y2="204.3" stroke="#1baf7a" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 39, arm 01: 0.127 -> 0.178</title><line x1="110" x2="330" y1="182.9" y2="152.1" stroke="#1baf7a" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 40, arm 01: 0.154 -> 0.285</title><line x1="110" x2="330" y1="166.3" y2="86.9" stroke="#1baf7a" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 41, arm 01: 0.172 -> 0.176</title><line x1="110" x2="330" y1="155.7" y2="153.3" stroke="#1baf7a" stroke-width="1.2" opacity="0.55"/></g>
+<g><title>seed 42, arm 01: 0.004 -> 0.006</title><line x1="110" x2="330" y1="257.6" y2="256.4" stroke="#1baf7a" stroke-width="1.2" opacity="0.55"/></g>
+<text x="110" y="278" class="tick" text-anchor="middle">251,904</text>
+<text x="330" y="278" class="tick" text-anchor="middle">501,760</text>
+<text x="60" y="296" class="tick"><tspan fill="#8a8984">grey: ordinary PPO (00)</tspan>  <tspan fill="#1baf7a">green: preservation (01)</tspan></text>
+<text x="16" y="310" class="tick">One line per seed and arm. Same panel and attempt seeds for every policy.</text>
+</svg>

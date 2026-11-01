@@ -629,3 +629,29 @@ Tool: `tools/audit_r1.py` (independent of `tools/analyze_r1.py`; no environment 
   not attributed to subgroup selection alone (small-sample SD estimation, panel, training variability); R1 is
   described as compatible with a positive effect similar to M4's, without treating interval overlap as replication.
   R1's frozen Holm-2 verdict (not supported) is unchanged.
+
+## F14 — R2 20-seed replication (2026-11-01; Amendment 4, prespecified; R2 data only)
+
+Tool: `tools/analyze_r2.py --check-states` (frozen before R2 data). Outputs: `reports/r2/r2_summary.json`,
+`r2_seeds.csv`, `r2_branches.csv`, `r2_decomposition.csv`, `r2_curves.csv`, figures `endpoints.svg`,
+`paired_effects.svg`. Seeds 23-42 all complete (20/20, none excluded, no problems, all saved states match hashes,
+step counters equal summaries). 20 batches exited 0 at 0.925-0.973 of their conservative cost. First read of any
+aggregate R2 outcome: after the 20th seed finished.
+- **Primary (E500, n = 20):** d = P1(01) - P1(00) = **+0.0097**, seed SD 0.028, 95% t-interval
+  **[-0.0035, +0.0229]**, t = 1.53, df 19, **p = 0.142**. 12/20 seeds positive. Baseline (00) P1 0.093.
+  Frozen decision: **not supported**; magnitude cell: **informative — the interval excludes the 0.03 planning
+  effect** (and the M4 estimate 0.045). One-sided descriptive p against 0.03: 0.998; against 0.05: >0.999.
+- Sensitivity (not the decision rule): exact sign-flip p 0.146; crossed seed x layout bootstrap 95%
+  [-0.0071, +0.0260] (agrees). The layouts-only bootstrap [0.0019, 0.0177] ignores training-seed variation and is
+  not a valid interval for the estimand.
+- The observed SD (0.028) is below every planning SD (0.035-0.06); the null result is not a power failure.
+- E250 (descriptive): +0.0099 [-0.0033, +0.0230], almost the same as E500.
+- Exact decomposition at E500 (20/20 defined): access +0.0036 (SD 0.013), completion +0.0061 (SD 0.026). Both
+  are small and neither interval excludes 0. No access-versus-completion claim.
+- Descriptive R1+R2 precision-weighted mean +0.014 (approx. 95% [0.003, 0.026]); no p-value; adaptive study
+  selection disclosed (R1 and R2 exist because M4's post hoc subgroup looked positive). Not a test.
+- Interpretation: under the frozen protocol, preservation (lambda 0.01) at K=3 with early BC does not produce an
+  improvement of 0.03 or more in normal-start P1 at 501,760 actions. A small positive effect (below about 0.023)
+  is not excluded. The M4 post hoc subgroup estimate (+0.045) did not replicate at its size; R1's +0.040 was
+  probably an overestimate (consistent with selection after M4 and with sampling variation). M4 (F10) and R1 (F12)
+  frozen verdicts are unchanged. Per the owner instruction, this replication stops here; no further R2 testing.

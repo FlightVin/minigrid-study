@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 340" width="560" height="340" role="img" aria-label="R2 paired effects">
+<style>
+:root{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--grid:#e4e3df;--zero:#8a8984}
+@media (prefers-color-scheme: dark){:root{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--grid:#3a3a37;--zero:#8a8984}}
+svg{background:var(--surface)} .t1{font:600 13px system-ui;fill:var(--ink)} .tick{font:11px system-ui;fill:var(--ink2)}
+.grid{stroke:var(--grid);stroke-width:1} .zero{stroke:var(--zero);stroke-width:1.2} .ref{stroke:var(--zero);stroke-width:1;stroke-dasharray:4 3}
+</style>
+<rect width="100%" height="100%" fill="var(--surface)"/>
+<text x="50" y="20" class="t1">R2: preservation minus ordinary PPO, P1 (K=3, early BC; 20 paired seeds)</text>
+<line x1="50" x2="520" y1="280.0" y2="280.0" class="grid"/>
+<text x="44" y="284.0" class="tick" text-anchor="end">-0.10</text>
+<line x1="50" x2="520" y1="224.1" y2="224.1" class="grid"/>
+<text x="44" y="228.1" class="tick" text-anchor="end">-0.05</text>
+<line x1="50" x2="520" y1="168.2" y2="168.2" class="zero"/>
+<text x="44" y="172.2" class="tick" text-anchor="end">+0.00</text>
+<line x1="50" x2="520" y1="112.3" y2="112.3" class="ref"/>
+<text x="44" y="116.3" class="tick" text-anchor="end">+0.05</text>
+<line x1="50" x2="520" y1="56.4" y2="56.4" class="grid"/>
+<text x="44" y="60.4" class="tick" text-anchor="end">+0.10</text>
+<line x1="50" x2="520" y1="134.6" y2="134.6" class="ref"/>
+<text x="523" y="138.6" class="tick">0.03</text>
+<g><title>R2 251,904 (descriptive), seed 23: +0.0430</title><circle cx="94.6" cy="120.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>R2 251,904 (descriptive), seed 24: +0.0215</title><circle cx="95.8" cy="144.2" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>R2 251,904 (descriptive), seed 25: -0.0117</title><circle cx="97.0" cy="181.3" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>R2 251,904 (descriptive), seed 26: +0.0391</title><circle cx="98.2" cy="124.5" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>R2 251,904 (descriptive), seed 27: +0.0352</title><circle cx="99.4" cy="128.9" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>R2 251,904 (descriptive), seed 28: -0.0078</title><circle cx="100.6" cy="176.9" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>R2 251,904 (descriptive), seed 29: +0.0293</title><circle cx="101.8" cy="135.4" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>R2 251,904 (descriptive), seed 30: -0.0098</title><circle cx="103.0" cy="179.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>R2 251,904 (descriptive), seed 31: +0.0078</title><circle cx="104.2" cy="159.4" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>R2 251,904 (descriptive), seed 32: +0.0332</title><circle cx="105.4" cy="131.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>R2 251,904 (descriptive), seed 33: +0.0078</title><circle cx="106.6" cy="159.4" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>R2 251,904 (descriptive), seed 34: +0.0156</title><circle cx="107.8" cy="150.7" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>R2 251,904 (descriptive), seed 35: -0.0254</title><circle cx="109.0" cy="196.6" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>R2 251,904 (descriptive), seed 36: +0.0039</title><circle cx="110.2" cy="163.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>R2 251,904 (descriptive), seed 37: -0.0156</title><circle cx="111.4" cy="185.7" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>R2 251,904 (descriptive), seed 38: -0.0195</title><circle cx="112.6" cy="190.0" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>R2 251,904 (descriptive), seed 39: +0.0273</title><circle cx="113.8" cy="137.6" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>R2 251,904 (descriptive), seed 40: -0.0469</title><circle cx="115.0" cy="220.6" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>R2 251,904 (descriptive), seed 41: +0.0703</title><circle cx="116.2" cy="89.6" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>R2 251,904 (descriptive), seed 42: +0.0000</title><circle cx="117.4" cy="168.2" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<line x1="134.0" x2="134.0" y1="171.8" y2="142.5" stroke="#8a8984" stroke-width="2"/>
+<g><title>R2 251,904 (descriptive): mean +0.0099, 95% t [-0.0033, +0.0230]</title><circle cx="134.0" cy="157.2" r="5" fill="#8a8984" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="120" y="298" class="tick" text-anchor="middle">251,904 (descriptive)</text>
+<g><title>R2 501,760 (primary), seed 23: -0.0156</title><circle cx="244.6" cy="185.7" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>R2 501,760 (primary), seed 24: +0.0332</title><circle cx="245.8" cy="131.1" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>R2 501,760 (primary), seed 25: -0.0156</title><circle cx="247.0" cy="185.7" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>R2 501,760 (primary), seed 26: +0.0117</title><circle cx="248.2" cy="155.1" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>R2 501,760 (primary), seed 27: +0.0430</title><circle cx="249.4" cy="120.1" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>R2 501,760 (primary), seed 28: +0.0000</title><circle cx="250.6" cy="168.2" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>R2 501,760 (primary), seed 29: -0.0371</title><circle cx="251.8" cy="209.7" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>R2 501,760 (primary), seed 30: +0.0234</title><circle cx="253.0" cy="142.0" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>R2 501,760 (primary), seed 31: -0.0078</title><circle cx="254.2" cy="176.9" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>R2 501,760 (primary), seed 32: +0.0195</title><circle cx="255.4" cy="146.3" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>R2 501,760 (primary), seed 33: +0.0234</title><circle cx="256.6" cy="142.0" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>R2 501,760 (primary), seed 34: +0.0703</title><circle cx="257.8" cy="89.6" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>R2 501,760 (primary), seed 35: -0.0195</title><circle cx="259.0" cy="190.0" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>R2 501,760 (primary), seed 36: +0.0078</title><circle cx="260.2" cy="159.4" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>R2 501,760 (primary), seed 37: +0.0000</title><circle cx="261.4" cy="168.2" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>R2 501,760 (primary), seed 38: +0.0430</title><circle cx="262.6" cy="120.1" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>R2 501,760 (primary), seed 39: +0.0430</title><circle cx="263.8" cy="120.1" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>R2 501,760 (primary), seed 40: -0.0371</title><circle cx="265.0" cy="209.7" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>R2 501,760 (primary), seed 41: +0.0039</title><circle cx="266.2" cy="163.8" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>R2 501,760 (primary), seed 42: +0.0039</title><circle cx="267.4" cy="163.8" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<line x1="284.0" x2="284.0" y1="172.1" y2="142.6" stroke="#1baf7a" stroke-width="2"/>
+<g><title>R2 501,760 (primary): mean +0.0097, 95% t [-0.0035, +0.0229]</title><circle cx="284.0" cy="157.4" r="5" fill="#1baf7a" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="270" y="298" class="tick" text-anchor="middle">501,760 (primary)</text>
+<line x1="424.0" x2="424.0" y1="163.5" y2="82.8" stroke="#3b7dd8" stroke-width="2"/>
+<g><title>R1 (separate study, not pooled): mean +0.0403, 95% t [+0.0042, +0.0764]</title><circle cx="424.0" cy="123.1" r="5" fill="#3b7dd8" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="424" y="298" class="tick" text-anchor="middle">R1 E500</text>
+<line x1="494.0" x2="494.0" y1="128.7" y2="106.2" stroke="#9b59b6" stroke-width="2"/>
+<g><title>M4 (separate study, not pooled): mean +0.0453, 95% t [+0.0353, +0.0554]</title><circle cx="494.0" cy="117.5" r="5" fill="#9b59b6" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="494" y="298" class="tick" text-anchor="middle">M4 E500</text>
+<text x="16" y="330" class="tick">Dots: per-seed paired differences. Large marker and bar: mean and 95% t-interval. Dashed: 0.03 (planning) and 0.05.</text>
+</svg>
