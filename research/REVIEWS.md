@@ -289,3 +289,11 @@ fits with the 12M reserve held. Monitors verified by process identity: battery w
 
 **Next.** Seeds 46-66 (~4.5 h). Then `tools/analyze_a3.py --check-states`, figures, F19; then calibration batches
 cal-s67..69 -> `tools/analyze_cal.py` -> pilot batch files via `make_batches.py --pilot` (if selected) -> pilot.
+
+## Review 11 — 2026-11-01 ~11:15 local
+
+- **State.** A3 seeds 43–51 finished (9/24) and seed 52 is running (batch `20261101T155802-1913`). The seeds log shows no failures, refusals or retries. Every branch exited with code 0.
+- **Validity.** The design has not changed. I read no A3 aggregate outcomes; the analysis stays blinded until 24/24. Branch order follows the committed Latin rotation. Comparisons and interpretations from earlier reviews are unchanged.
+- **Resources.** Spent 33,166,705 of 130M (A3 33,095,399). Remaining conservative cost of the required work is 65.17M. The projected conservative total is 98.6M, so the 12M reserve and the 15M development ceiling stay available. Per-seed cost is still about 3.65M, which is 0.92 of the conservative estimate.
+- **Monitors.** Each monitor has exactly one process, verified by PID and create time: battery watch 69759 (90%, mains power), driver 71896 (create 1793540164.945303) and one watcher loop. The review cron is active. There are no duplicates.
+- **Next step.** Let seeds 52–66 finish (about 15 × 21 min, roughly 5.3 h). Then run `tools/analyze_a3.py --check-states`, make the figures and write F19. Then run calibration batches cal-s67..69, `tools/analyze_cal.py`, and the pilot if a variant is selected.
