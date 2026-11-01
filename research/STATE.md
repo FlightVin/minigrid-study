@@ -28,7 +28,8 @@ stop below 20%. Two-hour research reviews.
 12M reserve held for calibration/pilot admission.
 
 **Monitoring state:** see "Monitors" below (updated at each launch).
-- Monitors: (none started yet)
+- Monitors: battery watch (session task by3gm8o1w; log `.mae/monitor/battery_watch.log`); review cron d308a314
+  (every 2 h at :47; session-only, recreate in a new session). Data r3-v1 batch 20261101T131324-69803; gate pass.
 
 **Recovery:** `tools/run_program2.py --status` lists incomplete batches; rerun them in plan order (complete jobs
 count by summary or exit 0; an incomplete batch is rerun in full from its input checkpoints under a new batch ID).
