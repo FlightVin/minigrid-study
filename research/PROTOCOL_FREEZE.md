@@ -506,3 +506,123 @@ research reviews (session cron). State for a fresh session: `research/STATE.md`,
 
 **H. Reproduction.** Harness branch `mac-host-fixes`, HEAD `000fd83` at this freeze (local only). Package versions
 `reports/r2/pip_freeze.txt`. Each batch manifest records project and harness SHAs.
+
+### Amendment 5 — 2026-11-01b (in force): A3 anchor-allocation study, initialization calibration, calibrated-regime pilot
+
+Owner instruction of 2026-11-01 (second of that date; verbatim in `mac-agentic-engineering/project.md`, harness
+`7ed7285`). Closed studies (M4, R1, Amendment 4: R2, E1, E2) keep their verdicts. This amendment supersedes the
+Amendment 4 completion stop and REPORT P8 as a stop rule. Frozen before any A3, calibration or pilot outcome.
+
+**A. Authority and budget.** Hard incremental budget 130,000,000 environment actions from the ledger total
+158,314,282 (end of Amendment 4; nothing ran between). Unused earlier allowances are not added. Everything counts:
+generation, tests (also local tests outside the runner, through `.mae/unmanaged_actions`), training, diagnostics,
+evaluation, failures, retries. Planning allocation: about 3M preparation, about 100M A3, up to 15M calibration +
+pilot, about 12M protected for audit, failures and completion. Admission (`tools/run_program2.py`, plan
+`experiments/program2/plan.json`): before every batch, committed = conservative cost of all other incomplete
+required A3 batches and the final test batch + 0.3M audit; A3/final batches need spent + batch + committed <= 130M;
+calibration/pilot batches also hold the 12M reserve, stay within 15M, and start only after every required A3 batch
+is complete. After a batch: exit 0 and cost <= 1.10 x conservative, else stop and report. Conservative per job:
+A3 BC 95,906, probe 153,954, branch 740,904 (R2 maxima; A3 drops the curve evaluations, so this over-holds);
+calibration BC 200,000; pilot probe 153,954, pilot branch 340,000. Required conservative total ~97.3M; pilot ~9.1M.
+
+**B. Focused implementation audit (before any new run).** Checked in source and by tests
+(`tests/test_ppo.py`, `tests/test_bc_sampler.py`):
+- Stage labels: anchors are the anchor_donor prefix rows then suffix rows of `banks_index.npz`; `is_prefix` marks
+  the first block. Stage = environment stage at the saved state (0 = prefix; > 0 = suffix).
+- Sampling: each actor minibatch draws 128 anchor rows with replacement, prefix mass 0.25 spread uniformly over
+  prefix rows and 0.75 over suffix rows (weights normalised once). Component arms zero the other stage's rows and
+  divide by 128 (no renormalisation). The expected penalty equals c_pre E_prefix[KL] + c_suf E_suffix[KL]
+  (exact-expectation test).
+- Coefficients: base coefficient = config kl_coef (0.01) x arm scale (01w: 0.75); effective (prefix, suffix):
+  00 (0, 0); 01p (0.0025, 0); 01s (0, 0.0075); 01 (0.0025, 0.0075); 01w (0.001875, 0.005625); 11s (0, 0.0075).
+  Recorded in each branch summary as `kl_coef` and `kl_effective_prefix_suffix`. Test: B + C = D and E = 0.75 D
+  in value and in gradient on fixed states and parameters; C with base 0.01 differs from the double-weighted
+  0.0075-on-suffix estimator.
+- Teacher: pi0 = the original BC checkpoint stored in the fork (`st["pi0"]`), parameters frozen; reference
+  log-probabilities computed once under `torch.inference_mode()` and cloned (no gradient path).
+- KL: exact forward categorical KL(pi0 || pi_theta) over the 7 actions (test against torch).
+- Actor/critic: separate networks and optimisers; the penalty enters only the actor loss; value targets exclude it.
+- RNG streams: anchors `np_rng([seed, 11])` (used only for anchors; same draws in every arm); start sampler
+  three streams `[seed, 31, i]` (coin, layout, bank); action sampling and minibatch permutation share
+  `torch_gen(seed)`. Without `target_kl` (not set) every arm consumes that generator identically, so the k-th action
+  uniform is the same in every arm forked from one state. This is a shared, not an independent, stream; it is valid
+  and arm-invariant, and it is not changed (changing it would break comparability with R2/E2). No defect.
+- Fork/checkpoint state: actor, critic, both optimisers, torch_gen, np_rng, sampler RNGs, environment snapshots,
+  assisted flags, counters and pi0; all enter the state hash; branches assert the loaded hash equals the fork.
+- No hidden change: the PPO loss, GAE, reward, horizon and clocks are unchanged since R2; the only training-path
+  additions are (i) arm 01w/11s identities and (ii) `update_diagnostics` (KL between successive policies on 256 fixed
+  prefix + 256 fixed suffix anchor rows and the actor parameter-change norm, computed without RNG or gradient). Test:
+  enabling the diagnostics leaves parameters, optimiser and every RNG stream bitwise unchanged.
+- Earlier results affected: none (no defect found). E2 used the same component code.
+
+**C. A3 study (confirmatory; new study with its own provenance).**
+Question: does suffix-only preservation improve normal-start P1 on independent training seeds, and does any
+advantage reflect anchor allocation, a weaker coefficient, or both?
+Design: K=3; early BC 4,000 updates (`experiments/a3/bc-a3.json`: unchanged conf-v1 joint dataset, sampler,
+architecture, lr); 24 fresh seeds 43-66 (all kept; no replacement or extension); critic preparation and 51,200-action
+ordinary-PPO probe as R2; five branches from each complete fork: A 00, B 01p, C 01s, D 01, E 01w (expected losses
+in B). Normal starts in every arm; no resets; original horizons and terminal binary reward; pi0 reference.
+Branch order: Latin rotation over seeds (`experiments/program2/make_batches.py`). 501,760 continuation actions per
+branch; complete states saved at 251,904 and 501,760. Data r3-v1 = r2-v1 + new roles a3_select (diagnostics, 64),
+a3_bank (64-state bank, 32/16/16), a3_final (128); disjoint from every earlier role by structure, seed and suffix
+(`tools/data_gate.py --r3`); training data byte-identical. Evaluation at both endpoints only (no curve points):
+a3_final 128 K=3 layouts x 4 attempts and a3_bank 64 x 4, eval seed 959000 (bank 959001), common layouts and
+attempt schedules across arms and seeds; pi0 and post-probe diagnostics on a3_select.
+Inference (`tools/analyze_a3.py`, synthetic tests `tests/test_analyze_a3.py`):
+- Primary H1 at 251,904: d = P1(C) - P1(A) per seed; one two-sided paired t-test at alpha 0.05 (df 23) and its 95%
+  interval; supported iff the interval lies above 0.
+- Gatekeeping: only if H1 is supported, H2a C - D and H2b C - E at 251,904, two-sided paired t, Holm over the two.
+  Otherwise both are descriptive. The hierarchy is fixed.
+- Sensitivity (not decision): crossed seed x layout bootstrap (10,000, RNG 20261103), layouts-only bootstrap, exact
+  sign-flip (2^24).
+- Secondary (descriptive, 95% t-intervals): B-A, C-A, D-A, E-A, D-C, C-D, C-E, interaction D-B-C+A at both
+  endpoints; 501,760 is the prespecified persistence assessment; the primary endpoint never moves. Exact
+  access/completion decomposition per arm vs A (arithmetic, not mediation; undefined cases kept missing). Stage
+  measures: q, r, C4, R4, c and entry/retrieval/carrying, change from pi0 and the probe on the same bank states,
+  arrival timing and inventory; training anchor KL by stage, applied penalty, update size, approx-KL, entropy,
+  visitation and reward exposure.
+- Blinding: no contrast, arm mean or per-seed outcome before all 24 seeds are complete. Execution health only.
+- Exclusion: a seed missing a branch or failing lineage/state checks is reported as excluded, never replaced.
+Precision (`tools/power_a3.py`, `reports/a3/power.md`; the 3-seed SD 0.008 is not used): 95% half-width 0.013 /
+0.021 / 0.030 / 0.034 for seed SD 0.03 / 0.05 / 0.07 / 0.08; P(H1 supported) at a true +0.03: 0.996 / 0.80 / 0.52 /
+0.42. R2's seed SD of the mixed effect at 251,904 was 0.028. Expected discrimination: a suffix-only effect of the E2
+size (+0.055) would be detected at any planning SD; +0.03 is detected unless the SD exceeds ~0.05; a null H1 with a
+narrow interval constrains suffix-only benefits to below ~0.02-0.03.
+Interpretation limits: E matches C's total scalar coefficient (0.0075), not its gradient strength. C > D without
+C > A does not establish a useful suffix-only method. C > E supports a role for allocation beyond this uniform
+reduction, not matched gradient strength. Shared parameters: a prefix constraint can change suffix behaviour.
+Canary: planned seed 43, run as its own batch; `tools/a3_canary_check.py` (engineering only; no outcome).
+
+**D. Initialization calibration (development).**
+Question: does the initialization procedure provide high boundary-entry competence with low stage access, as the
+manuscript's regimes require? Seeds 67-69; BC with prefix-sampling probability rho in {0.2, 0.5, 0.8} within each K
+(K-balanced batches; prefix count Binomial(128, rho) per K; uniform within K x stage pool; batch, optimiser,
+architecture fixed; `experiments/cal/bc-cal-p*.json`); checkpoints 4,000 and 8,000 on one path. Each checkpoint is
+evaluated by the BC job on bc_val (50 layouts per K x 4) and dev_bank (64 per K x 4), eval seed 525000; raw attempts
+saved. This changes supervised training, representations and behaviour; it is not a pure manipulation of competence.
+Targets on three-seed means (`tools/analyze_cal.py`, `tests/test_analyze_cal.py`): K=1 q >= 0.75; K=3 0.05 <= q <=
+0.40; entry competence >= 0.55 for K=1 and K=3; normal-start P1 <= 0.60 for both K (room for learning). Selection
+among qualifying variants: fewer updates, then rho closest to 0.5, then smaller rho. All seeds kept. If nothing
+qualifies: no pilot; report the shortfalls and what prevents the regime. No intervention outcome is used. Reference
+point: the unmodified sampler draws prefix transitions with probability 0.341 (K=1) and 0.632 (K=3), the stage
+shares of the bc_train pools.
+Cost ~1.8M conservative.
+
+**E. Calibrated-regime pilot (exploratory; conditional on D).**
+Only if D selects a variant and the conservative cost fits the 15M development ceiling with the reserve held. Selected
+sampler/checkpoint, K=1 and K=3, seeds 67-69, one ordinary-PPO probe per (seed, K) on the pilot config, four branches:
+00, 10 (demonstration-state starts alpha 0.25, original reset states and remaining times), 01s (suffix-only, base 0.01
+-> effective 0.0075), 11s (both); 251,904 continuation actions; complete state copied at the fork; same PPO settings.
+Evaluation at 251,904: pl_final 64 layouts per K x 4 and pl_bank 64 per K x 4 (eval seed 989000); diagnostics on
+pl_select. No retuning of alpha or lambda. Measures as listed in the instruction (P1, q, entry and later-progress
+bank scores, change from pi0 and probe, r, arrival timing and inventory, normal vs assisted visitation and success,
+intervention activity, compute); assisted training access is never pooled with normal-start access. The pilot
+analysis script is committed before the pilot batches run. Exploratory: 3 seeds x 2 conditions establish no rule.
+
+**F. Synthesis.** After A3 and the development phases: RQ1 distinctions and the RQ2 assessment (reproducible variation,
+hindsight headroom over the best fixed method, a condition-identity rule, plausible value of q / entry competence /
+delta-c, measurement and trial costs). No selector is trained unless the data justify it.
+
+**G. Interruption and failures.** One job at a time; deterministic watcher; an interrupted or failed job is rerun from
+its latest complete input checkpoint under a new batch ID after diagnosis (deterministic failure: fix + new ID; verified
+transient failure: one documented retry). Partial outputs are kept. No design change after outcomes.

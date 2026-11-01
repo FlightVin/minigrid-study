@@ -1,0 +1,169 @@
+{
+ "batches": [
+  {
+   "file": "experiments/a3/data.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/tests.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/canary-s43.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s44.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s45.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s46.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s47.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s48.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s49.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s50.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s51.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s52.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s53.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s54.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s55.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s56.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s57.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s58.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s59.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s60.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s61.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s62.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s63.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s64.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s65.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/a3/seed-s66.batch.json",
+   "study": "a3",
+   "required": true
+  },
+  {
+   "file": "experiments/cal/cal-s67.batch.json",
+   "study": "cal",
+   "required": true
+  },
+  {
+   "file": "experiments/cal/cal-s68.batch.json",
+   "study": "cal",
+   "required": true
+  },
+  {
+   "file": "experiments/cal/cal-s69.batch.json",
+   "study": "cal",
+   "required": true
+  },
+  {
+   "file": "experiments/pilot/pilot-s67.batch.json",
+   "study": "pl",
+   "required": false
+  },
+  {
+   "file": "experiments/pilot/pilot-s68.batch.json",
+   "study": "pl",
+   "required": false
+  },
+  {
+   "file": "experiments/pilot/pilot-s69.batch.json",
+   "study": "pl",
+   "required": false
+  },
+  {
+   "file": "experiments/program2/final-tests.batch.json",
+   "study": "p2",
+   "required": true
+  }
+ ]
+}

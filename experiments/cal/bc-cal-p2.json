@@ -1,0 +1,14 @@
+{
+  "purpose": "Initialization calibration (Amendment 5, development): seeds 67-69; joint conf-v1 dataset, K-balanced batches; within each K the prefix count is Binomial(128, 0.2) and transitions are uniform within each K x stage pool; constant lr, batch 256, architecture unchanged; checkpoints 4000 and 8000 on one path; each checkpoint evaluated on bc_val (50 layouts per K x 4 attempts) and dev_bank (64 states per K x 4 attempts); new eval seed 525000.",
+  "dataset_id": "conf-v1",
+  "lr": 0.0003,
+  "batch_size": 256,
+  "checkpoints": [
+    4000,
+    8000
+  ],
+  "eval_attempts": 4,
+  "bank_attempts": 4,
+  "eval_seed": 525000,
+  "prefix_prob": 0.2
+}

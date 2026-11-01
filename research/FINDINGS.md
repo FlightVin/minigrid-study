@@ -727,3 +727,22 @@ r2-smoke step record (fixed, estimated); (2) run_program completion detection (f
 jobs); (3) xp-r1 refused at start because of an uncommitted file (agent error, 0 actions, rerun unchanged).
 Final runner test job: 274 passed, 3 skipped. Independent verification (`tools/verify_program.py`,
 `reports/program/verification.json`): R2, E1 and E2 numbers reproduce from raw attempts; no problems.
+
+## F18 — Interpretation corrections and component-code audit (2026-11-01b; owner instruction, before A3)
+- R2 (F14) verdict and interval unchanged. "Not a power failure" is replaced: the achieved 95% interval
+  [-0.0035, +0.0229] is narrow enough to constrain effects of the originally motivating size (0.03, 0.045) under the
+  tested protocol.
+- E1 (F15): the R1 re-evaluation (+0.020 vs original +0.040) does not identify a share of noise; both evaluations
+  have sampling error. Cohort difference in d on the same panel: conf_final -0.016 (Welch 95% [-0.050, +0.019]),
+  r1_final -0.038 ([-0.075, -0.000]). Within-cohort panel change: M4 +0.017 [-0.007, +0.042], R1 -0.005
+  [-0.029, +0.020]. Panel effects of ~0.02-0.04 are not excluded. "The effect follows the trained policies, not the
+  panel" and "about half was noise" are withdrawn.
+- E2 (F16): the statement that suffix-only benefit conflicts with a null mixed arm is withdrawn. Losses add at a fixed
+  parameter vector; outcomes after nonlinear optimisation through shared parameters need not.
+- Component code audit (Amendment 5 B): no defect; E2 and R2 results unaffected. Shared action/permutation generator
+  documented (arm-invariant consumption).
+- Literature (manuscript section 3.1): forward-KL preservation on stored pretraining states and the frequent/rare
+  state distinction are established (Wolczyk et al. 2024); reset curricula are established (Florensa et al. 2017,
+  Uchendu et al. 2023, Tao et al. 2024). A3 adds only controlled evidence: within one stored demonstration bank,
+  whether allocating the same penalty to post-boundary states changes normal-start success, separated from a
+  uniform strength reduction, on 24 independent seeds.

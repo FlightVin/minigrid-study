@@ -1,0 +1,131 @@
+{
+ "jobs": [
+  {
+   "id": "a3-bc-s64",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.bc",
+    "--config",
+    "experiments/a3/bc-a3.json",
+    "--seed",
+    "64"
+   ]
+  },
+  {
+   "id": "a3-probe-K3-u4000-s64",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "probe",
+    "--config",
+    "experiments/a3/a3-v1.json",
+    "--K",
+    "3",
+    "--bc-run",
+    "@/a3-bc-s64",
+    "--bc-update",
+    "4000",
+    "--seed",
+    "64"
+   ]
+  },
+  {
+   "id": "a3-K3-u4000-s64-01p",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/a3/a3-v1.json",
+    "--probe-run",
+    "@/a3-probe-K3-u4000-s64",
+    "--arm",
+    "01p"
+   ]
+  },
+  {
+   "id": "a3-K3-u4000-s64-01s",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/a3/a3-v1.json",
+    "--probe-run",
+    "@/a3-probe-K3-u4000-s64",
+    "--arm",
+    "01s"
+   ]
+  },
+  {
+   "id": "a3-K3-u4000-s64-01",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/a3/a3-v1.json",
+    "--probe-run",
+    "@/a3-probe-K3-u4000-s64",
+    "--arm",
+    "01"
+   ]
+  },
+  {
+   "id": "a3-K3-u4000-s64-01w",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/a3/a3-v1.json",
+    "--probe-run",
+    "@/a3-probe-K3-u4000-s64",
+    "--arm",
+    "01w"
+   ]
+  },
+  {
+   "id": "a3-K3-u4000-s64-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/a3/a3-v1.json",
+    "--probe-run",
+    "@/a3-probe-K3-u4000-s64",
+    "--arm",
+    "00"
+   ]
+  }
+ ]
+}

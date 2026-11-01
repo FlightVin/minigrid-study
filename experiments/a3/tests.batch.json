@@ -1,0 +1,36 @@
+{
+ "jobs": [
+  {
+   "id": "a3-tests",
+   "cpu_threads": 1,
+   "memory_gb": 2,
+   "device": "cpu",
+   "command": [
+    "{python}",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "tests"
+   ]
+  },
+  {
+   "id": "a3-smoke",
+   "cpu_threads": 1,
+   "memory_gb": 2,
+   "device": "cpu",
+   "command": [
+    "env",
+    "BC2RL_SMOKE=1",
+    "{python}",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "tests/test_rl_smoke.py"
+   ]
+  }
+ ]
+}

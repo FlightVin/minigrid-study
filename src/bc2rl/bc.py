@@ -3,7 +3,10 @@
 python -m bc2rl.bc --config experiments/m1/bc-curve-v1.json --seed 0
 
 Sampler (fixed): every batch has batch_size/2 transitions from each K, uniform over transitions
-within K (transition weighting, balanced across K). Adam, cross-entropy, no label smoothing, no
+within K (transition weighting, balanced across K). Calibration option (owner instruction 2026-11-01,
+calibration study): with config "prefix_prob" = rho, each K's half-batch draws its prefix count from
+Binomial(batch_size/2, rho) and the rest from the suffix; transitions are uniform within each K x stage pool.
+Without "prefix_prob" the original sampler and its RNG stream are unchanged. Adam, cross-entropy, no label smoothing, no
 entropy term. Checkpoints at fixed update counts save actor, optimizer, sampler RNG, torch RNG.
 At each checkpoint: held-out loss/accuracy by stage and K; normal-start p, q on bc_val layouts;
 competence c on the development bank. All evaluations sample the policy (common random numbers).
@@ -31,12 +34,24 @@ def load_role(ds, role):
     return d, meta
 
 
+def sample_batch(rng, by_K, by_KS, half, rho=None):
+    """One BC batch of row indices: half from each K. rho None: uniform within K (the original sampler, same RNG
+    calls). Otherwise prefix count ~ Binomial(half, rho) per K, uniform within each K x stage pool."""
+    if rho is None:
+        return np.concatenate([rng.choice(by_K[1], half), rng.choice(by_K[3], half)])
+    parts = []
+    for K in (1, 3):
+        n_pre = int(rng.binomial(half, rho))
+        parts += [rng.choice(by_KS[(K, "prefix")], n_pre), rng.choice(by_KS[(K, "suffix")], half - n_pre)]
+    return np.concatenate(parts)
+
+
 def to_dev(d, idx, device):
     return (torch.as_tensor(d["grid"][idx], device=device), torch.as_tensor(d["aux"][idx], device=device),
             torch.as_tensor(d["time"][idx][:, None], device=device))
 
 
-def evaluate_checkpoint(actor, ds, cfg, device, val, val_meta, bank, hb):
+def evaluate_checkpoint(actor, ds, cfg, device, val, val_meta, bank, hb, attempts_path=None):
     out = {}
     actor.eval()
     with torch.no_grad():
@@ -56,6 +71,7 @@ def evaluate_checkpoint(actor, ds, cfg, device, val, val_meta, bank, hb):
         out["val_loss"] = float(loss.mean())
     starts = [("layout", T.Layout.from_dict(it["layout"])) for it in val_meta]
     res, n_act = E.run_attempts(actor, starts, cfg["eval_attempts"], cfg["eval_seed"], device, heartbeat=hb)
+    raw = [{"kind": "normal", "K": val_meta[r["item"]]["layout"]["K"], **r} for r in res]
     for K in (1, 3):
         items = [i for i, it in enumerate(val_meta) if it["layout"]["K"] == K]
         sub = [dict(r, item=items.index(r["item"])) for r in res if r["item"] in items]
@@ -64,11 +80,16 @@ def evaluate_checkpoint(actor, ds, cfg, device, val, val_meta, bank, hb):
         snaps = [("snapshot", s["snapshot"]) for s in bank[str(K)]]
         r2, n2 = E.run_attempts(actor, snaps, cfg["bank_attempts"], cfg["eval_seed"] + 1, device, heartbeat=hb)
         n_act += n2
+        raw += [{"kind": "bank", "bank_K": K, "bin": bank[str(K)][r["item"]]["bin"], **r} for r in r2]
         out[f"bank_K{K}"] = E.summarize(r2, len(snaps))
         for b in ("entry", "retrieval", "carrying"):
             ids = [i for i, s in enumerate(bank[str(K)]) if s["bin"] == b]
             out[f"bank_K{K}_{b}"] = float(np.mean([r["success"] for r in r2 if r["item"] in ids]))
     out["eval_env_actions"] = n_act
+    if attempts_path is not None:
+        tmp = Path(str(attempts_path) + ".tmp")
+        tmp.write_text("".join(json.dumps(r) + "\n" for r in raw))
+        os.replace(tmp, attempts_path)
     actor.train()
     return out
 
@@ -103,6 +124,9 @@ def main():
         val, val_meta = load_role(ds, "bc_val")
         bank = json.loads((ds / "bank_competence_dev_bank.json").read_text())
         by_K = {K: np.nonzero(train["K"] == K)[0] for K in (1, 3)}
+        rho = cfg.get("prefix_prob")
+        by_KS = {(K, s): np.nonzero((train["K"] == K) & ((train["stage"] == 0) if s == "prefix" else (train["stage"] > 0)))[0]
+                 for K in (1, 3) for s in ("prefix", "suffix")}
         actor = M.Actor().to(device)
         opt = torch.optim.Adam(actor.parameters(), lr=cfg["lr"])
         half = cfg["batch_size"] // 2
@@ -111,7 +135,7 @@ def main():
         t0 = time.time()
         run_loss = []
         for u in range(1, ckpts[-1] + 1):
-            idx = np.concatenate([rng.choice(by_K[1], half), rng.choice(by_K[3], half)])
+            idx = sample_batch(rng, by_K, by_KS, half, rho)
             logits = actor(*to_dev(train, idx, device))
             loss = torch.nn.functional.cross_entropy(
                 logits, torch.as_tensor(train["action"][idx].astype(np.int64), device=device))
@@ -120,7 +144,8 @@ def main():
             opt.step()
             run_loss.append(loss.item())
             if u in ckpts:
-                ev = evaluate_checkpoint(actor, ds, cfg, device, val, val_meta, bank, hb)
+                ev = evaluate_checkpoint(actor, ds, cfg, device, val, val_meta, bank, hb,
+                                         attempts_path=run_dir / f"attempts_u{u}.jsonl")
                 rec = {"update": u, "train_loss": float(np.mean(run_loss)), "elapsed": time.time() - t0, **ev}
                 run_loss = []
                 metrics.write(json.dumps(rec) + "\n")

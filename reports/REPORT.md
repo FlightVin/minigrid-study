@@ -1,8 +1,9 @@
 # MiniGrid study: demonstration-state starts and BC preservation after BC
 
-Status 2026-11-01 (programme complete): M0-M4, the R1 focused replication (Amendment 3) and the owner's
-2026-11-01 programme (PROTOCOL_FREEZE Amendment 4: R1 audit, R2 20-seed replication, E1 cross-panel, E2 anchor
-components) are complete. The consolidated programme report is section P below. Earlier sections are kept; R1
+Status 2026-11-01b: M0-M4, R1 (Amendment 3) and the Amendment 4 programme (R1 audit, R2, E1, E2; section P) are
+closed studies; their verdicts are preserved. A new owner programme is active (PROTOCOL_FREEZE Amendment 5): the
+A3 anchor-allocation study (seeds 43-66), initialization calibration (seeds 67-69) and a calibrated-regime pilot.
+Interpretation corrections of 2026-11-01b are marked in section P. Earlier sections are kept; R1
 interpretations corrected on 2026-11-01 are marked in place. M4 and R1 frozen verdicts are unchanged.
 
 ## Headline
@@ -44,7 +45,8 @@ baseline P1 0.093; seed SD 0.028).
 
 Frozen decision: **not supported.** The interval excludes the 0.03 planning effect and the M4 estimate (0.045):
 an effect of the size that motivated R2 is ruled out under this protocol; a small effect below about 0.023 is
-not. The observed SD was below all planning SDs, so this is not a power failure. Relative to reference values
+not. The achieved interval is narrow enough to constrain effects of the originally motivating size (0.03 planning,
+0.045 M4) under the tested protocol (corrected 2026-11-01b: replaces "not a power failure"). Relative to reference values
 (descriptive one-sided p for "effect > value"): 0: 0.071; 0.03: 0.998; 0.05: >0.999.
 251,904 (descriptive): +0.0099 [-0.0033, +0.0230]. Figures: `reports/r2/paired_effects.svg`, `endpoints.svg`.
 
@@ -65,19 +67,24 @@ Saved 501,760 actors re-evaluated on both final panels, 4 attempts, new attempt 
 | R1 (8) / conf_final | 0.108 | 0.133 | +0.025 [-0.006, +0.056] | 0.037 | 5/8 |
 | R1 (8) / r1_final | 0.128 | 0.148 | +0.020 [-0.008, +0.048] | 0.033 | 6/8 |
 
-The effect follows the trained policies, not the panel: the M4 policies keep a clear gain on R1's panel, and the
-R1 policies show a smaller gain on M4's panel. The panel does not explain the larger R1 seed SD. With new attempt
-seeds, R1's own-panel d is +0.020 (originally +0.040): part of R1's estimate was attempt-level evaluation noise.
-Together with R2, the M4 subgroup effect is best read as a favourable set of five training seeds, not a property of
-the method. Figure: `reports/crosspanel/cells.svg`.
+Cohort and panel contrasts (corrected 2026-11-01b; descriptive). On the same panel, the R1 cohort's mean d minus
+the M4 cohort's was -0.016 on conf_final (Welch 95% [-0.050, +0.019]) and -0.038 on r1_final ([-0.075, -0.000]).
+Within a cohort, the paired panel change (r1_final minus conf_final) was +0.017 for M4 ([-0.007, +0.042]; 5 seeds)
+and -0.005 for R1 ([-0.029, +0.020]; 8 seeds). These intervals do not exclude panel effects of about 0.02-0.04; the
+study does not show that panels are irrelevant. The cohort difference is larger on r1_final than on conf_final, and
+both cohorts' estimates carry seed and evaluation uncertainty. Re-evaluation of the R1 policies on their own panel
+with new attempt seeds gave d = +0.020 (original +0.040). Both evaluations have sampling error, so the difference
+does not identify a share of the original estimate as noise. Figure: `reports/crosspanel/cells.svg`.
 
 ### P5. Anchor components (E2; exploratory, 3 seeds, 251,904, development panel; F16)
 P1 contrasts (mean [95% t, df 2]): prefix-only -0.010 [-0.059, +0.038]; suffix-only **+0.055 [+0.035, +0.074]**
 (3/3 seeds, +0.047 to +0.063); both -0.010 [-0.079, +0.058]; interaction -0.055 [-0.139, +0.030]. The suffix term
-lowered suffix-state anchor KL (0.082 vs 0.138); the prefix term (weight 0.0025) hardly changed prefix KL. The
-suffix-only result is not consistent with the null "both" arm, which contains the same suffix term; with 3 seeds,
-128 attempts per branch and four unadjusted contrasts, it is hypothesis-generating only. No component claim is
-made. Figure: `reports/comp/contrasts.svg`.
+lowered suffix-state anchor KL (0.082 vs 0.138); the prefix term (weight 0.0025) hardly changed prefix KL; a small
+change in average prefix KL does not show that the prefix term had no behavioural effect. The components add as
+losses at a fixed parameter vector, but learned outcomes after nonlinear optimisation through shared parameters
+need not add, so a positive suffix-only arm and a null mixed arm do not conflict logically (corrected 2026-11-01b).
+With 3 seeds, 128 attempts per branch and four unadjusted contrasts, the result is hypothesis-generating only; it
+motivates the A3 study. Figure: `reports/comp/contrasts.svg`.
 
 ### P6. Corrected access / completion interpretation
 Exact per-seed decomposition dp = dq (r1+r0)/2 + dr (q1+q0)/2, r = P(success | actual arrival) (arithmetic, not
@@ -105,7 +112,10 @@ start of xp-r1 because I left an uncommitted file (0 actions; rerun unchanged; D
 fix, atomic writes, interruption drill and exact CPU resume passed (canary and test batches); no interruption
 occurred, so no resume was needed.
 
-### P8. Recommendation
+### P8. Recommendation (superseded 2026-11-01b by the owner's A3/calibration programme; kept as written)
+*Correction:* the tested configuration (mixed penalty, lambda 0.01, K=3, early BC) did not replicate at the
+motivating size, but that does not close the research question; anchor allocation, strength and regime remain open
+(Amendment 5).
 **Close the RQ1 line: report preservation at K=3 with early BC as not replicated.** M4's aggregate result
 (practically equivalent within +-0.05) stands; R2, the largest and prespecified test, excludes the M4-size subgroup
 effect, and E1 is consistent with the earlier estimates coming from a favourable set of trained policies (M4) and
@@ -115,8 +125,7 @@ only under a new owner decision with a prespecified design, not as a continuatio
 
 Manuscript-ready wording (not inserted): "In a prespecified 20-seed replication, preservation at K=3 with early
 BC changed normal-start success by +0.010 (95% CI -0.004 to +0.023; p = 0.14), excluding the +0.045 effect seen
-in the post hoc M4 subgroup. Re-evaluating the M4 and R1 policies on both test panels showed that the earlier gain
-belonged to the trained policies, not the panel."
+in the post hoc M4 subgroup." (The earlier second sentence, on policies versus panels, is withdrawn; see P4.)
 
 ## R1. Focused replication of the K=3/early-BC preservation effect (Amendment 3; complete)
 

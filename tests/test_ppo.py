@@ -148,3 +148,78 @@ def test_components_share_rng_streams_and_both_equals_unlabelled():
         assert torch.equal(s[0], ref[0]) and s[1:] == ref[1:], comp
     assert all(torch.equal(x, y) for x, y in zip(params["both"], params["unlabelled"]))
     assert not all(torch.equal(x, y) for x, y in zip(params["prefix"], params["suffix"]))
+
+
+A3_CFG = {"kl_coef": 0.01, "anchor_prefix_weight": 0.25}
+
+
+def test_a3_arm_coefficients_and_expected_losses():
+    """A3 (owner instruction 2026-11-01, section 4): configured base coefficients and the expected-loss
+    coefficients (prefix, suffix) on E_stage[KL] under the 25/75 mixed anchor sampler."""
+    want = {"00": (0.0, (0.0, 0.0)), "01p": (0.01, (0.0025, 0.0)), "01s": (0.01, (0.0, 0.0075)),
+            "01": (0.01, (0.0025, 0.0075)), "01w": (0.0075, (0.001875, 0.005625)), "11s": (0.01, (0.0, 0.0075))}
+    for arm, (base, eff) in want.items():
+        assert abs(PP.arm_kl_coef(arm, A3_CFG) - base) < 1e-15, arm
+        got = PP.effective_coefficients(arm, A3_CFG)
+        assert all(abs(x - y) < 1e-15 for x, y in zip(got, eff)), (arm, got)
+        assert PP.COMPONENT.get(arm, "both") == {"01p": "prefix", "01s": "suffix", "11s": "suffix"}.get(arm, "both")
+
+
+def test_a3_penalties_on_fixed_states_add_and_scale_in_value_and_gradient():
+    """On fixed states and parameters: B + C = D (value and gradients), E = 0.75 D, and C with base 0.01 is not
+    the double-weighted 0.0075 x suffix estimator."""
+    actor, _, _, A = _setup(0.0)
+    pre = torch.arange(32) < 8
+    idx = torch.as_tensor(np.random.default_rng(1).integers(0, 32, 128))
+    ag, aa, at, ref, p = A["grid"][idx], A["aux"][idx], A["time"][idx], A["ref_logp"][idx], pre[idx]
+
+    def run(arm):
+        actor.zero_grad()
+        kl = PP.categorical_kl(ref, torch.log_softmax(actor(ag, aa, at), -1))
+        v = PP.anchor_penalty(kl, p, PP.COMPONENT.get(arm, "both"), PP.arm_kl_coef(arm, A3_CFG))
+        v.backward()
+        return v.detach().clone(), [q.grad.clone() for q in actor.parameters()]
+
+    (vb, gb), (vc, gc), (vd, gd), (ve, ge) = (run(x) for x in ("01p", "01s", "01", "01w"))
+    assert torch.allclose(vb + vc, vd, rtol=1e-6) and all(torch.allclose(x + y, z, atol=1e-9) for x, y, z in zip(gb, gc, gd))
+    assert torch.allclose(ve, 0.75 * vd, rtol=1e-6) and all(torch.allclose(x, 0.75 * z, atol=1e-9) for x, z in zip(ge, gd))
+    with torch.no_grad():
+        kl = PP.categorical_kl(ref, torch.log_softmax(actor(ag, aa, at), -1))
+    assert torch.allclose(vc, 0.01 * kl[~p].sum() / 128)
+    assert not torch.allclose(vc, 0.0075 * kl[~p].sum() / 128)     # the double-weighting error
+
+
+def test_a3_expected_penalty_equals_effective_coefficients_times_stage_means():
+    """Exact expectation over the anchor sampler: E[penalty] = c_pre * E_prefix[KL] + c_suf * E_suffix[KL],
+    with stage-uniform weights 0.25 / 0.75 as built by rl.Ctx.anchors (no renormalization of kept rows)."""
+    rng = np.random.default_rng(2)
+    n_pre, n_suf = 10, 30
+    kl = torch.as_tensor(rng.random(n_pre + n_suf))
+    is_pre = torch.arange(n_pre + n_suf) < n_pre
+    w = np.concatenate([np.full(n_pre, 0.25 / n_pre), np.full(n_suf, 0.75 / n_suf)])
+    for arm in ("00", "01p", "01s", "01", "01w"):
+        comp, coef = PP.COMPONENT.get(arm, "both"), PP.arm_kl_coef(arm, A3_CFG)
+        keep = {"both": np.ones(40), "prefix": is_pre.numpy(), "suffix": ~is_pre.numpy()}[comp]
+        expect = coef * float((w * kl.numpy() * keep).sum())      # E over one row = E over a batch mean
+        c_pre, c_suf = PP.effective_coefficients(arm, A3_CFG)
+        assert abs(expect - (c_pre * kl[:n_pre].mean().item() + c_suf * kl[n_pre:].mean().item())) < 1e-12, arm
+        # the batch estimator is unbiased for that expectation (exhaustive single-row batches)
+        rows = [PP.anchor_penalty(kl[i:i + 1], is_pre[i:i + 1], comp, coef).item() for i in range(40)]
+        assert abs(float(np.dot(w, rows)) - expect) < 1e-12, arm
+
+
+def test_update_diagnostics_do_not_change_training():
+    """Update-size diagnostics (fixed anchor rows, no RNG, no gradient) leave parameters, optimizer and every RNG
+    stream bitwise unchanged; they report KL by stage and the actor update norm."""
+    out = {}
+    for diag in (False, True):
+        actor, critic, sampler, A = _setup(0.0)
+        A = {**A, "is_prefix": torch.arange(32) < 8}
+        L = PP.PPO(actor, critic, {**CFG, "update_diagnostics": diag}, torch.device("cpu"), sampler, A, use_kl=True,
+                   seed=7, component="suffix")
+        stats = L.update(L.collect())
+        out[diag] = (PP.state_hash(L.state()), stats)
+    assert out[False][0] == out[True][0]
+    s = out[True][1]
+    assert s["update_kl_prefix"] >= 0 and s["update_kl_suffix"] >= 0 and s["actor_update_norm"] > 0
+    assert "actor_update_norm" not in out[False][1]

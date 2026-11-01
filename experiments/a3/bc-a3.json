@@ -1,0 +1,12 @@
+{
+  "purpose": "A3 BC: fresh seeds 43-66; unchanged joint conf-v1 dataset, sampler, architecture and constant lr; early 4k checkpoint; evaluation on bc_val + dev bank as before (raw attempts now also saved).",
+  "dataset_id": "conf-v1",
+  "lr": 0.0003,
+  "batch_size": 256,
+  "checkpoints": [
+    4000
+  ],
+  "eval_attempts": 4,
+  "bank_attempts": 4,
+  "eval_seed": 515000
+}

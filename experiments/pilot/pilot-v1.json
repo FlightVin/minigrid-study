@@ -1,0 +1,43 @@
+{
+ "purpose": "Calibrated-regime pilot (Amendment 5; exploratory). Selected calibration BC sampler/checkpoint, K=1 and K=3, seeds 67-69, common ordinary-PPO probe, four branches: 00 (ordinary), 10 (demonstration-state starts alpha 0.25, original reset states and remaining times), 01s (suffix-only preservation, base 0.01 -> effective 0.0075 E_suffix), 11s (both). 251,904 continuation actions; evaluation at the endpoint on pl_final (64 layouts per K x 4) and pl_bank (64 per K x 4); pi0/probe diagnostics on pl_select.",
+ "dataset_id": "r3-v1",
+ "eval_role": "pl_final",
+ "bank_role": "pl_bank",
+ "n_envs": 16,
+ "n_steps": 128,
+ "gamma": 1.0,
+ "gae_lambda": 0.95,
+ "clip": 0.2,
+ "actor_lr": 3e-05,
+ "critic_lr": 0.0003,
+ "epochs": 4,
+ "minibatch": 512,
+ "ent_coef": 0.0,
+ "max_grad_norm": 0.5,
+ "anchor_batch": 128,
+ "anchor_prefix_weight": 0.25,
+ "alpha": 0.25,
+ "kl_coef": 0.01,
+ "critic_warmup_actions": 16000,
+ "critic_prefit_lr": 0.0003,
+ "critic_prefit_steps": 2000,
+ "probe_actions": 50000,
+ "diag_attempts": 2,
+ "diag_bank_attempts": 4,
+ "continuation_actions": 251904,
+ "eval_seed": 989000,
+ "diag_role": "pl_select",
+ "eval_schedule": [
+  {
+   "at": 251904,
+   "attempts": 4,
+   "bank_attempts": 4,
+   "tag": "pilot_251904",
+   "endpoint": true
+  }
+ ],
+ "save_state_at": [
+  251904
+ ],
+ "update_diagnostics": true
+}

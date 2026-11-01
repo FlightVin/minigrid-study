@@ -1,0 +1,52 @@
+{
+  "dataset_id": "r3-v1",
+  "purpose": "A3 anchor-allocation study and calibrated-regime pilot data (owner instruction 2026-11-01, PROTOCOL_FREEZE Amendment 5): every r2-v1 file and role copied unchanged (training data unchanged); new roles a3_select (64), a3_bank (64), a3_final (128) for A3, and pl_select (64), pl_bank (64), pl_final (64) for the pilot. Matched K=1/K=3 items as before.",
+  "base_dataset": "r2-v1",
+  "Ks": [
+    1,
+    3
+  ],
+  "prefix_slack": 24,
+  "suffix_allowance": 80,
+  "registry_counts": {
+    "bc_train": 450,
+    "bc_val": 50,
+    "rl_train": 2048,
+    "reset_donor": 256,
+    "anchor_donor": 256,
+    "dev_eval": 32,
+    "dev_bank": 64,
+    "conf_select": 64,
+    "conf_bank": 64,
+    "conf_final": 64,
+    "r1_select": 64,
+    "r1_bank": 64,
+    "r1_final": 128,
+    "r2_select": 64,
+    "r2_bank": 64,
+    "r2_final": 128,
+    "a3_select": 64,
+    "a3_bank": 64,
+    "a3_final": 128,
+    "pl_select": 64,
+    "pl_bank": 64,
+    "pl_final": 64
+  },
+  "generate_roles": [
+    "a3_select",
+    "a3_bank",
+    "a3_final",
+    "pl_select",
+    "pl_bank",
+    "pl_final"
+  ],
+  "trajectory_roles": [
+    "a3_bank",
+    "pl_bank"
+  ],
+  "bank_roles": [
+    "a3_bank",
+    "pl_bank"
+  ],
+  "bank_size": 64
+}

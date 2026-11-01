@@ -183,3 +183,19 @@ The watcher then reported the previous batch; it was restarted after the new bat
   record lands in the changed directory). Affected: r2-smoke only (the ordinary suite's count, 59,274, matches the
   earlier measurement; R1's test jobs skipped the smoke tests). Ledger: +250,000 conservative estimate
   (`research/ledger_adjustments.json`). Training and evaluation code are unaffected; the R2 canary runs after it.
+
+## 2026-11-01b — Amendment 5 implementation (before any A3/calibration/pilot run)
+- `src/bc2rl/ppo.py`: arms `01w` (mixed penalty, base 0.75 x kl_coef) and `11s` (resets + suffix-only);
+  `KL_SCALE`, `arm_kl_coef`, `effective_coefficients`; optional `update_diagnostics` (KL between successive
+  policies on 256 + 256 fixed anchor rows by stage; actor parameter-change norm), no RNG and no gradient.
+- `src/bc2rl/rl.py`: branch and resume use `arm_kl_coef`; branch metadata/summary record
+  `kl_effective_prefix_suffix`.
+- `src/bc2rl/bc.py`: `sample_batch` (original sampler unchanged, same RNG calls; optional `prefix_prob`);
+  each checkpoint evaluation writes raw `attempts_u<update>.jsonl` (normal rows with K; bank rows with bank_K, bin).
+- `src/bc2rl/splits.py`: roles a3_select 118, a3_bank 119, a3_final 120, pl_select 121, pl_bank 122, pl_final 123.
+- `tools/data_gate.py --r3`; `experiments/a3/data-r3-v1.json` (base r2-v1).
+- Analysis and tooling: `tools/analyze_a3.py` (+ tests), `tools/power_a3.py`, `tools/a3_canary_check.py`,
+  `tools/analyze_cal.py` (+ tests), `tools/run_program2.py`, `experiments/program2/make_batches.py` and plan.
+- Tests: `tests/test_ppo.py` (+4: coefficients, fixed-state value/gradient additivity and scaling, exact expected
+  penalty, diagnostics leave training bitwise unchanged), `tests/test_bc_sampler.py` (2), `tests/test_analyze_a3.py`
+  (6), `tests/test_analyze_cal.py` (2). Local full suite: 288 passed, 3 skipped (actions recorded by the ledger).

@@ -302,20 +302,21 @@ def branch(a, cfg):
     anchors, anchor_info = ctx.anchors(pi0)
     alpha = cfg["alpha"] if use_reset else 0.0
     component = PP.COMPONENT.get(a.arm, "both")
-    learner = PP.PPO(actor, critic, {**cfg, "kl_coef": cfg["kl_coef"] if use_kl else 0.0}, ctx.device,
+    learner = PP.PPO(actor, critic, {**cfg, "kl_coef": PP.arm_kl_coef(a.arm, cfg)}, ctx.device,
                      ctx.sampler(alpha), anchors, use_kl=use_kl, seed=seed, component=component)
     learner.load(st)
     loaded_hash = PP.state_hash({**learner.state(), "pi0": st["pi0"]})
     assert loaded_hash == psum["fork_hash"], "loaded learner state differs from fork"
     base_actions = learner.counters["env_actions"]
     (ctx.run_dir / "config.resolved.json").write_text(json.dumps({**cfg, "mode": "branch", "arm": a.arm,
-        "alpha": alpha, "kl_coef": cfg["kl_coef"] if use_kl else 0.0, "anchor_component": component,
-        "probe_run": str(probe_dir),
+        "alpha": alpha, "kl_coef": PP.arm_kl_coef(a.arm, cfg), "anchor_component": component,
+        "kl_effective_prefix_suffix": PP.effective_coefficients(a.arm, cfg), "probe_run": str(probe_dir),
         "fork_hash": psum["fork_hash"], "K": K, "seed": seed, "bc_update": pcfg["bc_update"],
         "device": str(ctx.device)}, indent=1))
     if "eval_schedule" in cfg:
         return scheduled(ctx, cfg, learner, st["pi0"], {"mode": "branch", "arm": a.arm, "alpha": alpha,
-                         "kl_coef": cfg["kl_coef"] if use_kl else 0.0, "anchor_component": component,
+                         "kl_coef": PP.arm_kl_coef(a.arm, cfg), "anchor_component": component,
+                         "kl_effective_prefix_suffix": PP.effective_coefficients(a.arm, cfg),
                          "K": K, "seed": seed,
                          "bc_update": pcfg["bc_update"], "fork_hash": psum["fork_hash"],
                          "probe_run": str(probe_dir), "base_actions": base_actions, "resumed_from": None,
@@ -410,7 +411,7 @@ def resume(a, cfg):
     assert not fixed, f"resume config changes frozen settings: {fixed}"
     K, seed, arm = meta["K"], meta["seed"], meta["arm"]
     use_reset, use_kl = PP.ARMS[arm]
-    assert meta["alpha"] == (cfg["alpha"] if use_reset else 0.0) and meta["kl_coef"] == (cfg["kl_coef"] if use_kl else 0.0)
+    assert meta["alpha"] == (cfg["alpha"] if use_reset else 0.0) and meta["kl_coef"] == PP.arm_kl_coef(arm, cfg)
     ctx = Ctx(cfg, K, seed)
     pi0 = M.Actor().to(ctx.device)
     pi0.load_state_dict(st["pi0"])

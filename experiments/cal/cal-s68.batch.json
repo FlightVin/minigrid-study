@@ -1,0 +1,49 @@
+{
+ "jobs": [
+  {
+   "id": "cal-bc-p5-s68",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.bc",
+    "--config",
+    "experiments/cal/bc-cal-p5.json",
+    "--seed",
+    "68"
+   ]
+  },
+  {
+   "id": "cal-bc-p8-s68",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.bc",
+    "--config",
+    "experiments/cal/bc-cal-p8.json",
+    "--seed",
+    "68"
+   ]
+  },
+  {
+   "id": "cal-bc-p2-s68",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.bc",
+    "--config",
+    "experiments/cal/bc-cal-p2.json",
+    "--seed",
+    "68"
+   ]
+  }
+ ]
+}

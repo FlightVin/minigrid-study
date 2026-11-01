@@ -449,3 +449,28 @@ superseded limits. Reconciliation with the evidence and the decisions taken:
 - 2026-11-01 (programme complete): E1, E2 and final tests done; independent verification passed; report section
   P written. Recommendation: close the RQ1 line (REPORT P8). Owned monitors stopped (battery watch 35448 by PID
   and create time; review cron a43d3f65). No further scientific execution.
+
+## 2026-11-01b — Owner programme: A3 anchor allocation, initialization calibration, pilot (Amendment 5)
+- **Instruction** recorded verbatim (harness `7ed7285`). It supersedes the Amendment 4 completion stop and the
+  REPORT P8 "close the RQ1 line" recommendation as a stop rule. Closed-study verdicts (M4 F10, R1 F12, R2 F14) and
+  the E1/E2 records stay unchanged.
+- **Budget.** 130M hard, from 158,314,282. Unused Amendment 4 allowance (10.36M) not added. Allocation: ~3M prep,
+  ~100M A3, <= 15M calibration + pilot, ~12M protected. Admission rules in Amendment 5 A (`tools/run_program2.py`).
+- **Order.** Audit and freeze -> data r3-v1 + gate -> tests -> A3 canary (seed 43) -> seeds 44-66 -> calibration
+  (seeds 67-69) -> calibration selection -> pilot (if a variant qualifies) -> final tests -> verification -> synthesis
+  and report. A3 runs first because it is the fixed confirmatory study and its completion is protected; calibration
+  does not depend on A3 outcomes and is analysed only by its frozen rule.
+- **Choices delegated to me** (fixed now, before outcomes): A3 primary endpoint 251,904 (owner); evaluation roles
+  a3_select/a3_bank/a3_final (new); eval seed 959000; no curve evaluations (the instruction asks to avoid
+  unspecified evaluations); Latin-rotation branch order; arm E as config scale 0.75 on the mixed estimator;
+  update-size diagnostics on fixed anchor rows (no RNG); crossed-bootstrap RNG 20261103; calibration evaluation on
+  the existing development roles bc_val + dev_bank via the BC job (eval seed 525000; 4 attempts); "room for
+  learning" = normal-start P1 <= 0.60 for both K; selection tie-break smaller rho; pilot roles pl_* (new) with
+  64 layouts per K; pilot eval seed 989000.
+- **Audit outcome.** No implementation defect (Amendment 5 B). Action sampling and minibatch permutation share one
+  generator; consumption is arm-invariant without target_kl; kept for comparability, documented.
+- **Interpretation corrections** (REPORT P2, P4, P5, P8; FINDINGS F18): "not a power failure" replaced by a
+  statement of achieved precision; no noise-share claim from re-evaluation; cohort/panel contrasts with intervals;
+  no logical conflict between a positive suffix-only arm and a null mixed arm; P8 superseded as a stop rule.
+- **Monitoring.** Battery watch and two-hour review cron restarted at launch (identities in STATE). Batch watcher
+  bound to each driver PID and create time.

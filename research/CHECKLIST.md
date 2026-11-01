@@ -120,3 +120,32 @@ Dependencies: each line needs the lines above it unless marked (parallel-safe: d
 - [x] Independent verification of R2/E1/E2 numbers from raw records (separate script or fresh-agent review)
 - [x] Consolidated report (sections 1-8 of the instruction), FINDINGS, review; commit + push
 - [x] Stop owned monitors (battery watch, cron, watchers) by verified identity; stop scientific execution
+
+## Programme 2026-11-01b (Amendment 5): A3, calibration, pilot, synthesis
+Dependencies: each line needs the lines above it unless marked (parallel-safe: documentation).
+- [x] Instruction recorded verbatim (harness `7ed7285`); superseded stop rules noted; closed verdicts preserved
+- [x] Focused component-code audit (labels, sampling, coefficients, teacher, KL, actor/critic, RNG, fork state, no
+      hidden change); value + gradient tests on fixed states; B + C = D, E = 0.75 D; no defect
+- [x] Interpretation corrections (REPORT P2/P4/P5/P8; F18); literature positioning note
+- [x] Implementation: arms 01w/11s, effective coefficients recorded, update-size diagnostics, BC prefix_prob,
+      raw BC attempts, roles a3_*/pl_*, data config r3-v1, gate --r3
+- [x] Frozen analyses: analyze_a3 (+ gate tests), power_a3, a3_canary_check, analyze_cal (+ rule tests)
+- [x] Driver run_program2.py + plan; batch files (A3, calibration; pilot placeholders)
+- [x] PROTOCOL_FREEZE Amendment 5; DECISIONS; IMPLEMENTATION; STATE
+- [ ] Freeze commit + push; monitors (battery watch, review cron) started and recorded
+- [ ] Data r3-v1 (runner) -> data gate --r3 (stop on failure)
+- [ ] Tests batch (full suite + RL smoke incl. exact resume)
+- [ ] A3 canary s43 -> a3_canary_check (no outcomes)
+- [ ] A3 seeds 44-66 (24/24; watcher armed; no interim outcome reads)
+- [ ] A3 analysis `--check-states` (unblinded at 24/24); figures (paired arm effects at both endpoints, component
+      contrasts, penalty/update-size diagnostics)
+- [ ] Calibration batches s67-69 -> analyze_cal -> selection (or documented failure)
+- [ ] (if selected) pilot analysis script committed; pilot batch files written; pilot runs; analysis; figures
+- [ ] Figure: initial access vs boundary-entry competence (calibration)
+- [ ] Final runner tests (p2-tests); ledger and cost reconciliation
+- [ ] Independent verification from raw attempts (A3 inventory, coefficients, lineage, roles, formulas, actions;
+      calibration; pilot)
+- [ ] Synthesis: RQ1 distinctions; RQ2 assessment; literature positioning; one decisive recommendation
+- [ ] Consolidated report (closed / A3 confirmatory / secondary / calibration / pilot / remaining hypotheses);
+      FINDINGS; review; commit + push
+- [ ] Stop owned monitors by verified identity only when the programme is complete

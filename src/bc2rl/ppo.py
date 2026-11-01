@@ -29,8 +29,24 @@ from bc2rl import model as M
 from bc2rl import task as T
 
 ARMS = {"00": (False, False), "10": (True, False), "01": (False, True), "11": (True, True),
-        "01p": (False, True), "01s": (False, True)}
-COMPONENT = {"01p": "prefix", "01s": "suffix"}         # every other arm: "both" (the original loss)
+        "01p": (False, True), "01s": (False, True), "01w": (False, True), "11s": (True, True)}
+COMPONENT = {"01p": "prefix", "01s": "suffix", "11s": "suffix"}   # every other arm: "both" (the original loss)
+# Arm 01w (anchor-allocation study A3, arm E): the original mixed penalty with base coefficient 0.75 x config
+# (0.0075 for 0.01), i.e. 0.001875 E_prefix + 0.005625 E_suffix. Every other preservation arm uses the config value.
+KL_SCALE = {"01w": 0.75}
+
+
+def arm_kl_coef(arm, cfg):
+    """Base coefficient passed to anchor_penalty for this arm (0 without preservation)."""
+    return cfg["kl_coef"] * KL_SCALE.get(arm, 1.0) if ARMS[arm][1] else 0.0
+
+
+def effective_coefficients(arm, cfg):
+    """Expected-loss coefficients (prefix, suffix) on E_stage[KL] under the mixed anchor sampler."""
+    w = cfg["anchor_prefix_weight"]
+    b = arm_kl_coef(arm, cfg)
+    comp = COMPONENT.get(arm, "both")
+    return (b * w if comp in ("both", "prefix") else 0.0, b * (1 - w) if comp in ("both", "suffix") else 0.0)
 
 
 class StartSampler:
@@ -202,6 +218,17 @@ class PPO:
         return data
 
     # -- update -----------------------------------------------------------------------------------
+    def _probe_rows(self, n=256):
+        """Fixed anchor rows for update-size diagnostics: n evenly spaced prefix rows and n suffix rows."""
+        if not self.anchors or "is_prefix" not in self.anchors or not self.cfg.get("update_diagnostics"):
+            return None
+        if getattr(self, "_probe_idx", None) is None:
+            pre = torch.nonzero(self.anchors["is_prefix"]).squeeze(1).cpu().numpy()
+            suf = torch.nonzero(~self.anchors["is_prefix"]).squeeze(1).cpu().numpy()
+            pick = lambda r: r[np.linspace(0, len(r) - 1, min(n, len(r))).round().astype(int)]
+            self._probe_idx = torch.as_tensor(np.concatenate([pick(pre), pick(suf)]), device=self.device)
+        return self._probe_idx
+
     def _anchor_batch(self, n):
         A = self.anchors
         idx = torch.as_tensor(self.np_rng.choice(len(A["weights"]), size=n, p=A["weights"]), device=self.device)
@@ -223,6 +250,12 @@ class PPO:
                                  "grad_norm_actor", "grad_norm_critic", "kl_grad_norm", "ratio_max", "ratio_min")}
         target_kl = cfg.get("target_kl")
         stopped = False
+        probe_rows = self._probe_rows()
+        if probe_rows is not None:      # policy change on fixed anchor states (no RNG, no gradient)
+            before = [p.detach().clone() for p in self.actor.parameters()]
+            with torch.no_grad():
+                pg_, pa_, pt_ = (self.anchors[k][probe_rows] for k in ("grid", "aux", "time"))
+                logp_before = torch.log_softmax(self.actor(pg_, pa_, pt_).float(), -1)
         for _ in range(cfg["epochs"]):
             if stopped:
                 break
@@ -276,6 +309,14 @@ class PPO:
                     break
         self.counters["updates"] += 1
         out = {k: float(np.mean(v)) for k, v in stats.items() if v}
+        if probe_rows is not None:
+            with torch.no_grad():
+                kl_upd = categorical_kl(logp_before, torch.log_softmax(self.actor(pg_, pa_, pt_).float(), -1))
+                pre = self.anchors["is_prefix"][probe_rows]
+                out["update_kl_prefix"] = kl_upd[pre].mean().item()
+                out["update_kl_suffix"] = kl_upd[~pre].mean().item()
+                out["actor_update_norm"] = float(sum(((p.detach() - b) ** 2).sum() for p, b in
+                                                     zip(self.actor.parameters(), before)) ** 0.5)
         out["minibatches"] = len(stats["pg_loss"])
         out["ratio_max"], out["ratio_min"] = max(stats["ratio_max"]), min(stats["ratio_min"])
         y, yhat = flat["ret"], flat["value"]

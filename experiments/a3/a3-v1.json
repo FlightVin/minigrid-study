@@ -1,0 +1,51 @@
+{
+ "purpose": "A3 anchor-allocation study (owner instruction 2026-11-01; PROTOCOL_FREEZE Amendment 5). K=3, early BC (4k), seeds 43-66, normal starts, alpha 0. Arms 00 (A, none), 01p (B, prefix rows only, base 0.01 -> 0.0025 E_prefix), 01s (C, suffix rows only, base 0.01 -> 0.0075 E_suffix), 01 (D, original mixed, 0.0025 E_prefix + 0.0075 E_suffix), 01w (E, mixed with base 0.0075 -> 0.001875 E_prefix + 0.005625 E_suffix). Mixed anchor sampler 25% prefix / 75% suffix; component arms zero the other stage's rows and keep the full-batch denominator. Primary endpoint 251,904 (a3_final 128 x 4 + a3_bank 64 x 4); secondary 501,760 (same panel and bank). No curve evaluations. pi0/post-probe diagnostics on a3_select. Update-size diagnostics on fixed anchor rows (no RNG). Other settings as r2-v1.",
+ "dataset_id": "r3-v1",
+ "eval_role": "a3_final",
+ "bank_role": "a3_bank",
+ "n_envs": 16,
+ "n_steps": 128,
+ "gamma": 1.0,
+ "gae_lambda": 0.95,
+ "clip": 0.2,
+ "actor_lr": 3e-05,
+ "critic_lr": 0.0003,
+ "epochs": 4,
+ "minibatch": 512,
+ "ent_coef": 0.0,
+ "max_grad_norm": 0.5,
+ "anchor_batch": 128,
+ "anchor_prefix_weight": 0.25,
+ "alpha": 0.0,
+ "kl_coef": 0.01,
+ "critic_warmup_actions": 16000,
+ "critic_prefit_lr": 0.0003,
+ "critic_prefit_steps": 2000,
+ "probe_actions": 50000,
+ "diag_attempts": 2,
+ "diag_bank_attempts": 4,
+ "continuation_actions": 500000,
+ "eval_seed": 959000,
+ "diag_role": "a3_select",
+ "eval_schedule": [
+  {
+   "at": 251904,
+   "attempts": 4,
+   "bank_attempts": 4,
+   "tag": "final_251904",
+   "endpoint": true
+  },
+  {
+   "at": 501760,
+   "attempts": 4,
+   "bank_attempts": 4,
+   "tag": "final_501760",
+   "endpoint": true
+  }
+ ],
+ "save_state_at": [
+  251904,
+  501760
+ ],
+ "update_diagnostics": true
+}

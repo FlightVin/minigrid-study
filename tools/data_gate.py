@@ -17,6 +17,9 @@ With --r1 (PROTOCOL_FREEZE Amendment 3) it also requires
 With --r2 (PROTOCOL_FREEZE Amendment 4; requires --r1) the same rule one level up: every r1-v1 file
 byte-identical in r2-v1, every r1-v1 role identical, and the r2 roles disjoint from all r1-v1 roles (which
 include every earlier role) and from each other; r2_bank K3 bins equal conf_bank's.
+With --r3 (PROTOCOL_FREEZE Amendment 5; requires --r1 --r2) the same rule over r2-v1 for the A3 and pilot roles,
+which must hold the planned count for both K=1 and K=3 (the pilot evaluates both); every new bank role must have
+the conf_bank bin counts for K=1 and K=3.
 Prints a JSON report; exit status 1 on any failure.
 """
 import argparse
@@ -31,6 +34,7 @@ SAME_FILES = ["traj_bc_train.npz", "traj_bc_val.npz", "traj_reset_donor.npz", "t
 CONF_ROLES = ("conf_select", "conf_bank", "conf_final")
 R1_ROLES = ("r1_select", "r1_bank", "r1_final")
 R2_ROLES = ("r2_select", "r2_bank", "r2_final")
+R3_ROLES = ("a3_select", "a3_bank", "a3_final", "pl_select", "pl_bank", "pl_final")
 
 
 def sha(p):
@@ -43,6 +47,7 @@ def main():
     ap.add_argument("--conf", default=str(ROOT / "data/conf-v1"))
     ap.add_argument("--r1")
     ap.add_argument("--r2")
+    ap.add_argument("--r3")
     a = ap.parse_args()
     dev, conf = Path(a.dev), Path(a.conf)
     md, mc = (json.loads((d / "manifest.json").read_text()) for d in (dev, conf))
@@ -87,12 +92,20 @@ def main():
         r2rep, r2ok = gate_r1(r1, Path(a.r2), m1, l1, roles=R2_ROLES, bank_ref=mc["bank_bin_counts"]["conf_bank/K3"])
         rep["r2"] = r2rep
         ok &= r2ok
+    if a.r3:
+        assert a.r1 and a.r2, "--r3 needs --r1 and --r2"
+        r2 = Path(a.r2)
+        m2, l2 = json.loads((r2 / "manifest.json").read_text()), json.loads((r2 / "layouts.json").read_text())
+        r3rep, r3ok = gate_r1(r2, Path(a.r3), m2, l2, roles=R3_ROLES, bank_ref=mc["bank_bin_counts"]["conf_bank/K3"],
+                              both_K=True, bank_ref_K1=mc["bank_bin_counts"]["conf_bank/K1"])
+        rep["r3"] = r3rep
+        ok &= r3ok
     rep["pass"] = bool(ok)
     print(json.dumps(rep, indent=1))
     sys.exit(0 if ok else 1)
 
 
-def gate_r1(conf, r1, mc, lc, roles=R1_ROLES, bank_ref=None):
+def gate_r1(conf, r1, mc, lc, roles=R1_ROLES, bank_ref=None, both_K=False, bank_ref_K1=None):
     """New roles in dataset r1 over base dataset conf (manifest mc, layouts lc). Used for r1 over conf-v1 and
     for r2 over r1-v1."""
     mr = json.loads((r1 / "manifest.json").read_text())
@@ -121,15 +134,22 @@ def gate_r1(conf, r1, mc, lc, roles=R1_ROLES, bank_ref=None):
         perK = {K: sum(it["layout"]["K"] == K for it in items) for K in mr["config"]["Ks"]}
         rep["new_roles"][role] = {"per_K": perK, "planned": planned[role], "overlap_with_all_earlier": overlap}
         ok &= perK[3] == planned[role] and not any(overlap.values())     # only K=3 items are evaluated
+        if both_K:
+            ok &= perK[1] == planned[role]
     for i, r1_ in enumerate(roles):
         for r2 in roles[i + 1:]:
             k1, k2 = keys(lr.get(r1_, []), r1_), keys(lr.get(r2, []), r2)
             n = sum(len(x & y) for x, y in zip(k1, k2))
             rep["new_pairwise"][f"{r1_}|{r2}"] = n
             ok &= n == 0
-    bank_role = next(r for r in roles if r.endswith("_bank"))
-    rep["bank_bins_K3"] = mr["bank_bin_counts"].get(f"{bank_role}/K3")
-    ok &= rep["bank_bins_K3"] == (bank_ref or mc["bank_bin_counts"]["conf_bank/K3"])
+    bank_roles = [r for r in roles if r.endswith("_bank")] if both_K else [next(r for r in roles if r.endswith("_bank"))]
+    for bank_role in bank_roles:
+        key = "bank_bins_K3" if not both_K else f"bank_bins_K3_{bank_role}"
+        rep[key] = mr["bank_bin_counts"].get(f"{bank_role}/K3")
+        ok &= rep[key] == (bank_ref or mc["bank_bin_counts"]["conf_bank/K3"])
+        if both_K:
+            rep[f"bank_bins_K1_{bank_role}"] = mr["bank_bin_counts"].get(f"{bank_role}/K1")
+            ok &= rep[f"bank_bins_K1_{bank_role}"] == bank_ref_K1
     rep["planner_failures_new"] = len(mr["planner_failures"])
     rep["registry_sha256_new"] = mr["registry_sha256"]
     return rep, ok

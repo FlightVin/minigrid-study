@@ -20,14 +20,15 @@ ROLE_NAMESPACE = {
     "dev_eval": 106, "dev_bank": 107, "conf_select": 108, "conf_bank": 109, "conf_final": 110,
     "k2_reserved": 111, "r1_select": 112, "r1_bank": 113, "r1_final": 114,
     "r2_select": 115, "r2_bank": 116, "r2_final": 117,
+    "a3_select": 118, "a3_bank": 119, "a3_final": 120, "pl_select": 121, "pl_bank": 122, "pl_final": 123,
 }
 TRAIN_ROLES = ("bc_train", "bc_val", "rl_train", "reset_donor", "anchor_donor")
 EVAL_ROLES = ("dev_eval", "dev_bank", "conf_select", "conf_bank", "conf_final", "r1_select", "r1_bank", "r1_final",
-              "r2_select", "r2_bank", "r2_final")
+              "r2_select", "r2_bank", "r2_final", "a3_select", "a3_bank", "a3_final", "pl_select", "pl_bank", "pl_final")
 # Earlier roles win a structural collision; evaluation roles come last so they stay untouched.
 ROLE_ORDER = ["bc_train", "bc_val", "rl_train", "reset_donor", "anchor_donor", "dev_eval", "dev_bank",
               "conf_select", "conf_bank", "conf_final", "r1_select", "r1_bank", "r1_final", "r2_select", "r2_bank",
-              "r2_final"]
+              "r2_final", "a3_select", "a3_bank", "a3_final", "pl_select", "pl_bank", "pl_final"]
 ALLOWED_USE = {
     "bc_train": "supervised fitting only",
     "bc_val": "BC checkpoint/fitting development; no PPO branch outcomes",
@@ -45,6 +46,12 @@ ALLOWED_USE = {
     "r2_select": "R2 replication pi0/post-probe diagnostics and curve points; no fitting",
     "r2_bank": "R2 replication competence bank donors; no fitting",
     "r2_final": "R2 replication final evaluation only; never tuning or selection",
+    "a3_select": "A3 anchor-allocation study pi0/post-probe diagnostics; no fitting",
+    "a3_bank": "A3 competence bank donors; no fitting",
+    "a3_final": "A3 final normal-start evaluation only; never tuning or selection",
+    "pl_select": "calibrated-regime pilot pi0/post-probe diagnostics; no fitting",
+    "pl_bank": "calibrated-regime pilot competence bank donors; no fitting",
+    "pl_final": "calibrated-regime pilot normal-start evaluation; exploratory; never calibration selection",
 }
 
 

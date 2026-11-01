@@ -1,0 +1,192 @@
+{
+ "jobs": [
+  {
+   "id": "pl-probe-K1-s69",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "probe",
+    "--config",
+    "experiments/pilot/pilot-v1.json",
+    "--K",
+    "1",
+    "--bc-run",
+    "CAL_BATCH/cal-bc-p5-s69",
+    "--bc-update",
+    "4000",
+    "--seed",
+    "69"
+   ]
+  },
+  {
+   "id": "pl-K1-s69-11s",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/pilot/pilot-v1.json",
+    "--probe-run",
+    "@/pl-probe-K1-s69",
+    "--arm",
+    "11s"
+   ]
+  },
+  {
+   "id": "pl-K1-s69-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/pilot/pilot-v1.json",
+    "--probe-run",
+    "@/pl-probe-K1-s69",
+    "--arm",
+    "00"
+   ]
+  },
+  {
+   "id": "pl-K1-s69-10",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/pilot/pilot-v1.json",
+    "--probe-run",
+    "@/pl-probe-K1-s69",
+    "--arm",
+    "10"
+   ]
+  },
+  {
+   "id": "pl-K1-s69-01s",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/pilot/pilot-v1.json",
+    "--probe-run",
+    "@/pl-probe-K1-s69",
+    "--arm",
+    "01s"
+   ]
+  },
+  {
+   "id": "pl-probe-K3-s69",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "probe",
+    "--config",
+    "experiments/pilot/pilot-v1.json",
+    "--K",
+    "3",
+    "--bc-run",
+    "CAL_BATCH/cal-bc-p5-s69",
+    "--bc-update",
+    "4000",
+    "--seed",
+    "69"
+   ]
+  },
+  {
+   "id": "pl-K3-s69-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/pilot/pilot-v1.json",
+    "--probe-run",
+    "@/pl-probe-K3-s69",
+    "--arm",
+    "00"
+   ]
+  },
+  {
+   "id": "pl-K3-s69-11s",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/pilot/pilot-v1.json",
+    "--probe-run",
+    "@/pl-probe-K3-s69",
+    "--arm",
+    "11s"
+   ]
+  },
+  {
+   "id": "pl-K3-s69-01s",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/pilot/pilot-v1.json",
+    "--probe-run",
+    "@/pl-probe-K3-s69",
+    "--arm",
+    "01s"
+   ]
+  },
+  {
+   "id": "pl-K3-s69-10",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/pilot/pilot-v1.json",
+    "--probe-run",
+    "@/pl-probe-K3-s69",
+    "--arm",
+    "10"
+   ]
+  }
+ ]
+}
