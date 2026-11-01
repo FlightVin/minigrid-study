@@ -30,10 +30,12 @@ stop below 20%. Two-hour research reviews.
 **Monitoring state:** see "Monitors" below (updated at each launch).
 - Monitors: battery watch (session task by3gm8o1w; log `.mae/monitor/battery_watch.log`); review cron d308a314
   (every 2 h at :47; session-only, recreate in a new session). Data r3-v1 batch 20261101T131324-69803; gate pass.
+  Tests 288 + smoke 3/3; canary s43 batch 20261101T131538-69982 passes. Seeds driver `tools/run_program2.py` PID 71896
+  (create 1793540164.95; log `.mae/monitor/a3_seeds.log`) running seeds 44-66; watcher bound to it.
 
 **Recovery:** `tools/run_program2.py --status` lists incomplete batches; rerun them in plan order (complete jobs
 count by summary or exit 0; an incomplete batch is rerun in full from its input checkpoints under a new batch ID).
 Pilot batch files are placeholders until `make_batches.py --pilot RHO UPDATE --cal-batches B67 B68 B69`.
 
-**Next action:** freeze commit -> data r3-v1 batch -> `tools/data_gate.py --r1 data/r1-v1 --r2 data/r2-v1 --r3
-data/r3-v1` -> tests batch -> canary-s43 -> `tools/a3_canary_check.py` -> seeds 44-66.
+**Next action:** let seeds 44-66 finish (~5 h; no outcome reads) -> `tools/analyze_a3.py --check-states` -> calibration
+batches cal-s67..69 -> `tools/analyze_cal.py` -> pilot (if selected).
