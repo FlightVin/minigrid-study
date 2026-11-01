@@ -8,7 +8,8 @@ import sys
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-DS = ROOT / "data/dev-v2/layouts.json"
+PROJECT = Path(os.environ.get("MAE_PROJECT", ROOT))     # data are untracked; a runner job runs from a source snapshot
+DS = PROJECT / "data/dev-v2/layouts.json"
 SCRIPT = f"""
 import json
 from bc2rl import task as T
@@ -43,7 +44,9 @@ def test_unmanaged_limit_stops_the_process(tmp_path):
     assert rec["actions"] == 201
 
 
-def test_runner_jobs_write_nothing(tmp_path):
+def test_runner_jobs_record_in_their_run_dir(tmp_path):
     r = run(tmp_path, 100, MAE_RUN_DIR=str(tmp_path / "job"))
     assert r.returncode == 0, r.stderr
     assert not (tmp_path / ".mae/unmanaged_actions").exists()
+    recs = [json.loads(p.read_text()) for p in (tmp_path / "job/env_steps").glob("*.json")]
+    assert len(recs) == 1 and recs[0]["actions"] == 100

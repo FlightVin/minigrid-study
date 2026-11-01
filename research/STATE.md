@@ -1,7 +1,8 @@
 # State
 
-**Current milestone:** Post-M4 audit and interpretation revision complete (F11; REPORT C1-C9). Waiting for owner
-approval of follow-up R1 (no training before approval).
+**Current milestone:** R1 focused replication (owner approval 2026-10-31; harness `4d4fc31`). Protocol frozen
+as Amendment 3 (`research/PROTOCOL_FREEZE.md`) with analysis `tools/analyze_r1.py` and power `tools/power_r1.py`
+before any R1 data. Execution: data -> gate -> runner test job -> canary -> seeds 15-22.
 
 **Established**
 - Manuscript SHA-256 `38326ef0...f92b4`; no substantive conflict with project.md.
@@ -27,17 +28,19 @@ approval of follow-up R1 (no training before approval).
   mostly progress composition.)
 
 **Uncertain**
-- Whether the K=3/early-BC preservation benefit replicates (post hoc; 5 seeds) -> proposal R1.
+- Whether the K=3/early-BC preservation benefit replicates (post hoc; 5 seeds) -> R1 (running).
 - K=3 arrival-vs-entry competence difference (~0.056): time vs layout not separated.
 - Whether PPO step size is the bottleneck (hypothesis only).
 
-**Owner limits:** 4 cores, 6 GiB, 1 job. No numeric hard action cap after 2026-10-31 (owner); 109M was the M4
-submission stop line. Battery watch: stop execution below 20% (5-minute checks). Two-hourly self-reviews.
+**Owner limits:** 4 cores, 6 GiB, 1 job. R1: hard incremental budget 28.4M actions from ledger 93,199,203
+(supersedes the 109M stop line for R1 only; admission rule in Amendment 3 C6; ~2M reserve until completion is
+secure). Conservative R1 cost 26.97M, expected 25.54M. Battery watch: stop execution below 20% (5-minute checks). Two-hourly self-reviews.
 
-**Resources used:** 93.14M actions = 89.57M runner-measured (incl. 1.31M derived planner replay) + 0.12M measured
+**Resources used (before R1):** 93.20M actions (93,199,203; includes 0.18M measured outside the runner by
+test runs after the audit). At the audit:  93.14M actions = 89.57M runner-measured (incl. 1.31M derived planner replay) + 0.12M measured
 outside the runner + 3.45M estimated outside the runner (conservative). Batch wall 9.12 h.
 
 **Blockers:** none.
 
 **Next action**
-- Owner decision on R1 (REPORT C9). If approved: freeze R1 protocol, generate rep roles, gate, run.
+- Commit and push the freeze; run the r1-v1 data batch; gate; runner test job; canary; canary check; seeds.

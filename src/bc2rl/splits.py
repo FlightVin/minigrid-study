@@ -18,13 +18,13 @@ from bc2rl import task as T
 ROLE_NAMESPACE = {
     "bc_train": 101, "bc_val": 102, "rl_train": 103, "reset_donor": 104, "anchor_donor": 105,
     "dev_eval": 106, "dev_bank": 107, "conf_select": 108, "conf_bank": 109, "conf_final": 110,
-    "k2_reserved": 111,
+    "k2_reserved": 111, "r1_select": 112, "r1_bank": 113, "r1_final": 114,
 }
 TRAIN_ROLES = ("bc_train", "bc_val", "rl_train", "reset_donor", "anchor_donor")
-EVAL_ROLES = ("dev_eval", "dev_bank", "conf_select", "conf_bank", "conf_final")
+EVAL_ROLES = ("dev_eval", "dev_bank", "conf_select", "conf_bank", "conf_final", "r1_select", "r1_bank", "r1_final")
 # Earlier roles win a structural collision; evaluation roles come last so they stay untouched.
 ROLE_ORDER = ["bc_train", "bc_val", "rl_train", "reset_donor", "anchor_donor", "dev_eval", "dev_bank",
-              "conf_select", "conf_bank", "conf_final"]
+              "conf_select", "conf_bank", "conf_final", "r1_select", "r1_bank", "r1_final"]
 ALLOWED_USE = {
     "bc_train": "supervised fitting only",
     "bc_val": "BC checkpoint/fitting development; no PPO branch outcomes",
@@ -36,6 +36,9 @@ ALLOWED_USE = {
     "conf_select": "confirmation selection/diagnostic normal starts; no fitting",
     "conf_bank": "confirmation competence bank donors; no fitting",
     "conf_final": "confirmation final evaluation only; never tuning or selection",
+    "r1_select": "R1 replication pi0/post-probe diagnostics and curve points; no fitting",
+    "r1_bank": "R1 replication competence bank donors; no fitting",
+    "r1_final": "R1 replication final evaluation only; never tuning or selection",
 }
 
 

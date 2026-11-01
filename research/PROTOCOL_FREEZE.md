@@ -286,3 +286,102 @@ dev_bank layouts; `tools/data_gate.py`) -> RL smoke tests once (`BC2RL_SMOKE=1`)
 seeds 10-14 in order (`experiments/m4/seed-s<S>.batch.json` from `make_batches.py`: BC, 4 probes, 16
 branches; probe and branch order shuffled with seed 20261031 + S). Section 10 failure rules apply. No seed, stratum, arm or
 endpoint is dropped for its result.
+
+### Amendment 3 — 2026-10-31 (in force): R1 focused replication (owner approval of 2026-10-31)
+
+Owner instruction recorded verbatim in `mac-agentic-engineering/project.md` (harness commit `4d4fc31`).
+Frozen before any R1 data exist (no r1-v1 dataset, no R1 run). Evidence used: M4 (F10) and the post-M4 audit
+(F11). The M4 primary analysis and its conclusions are unchanged by R1, whatever R1 shows.
+
+**C1. Scope.** K=3 only. BC checkpoints early (4,000 updates) and extended (16,000) from one BC run per seed.
+Fresh training seeds 15-22 (8). Arms: ordinary PPO `00` (lambda 0) and preservation `01` (lambda 0.01); both
+use normal starts only (alpha 0; `experiments/r1/r1-v1.json` sets alpha 0.0 and only arms 00/01 run). The
+preservation reference is each seed's own BC checkpoint (pi0 of the fork). Primary endpoint 501,760 post-probe
+actions; descriptive checkpoint 251,904. Everything else unchanged from conf-v1/M4: task, model, reward,
+horizon, BC config (`experiments/m4/bc-v1.json`, the joint dataset conf-v1 = dev-v2 training roles, K-balanced
+sampler; no K=3-only BC), critic preparation, 50k-action probe, PPO settings, anchor bank and anchor rule,
+state saves at both checkpoints. No doses, architectures, K=1 or longer endpoint.
+
+**C2. Data and roles.** Dataset `r1-v1` (`experiments/r1/data-r1-v1.json`): every conf-v1 file and layout role
+copied unchanged (`base_dataset`); new roles from new namespaces 112-114 (`src/bc2rl/splits.py`, appended at the
+end of ROLE_ORDER so no earlier role changes): `r1_select` (64 layouts; pi0/probe diagnostics and curve points),
+`r1_bank` (64 bank snapshots, entry/retrieval/carrying 32/16/16 as conf_bank) and `r1_final` (128 layouts; final
+panel). K=1 items are generated only because the bank procedure is matched across K; they are never evaluated.
+**Gate** (`tools/data_gate.py --r1 data/r1-v1`): dev-v2 training files byte-identical (unchanged-training-data
+gate), every conf-v1 file and role identical, r1 role counts as planned for K=3, and zero structure-hash,
+generator-seed and suffix-hash overlap of each r1 role with every earlier role (training, development,
+confirmation) and with each other; r1_bank bins equal conf_bank bins. If the gate fails: stop, fix, regenerate
+under a new dataset id; no R1 training on a failed gate.
+
+**C3. Evaluation.** Final normal starts: r1_final 128 layouts x 4 attempts (512 attempts) per policy, plus the
+r1_bank 64 x 4, at 251,904 and 501,760. Curve points 126,976 and 376,832 and the pi0/probe diagnostics: r1_select
+64 x 1 (curves) or 64 x 2 (pi0/probe), bank 64 x 1 (curves) or 64 x 4 (pi0/probe). The same panel and the same
+attempt-seed schedule (`default_rng([939000, item, attempt])`; bank 939001) for every arm, checkpoint and seed.
+C4 and R4 become "any of 4" and "all 4" per layout (descriptive only; less precise per layout than with 8
+attempts, while P1 keeps 512 attempts over twice as many layouts).
+
+**C4. Hypotheses and analysis** (`tools/analyze_r1.py`, tests `tests/test_analyze_r1.py`; committed here).
+Unit: training seed (n = 8). Per seed i at 501,760: d_early_i = P1(01, early) - P1(00, early);
+d_ext_i = P1(01, extended) - P1(00, extended); inter_i = d_early_i - d_ext_i.
+- H1: mean d_early = 0. H2: mean inter = 0. Two-sided paired t-tests, df 7; Holm over {H1, H2} at 0.05.
+  "Supported" means Holm-adjusted p < 0.05. 95% t-intervals.
+- Conditional vs layout inference: the t-test and t-interval treat the frozen 128-layout panel as fixed.
+  Layout sampling is addressed by a crossed seed x layout bootstrap (10,000 replicates, RNG 20261101,
+  same item indices for every seed, arm and checkpoint) and a layouts-only bootstrap. Bootstrap agreement and
+  the exact sign-flip test (256 patterns) are sensitivity checks, not replication and not the decision rule.
+- Direction, magnitude and practical importance are reported separately. Magnitude rule for d_early: lower
+  95% bound > 0.05 "exceeds the practical threshold"; upper bound < 0.05 "below it"; otherwise "not
+  distinguishable from it". No requirement that R1 equal +0.045 or +73%: the M4 estimate came from a post hoc
+  selected subgroup and is probably inflated.
+- If H1 is not supported: upper bound < 0.0227 (half the M4 estimate) = informative failure to replicate;
+  < 0.0453 = excludes the original estimate but not half of it; otherwise inconclusive.
+- Interpretation cells: as owner section 6 (both / H1 only / H2 only / neither).
+- 251,904: same statistics, descriptive, unadjusted, no claims; no best checkpoint is chosen.
+- Secondary, descriptive, by checkpoint and arm: P1; q; P(success | arrival) (undefined with no arrivals, never
+  imputed; differences only over seeds where both arms are defined); C4/R4; fixed-bank entry, retrieval and
+  carrying and their change from pi0 and the probe on the same bank; arrival timing and inventory; anchor KL,
+  training visitation and optimization diagnostics; curves separated by layout role. p = q x r is kept apart from
+  bank competence. An access gain is not read as protection of a suffix skill.
+- The M4 post hoc estimate (+0.0453 [0.0353, 0.0554], 5 seeds, 64 x 8) is shown in a separate block, never pooled.
+- Exclusion: a seed with a missing branch or a fork-hash mismatch is reported and excluded from the paired
+  tests, never replaced; the report then states that the design is incomplete.
+
+**C5. Power and precision** (`tools/power_r1.py` -> `reports/r1/power.json`, `power.md`; M4 inputs only).
+Seed SD of the paired preservation effect over the 8 M4 cells: min 0.0081 (the selected K=3/early E500
+subgroup, unusually small and not the planning value), median 0.0281, max 0.0572. Results (P(H1 supported) under
+Holm-2, conditional on the panel, rho 0): true +0.045 -> 0.97 (median SD), 0.42 (max SD); +0.03 -> 0.62 / 0.17;
++0.0227 -> 0.38 / 0.11. Adding the M4 layout component (panel SE at 128 layouts 0.002 corrected, 0.007 raw)
+changes these little. Approximate 80%-power effect at the Holm worst case: 0.037 (median SD), 0.076 (max SD).
+So 80% power is not promised: R1 is well powered only if the true early effect is near the M4 estimate and the
+seed SD is not much above the M4 median.
+
+**C6. Budget and admission** (`tools/run_r1.py`). Hard incremental budget 28.4M environment actions for all R1
+work (data replay, tests, diagnostics, training, evaluation, failures and retries). It supersedes the 109M
+submission stop line for R1 only. Starting ledger total **93,199,203** (`tools/ledger.py`, before any R1 job).
+Per-job conservative cost = M4 K=3 maxima with evaluation parts x 1.10 (new panel); expected = M4 means:
+BC 166,032 / 147,934; probe early 151,898 / 140,824; probe extended 130,078 / 122,151; branch early 746,654 /
+715,246; branch extended 696,417 / 668,697. Per seed 3,333,150 conservative, 3,171,900 expected. Total for 8
+seeds 26.67M conservative (25.38M expected) + data 0.10M + test-suite runs 0.20M = **26.97M conservative**,
+25.54M expected; 1.43M below the budget at the conservative cost. The complete design fits; no shortfall.
+Admission before each batch (all of its jobs at once, so every job is admitted with its conservative cost):
+spent + conservative(batch) + expected(later planned batches) + audit 0.2M + reserve <= 28.4M, with reserve
+2.0M until completion is secure (spent + conservative of everything remaining + audit <= 28.4M). After a batch:
+exit 0 and cost <= 1.10 x conservative, else stop and report.
+
+**C7. Execution order.** Freeze commit (this) -> data batch r1-v1 -> gate -> test suite as a runner job
+(`experiments/r1/tests.batch.json`; heavy tests and environment checks go through the runner) -> one engineering
+canary batch (`canary-s15.batch.json`: r1-bc-s15, r1-probe-K3-u4000-s15, r1-K3-u4000-s15-01-kl0p01; a design
+job, kept) -> `tools/r1_canary_check.py` (configs, hashes, counters, telemetry, schemas; prints no outcome) ->
+`seed-s15-rest.batch.json` (written after the canary with its batch id) -> seeds 16-22 in order (BC, 2 probes,
+4 branches; order shuffled with seed 20261031 + S). Resources: 4 cores, 6 GiB, one job at a time. The canary's
+outcome is not read before all seeds finish and is never used to retune or resize.
+
+**C8. Failures and stopping.** Section 10 applies: a deterministic failure gets a fix and a new run ID; a verified
+transient infrastructure failure gets one documented retry; no seed is replaced or dropped for its behaviour
+(floor performance and zero arrivals are kept). Stop only for execution, correctness, resource or budget
+problems, never for interim effects. No change to seeds, lambda, panels or training length in response to
+results. Reviews may fix defects, not adapt the design. After R1: stop scientific execution and report.
+
+**C9. Reproduction.** Harness (local only, no remote): branch `mac-host-fixes`, HEAD `4d4fc31` at freeze; the
+runner change used since M4 is `b53f29a`. Each batch manifest records project and harness SHAs. The harness
+commits are not available remotely, so remote reproducibility is not claimed.

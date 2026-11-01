@@ -1,0 +1,135 @@
+{
+ "jobs": [
+  {
+   "id": "r1-bc-s16",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.bc",
+    "--config",
+    "experiments/m4/bc-v1.json",
+    "--seed",
+    "16"
+   ]
+  },
+  {
+   "id": "r1-probe-K3-u16000-s16",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "probe",
+    "--config",
+    "experiments/r1/r1-v1.json",
+    "--K",
+    "3",
+    "--bc-run",
+    "@/r1-bc-s16",
+    "--bc-update",
+    "16000",
+    "--seed",
+    "16"
+   ]
+  },
+  {
+   "id": "r1-probe-K3-u4000-s16",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "probe",
+    "--config",
+    "experiments/r1/r1-v1.json",
+    "--K",
+    "3",
+    "--bc-run",
+    "@/r1-bc-s16",
+    "--bc-update",
+    "4000",
+    "--seed",
+    "16"
+   ]
+  },
+  {
+   "id": "r1-K3-u4000-s16-01-kl0p01",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/r1/r1-v1.json",
+    "--probe-run",
+    "@/r1-probe-K3-u4000-s16",
+    "--arm",
+    "01"
+   ]
+  },
+  {
+   "id": "r1-K3-u4000-s16-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/r1/r1-v1.json",
+    "--probe-run",
+    "@/r1-probe-K3-u4000-s16",
+    "--arm",
+    "00"
+   ]
+  },
+  {
+   "id": "r1-K3-u16000-s16-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/r1/r1-v1.json",
+    "--probe-run",
+    "@/r1-probe-K3-u16000-s16",
+    "--arm",
+    "00"
+   ]
+  },
+  {
+   "id": "r1-K3-u16000-s16-01-kl0p01",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/r1/r1-v1.json",
+    "--probe-run",
+    "@/r1-probe-K3-u16000-s16",
+    "--arm",
+    "01"
+   ]
+  }
+ ]
+}

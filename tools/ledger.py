@@ -8,7 +8,8 @@ Sources per job directory under .mae/runs/<batch>/<job>/:
   benchmark summaries    -> cycles x 512 rollout actions;
   data generation        -> planner replay actions (verify replay for every planned layout, plus a
                             recording replay for trajectory roles), from layouts.json;
-  failed/partial jobs    -> actions recorded in attempts_*.jsonl and metrics.jsonl when no summary.
+  failed/partial jobs    -> actions recorded in attempts_*.jsonl and metrics.jsonl when no summary;
+  any other job          -> env_steps/*.json step records (src/bc2rl/accounting.py), e.g. tests run as jobs.
 Running batches are included up to their last written record.
 Actions executed outside the runner (software tests, interactive checks) are added from
 research/ledger_adjustments.json as their own roles; the conservative value is used.
@@ -47,10 +48,16 @@ def job_actions(d):
         if ds.exists():
             lay = json.loads(ds.read_text())
             n = 0
+            planned = mf["config"].get("generate_roles") if mf["config"].get("base_dataset") else lay
             for role, items in lay.items():
+                if role not in planned:         # copied unchanged from a base dataset; no replay
+                    continue
                 k = 2 if role in mf["config"]["trajectory_roles"] else 1
                 n += k * sum(it["length"] for it in items)
             return {"planner_replay": n}, "data"
+    steps = sorted((d / "env_steps").glob("*.json"))
+    if steps:
+        return {"runner_tests": sum(json.loads(p.read_text())["actions"] for p in steps)}, "steps"
     return out, "none"
 
 
@@ -87,8 +94,8 @@ def main():
                       "outside_runner_measured": unmanaged, "outside_runner_estimated": sum(estimated.values()),
                       "by_role": totals, "finished_batch_wall_hours": round(wall / 3600, 2),
                       "note": "runner_measured includes data planner replay derived from layouts.json; estimated roles are "
-                              "conservative upper estimates (research/ledger_adjustments.json). No hard action cap since "
-                              "2026-10-31 (owner); Amendment 2 submission stop line 109M."}, indent=1))
+                              "conservative upper estimates (research/ledger_adjustments.json). R1 (Amendment 3): hard incremental "
+                              "budget 28.4M from 93,199,203 (tools/run_r1.py); the 109M M4 stop line does not apply to R1."}, indent=1))
     if a.csv:
         with open(a.csv, "w", newline="") as f:
             w = csv.DictWriter(f, fieldnames=list(rows[0]))

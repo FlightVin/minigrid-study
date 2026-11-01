@@ -1,6 +1,8 @@
 """Environment-step accounting at the common boundary (StageTask.step).
 
-Inside a runner job (MAE_RUN_DIR set) the job's own summaries are the ledger source, so this module only counts.
+Inside a runner job (MAE_RUN_DIR set) each process records its count in $MAE_RUN_DIR/env_steps/<pid>-<start>.json.
+The job's own summaries stay the ledger source; tools/ledger.py uses these records only for jobs without one
+(software tests run through the runner), and they cross-check the summaries' action counters.
 Outside the runner (tests, interactive checks) every process records its cumulative step count in
 <project>/.mae/unmanaged_actions/<pid>-<start>.json (rewritten every FLUSH steps and at exit), which
 tools/ledger.py adds as measured outside-runner actions. Outside the runner a process also stops with an error
@@ -23,11 +25,14 @@ _path = None
 
 def _record():
     global _path
-    if _managed or _n == 0:
+    if _n == 0:
         return
     if _path is None:
-        root = Path(os.environ.get("MAE_PROJECT", Path(__file__).resolve().parents[2]))
-        d = root / ".mae" / "unmanaged_actions"
+        if _managed:
+            d = Path(os.environ["MAE_RUN_DIR"]) / "env_steps"
+        else:
+            root = Path(os.environ.get("MAE_PROJECT", Path(__file__).resolve().parents[2]))
+            d = root / ".mae" / "unmanaged_actions"
         d.mkdir(parents=True, exist_ok=True)
         _path = d / f"{os.getpid()}-{int(_start)}.json"
     tmp = _path.with_suffix(".tmp")
@@ -40,9 +45,9 @@ def count():
     """Called once per environment step."""
     global _n
     _n += 1
+    if _n % FLUSH == 0:
+        _record()
     if not _managed:
-        if _n % FLUSH == 0:
-            _record()
         if _n > _limit:
             _record()
             raise RuntimeError(f"unmanaged environment steps exceed BC2RL_UNMANAGED_ACTION_LIMIT={_limit}; "

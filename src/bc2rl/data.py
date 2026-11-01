@@ -9,12 +9,17 @@ Outputs under $MAE_PROJECT/data/<dataset_id>/:
   banks_index.npz         reset/anchor sampling indices
   manifest.json           config, registry hash, counts, SHA-256 of every file
 A copy of manifest.json goes to $MAE_RUN_DIR.
+
+Optional "base_dataset": every file and layout role of data/<base_dataset> is copied unchanged, and only
+generate_roles are planned. The registry is still built from all registry_counts, so new roles (later in
+splits.ROLE_ORDER) are checked against every earlier role; the base roles' registry entries must be identical.
 """
 import argparse
 import hashlib
 import json
 import os
 from pathlib import Path
+import shutil
 import time
 
 import numpy as np
@@ -105,6 +110,17 @@ def main():
         (out / "registry.json").write_text(json.dumps(reg, indent=1))
         env = T.StageTask()
         layouts, failures = {}, []
+        base = cfg.get("base_dataset")
+        if base:
+            bdir = out.parent / base
+            breg = json.loads((bdir / "registry.json").read_text())["roles"]
+            for role, entries in breg.items():
+                assert reg["roles"][role] == entries, f"registry entries for base role {role} changed"
+            layouts.update(json.loads((bdir / "layouts.json").read_text()))
+            assert not set(layouts) & set(cfg["generate_roles"]), "a generated role already exists in the base"
+            for f in sorted(bdir.iterdir()):
+                if f.name.startswith(("traj_", "bank_competence_")) or f.name == "banks_index.npz":
+                    shutil.copy2(f, out / f.name)
         for role in cfg["generate_roles"]:
             layouts[role] = []
             trajs = {k: [] for k in ("grid", "aux", "time", "action", "reward", "done", "step_count", "stage", "event", "traj")}
@@ -186,7 +202,8 @@ def main():
                     sel["entry" if t == it["tau"] else "retrieval" if t < it["pickup_t"] else "carrying"].append(r)
                 for name, rows in sel.items():
                     idx[f"{kind}_K{K}_{name}"] = np.array(rows, np.int64)
-        np.savez(out / "banks_index.npz", **idx)
+        if idx or not base:
+            np.savez(out / "banks_index.npz", **idx)
 
     manifest = {"schema": SCHEMA, "dataset_id": cfg["dataset_id"], "config": cfg,
                 "registry_sha256": S.registry_hash(reg), "split_check": stats,

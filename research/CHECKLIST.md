@@ -78,4 +78,17 @@ Dependency-ordered. `[x]` done and verified, `[~]` in progress, `[ ]` planned.
 - [x] Execution verification (lineage, 160 state hashes, role separation pairwise, banks, metrics)
 - [x] Effect figure from saved tables; report revised; manuscript-ready wording
 - [x] Self-review 2026-10-31 19:05: three-way interaction, arrival inventory, curve table, diagnostic costs added; STATE fixed
-- [ ] Owner decision on follow-up R1 (no training before approval)
+- [x] Owner decision on follow-up R1: approved with refinements (2026-10-31; harness `4d4fc31`)
+
+## R1: focused replication (Amendment 3)
+- [x] Instruction recorded verbatim; starting ledger 93,199,203; budget 28.4M hard, admission rule (`tools/run_r1.py`)
+- [x] New roles r1_select/r1_bank/r1_final (namespaces 112-114); base-dataset copy; gate extended (`--r1`)
+- [x] Managed step records (`env_steps/`) for counter cross-checks and runner test jobs; tests find data via MAE_PROJECT
+- [x] Power script with variance and layout scenarios (`reports/r1/power.*`); analysis + synthetic tests frozen
+- [x] Protocol freeze Amendment 3 (C1-C9), committed before data
+- [ ] Data r1-v1 and gate
+- [ ] Test suite as a runner job
+- [ ] Canary (s15: BC, probe early, branch 01 early) and canary check (no outcomes read)
+- [ ] seed-s15-rest; seeds 16-22 (admission before each batch)
+- [ ] Analysis (`tools/analyze_r1.py --check-states`), report, findings, review
+- [ ] Stop scientific execution and report

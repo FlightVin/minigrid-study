@@ -1,17 +1,19 @@
 """Ctx layout selection (no environment actions)."""
 import json
+import os
 from pathlib import Path
 
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-DS = ROOT / "data/dev-v2"
+PROJECT = Path(os.environ.get("MAE_PROJECT", ROOT))     # data are untracked; a runner job runs from a source snapshot
+DS = PROJECT / "data/dev-v2"
 
 
 @pytest.mark.skipif(not DS.exists(), reason="needs dev-v2 data")
 def test_diag_role_selects_separate_layouts(tmp_path, monkeypatch):
     from bc2rl import rl
-    monkeypatch.setenv("MAE_PROJECT", str(ROOT))
+    monkeypatch.setenv("MAE_PROJECT", str(PROJECT))
     monkeypatch.setenv("MAE_RUN_DIR", str(tmp_path))
     cfg = json.loads((ROOT / "experiments/m3/dev-v1.json").read_text())
     same = rl.Ctx(cfg, 3, 0)

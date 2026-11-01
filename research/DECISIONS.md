@@ -357,3 +357,17 @@ in `tools/postm4_audit.py` -> `reports/postm4/` and FINDINGS F11; report revised
   batch), `366786a`, `ea3d7ad`, `b37997a` are local only. Nothing to push; recorded as a limitation.
 - Battery watch (owner instruction): checks every 5 minutes, stops execution below 20%; scratchpad script
   `battery_watch2.py`. Two-hour self-reviews scheduled as a session job.
+
+## 2026-10-31 — R1 approved; Amendment 3
+- Owner approved R1 with refinements (verbatim in project.md, harness `4d4fc31`): K=3, 4k/16k, seeds 15-22, arms 00
+  and 01 (alpha 0), 501,760 primary, 251,904 descriptive; 128 x 4 final panel; H1/H2 with Holm-2; hard 28.4M budget.
+- Data: new roles in a dataset that copies conf-v1 unchanged (`base_dataset`) rather than regenerating every role.
+  Why: identical training files by construction and ~0.06M planner replay instead of ~0.5M.
+- Admission per batch (all its jobs at their conservative cost), not per job: the runner admits jobs within a
+  batch, and reserving every job of the batch up front is the stricter check.
+- Canary = the first fork of seed 15 with the preservation arm (exercises the anchor/KL path). It is a design job
+  and is kept; its outcome is not read until all seeds finish.
+- Support = Holm-adjusted p < 0.05 (seed-level, conditional on the panel). The crossed bootstrap is reported as the
+  layout-sampling sensitivity, not as a second gate (owner: bootstrap agreement is a sensitivity check).
+- Non-replication thresholds (half and full M4 estimate) and the 0.05 magnitude rule fixed before data.
+- RL smoke tests (~0.22M) not rerun: RL code is unchanged except step recording, which the canary checks directly.

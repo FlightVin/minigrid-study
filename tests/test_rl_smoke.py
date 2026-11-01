@@ -13,8 +13,9 @@ import pytest
 pytestmark = pytest.mark.skipif(os.environ.get("BC2RL_SMOKE") != "1", reason="set BC2RL_SMOKE=1 (costs ~220k env actions)")
 
 ROOT = Path(__file__).resolve().parents[1]
-DS = ROOT / "data/dev-v2"
-BC = ROOT / ".mae/runs/20261030T204407-76602/m1-bc-curve-v1-s0/actor_u4000.pt"
+PROJECT = Path(os.environ.get("MAE_PROJECT", ROOT))     # data are untracked; a runner job runs from a source snapshot
+DS = PROJECT / "data/dev-v2"
+BC = PROJECT / ".mae/runs/20261030T204407-76602/m1-bc-curve-v1-s0/actor_u4000.pt"
 
 
 @pytest.mark.skipif(not (DS.exists() and BC.exists()), reason="needs dev-v2 data and a BC checkpoint")
@@ -104,7 +105,7 @@ def test_scheduled_branch_resumes_exactly(tmp_path, monkeypatch):
     assert s2["actions"]["train"] == 512 and s2["resumed_from"].endswith("state_512.pt")
 
 
-M3 = ROOT / ".mae/runs/20261030T214937-19577"
+M3 = PROJECT / ".mae/runs/20261030T214937-19577"
 
 
 @pytest.mark.skipif(not (DS.exists() and M3.exists()), reason="needs dev-v2 data and M3 runs")
@@ -115,7 +116,7 @@ def test_diagnostics_on_saved_m3_policies(tmp_path, monkeypatch):
     cfg_path = tmp_path / "cfg.json"
     cfg_path.write_text(json.dumps(cfg))
     (tmp_path / "project/.mae").mkdir(parents=True)
-    os.symlink(ROOT / ".mae/runs", tmp_path / "project/.mae/runs")
+    os.symlink(PROJECT / ".mae/runs", tmp_path / "project/.mae/runs")
     (tmp_path / "project/data").mkdir()
     os.symlink(DS, tmp_path / "project/data/dev-v2")
     monkeypatch.setenv("MAE_PROJECT", str(tmp_path / "project"))
