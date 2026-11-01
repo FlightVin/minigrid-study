@@ -29,7 +29,9 @@ R2 is complete (F14): +0.0097 [-0.0035, 0.0229], p 0.142, not supported; interva
 stop below 20% (`tools/battery_watch.py`, log `.mae/monitor/battery_watch.log`). Two-hour research reviews.
 
 **Monitoring state:** battery watch running (session task brnp52lai); review cron a43d3f65 (session-only, every
-2 h at :53; recreate in a new session). R2 seeds driver finished (exit 0; log `.mae/monitor/r2_seeds.log`).
+2 h at :53; recreate in a new session). R2 seeds driver finished (exit 0; log `.mae/monitor/r2_seeds.log`). Exploratory driver `tools/run_program.py`
+(PID 82995, create 1793517111.50; log `.mae/monitor/explore.log`) running xp-m4, xp-r1, comp-s15..17, final-tests;
+watcher bound to it.
 
 **Resources used:** before the programme 118,670,430 (R1 25,471,227). Programme spend: `run_program.py --status`.
 
