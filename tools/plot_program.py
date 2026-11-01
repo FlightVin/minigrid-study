@@ -13,6 +13,9 @@ a3:         reports/a3/paired_effects.svg  per-seed P1 contrasts (B-A, C-A, D-A,
             reports/a3/diagnostics.svg  per-arm means of training anchor KL (prefix, suffix), applied penalty and
             update size (successive-policy KL on prefix and suffix anchor rows, actor parameter-change norm), to
             251,904 and over the whole run. Small multiples, one scale each.
+cal:        reports/cal/access_entry.svg  initial normal-start access q (x) against fixed-bank boundary-entry competence
+            (y) for each calibration variant (rho, BC updates), one panel per K; seeds as small dots, the three-seed
+            mean as a large marker; the frozen target region shaded. Development only.
 Intervals are the analysis scripts' t-intervals. Hover titles give values.
 """
 import argparse
@@ -230,10 +233,56 @@ def a3(d=None):
                                            "Means over seeds of per-update values from the branch metrics. Each panel has its own scale."))
 
 
+def cal(d=None):
+    d = Path(d) if d else ROOT / "reports/cal"
+    S = json.loads((d / "cal_summary.json").read_text())
+    rows = list(csv.DictReader(open(d / "cal_variants.csv")))
+    T = S["targets"]
+    col = {0.2: ORANGE, 0.5: BLUE, 0.8: GREEN}
+    PW, PH, W = 380, 300, 800
+    H = 36 + PH + 70
+    body = ['<text x="16" y="20" class="t1">Calibration: initial access q vs boundary-entry competence (seeds 67-69; development roles)</text>']
+    for k, K in enumerate((1, 3)):
+        ox, oy = 16 + k * (PW + 16), 36
+        x0, x1, y0, y1 = ox + 40, ox + PW - 10, oy + 20, oy + PH - 30
+        sx = lambda v: x0 + (x1 - x0) * v
+        sy = lambda v: y1 - (y1 - y0) * v
+        qlo, qhi = (T["K1_q_min"], 1.0) if K == 1 else (T["K3_q_min"], T["K3_q_max"])
+        body.append(f'<rect x="{sx(qlo):.1f}" y="{sy(1):.1f}" width="{sx(qhi) - sx(qlo):.1f}" height="{sy(T["entry_min"]) - sy(1):.1f}" '
+                    f'fill="var(--grid)" opacity="0.6"><title>K={K} target region: q in [{qlo}, {qhi}], entry &gt;= {T["entry_min"]}</title></rect>')
+        body.append(f'<text x="{ox}" y="{oy + 12}" class="t1">K={K}</text>')
+        for f in (0, 0.25, 0.5, 0.75, 1):
+            body.append(f'<line x1="{x0}" x2="{x1}" y1="{sy(f):.1f}" y2="{sy(f):.1f}" class="{"zero" if f == 0 else "grid"}"/>')
+            body.append(f'<text x="{x0 - 4}" y="{sy(f) + 4:.1f}" class="tick" text-anchor="end">{f:.2f}</text>')
+            body.append(f'<text x="{sx(f):.1f}" y="{y1 + 14}" class="tick" text-anchor="middle">{f:.2f}</text>')
+        body.append(f'<text x="{(x0 + x1) / 2}" y="{y1 + 28}" class="tick" text-anchor="middle">access q (normal starts)</text>')
+        for r in rows:
+            rho, u = float(r["rho"]), int(r["update"])
+            q, e = float(r[f"K{K}_q"]), float(r[f"K{K}_entry"])
+            fill = col[rho] if u == 4000 else "none"
+            body.append(f'<g><title>rho {rho}, {u} updates, seed {r["seed"]}: q {q:.3f}, entry {e:.3f}, P1 {float(r[f"K{K}_P1"]):.3f}</title>'
+                        f'<circle cx="{sx(q):.1f}" cy="{sy(e):.1f}" r="2.6" fill="{fill}" stroke="{col[rho]}" stroke-width="1" opacity="0.7"/></g>')
+        for key, v in S["variants"].items():
+            rho, u = float(key.split("/")[0][3:]), int(key.split("/")[1][1:])
+            m = v["means"][str(K)] if str(K) in v["means"] else v["means"][K]
+            sel = S["selected"] == {"rho": rho, "update": u}
+            fill = col[rho] if u == 4000 else "var(--surface)"
+            body.append(f'<g><title>rho {rho}, {u} updates (3-seed mean): q {m["q"]:.3f}, entry {m["entry"]:.3f}, P1 {m["P1"]:.3f}; '
+                        f'{"qualifies" if v["qualifies"] else "fails " + ", ".join(v["shortfalls"])}{"; SELECTED" if sel else ""}</title>'
+                        f'<circle cx="{sx(m["q"]):.1f}" cy="{sy(m["entry"]):.1f}" r="{7 if sel else 5.5}" fill="{fill}" stroke="{col[rho]}" '
+                        f'stroke-width="{3 if sel else 2}"/></g>')
+    leg = "  ".join(f'<tspan fill="{c}">\u25cf</tspan> rho {r}' for r, c in col.items())
+    body.append(f'<text x="16" y="{H - 28}" class="tick">{leg}. Filled: 4,000 BC updates; hollow: 8,000; large: three-seed mean; '
+                f'shaded: target region (entry target applies to both K)</text>')
+    sel = S["selected"]
+    cap = f"Selected: rho {sel['rho']}, {sel['update']} updates." if sel else "No variant met every target (see cal_summary.json shortfalls)."
+    (d / "access_entry.svg").write_text(svg(W, H, "Calibration access vs entry", "\n".join(body), cap + " Room-to-learn (P1) target is in the hover text."))
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--which", nargs="*", default=["r2", "crosspanel", "comp"])
     a = ap.parse_args()
     for w in a.which:
-        {"r2": r2, "crosspanel": crosspanel, "comp": comp, "a3": a3}[w]()
+        {"r2": r2, "crosspanel": crosspanel, "comp": comp, "a3": a3, "cal": cal}[w]()
         print(w, "done")
