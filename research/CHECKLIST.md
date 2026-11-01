@@ -107,11 +107,11 @@ Dependencies: each line needs the lines above it unless marked (parallel-safe: d
 - [x] Frozen analyses: analyze_r2 (+ synthetic tests), analyze_crosspanel, analyze_comp; power_r2 (executable)
 - [x] Budget driver run_program.py + plan.json; batch files; canary check script
 - [x] PROTOCOL_FREEZE Amendment 4; DECISIONS; IMPLEMENTATION; STATE
-- [ ] Freeze commit + push (code frozen from here; only correctness fixes)
-- [ ] Data r2-v1 (runner) -> gate `--r1 data/r1-v1 --r2 data/r2-v1` (stop on failure)
-- [ ] Tests batch: full suite + RL smoke (exact CPU resume, heartbeat race, atomic writes)
-- [ ] Interruption drill: sleep canary stopped by `mae stop`; status stopped; children gone
-- [ ] Canary s23 (BC, probe, branch 01) -> `tools/r2_canary_check.py` (no outcomes) -> seed-s23-rest written + committed
+- [x] Freeze commit + push (code frozen from here; only correctness fixes)
+- [x] Data r2-v1 (runner) -> gate `--r1 data/r1-v1 --r2 data/r2-v1` (stop on failure)
+- [x] Tests batch: full suite + RL smoke (exact CPU resume, heartbeat race, atomic writes)
+- [x] Interruption drill: sleep canary stopped by `mae stop`; status stopped; children gone
+- [x] Canary s23 (BC, probe, branch 01) -> `tools/r2_canary_check.py` (no outcomes) -> seed-s23-rest written + committed
 - [ ] R2 seeds 23-42 complete (20/20; watcher armed; no interim outcome reads)
 - [ ] R2 analysis `--check-states` (unblinded only at 20/20); figures
 - [ ] E1 cross-panel (26 policies x 2 panels x 4 attempts) -> analysis

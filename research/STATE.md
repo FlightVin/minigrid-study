@@ -28,15 +28,15 @@ Budget: 50M actions from corrected ledger 118,670,430 (`tools/run_program.py --s
 stop below 20% (`tools/battery_watch.py`, log `.mae/monitor/battery_watch.log`). Two-hour research reviews.
 
 **Monitoring state:** battery watch running (session task brnp52lai); review cron 19ac8cf7 (session-only, every
-2 h at :53; recreate in a new session). Batch watcher: armed per driver run (`tools/watch_batch.py`).
-Next review: 2026-11-01 ~01:00 local, then every 2 h.
+2 h at :53; recreate in a new session). R2 seeds driver `tools/run_program.py` (PID 42665, create 1793506742.71;
+log `.mae/monitor/r2_seeds.log`) running seed-s23-rest then seeds 24-42; watcher bound to it.
 
 **Resources used:** before the programme 118,670,430 (R1 25,471,227). Programme spend: `run_program.py --status`.
 
 **Blockers:** none.
 
 **Next action**
-- Commit the freeze, then: data batch -> gate -> tests batch -> interruption drill -> canary s23 -> canary check
-  -> seed-s23-rest -> seeds 24-42 -> E1 -> E2 -> final tests -> audit -> report. Resume rule after any
+- Done: freeze `c372ef7`, data + gate, tests, drill, canary (pass). Running: seed-s23-rest, seeds 24-42.
+  Then E1 -> E2 -> final tests -> audit -> report. Resume rule after any
   interruption: `tools/run_program.py --status` lists incomplete batches; rerun them (complete jobs are skipped
   only at batch level; an incomplete batch is rerun in full from its input checkpoints under a new batch ID).
