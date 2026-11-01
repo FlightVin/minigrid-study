@@ -90,6 +90,8 @@ Dependency-ordered. `[x]` done and verified, `[~]` in progress, `[ ]` planned.
 - [x] Test suite as a runner job (265 passed, 3 skipped; 59,274 actions)
 - [x] Canary (s15: BC, probe early, branch 01 early) and canary check (`reports/r1/canary_check.json`, pass; no outcomes read)
 - [x] seed-s15-rest (2,157,855 actions; 4/4 exit 0)
-- [ ] Seeds 16-22 (admission before each batch; watcher armed at the 2026-10-31 20:57 review)
+- [x] Seed 16 (3,171,975 actions; 7/7 exit 0)
+- [x] Seed 17 first attempt failed (telemetry race; batch 20261101T005849-94851 kept); fix + test committed
+- [ ] Seeds 17-22 (rerun from seed 17; admission before each batch; watcher armed)
 - [ ] Analysis (`tools/analyze_r1.py --check-states`), report, findings, review
 - [ ] Stop scientific execution and report

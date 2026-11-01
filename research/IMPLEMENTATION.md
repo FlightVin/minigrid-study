@@ -149,3 +149,10 @@ The watcher then reported the previous batch; it was restarted after the new bat
 - `tools/data_gate.py --r1`; `tools/r1_stats.py` (exact t CDF for any df, Holm, sign-flip);
   `tools/power_r1.py`; `tools/analyze_r1.py` + `tests/test_analyze_r1.py` (7 synthetic tests);
   `tools/run_r1.py` (admission rule); `tools/r1_canary_check.py`; `experiments/r1/make_batches.py`.
+- **Defect (2026-11-01 01:02 UTC): telemetry rename race.** Batch 20261101T005849-94851 (seed 17) stopped:
+  `r1-bc-s17` failed with FileNotFoundError in `telemetry.resource_heartbeat`. The heartbeat thread and the main
+  thread wrote the same `telemetry.tmp`; one rename removed the other's file. Present since M0; it had not fired
+  before (113 earlier jobs). Fix: a temporary name per process and thread. `tests/test_telemetry.py` (4 threads x
+  300 writes) fails on the old code and passes on the fix. Telemetry only; no training, evaluation or data code
+  changed. The failed job (86,095 BC-evaluation actions, counted in the ledger) is kept. Seed 17 reruns under a
+  new batch ID with the same seed and batch file; seeds 15-16 ran the earlier code, which differs only here.

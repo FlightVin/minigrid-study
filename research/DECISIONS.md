@@ -381,3 +381,11 @@ in `tools/postm4_audit.py` -> `reports/postm4/` and FINDINGS F11; report revised
   exit notification would have reported a failure; a silent stall would not. No stall occurred.
 - `pip freeze` recorded in `reports/r1/pip_freeze.txt`. The venv site-packages directory was last modified on
   2026-10-30 16:03, before M4 and R1, so the package set did not change during R1.
+
+## 2026-10-31 21:10 — R1 seed 17 failure: telemetry race (deterministic code defect)
+- Classified as a code defect, not a transient infrastructure failure: two writers shared one temporary file.
+  Policy: fix, test, new run ID. Seed 17 is rerun (not replaced); no seed is dropped.
+- No new canary: the change is confined to the telemetry write; the launch, training and evaluation paths are
+  unchanged. The rerun's jobs are checked by the same frozen analysis checks (lineage, hashes, panels, counters).
+- Budget after the failure: R1 spent 6,509,776; remaining conservative 6 x 3,334,150 + audit 0.2M gives 26.91M
+  <= 28.4M, so completion stays secure.

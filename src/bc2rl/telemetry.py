@@ -27,7 +27,9 @@ def resource_heartbeat(extra=None):
     data = {"timestamp": time.time(), "mps_driver_bytes": _mps_bytes()}
     if extra:
         data.update(extra)
-    tmp = path.with_suffix(".tmp")
+    # One temporary file per process and thread: the heartbeat thread and the main thread may write at the same
+    # time, and a shared name let one thread's rename remove the other's file (R1 seed 17 BC failure, 2026-11-01).
+    tmp = path.with_name(f"{path.stem}.{os.getpid()}.{threading.get_ident()}.tmp")
     tmp.write_text(json.dumps(data))
     tmp.replace(path)
 
