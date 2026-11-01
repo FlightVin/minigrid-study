@@ -174,3 +174,29 @@ commit `c6359c3` pushed.
 seeds and fresh layout roles.
 
 **Next.** Wait for the owner's decision on R1. Keep the battery watch and the two-hourly reviews.
+
+## Review 6 — 2026-10-31 20:57 EDT (two-hour self-review; R1 running)
+
+**Checked.** Re-read `project.md` (R1 approval, sections 1-7; post-M4 audit instruction) and `agent.md`. Running:
+R1 driver (`tools/run_r1.py`, PID 88084), seed 16 batch 20261101T003945-89279 (6/7 jobs exited 0 at the review),
+battery watch (100% on AC, 5-minute checks). Completed since Review 5: instruction recorded (`4d4fc31`); freeze
+Amendment 3 with frozen analysis, power script and tests (`01beef9`), before any R1 data; data and gate; runner
+test job; canary with engineering check; seed 15. R1 spent 3.25M of 28.4M at the end of seed 15.
+
+**Against the owner's direction.**
+- Scope matches section 1 (K=3, 4k/16k, seeds 15-22, arms 00/01 at alpha 0, 501,760 primary). No added arm,
+  dose or endpoint.
+- Section 2: 128 x 4 panel; separate bank 32/16/16; new roles disjoint from every earlier role (gate).
+- Section 3: hypotheses, Holm-2, bootstrap and power fixed before data. Power table shows no 80% promise.
+- Section 4: one canary first; its outcome was not read; tests ran through the runner.
+- No outcome of any R1 branch has been read. Nothing in STATE or REPORT claims an R1 result.
+
+**Gaps and corrections.**
+- agent.md asks for a deterministic watcher per experiment family. It was armed only now. Fixed (DECISIONS).
+- agent.md asks for `pip freeze` before a run. Recorded now; packages unchanged since 2026-10-30.
+- Amendment 3 per-seed conservative cost had an arithmetic slip (3,333,150 -> 3,334,150). No effect on admission.
+- IMPLEMENTATION.md lacked the R1 engineering changes. Added.
+
+**Next.** Seeds 16-22 (about 2.5 h). Then the frozen analysis with state-hash checks, a final runner test job,
+REPORT/FINDINGS, and a stop. Documentation commits are made in one command so the tree is never dirty at a batch
+boundary.

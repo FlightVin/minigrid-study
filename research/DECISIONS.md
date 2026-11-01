@@ -371,3 +371,13 @@ in `tools/postm4_audit.py` -> `reports/postm4/` and FINDINGS F11; report revised
   layout-sampling sensitivity, not as a second gate (owner: bootstrap agreement is a sensitivity check).
 - Non-replication thresholds (half and full M4 estimate) and the 0.05 magnitude rule fixed before data.
 - RL smoke tests (~0.22M) not rerun: RL code is unchanged except step recording, which the canary checks directly.
+
+## 2026-10-31 21:00 — Self-review 6 corrections (R1 running)
+- Arithmetic: Amendment 3 C6 gives the per-seed conservative cost as 3,333,150; the correct sum of its own job
+  costs is 3,334,150 (`tools/run_r1.py` uses the job costs, so admission was always computed correctly). Total
+  conservative for 8 seeds 26.67M (26,673,200), overall 26.97M: unchanged at the stated precision.
+- A quiet deterministic watcher (`tools/watch_batch.py`, 600 s stall threshold, loop bound to the driver's
+  verified PID and create time) was armed only at this review, after seed 15. Before that, only the driver's
+  exit notification would have reported a failure; a silent stall would not. No stall occurred.
+- `pip freeze` recorded in `reports/r1/pip_freeze.txt`. The venv site-packages directory was last modified on
+  2026-10-30 16:03, before M4 and R1, so the package set did not change during R1.

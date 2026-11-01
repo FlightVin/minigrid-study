@@ -136,3 +136,16 @@ The watcher then reported the previous batch; it was restarted after the new bat
   - Registry extension keeps earlier entries.
   - `diag_role` layout separation.
   - RL smoke tests are opt-in (`BC2RL_SMOKE=1`) because each run executes ~220k environment actions.
+
+## R1 (Amendment 3), 2026-10-31
+- `splits.py`: namespaces 112-114 (r1_select, r1_bank, r1_final) appended to ROLE_ORDER; earlier registry entries
+  unchanged (checked by `data.py` against the base registry).
+- `data.py`: optional `base_dataset` copies every base file and layout role unchanged and plans only the new roles.
+  `tools/ledger.py` counts planner replay only for planned roles.
+- `accounting.py`: inside a runner job each process records its step count in `$MAE_RUN_DIR/env_steps/`.
+  The ledger uses these only for jobs without another source (test jobs). They cross-check summaries: data 32,184
+  = planner replay; canary BC/probe/branch step records equal their summaries.
+- Tests locate untracked data through `MAE_PROJECT`, so the suite runs as a runner job from the source snapshot.
+- `tools/data_gate.py --r1`; `tools/r1_stats.py` (exact t CDF for any df, Holm, sign-flip);
+  `tools/power_r1.py`; `tools/analyze_r1.py` + `tests/test_analyze_r1.py` (7 synthetic tests);
+  `tools/run_r1.py` (admission rule); `tools/r1_canary_check.py`; `experiments/r1/make_batches.py`.

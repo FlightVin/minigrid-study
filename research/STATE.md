@@ -2,7 +2,9 @@
 
 **Current milestone:** R1 focused replication (owner approval 2026-10-31; harness `4d4fc31`). Protocol frozen
 as Amendment 3 (`research/PROTOCOL_FREEZE.md`) with analysis `tools/analyze_r1.py` and power `tools/power_r1.py`
-before any R1 data. Execution: data -> gate -> runner test job -> canary -> seeds 15-22.
+before any R1 data (`01beef9`). Done: data r1-v1 + gate (pass), runner test job (265 pass, 3 skipped), canary
+(batch 20261101T002041-87256, all engineering checks pass, outcome not read), seed 15 complete. Running: seeds
+16-22 via `tools/run_r1.py` (one batch at a time, admission before each), watcher `tools/watch_batch.py` armed.
 
 **Established**
 - Manuscript SHA-256 `38326ef0...f92b4`; no substantive conflict with project.md.
@@ -43,4 +45,5 @@ outside the runner + 3.45M estimated outside the runner (conservative). Batch wa
 **Blockers:** none.
 
 **Next action**
-- Commit and push the freeze; run the r1-v1 data batch; gate; runner test job; canary; canary check; seeds.
+- Let seeds 16-22 finish (no outcome reading before then); then `tools/analyze_r1.py --check-states`, the final
+  runner test job, report (REPORT, FINDINGS F12), review, and stop scientific execution.

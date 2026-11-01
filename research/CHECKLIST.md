@@ -86,9 +86,10 @@ Dependency-ordered. `[x]` done and verified, `[~]` in progress, `[ ]` planned.
 - [x] Managed step records (`env_steps/`) for counter cross-checks and runner test jobs; tests find data via MAE_PROJECT
 - [x] Power script with variance and layout scenarios (`reports/r1/power.*`); analysis + synthetic tests frozen
 - [x] Protocol freeze Amendment 3 (C1-C9), committed before data
-- [ ] Data r1-v1 and gate
-- [ ] Test suite as a runner job
-- [ ] Canary (s15: BC, probe early, branch 01 early) and canary check (no outcomes read)
-- [ ] seed-s15-rest; seeds 16-22 (admission before each batch)
+- [x] Data r1-v1 (32,184 planner actions) and gate (`reports/r1/data_gate.json`, pass)
+- [x] Test suite as a runner job (265 passed, 3 skipped; 59,274 actions)
+- [x] Canary (s15: BC, probe early, branch 01 early) and canary check (`reports/r1/canary_check.json`, pass; no outcomes read)
+- [x] seed-s15-rest (2,157,855 actions; 4/4 exit 0)
+- [ ] Seeds 16-22 (admission before each batch; watcher armed at the 2026-10-31 20:57 review)
 - [ ] Analysis (`tools/analyze_r1.py --check-states`), report, findings, review
 - [ ] Stop scientific execution and report
