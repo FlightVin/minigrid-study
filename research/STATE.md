@@ -1,10 +1,7 @@
 # State
 
-**Current milestone:** R1 focused replication (owner approval 2026-10-31; harness `4d4fc31`). Protocol frozen
-as Amendment 3 (`research/PROTOCOL_FREEZE.md`) with analysis `tools/analyze_r1.py` and power `tools/power_r1.py`
-before any R1 data (`01beef9`). Done: data r1-v1 + gate (pass), runner test job (265 pass, 3 skipped), canary
-(batch 20261101T002041-87256, all engineering checks pass, outcome not read), seed 15 complete. Running: seeds
-16-22 via `tools/run_r1.py` (one batch at a time, admission before each), watcher `tools/watch_batch.py` armed.
+**Current milestone:** R1 focused replication complete (Amendment 3; F12; REPORT section R1). Scientific
+execution stopped 2026-11-01 per the owner's instruction. Waiting for an owner decision; nothing is running.
 
 **Established**
 - Manuscript SHA-256 `38326ef0...f92b4`; no substantive conflict with project.md.
@@ -30,7 +27,8 @@ before any R1 data (`01beef9`). Done: data r1-v1 + gate (pass), runner test job 
   mostly progress composition.)
 
 **Uncertain**
-- Whether the K=3/early-BC preservation benefit replicates (post hoc; 5 seeds) -> R1 (running).
+- R1 (F12): K=3/early-BC preservation +0.040 [0.004, 0.076], Holm-2 p 0.067; interaction Holm p 0.096. Neither
+  supported; inconclusive (positive, unconfirmed). Seed SD 0.043, 5x the M4 subgroup.
 - K=3 arrival-vs-entry competence difference (~0.056): time vs layout not separated.
 - Whether PPO step size is the bottleneck (hypothesis only).
 
@@ -38,12 +36,11 @@ before any R1 data (`01beef9`). Done: data r1-v1 + gate (pass), runner test job 
 (supersedes the 109M stop line for R1 only; admission rule in Amendment 3 C6; ~2M reserve until completion is
 secure). Conservative R1 cost 26.97M, expected 25.54M. Battery watch: stop execution below 20% (5-minute checks). Two-hourly self-reviews.
 
-**Resources used (before R1):** 93.20M actions (93,199,203; includes 0.18M measured outside the runner by
+**Resources used:** R1 25,471,099 (ledger 118,670,302). **Before R1:** 93.20M actions (93,199,203; includes 0.18M measured outside the runner by
 test runs after the audit). At the audit:  93.14M actions = 89.57M runner-measured (incl. 1.31M derived planner replay) + 0.12M measured
 outside the runner + 3.45M estimated outside the runner (conservative). Batch wall 9.12 h.
 
 **Blockers:** none.
 
 **Next action**
-- Let seeds 16-22 finish (no outcome reading before then); then `tools/analyze_r1.py --check-states`, the final
-  runner test job, report (REPORT, FINDINGS F12), review, and stop scientific execution.
+- None scheduled. Owner decision needed on the R1.9 proposal (single-hypothesis confirmation, about 12-20 seeds).

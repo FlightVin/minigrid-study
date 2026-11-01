@@ -92,6 +92,6 @@ Dependency-ordered. `[x]` done and verified, `[~]` in progress, `[ ]` planned.
 - [x] seed-s15-rest (2,157,855 actions; 4/4 exit 0)
 - [x] Seed 16 (3,171,975 actions; 7/7 exit 0)
 - [x] Seed 17 first attempt failed (telemetry race; batch 20261101T005849-94851 kept); fix + test committed
-- [ ] Seeds 17-22 (rerun from seed 17; admission before each batch; watcher armed)
-- [ ] Analysis (`tools/analyze_r1.py --check-states`), report, findings, review
-- [ ] Stop scientific execution and report
+- [x] Seeds 17-22 (rerun from seed 17; 6/6 batches exit 0; 3.13-3.18M each)
+- [x] Analysis (`tools/analyze_r1.py --check-states`), final runner tests (266 pass), report, F12, Review 7
+- [x] Stop scientific execution and report (R1 total 25,471,099 actions)

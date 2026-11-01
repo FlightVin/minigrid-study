@@ -200,3 +200,28 @@ test job; canary with engineering check; seed 15. R1 spent 3.25M of 28.4M at the
 **Next.** Seeds 16-22 (about 2.5 h). Then the frozen analysis with state-hash checks, a final runner test job,
 REPORT/FINDINGS, and a stop. Documentation commits are made in one command so the tree is never dirty at a batch
 boundary.
+
+## Review 7 — 2026-11-01 03:00 (R1 complete)
+
+**State.** No experiment is running. Completed: seeds 17-22 (rerun after the telemetry fix), frozen analysis with
+state checks, and a final runner test job (266 passed, 3 skipped). R1 spent 25,471,099 of 28.4M.
+
+**Against the owner's direction.**
+- Section 1 scope held: 8 seeds, both checkpoints, arms 00/01, alpha 0, 501,760 primary. No seed replaced, no
+  dose or endpoint added.
+- Section 3: the decision used the frozen Holm-2 rule only. The unadjusted p (0.033) is close to 0.05 after
+  adjustment (0.067). The report states "not supported" and "inconclusive" plainly, and does not round it up to
+  a replication.
+- Section 6: the interpretation cell follows the frozen rule. The M4 aggregate result is unchanged.
+- Section 7: the report has the protocol and provenance, all 8 paired seeds, both estimates with t and bootstrap
+  intervals, Holm, layout sensitivity, secondary stages, a separate M4 comparison, costs, the failure and no
+  exclusions, an interpretation, one next question and manuscript wording. Harness hashes are recorded.
+  The manuscript is not changed.
+
+**Risks in the reading.**
+- "Positive but unconfirmed" depends on the unadjusted interval and the bootstrap. Both are labelled as
+  sensitivity checks.
+- The 251,904 pattern ("preservation speeds early learning with both checkpoints") is descriptive and is not
+  turned into a claim.
+
+**Next.** Stop scientific execution. Stop the remaining watchers by verified identity. Report to the owner.

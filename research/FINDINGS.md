@@ -587,3 +587,26 @@ no arrivals.
   continuation). The probe itself is shared by every method in the manuscript's RQ2 accounting and is not a
   selection cost. Against a demonstrated out-of-sample selection gain of about
   0 (hindsight 0.01), no diagnostic-based selector is supported by M4.
+
+## F12 — R1 focused replication (2026-11-01; Amendment 3, prespecified)
+
+Tool: `tools/analyze_r1.py --check-states` (frozen at `01beef9`). Outputs: `reports/r1/r1_summary.json`,
+`r1_seeds.csv`, `r1_branches.csv`, `r1_curves.csv`. Full write-up: `reports/REPORT.md` section R1.
+
+- Design complete: 8/8 seeds (15-22), 32 branches, no exclusions, no problems; all metrics recompute from raw
+  attempts; fork hashes, saved-state hashes and step counters all check.
+- **H1** (preservation effect, K=3/early BC, 501,760): +0.0403, 95% t [+0.0042, +0.0764], p 0.033, **Holm p
+  0.067: not supported**. 6/8 seeds positive. Seed SD 0.043. Sign-flip p 0.055. Crossed bootstrap [+0.006, +0.075].
+- **H2** (checkpoint interaction, early minus extended): +0.0391, 95% t [-0.009, +0.087], **Holm p 0.096: not
+  supported**. Extended-BC effect +0.001 [-0.022, +0.025].
+- Frozen interpretation cell: **inconclusive** (H1 upper bound 0.076 > M4 estimate 0.045). Not a failure to
+  replicate. Magnitude: not distinguishable from the 0.05 practical threshold.
+- 251,904 (descriptive): preservation ahead with both checkpoints (early +0.030, 8/8; extended +0.042, 7/8). With
+  extended BC, ordinary PPO catches up by 501,760.
+- Secondary (early, 501,760): the gain is mainly access q (+0.038 [+0.012, +0.065]); bank c +0.029 is unresolved.
+  Anchor KL is lower in arm 01 as intended.
+- Against M4 (separate, not pooled): +0.040 vs +0.045. The M4 subgroup's seed SD (0.008) understated the spread
+  by a factor of about 5. That subgroup was selected after the fact, which explains it.
+- M4 aggregate equivalence (F10, F11 section 1) is unchanged.
+- Cost: 25,471,099 actions (89.7% of 28.4M). One deterministic failure (telemetry race) was fixed and rerun, and
+  is kept in the record.

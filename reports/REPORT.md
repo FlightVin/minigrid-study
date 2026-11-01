@@ -1,8 +1,8 @@
 # MiniGrid study: demonstration-state starts and BC preservation after BC
 
-Status 2026-10-31 (post-M4 audit): M0-M4 complete; scientific closeout revised after the owner's post-M4 audit
-instruction (FINDINGS F11). No new training was run for this revision. One follow-up is proposed (section C9)
-and waits for owner approval.
+Status 2026-11-01: M0-M4 and the R1 focused replication (Amendment 3) are complete. Scientific execution has
+stopped. The R1 result is in section R1. The M4 sections below (C1-C8) are unchanged, and R1 does not modify the
+M4 aggregate equivalence result.
 
 ## Headline
 
@@ -14,6 +14,179 @@ effects. With early BC at K=3, preservation raised P1 at 501,760 by +0.045 (95% 
 hoc), so it needs replication. With early BC at K=1, preservation cost -0.048 at 251,904, and the cost had closed
 by 501,760. A large part of the earlier "bank vs arrival" competence gap was the progress mix of the saved-state
 bank, not a different arrival state.
+
+**R1 (prespecified replication, 8 fresh seeds, new panel):** the K=3/early-BC preservation effect was +0.040
+(95% t +0.004 to +0.076), close to M4. It did not pass the prespecified Holm-2 test (adjusted p 0.067), and the
+checkpoint interaction was not supported (adjusted p 0.096). The result is inconclusive, not negative: the
+effect is positive but unconfirmed, and the seed spread (SD 0.043) was 5 times the M4 subgroup's.
+
+## R1. Focused replication of the K=3/early-BC preservation effect (Amendment 3; complete)
+
+**Result in one paragraph.** At K=3 with early BC, preservation (lambda 0.01) raised normal-start P1 at 501,760
+post-probe actions by **+0.040** (95% t-interval +0.004 to +0.076; unadjusted p 0.033; **Holm-2 p 0.067**).
+The frozen decision rule needs Holm-adjusted p < 0.05, so **H1 is not supported**. The checkpoint interaction
+(early minus extended) was +0.039 (95% t -0.009 to +0.087; Holm p 0.096), so **H2 is not supported**. By the
+frozen interpretation rule the result is **inconclusive**: the interval does not exclude the M4 estimate
+(+0.045). It is not a failure to replicate. The direction and size agree with M4. But the seed-to-seed spread
+was 5 times larger than in the selected M4 subgroup, and 8 seeds cannot confirm an effect of this size at this
+spread.
+
+### R1.1 Frozen protocol and provenance
+- Protocol: `research/PROTOCOL_FREEZE.md` Amendment 3 (C1-C9), frozen in `01beef9` before any R1 data. Owner
+  instruction verbatim in `mac-agentic-engineering/project.md` (harness `4d4fc31`).
+- Analysis `tools/analyze_r1.py` and statistics `tools/r1_stats.py`, with synthetic tests
+  (`tests/test_analyze_r1.py`) committed at the freeze. Power: `tools/power_r1.py` -> `reports/r1/power.md`.
+  No analysis code changed after the freeze.
+- Design: K=3; BC 4k (early) and 16k (extended) updates from one BC run per seed, on the unchanged joint
+  conf-v1 dataset and sampler (`experiments/m4/bc-v1.json`); fresh seeds 15-22; arms 00 (lambda 0) and 01
+  (lambda 0.01), both alpha 0, forked from one hash-verified post-probe state; reference = the seed's own BC
+  checkpoint.
+- Evaluation: new roles r1_select / r1_bank / r1_final (namespaces 112-114, appended; no earlier role changed).
+  Final panel 128 layouts x 4 attempts (512 attempts) per policy; bank 64 x 4. The same panel and attempt seeds
+  for every seed, arm and checkpoint.
+- Data gate (`reports/r1/data_gate.json`): pass. The training files are byte-identical, all conf-v1 roles are
+  identical, there is zero overlap with every earlier role, and the bank bins are 32/16/16.
+- Reproduction: project commits `01beef9` (freeze) through `dd597ea` (telemetry fix); harness branch
+  `mac-host-fixes`, HEAD `4d4fc31`, runner fix `b53f29a` (local only; remote reproducibility is not claimed).
+  Package versions: `reports/r1/pip_freeze.txt`. Each batch manifest records both SHAs.
+- Verification: all 48 branch summaries recompute exactly from raw attempt files. All fork hashes match. All saved
+  state hashes check (`--check-states`). All job step records equal the summary action counts.
+
+### R1.2 Per-seed paired results (P1, 512 attempts per cell)
+
+| Seed | 00 early | 01 early | d_early | 00 ext | 01 ext | d_ext | interaction |
+|---|---|---|---|---|---|---|---|
+| 15 | 0.148 | 0.150 | +0.002 | 0.490 | 0.457 | -0.033 | +0.035 |
+| 16 | 0.074 | 0.100 | +0.025 | 0.477 | 0.492 | +0.016 | +0.010 |
+| 17 | 0.061 | 0.162 | +0.102 | 0.445 | 0.436 | -0.010 | +0.111 |
+| 18 | 0.160 | 0.246 | +0.086 | 0.469 | 0.480 | +0.012 | +0.074 |
+| 19 | 0.156 | 0.191 | +0.035 | 0.525 | 0.563 | +0.037 | -0.002 |
+| 20 | 0.049 | 0.043 | -0.006 | 0.449 | 0.480 | +0.031 | -0.037 |
+| 21 | 0.148 | 0.229 | +0.080 | 0.559 | 0.518 | -0.041 | +0.121 |
+| 22 | 0.150 | 0.148 | -0.002 | 0.494 | 0.492 | -0.002 | 0.000 |
+| **Mean** | 0.118 | 0.159 | **+0.040** | 0.489 | 0.490 | **+0.001** | **+0.039** |
+
+d_early is positive in 6 of 8 seeds. The two negative values are small (-0.006, -0.002). Three seeds gain
++0.08 to +0.10.
+
+### R1.3 Primary estimates (501,760 actions; Holm over H1, H2)
+
+| Estimand | Estimate | Seed SD | 95% t (df 7) | p | Holm p | Sign-flip p | Crossed bootstrap 95% | Layouts-only 95% |
+|---|---|---|---|---|---|---|---|---|
+| H1: d_early | +0.0403 | 0.043 | [+0.004, +0.076] | 0.033 | **0.067** | 0.055 | [+0.006, +0.075] | [+0.027, +0.054] |
+| H2: interaction | +0.0391 | 0.057 | [-0.009, +0.087] | 0.096 | **0.096** | 0.125 | [-0.013, +0.093] | [+0.013, +0.065] |
+| d_extended (secondary) | +0.0012 | 0.028 | [-0.022, +0.025] | 0.91 | - | 0.91 | [-0.035, +0.039] | [-0.022, +0.024] |
+
+- Decision: neither hypothesis is supported (both Holm p >= 0.05). The frozen interpretation cell is
+  "inconclusive", because the H1 upper bound (0.076) is above the M4 estimate (0.045).
+- Magnitude: the d_early interval includes 0.05, so the effect is "not distinguishable from the 0.05 practical
+  threshold". Relative to ordinary PPO with early BC (0.118), +0.040 is +34%.
+- Layout sensitivity: the crossed seed x layout bootstrap also excludes 0 for H1 and includes 0 for H2.
+  Layout sampling alone gives narrow intervals for both, so the seed spread is the dominant uncertainty, not the
+  panel. These are sensitivity checks. They do not replace the Holm decision.
+- The interaction's sign pattern comes from the early checkpoint: the extended-BC effect is close to zero at
+  501,760.
+
+### R1.4 Descriptive checkpoint (251,904 actions; unadjusted, no claims)
+
+| Estimand | Estimate | 95% t | Seeds positive |
+|---|---|---|---|
+| d_early | +0.030 | [+0.016, +0.043] | 8/8 |
+| d_extended | +0.042 | [+0.014, +0.070] | 7/8 |
+| interaction | -0.012 | [-0.030, +0.006] | - |
+
+At 251,904, preservation is ahead with both checkpoints. With extended BC, ordinary PPO then catches up
+(P1 0.389 -> 0.489 against 0.431 -> 0.490), so the extended-BC effect disappears by 501,760. With early BC,
+the effect is still present at 501,760. So the 501,760 interaction mostly shows that the extended-BC
+advantage closes earlier. This is a descriptive pattern and is not tested.
+
+### R1.5 Secondary stages (501,760; difference 01 - 00, 95% t over seeds; descriptive)
+
+| Measure | Early BC | Extended BC |
+|---|---|---|
+| P1 | +0.040 [+0.004, +0.076] | +0.001 [-0.022, +0.025] |
+| q (stage access) | +0.038 [+0.012, +0.065] | -0.022 [-0.038, -0.007] |
+| P(success given arrival), seeds with both defined | +0.061 [-0.009, +0.132] | +0.023 [-0.004, +0.051] |
+| C4 (any of 4) | +0.076 [+0.006, +0.146] | +0.018 [-0.014, +0.049] |
+| R4 (all 4) | +0.009 [-0.003, +0.020] | -0.040 [-0.072, -0.008] |
+| Fixed-bank c | +0.029 [-0.041, +0.098] | +0.019 [-0.020, +0.057] |
+| Bank entry / retrieval / carrying | +0.031 / +0.035 / +0.018 (all CIs include 0) | -0.001 / -0.004 / +0.080 (all include 0) |
+
+- With early BC, the gain is mainly access (q). The bank competence difference is positive but not resolved. This
+  agrees with the M4 audit ("mainly through retained stage access"). An access gain is not read as protection
+  of a suffix skill.
+- With extended BC, preservation slightly lowers access and all-4 reliability. Its P1 is unchanged.
+- Anchor KL to pi0 (mean over training) is 0.093 vs 0.162 (early) and 0.088 vs 0.159 (extended): the anchor
+  does what it is meant to do. Arrival time (~80 steps early, ~54 extended) and inventory are the same in both arms.
+  No branch has zero arrivals.
+- Starting points (mean over seeds, r1_select): early pi0 p 0.056 -> probe 0.076; extended pi0 0.358 -> probe
+  0.387. Ordinary PPO with early BC reached 0.118 at 501,760, against 0.062 in the M4 subgroup. The panel,
+  layouts and seeds are different, so these baselines are not directly comparable.
+
+### R1.6 Comparison with the M4 post hoc estimate (separate; not pooled)
+
+| | M4 post hoc subgroup (F11) | R1 (prespecified) |
+|---|---|---|
+| Seeds / panel | 10-14 (5) / conf_final 64 x 8 | 15-22 (8) / r1_final 128 x 4 |
+| d_early at 501,760 | +0.045 [+0.035, +0.055] | +0.040 [+0.004, +0.076] |
+| Seed SD of d_early | 0.008 | 0.043 |
+| Seeds positive | 5/5 | 6/8 |
+| Interaction at 501,760 | +0.073 [+0.038, +0.108] | +0.039 [-0.009, +0.087] |
+
+- The point estimates are close. Each lies inside the other's interval.
+- The M4 interval was narrow because its seed SD (0.008) was the smallest of the 8 M4 cells, which is a
+  selection effect. The power analysis anticipated this and did not use that SD for planning. R1's SD (0.043) is
+  between the M4 median (0.028) and maximum (0.057). At that SD and a true effect of 0.040, the chance that
+  8 seeds pass H1 alone is about 0.62. It is lower under Holm-2.
+- The M4 interaction was smaller in R1 and is not confirmed.
+
+### R1.7 Costs, failures and exclusions
+- **Spend:** R1 used **25,471,099** environment actions (ledger 93,199,203 -> 118,670,302), which is 89.7% of the
+  28.4M authorization. 2.93M was not used. The conservative plan was 26.97M and the expected cost 25.54M. Every
+  batch exited 0 and cost less than its conservative estimate. Completion was secure at every admission.
+- **Batches:** data `20261101T001930-86871` (32,184); tests `20261101T001959-87087` (59,274); canary
+  `20261101T002041-87256` (1,002,393); seed 15 rest `20261101T002815-88091`; seed 16 `20261101T003945-89279`;
+  failed seed 17 `20261101T005849-94851` (86,095, kept); seeds 17-22 `20261101T010311-99104`, `T012123-1751`,
+  `T013935-7336`, `T015804-10217`, `T021657-15496`, `T023515-17380` (3.13M to 3.18M each); final tests `20261101T025500-19209` (266 passed, 3 skipped).
+- **One failure:** the first seed 17 BC job stopped on a heartbeat-file race in `src/bc2rl/telemetry.py`. Two
+  threads shared one temporary file name. This was classified as a deterministic code defect. It was fixed
+  with per-process and per-thread names, plus a test that fails on the old code (`dd597ea`). The seed was rerun
+  under a new batch ID with the same seed. The failed run and its 86,095 actions stay in the record and the
+  ledger. No new canary was run, because only the heartbeat write changed (DECISIONS).
+- **Exclusions:** none. All 8 seeds and 32 branches are complete. No seed was replaced. No design element
+  changed after the freeze, and the canary's outcome was not read before all seeds finished.
+
+### R1.8 Interpretation
+- **What R1 shows.** The preservation effect at K=3 with early BC is positive in direction and similar in size
+  to M4 (+0.040 vs +0.045). The unadjusted test and the crossed bootstrap both exclude zero. But the prespecified
+  confirmatory test (Holm over 2) does not reach 0.05. So **R1 does not confirm the benefit, and it does not
+  refute it.** The correct statement is "a positive but unconfirmed effect, likely between 0 and about 0.08 P1".
+- **Checkpoint dependence is not established.** At 501,760 the extended-BC effect is zero and the interaction is
+  positive but not significant. At 251,904 both checkpoints benefit to a similar degree. The best-supported
+  description is that preservation speeds up early learning with both checkpoints, and the advantage lasts
+  longer with early BC. This is descriptive only.
+- **Seed variance is the main finding for planning.** The M4 subgroup's tight interval greatly understated
+  seed-to-seed spread. Any claim that rests on five seeds and a selected subgroup is fragile here.
+- **Unchanged:** the M4 aggregate equivalence result (C2) stands as it was. R1 does not modify or pool with it.
+
+### R1.9 One next research question (proposal only; not run)
+**Does preservation improve K=3/early-BC P1 at 501,760 when tested as a single prespecified hypothesis with
+enough seeds for the observed spread?** Test only the early checkpoint (BC, early probe, arms 00/01; about
+1.81M actions per seed, conservative). Plan with R1's seed SD of 0.043. A single two-sided test at 0.05 needs
+about 12 fresh seeds for 80% power at +0.040, or about 20 for +0.030 (simulation, planning only). That is about
+22M to 36M actions. Pooling with R1 would need to be fixed in advance and is not assumed here. This waits for an
+owner decision. R1 has stopped scientific execution, and nothing further was started.
+
+### R1 manuscript-ready wording (not inserted into the manuscript)
+
+> In a prespecified replication with eight fresh training seeds and a new 128-layout evaluation panel,
+> preservation (lambda = 0.01) at K = 3 with early BC improved normal-start success after 501,760 continuation
+> actions by 0.040 (95% CI 0.004-0.076; 6 of 8 seeds positive; baseline 0.118), close to the post hoc estimate
+> from the main study (0.045). The effect did not survive the prespecified Holm correction over two hypotheses
+> (adjusted p = 0.067), and the checkpoint interaction was not supported (0.039, 95% CI -0.009 to 0.087;
+> adjusted p = 0.096). The seed-to-seed spread of the effect (SD 0.043) was five times larger than in the
+> selected subgroup, so the replication is inconclusive rather than negative. The benefit was carried mainly by
+> stage access (+0.038), and at 251,904 actions preservation was ahead with both BC checkpoints.
 
 ## C1. Final protocol and provenance
 
@@ -264,7 +437,7 @@ Per-stratum contrasts are secondary or descriptive under the freeze. Figure: `re
     continuation. The shared probe is not charged. A short-trial selector costs several branches. Neither cost
     can be recovered from an out-of-sample gain of about 0.
 
-## C9. Recommendation: one follow-up, R1 (awaiting approval; no training before approval)
+## C9. Recommendation: one follow-up, R1 (approved 2026-10-31 and executed as Amendment 3; result in section R1)
 
 **R1. Independent replication of the conditional preservation effect.**
 - **Question.** Does preservation (lambda 0.01) improve normal-start P1 at K=3 with early BC, and does its effect

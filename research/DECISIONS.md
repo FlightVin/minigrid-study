@@ -389,3 +389,12 @@ in `tools/postm4_audit.py` -> `reports/postm4/` and FINDINGS F11; report revised
   unchanged. The rerun's jobs are checked by the same frozen analysis checks (lineage, hashes, panels, counters).
 - Budget after the failure: R1 spent 6,509,776; remaining conservative 6 x 3,334,150 + audit 0.2M gives 26.91M
   <= 28.4M, so completion stays secure.
+
+## 2026-11-01 — R1 complete; scientific execution stopped
+- All six rerun batches (seeds 17-22) exited 0, each below its conservative cost. Frozen analysis run once with
+  `--check-states`; no exclusions or problems. Final test suite as a runner job (`20261101T025500-19209`): 266
+  passed, 3 skipped.
+- The frozen rules decide the outcome: H1 and H2 not supported under Holm-2; interpretation cell "inconclusive".
+  Nothing was re-analysed with other rules. The unadjusted p and bootstrap are reported as sensitivity only.
+- The next-question power figures (R1.9) use R1's observed seed SD. They are planning numbers, not a test, and
+  nothing is launched. Per the owner's instruction, no RQ2, no other task family, no further training.
