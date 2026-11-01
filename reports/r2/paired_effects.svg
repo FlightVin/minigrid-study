@@ -71,5 +71,5 @@ svg{background:var(--surface)} .t1{font:600 13px system-ui;fill:var(--ink)} .tic
 <line x1="494.0" x2="494.0" y1="128.7" y2="106.2" stroke="#9b59b6" stroke-width="2"/>
 <g><title>M4 (separate study, not pooled): mean +0.0453, 95% t [+0.0353, +0.0554]</title><circle cx="494.0" cy="117.5" r="5" fill="#9b59b6" stroke="var(--surface)" stroke-width="1.5"/></g>
 <text x="494" y="298" class="tick" text-anchor="middle">M4 E500</text>
-<text x="16" y="330" class="tick">Dots: per-seed paired differences. Large marker and bar: mean and 95% t-interval. Dashed: 0.03 (planning) and 0.05.</text>
+<text x="16" y="330" class="tick">Dots: seeds. Marker and bar: mean, 95% t-interval. Dashed: 0.03 (planning), 0.05.</text>
 </svg>

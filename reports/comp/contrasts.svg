@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 330" width="620" height="330" role="img" aria-label="Anchor component contrasts">
+<style>
+:root{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--grid:#e4e3df;--zero:#8a8984}
+@media (prefers-color-scheme: dark){:root{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--grid:#3a3a37;--zero:#8a8984}}
+svg{background:var(--surface)} .t1{font:600 13px system-ui;fill:var(--ink)} .tick{font:11px system-ui;fill:var(--ink2)}
+.grid{stroke:var(--grid);stroke-width:1} .zero{stroke:var(--zero);stroke-width:1.2} .ref{stroke:var(--zero);stroke-width:1;stroke-dasharray:4 3}
+</style>
+<rect width="100%" height="100%" fill="var(--surface)"/>
+<text x="50" y="20" class="t1">Anchor components: P1 contrasts at 251,904 (3 seeds; development panel)</text>
+<line x1="50" x2="580" y1="270.7" y2="270.7" class="grid"/>
+<text x="44" y="274.7" class="tick" text-anchor="end">-0.15</text>
+<line x1="50" x2="580" y1="223.3" y2="223.3" class="grid"/>
+<text x="44" y="227.3" class="tick" text-anchor="end">-0.10</text>
+<line x1="50" x2="580" y1="176.0" y2="176.0" class="grid"/>
+<text x="44" y="180.0" class="tick" text-anchor="end">-0.05</text>
+<line x1="50" x2="580" y1="128.7" y2="128.7" class="zero"/>
+<text x="44" y="132.7" class="tick" text-anchor="end">+0.00</text>
+<line x1="50" x2="580" y1="81.3" y2="81.3" class="grid"/>
+<text x="44" y="85.3" class="tick" text-anchor="end">+0.05</text>
+<line x1="50" x2="580" y1="34.0" y2="34.0" class="grid"/>
+<text x="44" y="38.0" class="tick" text-anchor="end">+0.10</text>
+<g><title>prefix (01p-00), seed 15: -0.0078</title><circle cx="98.0" cy="136.1" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>prefix (01p-00), seed 16: +0.0078</title><circle cx="106.0" cy="121.3" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>prefix (01p-00), seed 17: -0.0312</title><circle cx="114.0" cy="158.3" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<line x1="134.0" x2="134.0" y1="184.8" y2="92.3" stroke="#eb6834" stroke-width="2"/>
+<g><title>prefix (01p-00): mean -0.0104, 95% t [-0.0593, +0.0384]</title><circle cx="134.0" cy="138.5" r="5" fill="#eb6834" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="120" y="288" class="tick" text-anchor="middle">prefix (01p-00)</text>
+<g><title>suffix (01s-00), seed 15: +0.0547</title><circle cx="233.0" cy="76.9" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>suffix (01s-00), seed 16: +0.0469</title><circle cx="241.0" cy="84.3" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>suffix (01s-00), seed 17: +0.0625</title><circle cx="249.0" cy="69.5" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<line x1="269.0" x2="269.0" y1="95.3" y2="58.5" stroke="#3b7dd8" stroke-width="2"/>
+<g><title>suffix (01s-00): mean +0.0547, 95% t [+0.0353, +0.0741]</title><circle cx="269.0" cy="76.9" r="5" fill="#3b7dd8" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="255" y="288" class="tick" text-anchor="middle">suffix (01s-00)</text>
+<g><title>both (01-00), seed 15: +0.0156</title><circle cx="368.0" cy="113.9" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>both (01-00), seed 16: -0.0391</title><circle cx="376.0" cy="165.7" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>both (01-00), seed 17: -0.0078</title><circle cx="384.0" cy="136.1" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<line x1="404.0" x2="404.0" y1="203.1" y2="74.0" stroke="#1baf7a" stroke-width="2"/>
+<g><title>both (01-00): mean -0.0104, 95% t [-0.0786, +0.0577]</title><circle cx="404.0" cy="138.5" r="5" fill="#1baf7a" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="390" y="288" class="tick" text-anchor="middle">both (01-00)</text>
+<g><title>interaction, seed 15: -0.0312</title><circle cx="503.0" cy="158.3" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction, seed 16: -0.0938</title><circle cx="511.0" cy="217.4" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction, seed 17: -0.0391</title><circle cx="519.0" cy="165.7" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<line x1="539.0" x2="539.0" y1="260.5" y2="100.4" stroke="#8a8984" stroke-width="2"/>
+<g><title>interaction: mean -0.0547, 95% t [-0.1393, +0.0299]</title><circle cx="539.0" cy="180.4" r="5" fill="#8a8984" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="525" y="288" class="tick" text-anchor="middle">interaction</text>
+<text x="16" y="320" class="tick">Exploratory, 3 seeds; bars are 95% t-intervals with df 2 (wide). Dots: seeds.</text>
+</svg>

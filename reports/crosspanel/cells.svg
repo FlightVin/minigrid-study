@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 330" width="620" height="330" role="img" aria-label="Cross-panel cells">
+<style>
+:root{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--grid:#e4e3df;--zero:#8a8984}
+@media (prefers-color-scheme: dark){:root{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--grid:#3a3a37;--zero:#8a8984}}
+svg{background:var(--surface)} .t1{font:600 13px system-ui;fill:var(--ink)} .tick{font:11px system-ui;fill:var(--ink2)}
+.grid{stroke:var(--grid);stroke-width:1} .zero{stroke:var(--zero);stroke-width:1.2} .ref{stroke:var(--zero);stroke-width:1;stroke-dasharray:4 3}
+</style>
+<rect width="100%" height="100%" fill="var(--surface)"/>
+<text x="50" y="20" class="t1">Cross-panel: preservation minus ordinary PPO, P1 (K=3, early BC, 501,760; new eval seed)</text>
+<line x1="50" x2="580" y1="270.0" y2="270.0" class="grid"/>
+<text x="44" y="274.0" class="tick" text-anchor="end">-0.10</text>
+<line x1="50" x2="580" y1="216.4" y2="216.4" class="grid"/>
+<text x="44" y="220.4" class="tick" text-anchor="end">-0.05</text>
+<line x1="50" x2="580" y1="162.7" y2="162.7" class="zero"/>
+<text x="44" y="166.7" class="tick" text-anchor="end">+0.00</text>
+<line x1="50" x2="580" y1="109.1" y2="109.1" class="ref"/>
+<text x="44" y="113.1" class="tick" text-anchor="end">+0.05</text>
+<line x1="50" x2="580" y1="55.5" y2="55.5" class="grid"/>
+<text x="44" y="59.5" class="tick" text-anchor="end">+0.10</text>
+<line x1="50" x2="580" y1="130.5" y2="130.5" class="ref"/>
+<text x="583" y="134.5" class="tick">0.03</text>
+<g><title>M4 policies on conf_final, seed 10: +0.0352</title><circle cx="96.4" cy="125.0" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>M4 policies on conf_final, seed 11: +0.0195</title><circle cx="101.2" cy="141.8" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>M4 policies on conf_final, seed 12: +0.0312</title><circle cx="106.0" cy="129.2" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>M4 policies on conf_final, seed 13: +0.0469</title><circle cx="110.8" cy="112.4" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>M4 policies on conf_final, seed 14: +0.0703</title><circle cx="115.6" cy="87.3" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<line x1="134.0" x2="134.0" y1="144.8" y2="93.5" stroke="#9b59b6" stroke-width="2"/>
+<g><title>M4 policies on conf_final: mean +0.0406, 95% t [+0.0167, +0.0645]</title><circle cx="134.0" cy="119.1" r="5" fill="#9b59b6" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="120" y="288" class="tick" text-anchor="middle">M4 on conf_final</text>
+<g><title>M4 policies on r1_final, seed 10: +0.0293</title><circle cx="231.4" cy="131.3" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>M4 policies on r1_final, seed 11: +0.0410</title><circle cx="236.2" cy="118.7" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>M4 policies on r1_final, seed 12: +0.0488</title><circle cx="241.0" cy="110.3" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>M4 policies on r1_final, seed 13: +0.0938</title><circle cx="245.8" cy="62.2" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>M4 policies on r1_final, seed 14: +0.0762</title><circle cx="250.6" cy="81.0" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<line x1="269.0" x2="269.0" y1="136.0" y2="65.4" stroke="#9b59b6" stroke-width="2"/>
+<g><title>M4 policies on r1_final: mean +0.0578, 95% t [+0.0249, +0.0907]</title><circle cx="269.0" cy="100.7" r="5" fill="#9b59b6" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="255" y="288" class="tick" text-anchor="middle">M4 on r1_final</text>
+<g><title>R1 policies on conf_final, seed 15: -0.0156</title><circle cx="365.5" cy="179.5" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>R1 policies on conf_final, seed 16: +0.0234</title><circle cx="368.5" cy="137.6" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>R1 policies on conf_final, seed 17: +0.0508</title><circle cx="371.5" cy="108.3" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>R1 policies on conf_final, seed 18: +0.0430</title><circle cx="374.5" cy="116.6" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>R1 policies on conf_final, seed 19: -0.0234</title><circle cx="377.5" cy="187.9" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>R1 policies on conf_final, seed 20: -0.0078</title><circle cx="380.5" cy="171.1" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>R1 policies on conf_final, seed 21: +0.0742</title><circle cx="383.5" cy="83.1" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>R1 policies on conf_final, seed 22: +0.0547</title><circle cx="386.5" cy="104.1" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<line x1="404.0" x2="404.0" y1="168.8" y2="103.2" stroke="#3b7dd8" stroke-width="2"/>
+<g><title>R1 policies on conf_final: mean +0.0249, 95% t [-0.0057, +0.0555]</title><circle cx="404.0" cy="136.0" r="5" fill="#3b7dd8" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="390" y="288" class="tick" text-anchor="middle">R1 on conf_final</text>
+<g><title>R1 policies on r1_final, seed 15: -0.0293</title><circle cx="500.5" cy="194.2" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>R1 policies on r1_final, seed 16: +0.0293</title><circle cx="503.5" cy="131.3" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>R1 policies on r1_final, seed 17: +0.0664</title><circle cx="506.5" cy="91.5" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>R1 policies on r1_final, seed 18: +0.0117</title><circle cx="509.5" cy="150.2" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>R1 policies on r1_final, seed 19: +0.0312</title><circle cx="512.5" cy="129.2" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>R1 policies on r1_final, seed 20: -0.0234</title><circle cx="515.5" cy="187.9" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>R1 policies on r1_final, seed 21: +0.0508</title><circle cx="518.5" cy="108.3" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>R1 policies on r1_final, seed 22: +0.0254</title><circle cx="521.5" cy="135.5" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<line x1="539.0" x2="539.0" y1="170.8" y2="111.2" stroke="#3b7dd8" stroke-width="2"/>
+<g><title>R1 policies on r1_final: mean +0.0203, 95% t [-0.0075, +0.0480]</title><circle cx="539.0" cy="141.0" r="5" fill="#3b7dd8" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="525" y="288" class="tick" text-anchor="middle">R1 on r1_final</text>
+<text x="16" y="320" class="tick">Exploratory: already observed policies and panels. 4 attempts per layout. Dots: seeds.</text>
+</svg>

@@ -81,7 +81,7 @@ def r2():
         cx = PL + 360 + j * 70
         body += group(cx, sy, [], ref["estimate"], ref["t95"][0], ref["t95"][1], col, f"{key} (separate study, not pooled)")
         body.append(f'<text x="{cx + 14}" y="{H - PB + 18}" class="tick" text-anchor="middle">{key} E500</text>')
-    cap = "Dots: per-seed paired differences. Large marker and bar: mean and 95% t-interval. Dashed: 0.03 (planning) and 0.05."
+    cap = "Dots: seeds. Marker and bar: mean, 95% t-interval. Dashed: 0.03 (planning), 0.05."
     (d / "paired_effects.svg").write_text(svg(W, H, "R2 paired effects", "\n".join(body), cap))
     br = list(csv.DictReader(open(d / "r2_branches.csv")))
     W2, H2 = 420, 320
