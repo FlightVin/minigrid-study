@@ -133,18 +133,19 @@ Dependencies: each line needs the lines above it unless marked (parallel-safe: d
 - [x] Driver run_program2.py + plan; batch files (A3, calibration; pilot placeholders)
 - [x] PROTOCOL_FREEZE Amendment 5; DECISIONS; IMPLEMENTATION; STATE
 - [ ] Freeze commit + push; monitors (battery watch, review cron) started and recorded
-- [ ] Data r3-v1 (runner) -> data gate --r3 (stop on failure)
-- [ ] Tests batch (full suite + RL smoke incl. exact resume)
-- [ ] A3 canary s43 -> a3_canary_check (no outcomes)
-- [ ] A3 seeds 44-66 (24/24; watcher armed; no interim outcome reads)
+- [x] Data r3-v1 (runner) -> data gate --r3 (stop on failure)
+- [x] Tests batch (full suite + RL smoke incl. exact resume)
+- [x] A3 canary s43 -> a3_canary_check (no outcomes)
+- [ ] A3 seeds 44-66 (24/24; watcher armed; no interim outcome reads) — 43-51 done at Review 11
 - [ ] A3 analysis `--check-states` (unblinded at 24/24); figures (paired arm effects at both endpoints, component
-      contrasts, penalty/update-size diagnostics)
+      contrasts, penalty/update-size diagnostics; code `plot_program.py --which a3` ready, synthetic-tested)
 - [ ] Calibration batches s67-69 -> analyze_cal -> selection (or documented failure)
-- [ ] (if selected) pilot analysis script committed; pilot batch files written; pilot runs; analysis; figures
-- [ ] Figure: initial access vs boundary-entry competence (calibration)
+- [ ] (if selected) pilot batch files written; pilot runs; analysis; figures (analysis script and figure code
+      `plot_program.py --which pilot` committed before any pilot run)
+- [ ] Figure: initial access vs boundary-entry competence (calibration; code `plot_program.py --which cal` ready)
 - [ ] Final runner tests (p2-tests); ledger and cost reconciliation
 - [ ] Independent verification from raw attempts (A3 inventory, coefficients, lineage, roles, formulas, actions;
-      calibration; pilot)
+      calibration; pilot) — `tools/verify_program2.py` committed; `--engineering` passes on 43-51
 - [ ] Synthesis: RQ1 distinctions; RQ2 assessment; literature positioning; one decisive recommendation
 - [ ] Consolidated report (closed / A3 confirmatory / secondary / calibration / pilot / remaining hypotheses);
       FINDINGS; review; commit + push
