@@ -136,9 +136,9 @@ Dependencies: each line needs the lines above it unless marked (parallel-safe: d
 - [x] Data r3-v1 (runner) -> data gate --r3 (stop on failure)
 - [x] Tests batch (full suite + RL smoke incl. exact resume)
 - [x] A3 canary s43 -> a3_canary_check (no outcomes)
-- [ ] A3 seeds 44-66 (24/24; watcher armed; no interim outcome reads) — 43-51 done at Review 11
-- [ ] A3 analysis `--check-states` (unblinded at 24/24); figures (paired arm effects at both endpoints, component
-      contrasts, penalty/update-size diagnostics; code `plot_program.py --which a3` ready, synthetic-tested)
+- [x] A3 seeds 44-66 (24/24; watcher armed; no interim outcome reads)
+- [x] A3 analysis `--check-states` (unblinded at 24/24); figures (paired arm effects at both endpoints, component
+      contrasts, penalty/update-size diagnostics) — F19; H1 supported, gate not supported
 - [ ] Calibration batches s67-69 -> analyze_cal -> selection (or documented failure)
 - [ ] (if selected) pilot batch files written; pilot runs; analysis; figures (analysis script and figure code
       `plot_program.py --which pilot` committed before any pilot run)

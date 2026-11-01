@@ -746,3 +746,62 @@ Final runner test job: 274 passed, 3 skipped. Independent verification (`tools/v
   Uchendu et al. 2023, Tao et al. 2024). A3 adds only controlled evidence: within one stored demonstration bank,
   whether allocating the same penalty to post-boundary states changes normal-start success, separated from a
   uniform strength reduction, on 24 independent seeds.
+
+## F19 — A3 confirmatory component study (2026-11-01b; Amendment 5; 24 seeds, fresh roles)
+
+Tools: `tools/analyze_a3.py --check-states` (frozen), `tools/verify_program2.py` (independent; agrees on every
+quantity), `tools/plot_program.py --which a3`. Outputs: `reports/a3/` (summary, CSVs, `paired_effects.svg`,
+`diagnostics.svg`), `reports/program2/verification.json`. Seeds 43-66, K=3, early BC (4,000 updates), five arms
+forked from the same probe per seed. Evaluation: a3_final 128 x 4 normal starts and a3_bank 64 x 4, eval seed 959000.
+
+**Execution.** 24/24 seeds, no exclusions or problems. 240 saved states match their hashes, all branches use one
+identical panel, and 144/144 step records equal their summaries. A3 spend 88,138,774 (ceiling 103M); every batch was
+under its conservative cost (about 0.92 of it).
+
+**Primary (H1, C−A at 251,904): supported.** d = +0.0106, 95% t [+0.0019, +0.0193], p 0.019, 17/24 seeds positive.
+Exact sign-flip p 0.014. Layouts-only bootstrap [+0.0035, +0.0175]. **The crossed seed × layout bootstrap
+[−0.0014, +0.0235] includes 0.** That bootstrap is a prespecified sensitivity analysis, not the decision rule, so the
+decision stands. The disagreement means the evidence is modest once uncertainty over the layout panel is included.
+Arm means at 251,904: A 0.066, C 0.076, a relative change of about +16% on a low base. The effect is about one-third
+of the 0.03 planning value and one-fifth of the 3-seed E2 estimate (+0.055, F16), which was inflated.
+
+**Gate (H2a C−D, H2b C−E; Holm): neither supported.** C−D +0.0007 [−0.0079, +0.0093], C−E −0.0003
+[−0.0101, +0.0094], Holm p 1.0 for both. Adding the prefix term (D) did not reduce the suffix benefit. The E2 pattern
+"suffix positive, both null" did not replicate: D−A was +0.0098 [+0.0014, +0.0183]. C and E have the same total
+effective coefficient (0.0075). E puts 25% of it on prefix rows and so carries 0.75× C's suffix coefficient. Their
+equality means this study does not identify a dose response or an allocation effect within this range. The intervals
+exclude differences larger than about ±0.01.
+
+**Secondary (descriptive, 95% t, no multiplicity claim).**
+
+| contrast | 251,904 | 501,760 |
+|---|---|---|
+| B−A (prefix only) | −0.0037 [−0.0117, +0.0042] | +0.0007 [−0.0101, +0.0116] |
+| C−A (suffix only) | +0.0106 [+0.0019, +0.0193] | +0.0160 [+0.0054, +0.0265] |
+| D−A (both) | +0.0098 [+0.0014, +0.0183] | +0.0087 [−0.0024, +0.0198] |
+| E−A (both, 0.75×) | +0.0109 [+0.0013, +0.0205] | +0.0142 [+0.0025, +0.0260] |
+| D−C | −0.0007 [−0.0093, +0.0079] | −0.0072 [−0.0191, +0.0047] |
+| interaction D−B−C+A | +0.0030 [−0.0050, +0.0110] | −0.0080 [−0.0244, +0.0084] |
+
+- Persistence: the suffix effect did not shrink from 250k to 500k (C−A +0.016 at 501,760; arm means A 0.095,
+  C 0.110). D−A at 501,760 (+0.0087) agrees with the R2 estimate for the same full-penalty arm (+0.0097, F14). The
+  two studies are separate and are not pooled.
+- Prefix-only preservation at 0.0025 had no detectable effect. It is a weak manipulation: training prefix anchor KL
+  was 0.122 for B against 0.129 for A. This result does not test prefix preservation at a strength that changes
+  prefix behaviour.
+- Mechanism (exact decomposition, C−A): at 251,904 the completion part was +0.0069 [+0.0017, +0.0121] (18/23
+  positive) and the access part +0.0042 [−0.0029, +0.0113]. At 501,760 they were +0.0153 [+0.0073, +0.0233] and
+  +0.0013. Fixed-bank boundary-entry competence rose (C−A +0.023 at 250k, +0.032 at 500k), and so did bank c.
+  Suffix preservation acts mainly through success after arrival, not through more arrivals.
+- Training diagnostics (means to 251,904): the suffix term lowered suffix-row anchor KL from about 0.14 (A) to about
+  0.08 (C, D, E). Update size was the same in every arm to within about 2%: actor norm about 0.053, successive-policy
+  KL on prefix rows about 0.0033 and on suffix rows about 0.004. PPO approx-KL and entropy did not differ either. The
+  applied penalty was at most 0.0008 per update. The penalty redirects updates on suffix states; it does not slow
+  learning.
+
+**Interpretation.** In this regime (K=3, early BC, normal starts, P1 about 0.07–0.11), preserving the BC policy on
+suffix states improved normal-start success by about one percentage point at 250k. The pre-registered test supports
+the improvement, and it persisted to 500k. It is small in absolute terms. Its support weakens when layout-panel
+uncertainty is added, and it should not be generalized beyond this task, K and BC checkpoint. The full penalty and
+the 0.75× split performed as well as suffix-only, so restricting the anchor to suffix states is not necessary within
+this range.

@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 450" width="860" height="450" role="img" aria-label="A3 training diagnostics">
+<style>
+:root{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--grid:#e4e3df;--zero:#8a8984}
+@media (prefers-color-scheme: dark){:root{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--grid:#3a3a37;--zero:#8a8984}}
+svg{background:var(--surface)} .t1{font:600 13px system-ui;fill:var(--ink)} .tick{font:11px system-ui;fill:var(--ink2)}
+.grid{stroke:var(--grid);stroke-width:1} .zero{stroke:var(--zero);stroke-width:1.2} .ref{stroke:var(--zero);stroke-width:1;stroke-dasharray:4 3}
+</style>
+<rect width="100%" height="100%" fill="var(--surface)"/>
+<text x="16" y="20" class="t1">A3 training diagnostics: per-arm mean over seeds (solid: to 251,904; outline: whole run to 501,760)</text>
+<text x="16" y="48" class="t1">anchor KL, prefix rows</text>
+<line x1="60" x2="278" y1="190.0" y2="190.0" class="zero"/>
+<text x="56" y="194.0" class="tick" text-anchor="end">0</text>
+<line x1="60" x2="278" y1="125.0" y2="125.0" class="grid"/>
+<text x="56" y="129.0" class="tick" text-anchor="end">0.093</text>
+<line x1="60" x2="278" y1="60.0" y2="60.0" class="grid"/>
+<text x="56" y="64.0" class="tick" text-anchor="end">0.19</text>
+<g><title>A 00, anchor KL, prefix rows, to 251,904: 0.1291</title><rect x="74" y="100.1" width="8" height="89.9" rx="2" fill="#8a8984"/></g>
+<g><title>A 00, anchor KL, prefix rows, whole run: 0.1526</title><rect x="84" y="83.7" width="8" height="106.3" rx="2" fill="none" stroke="#8a8984" stroke-width="1.5"/></g>
+<text x="83" y="204" class="tick" text-anchor="middle">A</text>
+<g><title>B prefix, anchor KL, prefix rows, to 251,904: 0.1223</title><rect x="116" y="104.8" width="8" height="85.2" rx="2" fill="#eb6834"/></g>
+<g><title>B prefix, anchor KL, prefix rows, whole run: 0.139</title><rect x="126" y="93.2" width="8" height="96.8" rx="2" fill="none" stroke="#eb6834" stroke-width="1.5"/></g>
+<text x="125" y="204" class="tick" text-anchor="middle">B</text>
+<g><title>C suffix, anchor KL, prefix rows, to 251,904: 0.1371</title><rect x="158" y="94.5" width="8" height="95.5" rx="2" fill="#3b7dd8"/></g>
+<g><title>C suffix, anchor KL, prefix rows, whole run: 0.1623</title><rect x="168" y="77.0" width="8" height="113.0" rx="2" fill="none" stroke="#3b7dd8" stroke-width="1.5"/></g>
+<text x="167" y="204" class="tick" text-anchor="middle">C</text>
+<g><title>D both, anchor KL, prefix rows, to 251,904: 0.1047</title><rect x="200" y="117.0" width="8" height="73.0" rx="2" fill="#1baf7a"/></g>
+<g><title>D both, anchor KL, prefix rows, whole run: 0.1188</title><rect x="210" y="107.2" width="8" height="82.8" rx="2" fill="none" stroke="#1baf7a" stroke-width="1.5"/></g>
+<text x="209" y="204" class="tick" text-anchor="middle">D</text>
+<g><title>E 0.75x, anchor KL, prefix rows, to 251,904: 0.1133</title><rect x="242" y="111.1" width="8" height="78.9" rx="2" fill="#9b59b6"/></g>
+<g><title>E 0.75x, anchor KL, prefix rows, whole run: 0.1328</title><rect x="252" y="97.5" width="8" height="92.5" rx="2" fill="none" stroke="#9b59b6" stroke-width="1.5"/></g>
+<text x="251" y="204" class="tick" text-anchor="middle">E</text>
+<text x="292" y="48" class="t1">anchor KL, suffix rows</text>
+<line x1="336" x2="554" y1="190.0" y2="190.0" class="zero"/>
+<text x="332" y="194.0" class="tick" text-anchor="end">0</text>
+<line x1="336" x2="554" y1="125.0" y2="125.0" class="grid"/>
+<text x="332" y="129.0" class="tick" text-anchor="end">0.11</text>
+<line x1="336" x2="554" y1="60.0" y2="60.0" class="grid"/>
+<text x="332" y="64.0" class="tick" text-anchor="end">0.22</text>
+<g><title>A 00, anchor KL, suffix rows, to 251,904: 0.1383</title><rect x="350" y="109.9" width="8" height="80.1" rx="2" fill="#8a8984"/></g>
+<g><title>A 00, anchor KL, suffix rows, whole run: 0.1691</title><rect x="360" y="92.1" width="8" height="97.9" rx="2" fill="none" stroke="#8a8984" stroke-width="1.5"/></g>
+<text x="359" y="204" class="tick" text-anchor="middle">A</text>
+<g><title>B prefix, anchor KL, suffix rows, to 251,904: 0.1682</title><rect x="392" y="92.6" width="8" height="97.4" rx="2" fill="#eb6834"/></g>
+<g><title>B prefix, anchor KL, suffix rows, whole run: 0.1953</title><rect x="402" y="77.0" width="8" height="113.0" rx="2" fill="none" stroke="#eb6834" stroke-width="1.5"/></g>
+<text x="401" y="204" class="tick" text-anchor="middle">B</text>
+<g><title>C suffix, anchor KL, suffix rows, to 251,904: 0.07711</title><rect x="434" y="145.4" width="8" height="44.6" rx="2" fill="#3b7dd8"/></g>
+<g><title>C suffix, anchor KL, suffix rows, whole run: 0.08308</title><rect x="444" y="141.9" width="8" height="48.1" rx="2" fill="none" stroke="#3b7dd8" stroke-width="1.5"/></g>
+<text x="443" y="204" class="tick" text-anchor="middle">C</text>
+<g><title>D both, anchor KL, suffix rows, to 251,904: 0.07563</title><rect x="476" y="146.2" width="8" height="43.8" rx="2" fill="#1baf7a"/></g>
+<g><title>D both, anchor KL, suffix rows, whole run: 0.08086</title><rect x="486" y="143.2" width="8" height="46.8" rx="2" fill="none" stroke="#1baf7a" stroke-width="1.5"/></g>
+<text x="485" y="204" class="tick" text-anchor="middle">D</text>
+<g><title>E 0.75x, anchor KL, suffix rows, to 251,904: 0.08438</title><rect x="518" y="141.2" width="8" height="48.8" rx="2" fill="#9b59b6"/></g>
+<g><title>E 0.75x, anchor KL, suffix rows, whole run: 0.09097</title><rect x="528" y="137.3" width="8" height="52.7" rx="2" fill="none" stroke="#9b59b6" stroke-width="1.5"/></g>
+<text x="527" y="204" class="tick" text-anchor="middle">E</text>
+<text x="568" y="48" class="t1">applied penalty</text>
+<line x1="612" x2="830" y1="190.0" y2="190.0" class="zero"/>
+<text x="608" y="194.0" class="tick" text-anchor="end">0</text>
+<line x1="612" x2="830" y1="125.0" y2="125.0" class="grid"/>
+<text x="608" y="129.0" class="tick" text-anchor="end">0.00052</text>
+<line x1="612" x2="830" y1="60.0" y2="60.0" class="grid"/>
+<text x="608" y="64.0" class="tick" text-anchor="end">0.001</text>
+<text x="635" y="204" class="tick" text-anchor="middle">A</text>
+<g><title>B prefix, applied penalty, to 251,904: 0.0003052</title><rect x="668" y="151.8" width="8" height="38.2" rx="2" fill="#eb6834"/></g>
+<g><title>B prefix, applied penalty, whole run: 0.0003475</title><rect x="678" y="146.5" width="8" height="43.5" rx="2" fill="none" stroke="#eb6834" stroke-width="1.5"/></g>
+<text x="677" y="204" class="tick" text-anchor="middle">B</text>
+<g><title>C suffix, applied penalty, to 251,904: 0.0005786</title><rect x="710" y="117.6" width="8" height="72.4" rx="2" fill="#3b7dd8"/></g>
+<g><title>C suffix, applied penalty, whole run: 0.0006231</title><rect x="720" y="112.0" width="8" height="78.0" rx="2" fill="none" stroke="#3b7dd8" stroke-width="1.5"/></g>
+<text x="719" y="204" class="tick" text-anchor="middle">C</text>
+<g><title>D both, applied penalty, to 251,904: 0.0008288</title><rect x="752" y="86.3" width="8" height="103.7" rx="2" fill="#1baf7a"/></g>
+<g><title>D both, applied penalty, whole run: 0.0009035</title><rect x="762" y="77.0" width="8" height="113.0" rx="2" fill="none" stroke="#1baf7a" stroke-width="1.5"/></g>
+<text x="761" y="204" class="tick" text-anchor="middle">D</text>
+<g><title>E 0.75x, applied penalty, to 251,904: 0.0006868</title><rect x="794" y="104.1" width="8" height="85.9" rx="2" fill="#9b59b6"/></g>
+<g><title>E 0.75x, applied penalty, whole run: 0.0007608</title><rect x="804" y="94.8" width="8" height="95.2" rx="2" fill="none" stroke="#9b59b6" stroke-width="1.5"/></g>
+<text x="803" y="204" class="tick" text-anchor="middle">E</text>
+<text x="16" y="238" class="t1">update KL, prefix rows</text>
+<line x1="60" x2="278" y1="380.0" y2="380.0" class="zero"/>
+<text x="56" y="384.0" class="tick" text-anchor="end">0</text>
+<line x1="60" x2="278" y1="315.0" y2="315.0" class="grid"/>
+<text x="56" y="319.0" class="tick" text-anchor="end">0.0019</text>
+<line x1="60" x2="278" y1="250.0" y2="250.0" class="grid"/>
+<text x="56" y="254.0" class="tick" text-anchor="end">0.0039</text>
+<g><title>A 00, update KL, prefix rows, to 251,904: 0.003327</title><rect x="74" y="267.9" width="8" height="112.1" rx="2" fill="#8a8984"/></g>
+<g><title>A 00, update KL, prefix rows, whole run: 0.00324</title><rect x="84" y="270.9" width="8" height="109.1" rx="2" fill="none" stroke="#8a8984" stroke-width="1.5"/></g>
+<text x="83" y="394" class="tick" text-anchor="middle">A</text>
+<g><title>B prefix, update KL, prefix rows, to 251,904: 0.003284</title><rect x="116" y="269.4" width="8" height="110.6" rx="2" fill="#eb6834"/></g>
+<g><title>B prefix, update KL, prefix rows, whole run: 0.003227</title><rect x="126" y="271.3" width="8" height="108.7" rx="2" fill="none" stroke="#eb6834" stroke-width="1.5"/></g>
+<text x="125" y="394" class="tick" text-anchor="middle">B</text>
+<g><title>C suffix, update KL, prefix rows, to 251,904: 0.003356</title><rect x="158" y="267.0" width="8" height="113.0" rx="2" fill="#3b7dd8"/></g>
+<g><title>C suffix, update KL, prefix rows, whole run: 0.003181</title><rect x="168" y="272.8" width="8" height="107.2" rx="2" fill="none" stroke="#3b7dd8" stroke-width="1.5"/></g>
+<text x="167" y="394" class="tick" text-anchor="middle">C</text>
+<g><title>D both, update KL, prefix rows, to 251,904: 0.003299</title><rect x="200" y="268.9" width="8" height="111.1" rx="2" fill="#1baf7a"/></g>
+<g><title>D both, update KL, prefix rows, whole run: 0.00316</title><rect x="210" y="273.5" width="8" height="106.5" rx="2" fill="none" stroke="#1baf7a" stroke-width="1.5"/></g>
+<text x="209" y="394" class="tick" text-anchor="middle">D</text>
+<g><title>E 0.75x, update KL, prefix rows, to 251,904: 0.003341</title><rect x="242" y="267.4" width="8" height="112.6" rx="2" fill="#9b59b6"/></g>
+<g><title>E 0.75x, update KL, prefix rows, whole run: 0.003231</title><rect x="252" y="271.2" width="8" height="108.8" rx="2" fill="none" stroke="#9b59b6" stroke-width="1.5"/></g>
+<text x="251" y="394" class="tick" text-anchor="middle">E</text>
+<text x="292" y="238" class="t1">update KL, suffix rows</text>
+<line x1="336" x2="554" y1="380.0" y2="380.0" class="zero"/>
+<text x="332" y="384.0" class="tick" text-anchor="end">0</text>
+<line x1="336" x2="554" y1="315.0" y2="315.0" class="grid"/>
+<text x="332" y="319.0" class="tick" text-anchor="end">0.0024</text>
+<line x1="336" x2="554" y1="250.0" y2="250.0" class="grid"/>
+<text x="332" y="254.0" class="tick" text-anchor="end">0.0049</text>
+<g><title>A 00, update KL, suffix rows, to 251,904: 0.003956</title><rect x="350" y="275.0" width="8" height="105.0" rx="2" fill="#8a8984"/></g>
+<g><title>A 00, update KL, suffix rows, whole run: 0.003854</title><rect x="360" y="277.7" width="8" height="102.3" rx="2" fill="none" stroke="#8a8984" stroke-width="1.5"/></g>
+<text x="359" y="394" class="tick" text-anchor="middle">A</text>
+<g><title>B prefix, update KL, suffix rows, to 251,904: 0.003897</title><rect x="392" y="276.5" width="8" height="103.5" rx="2" fill="#eb6834"/></g>
+<g><title>B prefix, update KL, suffix rows, whole run: 0.003845</title><rect x="402" y="277.9" width="8" height="102.1" rx="2" fill="none" stroke="#eb6834" stroke-width="1.5"/></g>
+<text x="401" y="394" class="tick" text-anchor="middle">B</text>
+<g><title>C suffix, update KL, suffix rows, to 251,904: 0.004114</title><rect x="434" y="270.8" width="8" height="109.2" rx="2" fill="#3b7dd8"/></g>
+<g><title>C suffix, update KL, suffix rows, whole run: 0.004031</title><rect x="444" y="273.0" width="8" height="107.0" rx="2" fill="none" stroke="#3b7dd8" stroke-width="1.5"/></g>
+<text x="443" y="394" class="tick" text-anchor="middle">C</text>
+<g><title>D both, update KL, suffix rows, to 251,904: 0.004258</title><rect x="476" y="267.0" width="8" height="113.0" rx="2" fill="#1baf7a"/></g>
+<g><title>D both, update KL, suffix rows, whole run: 0.004135</title><rect x="486" y="270.2" width="8" height="109.8" rx="2" fill="none" stroke="#1baf7a" stroke-width="1.5"/></g>
+<text x="485" y="394" class="tick" text-anchor="middle">D</text>
+<g><title>E 0.75x, update KL, suffix rows, to 251,904: 0.004013</title><rect x="518" y="273.4" width="8" height="106.6" rx="2" fill="#9b59b6"/></g>
+<g><title>E 0.75x, update KL, suffix rows, whole run: 0.003992</title><rect x="528" y="274.0" width="8" height="106.0" rx="2" fill="none" stroke="#9b59b6" stroke-width="1.5"/></g>
+<text x="527" y="394" class="tick" text-anchor="middle">E</text>
+<text x="568" y="238" class="t1">actor update norm</text>
+<line x1="612" x2="830" y1="380.0" y2="380.0" class="zero"/>
+<text x="608" y="384.0" class="tick" text-anchor="end">0</text>
+<line x1="612" x2="830" y1="315.0" y2="315.0" class="grid"/>
+<text x="608" y="319.0" class="tick" text-anchor="end">0.031</text>
+<line x1="612" x2="830" y1="250.0" y2="250.0" class="grid"/>
+<text x="608" y="254.0" class="tick" text-anchor="end">0.061</text>
+<g><title>A 00, actor update norm, to 251,904: 0.05282</title><rect x="626" y="268.3" width="8" height="111.7" rx="2" fill="#8a8984"/></g>
+<g><title>A 00, actor update norm, whole run: 0.05254</title><rect x="636" y="268.9" width="8" height="111.1" rx="2" fill="none" stroke="#8a8984" stroke-width="1.5"/></g>
+<text x="635" y="394" class="tick" text-anchor="middle">A</text>
+<g><title>B prefix, actor update norm, to 251,904: 0.05248</title><rect x="668" y="269.0" width="8" height="111.0" rx="2" fill="#eb6834"/></g>
+<g><title>B prefix, actor update norm, whole run: 0.05227</title><rect x="678" y="269.5" width="8" height="110.5" rx="2" fill="none" stroke="#eb6834" stroke-width="1.5"/></g>
+<text x="677" y="394" class="tick" text-anchor="middle">B</text>
+<g><title>C suffix, actor update norm, to 251,904: 0.05299</title><rect x="710" y="268.0" width="8" height="112.0" rx="2" fill="#3b7dd8"/></g>
+<g><title>C suffix, actor update norm, whole run: 0.05283</title><rect x="720" y="268.3" width="8" height="111.7" rx="2" fill="none" stroke="#3b7dd8" stroke-width="1.5"/></g>
+<text x="719" y="394" class="tick" text-anchor="middle">C</text>
+<g><title>D both, actor update norm, to 251,904: 0.05347</title><rect x="752" y="267.0" width="8" height="113.0" rx="2" fill="#1baf7a"/></g>
+<g><title>D both, actor update norm, whole run: 0.0533</title><rect x="762" y="267.3" width="8" height="112.7" rx="2" fill="none" stroke="#1baf7a" stroke-width="1.5"/></g>
+<text x="761" y="394" class="tick" text-anchor="middle">D</text>
+<g><title>E 0.75x, actor update norm, to 251,904: 0.05288</title><rect x="794" y="268.2" width="8" height="111.8" rx="2" fill="#9b59b6"/></g>
+<g><title>E 0.75x, actor update norm, whole run: 0.05296</title><rect x="804" y="268.0" width="8" height="112.0" rx="2" fill="none" stroke="#9b59b6" stroke-width="1.5"/></g>
+<text x="803" y="394" class="tick" text-anchor="middle">E</text>
+<text x="16" y="424" class="tick"><tspan fill="#8a8984">■</tspan> A 00  <tspan fill="#eb6834">■</tspan> B prefix  <tspan fill="#3b7dd8">■</tspan> C suffix  <tspan fill="#1baf7a">■</tspan> D both  <tspan fill="#9b59b6">■</tspan> E 0.75x</text>
+<text x="16" y="440" class="tick">Means over seeds of per-update values from the branch metrics. Each panel has its own scale.</text>
+</svg>

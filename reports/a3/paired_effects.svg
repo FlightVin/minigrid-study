@@ -1,0 +1,353 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 360" width="880" height="360" role="img" aria-label="A3 paired contrasts">
+<style>
+:root{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--grid:#e4e3df;--zero:#8a8984}
+@media (prefers-color-scheme: dark){:root{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--grid:#3a3a37;--zero:#8a8984}}
+svg{background:var(--surface)} .t1{font:600 13px system-ui;fill:var(--ink)} .tick{font:11px system-ui;fill:var(--ink2)}
+.grid{stroke:var(--grid);stroke-width:1} .zero{stroke:var(--zero);stroke-width:1.2} .ref{stroke:var(--zero);stroke-width:1;stroke-dasharray:4 3}
+</style>
+<rect width="100%" height="100%" fill="var(--surface)"/>
+<text x="50" y="20" class="t1">A3: paired P1 contrasts (K=3, early BC, normal starts; 24 seeds; a3_final 128 x 4)</text>
+<line x1="50" x2="840" y1="286.0" y2="286.0" class="grid"/>
+<text x="44" y="290.0" class="tick" text-anchor="end">-0.10</text>
+<line x1="50" x2="840" y1="223.0" y2="223.0" class="grid"/>
+<text x="44" y="227.0" class="tick" text-anchor="end">-0.05</text>
+<line x1="50" x2="840" y1="160.0" y2="160.0" class="zero"/>
+<text x="44" y="164.0" class="tick" text-anchor="end">+0.00</text>
+<line x1="50" x2="840" y1="97.0" y2="97.0" class="grid"/>
+<text x="44" y="101.0" class="tick" text-anchor="end">+0.05</text>
+<line x1="50" x2="840" y1="34.0" y2="34.0" class="grid"/>
+<text x="44" y="38.0" class="tick" text-anchor="end">+0.10</text>
+<line x1="50" x2="840" y1="122.2" y2="122.2" class="ref"/>
+<text x="843" y="126.2" class="tick">0.03</text>
+<g><title>B-A at 251,904, seed 43: -0.0078</title><circle cx="79.5" cy="169.8" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 44: +0.0254</title><circle cx="80.5" cy="128.0" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 45: +0.0039</title><circle cx="81.5" cy="155.1" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 46: +0.0020</title><circle cx="82.5" cy="157.5" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 47: -0.0098</title><circle cx="83.5" cy="172.3" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 48: +0.0059</title><circle cx="84.5" cy="152.6" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 49: +0.0273</title><circle cx="85.5" cy="125.5" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 50: -0.0059</title><circle cx="86.5" cy="167.4" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 51: -0.0273</title><circle cx="87.5" cy="194.5" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 52: -0.0410</title><circle cx="88.5" cy="211.7" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 53: -0.0098</title><circle cx="89.5" cy="172.3" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 54: -0.0195</title><circle cx="90.5" cy="184.6" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 55: +0.0195</title><circle cx="91.5" cy="135.4" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 56: -0.0020</title><circle cx="92.5" cy="162.5" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 57: -0.0176</title><circle cx="93.5" cy="182.1" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 58: -0.0176</title><circle cx="94.5" cy="182.1" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 59: -0.0039</title><circle cx="95.5" cy="164.9" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 60: -0.0215</title><circle cx="96.5" cy="187.1" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 61: -0.0117</title><circle cx="97.5" cy="174.8" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 62: -0.0371</title><circle cx="98.5" cy="206.8" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 63: +0.0215</title><circle cx="99.5" cy="132.9" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 64: +0.0039</title><circle cx="100.5" cy="155.1" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 65: +0.0156</title><circle cx="101.5" cy="140.3" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 251,904, seed 66: +0.0176</title><circle cx="102.5" cy="137.9" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<line x1="119.0" x2="119.0" y1="174.8" y2="154.7" stroke="#eb6834" stroke-width="2"/>
+<g><title>B-A at 251,904: mean -0.0037, 95% t [-0.0117, +0.0042]</title><circle cx="119.0" cy="164.7" r="5" fill="#eb6834" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="105" y="302" class="tick" text-anchor="middle">250k</text>
+<g><title>B-A at 501,760, seed 43: +0.0234</title><circle cx="137.5" cy="130.5" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 44: +0.0020</title><circle cx="138.5" cy="157.5" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 45: -0.0098</title><circle cx="139.5" cy="172.3" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 46: -0.0039</title><circle cx="140.5" cy="164.9" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 47: -0.0098</title><circle cx="141.5" cy="172.3" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 48: -0.0078</title><circle cx="142.5" cy="169.8" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 49: +0.0234</title><circle cx="143.5" cy="130.5" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 50: +0.0059</title><circle cx="144.5" cy="152.6" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 51: +0.0098</title><circle cx="145.5" cy="147.7" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 52: -0.0273</title><circle cx="146.5" cy="194.5" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 53: -0.0488</title><circle cx="147.5" cy="221.5" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 54: +0.0371</title><circle cx="148.5" cy="113.2" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 55: +0.0371</title><circle cx="149.5" cy="113.2" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 56: +0.0000</title><circle cx="150.5" cy="160.0" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 57: +0.0137</title><circle cx="151.5" cy="142.8" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 58: +0.0410</title><circle cx="152.5" cy="108.3" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 59: -0.0488</title><circle cx="153.5" cy="221.5" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 60: +0.0195</title><circle cx="154.5" cy="135.4" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 61: -0.0156</title><circle cx="155.5" cy="179.7" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 62: -0.0352</title><circle cx="156.5" cy="204.3" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 63: +0.0195</title><circle cx="157.5" cy="135.4" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 64: +0.0195</title><circle cx="158.5" cy="135.4" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 65: +0.0039</title><circle cx="159.5" cy="155.1" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<g><title>B-A at 501,760, seed 66: -0.0312</title><circle cx="160.5" cy="199.4" r="2.4" fill="#eb6834" opacity="0.7"/></g>
+<line x1="177.0" x2="177.0" y1="172.8" y2="145.4" stroke="#eb6834" stroke-width="2"/>
+<g><title>B-A at 501,760: mean +0.0007, 95% t [-0.0101, +0.0116]</title><circle cx="177.0" cy="159.1" r="5" fill="#eb6834" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="163" y="302" class="tick" text-anchor="middle">500k</text>
+<text x="134" y="318" class="t1" text-anchor="middle">B-A</text>
+<g><title>C-A at 251,904 (confirmatory H1), seed 43: +0.0098</title><circle cx="209.5" cy="147.7" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 44: +0.0156</title><circle cx="210.5" cy="140.3" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 45: +0.0020</title><circle cx="211.5" cy="157.5" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 46: +0.0059</title><circle cx="212.5" cy="152.6" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 47: +0.0215</title><circle cx="213.5" cy="132.9" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 48: -0.0098</title><circle cx="214.5" cy="172.3" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 49: +0.0078</title><circle cx="215.5" cy="150.2" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 50: +0.0098</title><circle cx="216.5" cy="147.7" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 51: +0.0020</title><circle cx="217.5" cy="157.5" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 52: -0.0020</title><circle cx="218.5" cy="162.5" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 53: +0.0078</title><circle cx="219.5" cy="150.2" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 54: +0.0430</title><circle cx="220.5" cy="105.9" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 55: +0.0273</title><circle cx="221.5" cy="125.5" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 56: -0.0020</title><circle cx="222.5" cy="162.5" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 57: -0.0137</title><circle cx="223.5" cy="177.2" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 58: +0.0391</title><circle cx="224.5" cy="110.8" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 59: -0.0234</title><circle cx="225.5" cy="189.5" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 60: +0.0742</title><circle cx="226.5" cy="66.5" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 61: -0.0059</title><circle cx="227.5" cy="167.4" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 62: -0.0078</title><circle cx="228.5" cy="169.8" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 63: +0.0117</title><circle cx="229.5" cy="145.2" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 64: +0.0117</title><circle cx="230.5" cy="145.2" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 65: +0.0215</title><circle cx="231.5" cy="132.9" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 251,904 (confirmatory H1), seed 66: +0.0078</title><circle cx="232.5" cy="150.2" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<line x1="249.0" x2="249.0" y1="157.6" y2="135.7" stroke="#3b7dd8" stroke-width="2"/>
+<g><title>C-A at 251,904 (confirmatory H1): mean +0.0106, 95% t [+0.0019, +0.0193]</title><circle cx="249.0" cy="146.7" r="5" fill="#3b7dd8" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="235" y="302" class="tick" text-anchor="middle">250k</text>
+<g><title>C-A at 501,760, seed 43: +0.0156</title><circle cx="267.5" cy="140.3" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 44: +0.0254</title><circle cx="268.5" cy="128.0" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 45: +0.0000</title><circle cx="269.5" cy="160.0" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 46: +0.0078</title><circle cx="270.5" cy="150.2" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 47: +0.0312</title><circle cx="271.5" cy="120.6" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 48: -0.0195</title><circle cx="272.5" cy="184.6" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 49: +0.0117</title><circle cx="273.5" cy="145.2" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 50: +0.0664</title><circle cx="274.5" cy="76.3" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 51: +0.0020</title><circle cx="275.5" cy="157.5" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 52: +0.0449</title><circle cx="276.5" cy="103.4" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 53: +0.0176</title><circle cx="277.5" cy="137.9" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 54: +0.0273</title><circle cx="278.5" cy="125.5" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 55: +0.0703</title><circle cx="279.5" cy="71.4" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 56: +0.0000</title><circle cx="280.5" cy="160.0" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 57: -0.0078</title><circle cx="281.5" cy="169.8" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 58: +0.0117</title><circle cx="282.5" cy="145.2" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 59: -0.0039</title><circle cx="283.5" cy="164.9" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 60: +0.0352</title><circle cx="284.5" cy="115.7" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 61: -0.0078</title><circle cx="285.5" cy="169.8" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 62: -0.0254</title><circle cx="286.5" cy="192.0" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 63: +0.0078</title><circle cx="287.5" cy="150.2" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 64: +0.0566</title><circle cx="288.5" cy="88.6" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 65: +0.0020</title><circle cx="289.5" cy="157.5" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<g><title>C-A at 501,760, seed 66: +0.0137</title><circle cx="290.5" cy="142.8" r="2.4" fill="#3b7dd8" opacity="0.7"/></g>
+<line x1="307.0" x2="307.0" y1="153.2" y2="126.6" stroke="#3b7dd8" stroke-width="2"/>
+<g><title>C-A at 501,760: mean +0.0160, 95% t [+0.0054, +0.0265]</title><circle cx="307.0" cy="139.9" r="5" fill="#3b7dd8" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="293" y="302" class="tick" text-anchor="middle">500k</text>
+<text x="264" y="318" class="t1" text-anchor="middle">C-A</text>
+<g><title>D-A at 251,904, seed 43: -0.0020</title><circle cx="339.5" cy="162.5" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 44: +0.0137</title><circle cx="340.5" cy="142.8" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 45: -0.0078</title><circle cx="341.5" cy="169.8" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 46: +0.0000</title><circle cx="342.5" cy="160.0" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 47: +0.0059</title><circle cx="343.5" cy="152.6" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 48: +0.0020</title><circle cx="344.5" cy="157.5" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 49: +0.0332</title><circle cx="345.5" cy="118.2" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 50: +0.0195</title><circle cx="346.5" cy="135.4" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 51: -0.0020</title><circle cx="347.5" cy="162.5" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 52: -0.0352</title><circle cx="348.5" cy="204.3" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 53: +0.0078</title><circle cx="349.5" cy="150.2" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 54: +0.0273</title><circle cx="350.5" cy="125.5" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 55: +0.0469</title><circle cx="351.5" cy="100.9" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 56: +0.0391</title><circle cx="352.5" cy="110.8" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 57: +0.0000</title><circle cx="353.5" cy="160.0" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 58: +0.0000</title><circle cx="354.5" cy="160.0" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 59: -0.0117</title><circle cx="355.5" cy="174.8" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 60: +0.0332</title><circle cx="356.5" cy="118.2" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 61: -0.0078</title><circle cx="357.5" cy="169.8" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 62: -0.0039</title><circle cx="358.5" cy="164.9" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 63: +0.0410</title><circle cx="359.5" cy="108.3" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 64: -0.0039</title><circle cx="360.5" cy="164.9" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 65: +0.0312</title><circle cx="361.5" cy="120.6" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 251,904, seed 66: +0.0098</title><circle cx="362.5" cy="147.7" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<line x1="379.0" x2="379.0" y1="158.3" y2="136.9" stroke="#1baf7a" stroke-width="2"/>
+<g><title>D-A at 251,904: mean +0.0098, 95% t [+0.0014, +0.0183]</title><circle cx="379.0" cy="147.6" r="5" fill="#1baf7a" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="365" y="302" class="tick" text-anchor="middle">250k</text>
+<g><title>D-A at 501,760, seed 43: +0.0176</title><circle cx="397.5" cy="137.9" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 44: -0.0098</title><circle cx="398.5" cy="172.3" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 45: -0.0176</title><circle cx="399.5" cy="182.1" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 46: +0.0000</title><circle cx="400.5" cy="160.0" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 47: +0.0273</title><circle cx="401.5" cy="125.5" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 48: -0.0332</title><circle cx="402.5" cy="201.8" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 49: -0.0273</title><circle cx="403.5" cy="194.5" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 50: +0.0410</title><circle cx="404.5" cy="108.3" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 51: +0.0273</title><circle cx="405.5" cy="125.5" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 52: +0.0332</title><circle cx="406.5" cy="118.2" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 53: -0.0020</title><circle cx="407.5" cy="162.5" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 54: +0.0566</title><circle cx="408.5" cy="88.6" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 55: +0.0254</title><circle cx="409.5" cy="128.0" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 56: +0.0547</title><circle cx="410.5" cy="91.1" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 57: +0.0098</title><circle cx="411.5" cy="147.7" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 58: +0.0371</title><circle cx="412.5" cy="113.2" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 59: -0.0117</title><circle cx="413.5" cy="174.8" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 60: -0.0156</title><circle cx="414.5" cy="179.7" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 61: +0.0020</title><circle cx="415.5" cy="157.5" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 62: -0.0215</title><circle cx="416.5" cy="187.1" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 63: -0.0254</title><circle cx="417.5" cy="192.0" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 64: +0.0039</title><circle cx="418.5" cy="155.1" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 65: +0.0312</title><circle cx="419.5" cy="120.6" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>D-A at 501,760, seed 66: +0.0059</title><circle cx="420.5" cy="152.6" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<line x1="437.0" x2="437.0" y1="163.0" y2="135.1" stroke="#1baf7a" stroke-width="2"/>
+<g><title>D-A at 501,760: mean +0.0087, 95% t [-0.0024, +0.0198]</title><circle cx="437.0" cy="149.0" r="5" fill="#1baf7a" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="423" y="302" class="tick" text-anchor="middle">500k</text>
+<text x="394" y="318" class="t1" text-anchor="middle">D-A</text>
+<g><title>E-A at 251,904, seed 43: +0.0273</title><circle cx="469.5" cy="125.5" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 44: +0.0137</title><circle cx="470.5" cy="142.8" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 45: -0.0234</title><circle cx="471.5" cy="189.5" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 46: -0.0078</title><circle cx="472.5" cy="169.8" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 47: +0.0098</title><circle cx="473.5" cy="147.7" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 48: -0.0117</title><circle cx="474.5" cy="174.8" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 49: +0.0488</title><circle cx="475.5" cy="98.5" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 50: +0.0293</title><circle cx="476.5" cy="123.1" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 51: +0.0195</title><circle cx="477.5" cy="135.4" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 52: -0.0215</title><circle cx="478.5" cy="187.1" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 53: +0.0117</title><circle cx="479.5" cy="145.2" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 54: -0.0078</title><circle cx="480.5" cy="169.8" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 55: +0.0137</title><circle cx="481.5" cy="142.8" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 56: +0.0059</title><circle cx="482.5" cy="152.6" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 57: +0.0039</title><circle cx="483.5" cy="155.1" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 58: +0.0195</title><circle cx="484.5" cy="135.4" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 59: -0.0156</title><circle cx="485.5" cy="179.7" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 60: +0.0391</title><circle cx="486.5" cy="110.8" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 61: +0.0000</title><circle cx="487.5" cy="160.0" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 62: -0.0078</title><circle cx="488.5" cy="169.8" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 63: +0.0586</title><circle cx="489.5" cy="86.2" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 64: -0.0039</title><circle cx="490.5" cy="164.9" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 65: +0.0508</title><circle cx="491.5" cy="96.0" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 251,904, seed 66: +0.0098</title><circle cx="492.5" cy="147.7" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<line x1="509.0" x2="509.0" y1="158.3" y2="134.2" stroke="#9b59b6" stroke-width="2"/>
+<g><title>E-A at 251,904: mean +0.0109, 95% t [+0.0013, +0.0205]</title><circle cx="509.0" cy="146.3" r="5" fill="#9b59b6" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="495" y="302" class="tick" text-anchor="middle">250k</text>
+<g><title>E-A at 501,760, seed 43: +0.0371</title><circle cx="527.5" cy="113.2" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 44: +0.0332</title><circle cx="528.5" cy="118.2" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 45: -0.0176</title><circle cx="529.5" cy="182.1" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 46: +0.0176</title><circle cx="530.5" cy="137.9" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 47: -0.0039</title><circle cx="531.5" cy="164.9" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 48: -0.0391</title><circle cx="532.5" cy="209.2" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 49: +0.0176</title><circle cx="533.5" cy="137.9" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 50: +0.0332</title><circle cx="534.5" cy="118.2" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 51: +0.0645</title><circle cx="535.5" cy="78.8" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 52: +0.0020</title><circle cx="536.5" cy="157.5" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 53: -0.0352</title><circle cx="537.5" cy="204.3" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 54: +0.0312</title><circle cx="538.5" cy="120.6" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 55: +0.0215</title><circle cx="539.5" cy="132.9" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 56: +0.0000</title><circle cx="540.5" cy="160.0" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 57: +0.0137</title><circle cx="541.5" cy="142.8" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 58: +0.0762</title><circle cx="542.5" cy="64.0" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 59: -0.0254</title><circle cx="543.5" cy="192.0" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 60: +0.0195</title><circle cx="544.5" cy="135.4" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 61: +0.0293</title><circle cx="545.5" cy="123.1" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 62: +0.0000</title><circle cx="546.5" cy="160.0" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 63: -0.0039</title><circle cx="547.5" cy="164.9" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 64: +0.0371</title><circle cx="548.5" cy="113.2" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 65: +0.0234</title><circle cx="549.5" cy="130.5" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<g><title>E-A at 501,760, seed 66: +0.0098</title><circle cx="550.5" cy="147.7" r="2.4" fill="#9b59b6" opacity="0.7"/></g>
+<line x1="567.0" x2="567.0" y1="156.9" y2="127.2" stroke="#9b59b6" stroke-width="2"/>
+<g><title>E-A at 501,760: mean +0.0142, 95% t [+0.0025, +0.0260]</title><circle cx="567.0" cy="142.1" r="5" fill="#9b59b6" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="553" y="302" class="tick" text-anchor="middle">500k</text>
+<text x="524" y="318" class="t1" text-anchor="middle">E-A</text>
+<g><title>D-C at 251,904, seed 43: -0.0117</title><circle cx="599.5" cy="174.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 44: -0.0020</title><circle cx="600.5" cy="162.5" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 45: -0.0098</title><circle cx="601.5" cy="172.3" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 46: -0.0059</title><circle cx="602.5" cy="167.4" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 47: -0.0156</title><circle cx="603.5" cy="179.7" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 48: +0.0117</title><circle cx="604.5" cy="145.2" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 49: +0.0254</title><circle cx="605.5" cy="128.0" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 50: +0.0098</title><circle cx="606.5" cy="147.7" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 51: -0.0039</title><circle cx="607.5" cy="164.9" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 52: -0.0332</title><circle cx="608.5" cy="201.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 53: +0.0000</title><circle cx="609.5" cy="160.0" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 54: -0.0156</title><circle cx="610.5" cy="179.7" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 55: +0.0195</title><circle cx="611.5" cy="135.4" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 56: +0.0410</title><circle cx="612.5" cy="108.3" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 57: +0.0137</title><circle cx="613.5" cy="142.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 58: -0.0391</title><circle cx="614.5" cy="209.2" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 59: +0.0117</title><circle cx="615.5" cy="145.2" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 60: -0.0410</title><circle cx="616.5" cy="211.7" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 61: -0.0020</title><circle cx="617.5" cy="162.5" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 62: +0.0039</title><circle cx="618.5" cy="155.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 63: +0.0293</title><circle cx="619.5" cy="123.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 64: -0.0156</title><circle cx="620.5" cy="179.7" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 65: +0.0098</title><circle cx="621.5" cy="147.7" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 251,904, seed 66: +0.0020</title><circle cx="622.5" cy="157.5" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<line x1="639.0" x2="639.0" y1="171.8" y2="150.1" stroke="#8a8984" stroke-width="2"/>
+<g><title>D-C at 251,904: mean -0.0007, 95% t [-0.0093, +0.0079]</title><circle cx="639.0" cy="160.9" r="5" fill="#8a8984" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="625" y="302" class="tick" text-anchor="middle">250k</text>
+<g><title>D-C at 501,760, seed 43: +0.0020</title><circle cx="657.5" cy="157.5" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 44: -0.0352</title><circle cx="658.5" cy="204.3" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 45: -0.0176</title><circle cx="659.5" cy="182.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 46: -0.0078</title><circle cx="660.5" cy="169.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 47: -0.0039</title><circle cx="661.5" cy="164.9" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 48: -0.0137</title><circle cx="662.5" cy="177.2" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 49: -0.0391</title><circle cx="663.5" cy="209.2" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 50: -0.0254</title><circle cx="664.5" cy="192.0" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 51: +0.0254</title><circle cx="665.5" cy="128.0" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 52: -0.0117</title><circle cx="666.5" cy="174.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 53: -0.0195</title><circle cx="667.5" cy="184.6" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 54: +0.0293</title><circle cx="668.5" cy="123.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 55: -0.0449</title><circle cx="669.5" cy="216.6" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 56: +0.0547</title><circle cx="670.5" cy="91.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 57: +0.0176</title><circle cx="671.5" cy="137.9" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 58: +0.0254</title><circle cx="672.5" cy="128.0" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 59: -0.0078</title><circle cx="673.5" cy="169.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 60: -0.0508</title><circle cx="674.5" cy="224.0" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 61: +0.0098</title><circle cx="675.5" cy="147.7" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 62: +0.0039</title><circle cx="676.5" cy="155.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 63: -0.0332</title><circle cx="677.5" cy="201.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 64: -0.0527</title><circle cx="678.5" cy="226.4" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 65: +0.0293</title><circle cx="679.5" cy="123.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>D-C at 501,760, seed 66: -0.0078</title><circle cx="680.5" cy="169.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<line x1="697.0" x2="697.0" y1="184.1" y2="154.1" stroke="#8a8984" stroke-width="2"/>
+<g><title>D-C at 501,760: mean -0.0072, 95% t [-0.0191, +0.0047]</title><circle cx="697.0" cy="169.1" r="5" fill="#8a8984" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="683" y="302" class="tick" text-anchor="middle">500k</text>
+<text x="654" y="318" class="t1" text-anchor="middle">D-C</text>
+<g><title>interaction D-B-C+A at 251,904, seed 43: -0.0039</title><circle cx="729.5" cy="164.9" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 44: -0.0273</title><circle cx="730.5" cy="194.5" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 45: -0.0137</title><circle cx="731.5" cy="177.2" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 46: -0.0078</title><circle cx="732.5" cy="169.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 47: -0.0059</title><circle cx="733.5" cy="167.4" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 48: +0.0059</title><circle cx="734.5" cy="152.6" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 49: -0.0020</title><circle cx="735.5" cy="162.5" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 50: +0.0156</title><circle cx="736.5" cy="140.3" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 51: +0.0234</title><circle cx="737.5" cy="130.5" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 52: +0.0078</title><circle cx="738.5" cy="150.2" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 53: +0.0098</title><circle cx="739.5" cy="147.7" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 54: +0.0039</title><circle cx="740.5" cy="155.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 55: +0.0000</title><circle cx="741.5" cy="160.0" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 56: +0.0430</title><circle cx="742.5" cy="105.9" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 57: +0.0312</title><circle cx="743.5" cy="120.6" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 58: -0.0215</title><circle cx="744.5" cy="187.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 59: +0.0156</title><circle cx="745.5" cy="140.3" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 60: -0.0195</title><circle cx="746.5" cy="184.6" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 61: +0.0098</title><circle cx="747.5" cy="147.7" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 62: +0.0410</title><circle cx="748.5" cy="108.3" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 63: +0.0078</title><circle cx="749.5" cy="150.2" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 64: -0.0195</title><circle cx="750.5" cy="184.6" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 65: -0.0059</title><circle cx="751.5" cy="167.4" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 251,904, seed 66: -0.0156</title><circle cx="752.5" cy="179.7" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<line x1="769.0" x2="769.0" y1="166.3" y2="146.1" stroke="#8a8984" stroke-width="2"/>
+<g><title>interaction D-B-C+A at 251,904: mean +0.0030, 95% t [-0.0050, +0.0110]</title><circle cx="769.0" cy="156.2" r="5" fill="#8a8984" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="755" y="302" class="tick" text-anchor="middle">250k</text>
+<g><title>interaction D-B-C+A at 501,760, seed 43: -0.0215</title><circle cx="787.5" cy="187.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 44: -0.0371</title><circle cx="788.5" cy="206.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 45: -0.0078</title><circle cx="789.5" cy="169.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 46: -0.0039</title><circle cx="790.5" cy="164.9" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 47: +0.0059</title><circle cx="791.5" cy="152.6" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 48: -0.0059</title><circle cx="792.5" cy="167.4" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 49: -0.0625</title><circle cx="793.5" cy="238.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 50: -0.0312</title><circle cx="794.5" cy="199.4" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 51: +0.0156</title><circle cx="795.5" cy="140.3" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 52: +0.0156</title><circle cx="796.5" cy="140.3" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 53: +0.0293</title><circle cx="797.5" cy="123.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 54: -0.0078</title><circle cx="798.5" cy="169.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 55: -0.0820</title><circle cx="799.5" cy="263.4" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 56: +0.0547</title><circle cx="800.5" cy="91.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 57: +0.0039</title><circle cx="801.5" cy="155.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 58: -0.0156</title><circle cx="802.5" cy="179.7" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 59: +0.0410</title><circle cx="803.5" cy="108.3" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 60: -0.0703</title><circle cx="804.5" cy="248.6" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 61: +0.0254</title><circle cx="805.5" cy="128.0" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 62: +0.0391</title><circle cx="806.5" cy="110.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 63: -0.0527</title><circle cx="807.5" cy="226.4" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 64: -0.0723</title><circle cx="808.5" cy="251.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 65: +0.0254</title><circle cx="809.5" cy="128.0" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>interaction D-B-C+A at 501,760, seed 66: +0.0234</title><circle cx="810.5" cy="130.5" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<line x1="827.0" x2="827.0" y1="190.7" y2="149.4" stroke="#8a8984" stroke-width="2"/>
+<g><title>interaction D-B-C+A at 501,760: mean -0.0080, 95% t [-0.0244, +0.0084]</title><circle cx="827.0" cy="170.0" r="5" fill="#8a8984" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="813" y="302" class="tick" text-anchor="middle">500k</text>
+<text x="784" y="318" class="t1" text-anchor="middle">interaction</text>
+<text x="16" y="350" class="tick">H1 (C-A at 251,904): +0.0106 [+0.0019, +0.0193], p 0.019, supported. Other contrasts descriptive. Dots: seeds; bar: 95% t-interval; dashed: 0.03.</text>
+</svg>
