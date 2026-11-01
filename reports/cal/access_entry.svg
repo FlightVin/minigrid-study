@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 406" width="800" height="406" role="img" aria-label="Calibration access vs entry">
+<style>
+:root{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--grid:#e4e3df;--zero:#8a8984}
+@media (prefers-color-scheme: dark){:root{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--grid:#3a3a37;--zero:#8a8984}}
+svg{background:var(--surface)} .t1{font:600 13px system-ui;fill:var(--ink)} .tick{font:11px system-ui;fill:var(--ink2)}
+.grid{stroke:var(--grid);stroke-width:1} .zero{stroke:var(--zero);stroke-width:1.2} .ref{stroke:var(--zero);stroke-width:1;stroke-dasharray:4 3}
+</style>
+<rect width="100%" height="100%" fill="var(--surface)"/>
+<text x="16" y="20" class="t1">Calibration: initial access q vs boundary-entry competence (seeds 67-69; development roles)</text>
+<rect x="303.5" y="56.0" width="82.5" height="112.5" fill="var(--grid)" opacity="0.6"><title>K=1 target region: q in [0.75, 1.0], entry &gt;= 0.55</title></rect>
+<text x="16" y="48" class="t1">K=1</text>
+<line x1="56" x2="386" y1="306.0" y2="306.0" class="zero"/>
+<text x="52" y="310.0" class="tick" text-anchor="end">0.00</text>
+<text x="56.0" y="320" class="tick" text-anchor="middle">0.00</text>
+<line x1="56" x2="386" y1="243.5" y2="243.5" class="grid"/>
+<text x="52" y="247.5" class="tick" text-anchor="end">0.25</text>
+<text x="138.5" y="320" class="tick" text-anchor="middle">0.25</text>
+<line x1="56" x2="386" y1="181.0" y2="181.0" class="grid"/>
+<text x="52" y="185.0" class="tick" text-anchor="end">0.50</text>
+<text x="221.0" y="320" class="tick" text-anchor="middle">0.50</text>
+<line x1="56" x2="386" y1="118.5" y2="118.5" class="grid"/>
+<text x="52" y="122.5" class="tick" text-anchor="end">0.75</text>
+<text x="303.5" y="320" class="tick" text-anchor="middle">0.75</text>
+<line x1="56" x2="386" y1="56.0" y2="56.0" class="grid"/>
+<text x="52" y="60.0" class="tick" text-anchor="end">1.00</text>
+<text x="386.0" y="320" class="tick" text-anchor="middle">1.00</text>
+<text x="221.0" y="334" class="tick" text-anchor="middle">access q (normal starts)</text>
+<g><title>rho 0.2, 4000 updates, seed 67: q 0.920, entry 0.227, P1 0.275</title><circle cx="359.6" cy="249.4" r="2.6" fill="#eb6834" stroke="#eb6834" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.2, 8000 updates, seed 67: q 0.975, entry 0.578, P1 0.540</title><circle cx="377.8" cy="161.5" r="2.6" fill="none" stroke="#eb6834" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.2, 4000 updates, seed 68: q 0.895, entry 0.367, P1 0.350</title><circle cx="351.4" cy="214.2" r="2.6" fill="#eb6834" stroke="#eb6834" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.2, 8000 updates, seed 68: q 0.960, entry 0.672, P1 0.645</title><circle cx="372.8" cy="138.0" r="2.6" fill="none" stroke="#eb6834" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.2, 4000 updates, seed 69: q 0.780, entry 0.352, P1 0.255</title><circle cx="313.4" cy="218.1" r="2.6" fill="#eb6834" stroke="#eb6834" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.2, 8000 updates, seed 69: q 0.950, entry 0.562, P1 0.545</title><circle cx="369.5" cy="165.4" r="2.6" fill="none" stroke="#eb6834" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.5, 4000 updates, seed 67: q 0.870, entry 0.148, P1 0.120</title><circle cx="343.1" cy="268.9" r="2.6" fill="#3b7dd8" stroke="#3b7dd8" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.5, 8000 updates, seed 67: q 0.980, entry 0.531, P1 0.545</title><circle cx="379.4" cy="173.2" r="2.6" fill="none" stroke="#3b7dd8" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.5, 4000 updates, seed 68: q 0.890, entry 0.250, P1 0.270</title><circle cx="349.7" cy="243.5" r="2.6" fill="#3b7dd8" stroke="#3b7dd8" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.5, 8000 updates, seed 68: q 0.975, entry 0.516, P1 0.560</title><circle cx="377.8" cy="177.1" r="2.6" fill="none" stroke="#3b7dd8" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.5, 4000 updates, seed 69: q 1.000, entry 0.172, P1 0.230</title><circle cx="386.0" cy="263.0" r="2.6" fill="#3b7dd8" stroke="#3b7dd8" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.5, 8000 updates, seed 69: q 1.000, entry 0.500, P1 0.515</title><circle cx="386.0" cy="181.0" r="2.6" fill="none" stroke="#3b7dd8" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.8, 4000 updates, seed 67: q 0.995, entry 0.039, P1 0.025</title><circle cx="384.4" cy="296.2" r="2.6" fill="#1baf7a" stroke="#1baf7a" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.8, 8000 updates, seed 67: q 1.000, entry 0.188, P1 0.185</title><circle cx="386.0" cy="259.1" r="2.6" fill="none" stroke="#1baf7a" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.8, 4000 updates, seed 68: q 1.000, entry 0.117, P1 0.135</title><circle cx="386.0" cy="276.7" r="2.6" fill="#1baf7a" stroke="#1baf7a" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.8, 8000 updates, seed 68: q 1.000, entry 0.375, P1 0.375</title><circle cx="386.0" cy="212.2" r="2.6" fill="none" stroke="#1baf7a" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.8, 4000 updates, seed 69: q 1.000, entry 0.023, P1 0.015</title><circle cx="386.0" cy="300.1" r="2.6" fill="#1baf7a" stroke="#1baf7a" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.8, 8000 updates, seed 69: q 1.000, entry 0.125, P1 0.180</title><circle cx="386.0" cy="274.8" r="2.6" fill="none" stroke="#1baf7a" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.2, 4000 updates (3-seed mean): q 0.865, entry 0.315, P1 0.293; fails K3_access, K1_entry, K3_entry</title><circle cx="341.4" cy="227.2" r="5.5" fill="#eb6834" stroke="#eb6834" stroke-width="2"/></g>
+<g><title>rho 0.2, 8000 updates (3-seed mean): q 0.962, entry 0.604, P1 0.577; qualifies; SELECTED</title><circle cx="373.3" cy="155.0" r="7" fill="var(--surface)" stroke="#eb6834" stroke-width="3"/></g>
+<g><title>rho 0.5, 4000 updates (3-seed mean): q 0.920, entry 0.190, P1 0.207; fails K1_entry, K3_entry</title><circle cx="359.6" cy="258.5" r="5.5" fill="#3b7dd8" stroke="#3b7dd8" stroke-width="2"/></g>
+<g><title>rho 0.5, 8000 updates (3-seed mean): q 0.985, entry 0.516, P1 0.540; fails K1_entry, K3_entry</title><circle cx="381.1" cy="177.1" r="5.5" fill="var(--surface)" stroke="#3b7dd8" stroke-width="2"/></g>
+<g><title>rho 0.8, 4000 updates (3-seed mean): q 0.998, entry 0.060, P1 0.058; fails K1_entry, K3_entry</title><circle cx="385.5" cy="291.0" r="5.5" fill="#1baf7a" stroke="#1baf7a" stroke-width="2"/></g>
+<g><title>rho 0.8, 8000 updates (3-seed mean): q 1.000, entry 0.229, P1 0.247; fails K3_access, K1_entry, K3_entry</title><circle cx="386.0" cy="248.7" r="5.5" fill="var(--surface)" stroke="#1baf7a" stroke-width="2"/></g>
+<rect x="468.5" y="56.0" width="115.5" height="112.5" fill="var(--grid)" opacity="0.6"><title>K=3 target region: q in [0.05, 0.4], entry &gt;= 0.55</title></rect>
+<text x="412" y="48" class="t1">K=3</text>
+<line x1="452" x2="782" y1="306.0" y2="306.0" class="zero"/>
+<text x="448" y="310.0" class="tick" text-anchor="end">0.00</text>
+<text x="452.0" y="320" class="tick" text-anchor="middle">0.00</text>
+<line x1="452" x2="782" y1="243.5" y2="243.5" class="grid"/>
+<text x="448" y="247.5" class="tick" text-anchor="end">0.25</text>
+<text x="534.5" y="320" class="tick" text-anchor="middle">0.25</text>
+<line x1="452" x2="782" y1="181.0" y2="181.0" class="grid"/>
+<text x="448" y="185.0" class="tick" text-anchor="end">0.50</text>
+<text x="617.0" y="320" class="tick" text-anchor="middle">0.50</text>
+<line x1="452" x2="782" y1="118.5" y2="118.5" class="grid"/>
+<text x="448" y="122.5" class="tick" text-anchor="end">0.75</text>
+<text x="699.5" y="320" class="tick" text-anchor="middle">0.75</text>
+<line x1="452" x2="782" y1="56.0" y2="56.0" class="grid"/>
+<text x="448" y="60.0" class="tick" text-anchor="end">1.00</text>
+<text x="782.0" y="320" class="tick" text-anchor="middle">1.00</text>
+<text x="617.0" y="334" class="tick" text-anchor="middle">access q (normal starts)</text>
+<g><title>rho 0.2, 4000 updates, seed 67: q 0.015, entry 0.234, P1 0.000</title><circle cx="456.9" cy="247.4" r="2.6" fill="#eb6834" stroke="#eb6834" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.2, 8000 updates, seed 67: q 0.235, entry 0.531, P1 0.120</title><circle cx="529.5" cy="173.2" r="2.6" fill="none" stroke="#eb6834" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.2, 4000 updates, seed 68: q 0.105, entry 0.383, P1 0.040</title><circle cx="486.6" cy="210.3" r="2.6" fill="#eb6834" stroke="#eb6834" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.2, 8000 updates, seed 68: q 0.250, entry 0.664, P1 0.145</title><circle cx="534.5" cy="140.0" r="2.6" fill="none" stroke="#eb6834" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.2, 4000 updates, seed 69: q 0.020, entry 0.305, P1 0.000</title><circle cx="458.6" cy="229.8" r="2.6" fill="#eb6834" stroke="#eb6834" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.2, 8000 updates, seed 69: q 0.130, entry 0.617, P1 0.065</title><circle cx="494.9" cy="151.7" r="2.6" fill="none" stroke="#eb6834" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.5, 4000 updates, seed 67: q 0.185, entry 0.148, P1 0.025</title><circle cx="513.0" cy="268.9" r="2.6" fill="#3b7dd8" stroke="#3b7dd8" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.5, 8000 updates, seed 67: q 0.505, entry 0.492, P1 0.260</title><circle cx="618.6" cy="183.0" r="2.6" fill="none" stroke="#3b7dd8" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.5, 4000 updates, seed 68: q 0.180, entry 0.195, P1 0.075</title><circle cx="511.4" cy="257.2" r="2.6" fill="#3b7dd8" stroke="#3b7dd8" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.5, 8000 updates, seed 68: q 0.225, entry 0.461, P1 0.135</title><circle cx="526.2" cy="190.8" r="2.6" fill="none" stroke="#3b7dd8" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.5, 4000 updates, seed 69: q 0.135, entry 0.156, P1 0.020</title><circle cx="496.6" cy="266.9" r="2.6" fill="#3b7dd8" stroke="#3b7dd8" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.5, 8000 updates, seed 69: q 0.425, entry 0.414, P1 0.205</title><circle cx="592.2" cy="202.5" r="2.6" fill="none" stroke="#3b7dd8" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.8, 4000 updates, seed 67: q 0.385, entry 0.031, P1 0.005</title><circle cx="579.0" cy="298.2" r="2.6" fill="#1baf7a" stroke="#1baf7a" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.8, 8000 updates, seed 67: q 0.570, entry 0.180, P1 0.080</title><circle cx="640.1" cy="261.1" r="2.6" fill="none" stroke="#1baf7a" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.8, 4000 updates, seed 68: q 0.310, entry 0.102, P1 0.025</title><circle cx="554.3" cy="280.6" r="2.6" fill="#1baf7a" stroke="#1baf7a" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.8, 8000 updates, seed 68: q 0.465, entry 0.258, P1 0.160</title><circle cx="605.5" cy="241.5" r="2.6" fill="none" stroke="#1baf7a" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.8, 4000 updates, seed 69: q 0.165, entry 0.016, P1 0.000</title><circle cx="506.4" cy="302.1" r="2.6" fill="#1baf7a" stroke="#1baf7a" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.8, 8000 updates, seed 69: q 0.540, entry 0.125, P1 0.085</title><circle cx="630.2" cy="274.8" r="2.6" fill="none" stroke="#1baf7a" stroke-width="1" opacity="0.7"/></g>
+<g><title>rho 0.2, 4000 updates (3-seed mean): q 0.047, entry 0.307, P1 0.013; fails K3_access, K1_entry, K3_entry</title><circle cx="467.4" cy="229.2" r="5.5" fill="#eb6834" stroke="#eb6834" stroke-width="2"/></g>
+<g><title>rho 0.2, 8000 updates (3-seed mean): q 0.205, entry 0.604, P1 0.110; qualifies; SELECTED</title><circle cx="519.6" cy="155.0" r="7" fill="var(--surface)" stroke="#eb6834" stroke-width="3"/></g>
+<g><title>rho 0.5, 4000 updates (3-seed mean): q 0.167, entry 0.167, P1 0.040; fails K1_entry, K3_entry</title><circle cx="507.0" cy="264.3" r="5.5" fill="#3b7dd8" stroke="#3b7dd8" stroke-width="2"/></g>
+<g><title>rho 0.5, 8000 updates (3-seed mean): q 0.385, entry 0.456, P1 0.200; fails K1_entry, K3_entry</title><circle cx="579.0" cy="192.1" r="5.5" fill="var(--surface)" stroke="#3b7dd8" stroke-width="2"/></g>
+<g><title>rho 0.8, 4000 updates (3-seed mean): q 0.287, entry 0.049, P1 0.010; fails K1_entry, K3_entry</title><circle cx="546.6" cy="293.6" r="5.5" fill="#1baf7a" stroke="#1baf7a" stroke-width="2"/></g>
+<g><title>rho 0.8, 8000 updates (3-seed mean): q 0.525, entry 0.188, P1 0.108; fails K3_access, K1_entry, K3_entry</title><circle cx="625.2" cy="259.1" r="5.5" fill="var(--surface)" stroke="#1baf7a" stroke-width="2"/></g>
+<text x="16" y="378" class="tick"><tspan fill="#eb6834">●</tspan> rho 0.2  <tspan fill="#3b7dd8">●</tspan> rho 0.5  <tspan fill="#1baf7a">●</tspan> rho 0.8. Filled: 4,000 BC updates; hollow: 8,000; large: three-seed mean; shaded: target region (entry target applies to both K)</text>
+<text x="16" y="396" class="tick">Selected: rho 0.2, 8000 updates. Room-to-learn (P1) target is in the hover text.</text>
+</svg>

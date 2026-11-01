@@ -474,3 +474,26 @@ superseded limits. Reconciliation with the evidence and the decisions taken:
   no logical conflict between a positive suffix-only arm and a null mixed arm; P8 superseded as a stop rule.
 - **Monitoring.** Battery watch and two-hour review cron restarted at launch (identities in STATE). Batch watcher
   bound to each driver PID and create time.
+
+## 2026-11-01b — Calibration selection and pilot launch (Amendment 5, C–D)
+
+- **Calibration.** Batches 20261101T212138-79498 (s67), 20261101T212609-80088 (s68) and 20261101T212943-80369 (s69).
+  All exit codes were 0; the batches used 1,475,592 actions. Results are in `reports/cal/` (`cal_summary.json`,
+  `cal_variants.csv`, `access_entry.svg`).
+- **Selection (frozen rule, three-seed means).** Only rho 0.2 at 8,000 BC updates qualifies, so it is selected.
+  - K1: q 0.962, entry 0.604, P1 0.577.
+  - K3: q 0.205, entry 0.604, P1 0.110.
+- Every other variant fails the entry target. More prefix sampling raised access and lowered boundary-entry
+  competence; 4,000 updates were too few for entry ≥ 0.55.
+- **Caveat recorded before the pilot.**
+  - Only 1/3 seeds (s69) meets every target on its own. s67 misses K3 entry (0.531) and s68 misses K1 room
+    (P1 0.645 > 0.60).
+  - K1 P1 0.577 leaves little room for normal-start learning in K1.
+  - The rule is applied as frozen: the selection uses the means, and every seed is kept.
+- **Pilot.** `make_batches.py --pilot 0.2 8000 --cal-batches <the three IDs>` rewrote experiments/pilot/pilot-s67..69.
+  - Each probe forks from its own seed's `cal-bc-p2-s<S>/actor_u8000.pt`.
+  - Arms are 00, 10, 01s and 11s for K1 and K3, at 251,904 actions.
+  - Conservative cost is about 9.1M (dev total about 10.6M, within the 15M ceiling).
+  - Battery was 59% at launch, with an expected drain of about 9 points.
+  - The analysis (`tools/analyze_pilot.py`) and the figure code were committed before any pilot run. The pilot is
+    exploratory, with no retuning.
