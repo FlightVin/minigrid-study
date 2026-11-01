@@ -68,7 +68,13 @@ def batch_cost(path):
 
 
 def done_jobs():
-    return {d.name for d in (ROOT / ".mae/runs").glob("*/*") if (d / "summary.json").exists()}
+    """Jobs that completed: a summary.json, or exit code 0 in a batch's execution record (pytest jobs write no
+    summary; fixed 2026-11-01 at review 8, when the test batch counted as incomplete for ever)."""
+    done = {d.name for d in (ROOT / ".mae/runs").glob("*/*") if (d / "summary.json").exists()}
+    for ex in (ROOT / ".mae/runs").glob("*/execution.json"):
+        jobs = json.loads(ex.read_text()).get("jobs", {})
+        done |= {j for j, r in jobs.items() if r.get("returncode") == 0}
+    return done
 
 
 def study_of(path):
@@ -95,7 +101,8 @@ def study_spent():
 def admit(path, plan, done, spent_total, spent_by):
     st = study_of(path)
     this = batch_cost(path)
-    later_r2 = [p for p in plan if p["study"] == "r2" and p["file"] != path and not set(jobs_of(p["file"])) <= done]
+    later_r2 = [p for p in plan if p["study"] == "r2" and p.get("required", True) and p["file"] != path
+                and not set(jobs_of(p["file"])) <= done]
     committed = sum(batch_cost(p["file"])[0] for p in later_r2) + AUDIT
     need = spent_total + this[0] + committed + (0 if st in ("r2", "prog") else RESERVE)
     ok = need <= BUDGET and spent_total + this[0] <= BUDGET
@@ -118,7 +125,7 @@ def main():
     if a.status:
         done = done_jobs()
         tot = ledger_total() - START_TOTAL
-        inc = [p["file"] for p in plan if not set(jobs_of(p["file"])) <= done]
+        inc = [p["file"] for p in plan if p.get("required", True) and not set(jobs_of(p["file"])) <= done]
         rem = sum(batch_cost(f)[0] for f in inc)
         print(json.dumps({"spent_total": tot, "spent_by_study": study_spent(), "incomplete_batches": inc,
                           "remaining_conservative": rem, "projected_conservative_total": tot + rem + AUDIT,

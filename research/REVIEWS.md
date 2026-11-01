@@ -225,3 +225,30 @@ state checks, and a final runner test job (266 passed, 3 skipped). R1 spent 25,4
   turned into a claim.
 
 **Next.** Stop scientific execution. Stop the remaining watchers by verified identity. Report to the owner.
+
+## Review 8 — 2026-11-01 ~05:05 local (R2 running; programme under Amendment 4)
+
+**State.** Done since Review 7: owner instruction recorded (`000fd83`); targeted R1 audit and corrections (F13,
+REPORT R1.10); freeze `c372ef7`; data r2-v1 + gate (pass); test batch (273 passed, smoke 3/3 incl. exact resume);
+interruption drill (pass); canary s23 (pass, no outcome read); seed 23 rest and seeds 24-27 complete; seed 28
+running. Every batch exited 0 and cost below its conservative estimate (per seed 1.64-1.68M vs 1.73M). Programme
+spend 9.37M of 50M; projected conservative total 42.04M (+ audit) — completion is secure.
+
+**Research questions and validity.** R2 still tests the single RQ1 question fixed in Amendment 4; E1 and E2 are
+queued behind it. No R2 outcome, paired difference or arm mean has been read; the analysis is blinded until 20/20.
+Seeds, lambda, panels and endpoints are unchanged. The frozen design remains executable.
+
+**Resources and tracking.**
+- Monitors verified by PID and create time: battery watch 35448 (100%, AC), seeds driver 42665, watcher loop
+  (watch_batch child active). Review cron 19ac8cf7 active.
+- The review prompt (written before the R1 audit) names the start as 118,670,302; the frozen start is the
+  corrected 118,670,430 (Amendment 4 A). `run_program.py` uses the corrected value.
+- **Defect found and fixed (tooling, no scientific effect):** `tools/run_program.py` judged a batch complete only
+  by `summary.json`. Pytest jobs and the drill never write one, so the test batch counted as incomplete for ever:
+  committed cost was overstated by ~0.4M, and E1/E2 would have been refused after R2. Now: a job is complete with a
+  summary or exit code 0 in its batch's execution record; the drill is marked not required in `plan.json`. The
+  running driver (old code) only over-holds 0.4M for R2 admissions, which is harmless.
+- Ledger accounting: the r2-smoke loss (~0.22M) is fixed in code and added as a 0.25M estimate (IMPLEMENTATION).
+
+**Next.** Let seeds 28-42 finish (~2.7 h). Then E1 cross-panel, E2 components, final tests, R2 analysis with
+`--check-states`, independent verification, report.

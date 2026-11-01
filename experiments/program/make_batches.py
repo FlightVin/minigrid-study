@@ -69,6 +69,7 @@ def main():
              "command": ["env", "BC2RL_SMOKE=1", "{python}", "-m", "pytest", "-q", "-p", "no:cacheprovider", "tests/test_rl_smoke.py"]}
     add(write("experiments/r2/tests.batch.json", [job("r2-tests", ["pytest", "-q", "-p", "no:cacheprovider", "tests"], "cpu", 2), smoke]), "r2")
     add(write("experiments/r2/drill.batch.json", [job("r2-drill", ["bc2rl.canary", "sleep", "--children", "2", "--seconds", "600"], "cpu", 1)]), "r2")
+    plan[-1]["required"] = False      # stopped on purpose (reports/r2/drill.json); never "complete"
     add(write("experiments/r2/canary-s23.batch.json", [bc(23), probe(23, "@/r2-bc-s23"), branch(23, "01", "@/r2-probe-K3-u4000-s23")]), "r2")
     # placeholder until the canary batch id is known; rewritten with --canary-batch B before it runs
     add(write("experiments/r2/seed-s23-rest.batch.json", [branch(23, "00", "CANARY_BATCH/r2-probe-K3-u4000-s23")]), "r2")

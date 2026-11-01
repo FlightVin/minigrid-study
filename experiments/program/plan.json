@@ -10,7 +10,8 @@
   },
   {
    "file": "experiments/r2/drill.batch.json",
-   "study": "r2"
+   "study": "r2",
+   "required": false
   },
   {
    "file": "experiments/r2/canary-s23.batch.json",
