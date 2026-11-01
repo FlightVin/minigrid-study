@@ -297,3 +297,14 @@ cal-s67..69 -> `tools/analyze_cal.py` -> pilot batch files via `make_batches.py 
 - **Resources.** Spent 33,166,705 of 130M (A3 33,095,399). Remaining conservative cost of the required work is 65.17M. The projected conservative total is 98.6M, so the 12M reserve and the 15M development ceiling stay available. Per-seed cost is still about 3.65M, which is 0.92 of the conservative estimate.
 - **Monitors.** Each monitor has exactly one process, verified by PID and create time: battery watch 69759 (90%, mains power), driver 71896 (create 1793540164.945303) and one watcher loop. The review cron is active. There are no duplicates.
 - **Next step.** Let seeds 52–66 finish (about 15 × 21 min, roughly 5.3 h). Then run `tools/analyze_a3.py --check-states`, make the figures and write F19. Then run calibration batches cal-s67..69, `tools/analyze_cal.py`, and the pilot if a variant is selected.
+
+## Review 12 — 2026-11-01 ~13:15 local
+
+- **State.** A3 seeds 43–56 finished (14/24) and seed 57 is running. Every job exited with code 0. There are no refusals or retries, and the watcher has reported no stall. Since Review 11 I wrote and committed the post-outcome code before any outcome existed:
+  - figures for A3, calibration and the pilot (`tools/plot_program.py`, tested on synthetic data only);
+  - the independent verifier `tools/verify_program2.py`, whose `--engineering` mode passed on seeds 43–51 with no outcome computed.
+- **Validity.** The design has not changed and I read no A3 aggregate outcomes. The research questions and the order of the objectives are unchanged. The engineering checks (lineage, effective coefficients, roles, one identical panel, step records = summaries) found no defect.
+- **Resources.** Spent 54,872,167 of 130M (A3 54,800,861). The remaining conservative cost of the required work is 41.44M and the projected conservative total is 96.6M. The 12M reserve and the 15M development ceiling are still available. Per-seed cost is unchanged.
+- **Power note.** The battery falls by about 5 percentage points per hour while the charger is connected (93% at 10:48, 80% at 13:13): under this load the charger does not keep up. At this rate the 20% stop arrives in about 12 h. The rest of the required work plus the pilot needs about 7–8 h, so the margin is adequate. The battery watch stays the hard guard. If the battery reaches 20% it stops the driver, and the failure policy applies (resume with a new run ID).
+- **Monitors.** One process each, verified by PID and create time: battery watch 69759, driver 71896 (create 1793540164.945303) and one watch_batch loop. The review cron is active. There are no duplicates.
+- **Next step.** Seeds 57–66 (about 3.5 h). Then the A3 analysis with `--check-states`, the full verifier, the figures and F19. Then calibration s67–69 → `analyze_cal` → the pilot if a variant is selected.
