@@ -270,3 +270,22 @@ rerun unchanged; DECISIONS). Rule kept since: write and commit new files in one 
 inconsistent with the "both" arm). E1 does not count as replication. The decomposition is arithmetic, not mediation.
 
 **Next.** Stop owned monitors by verified identity; report to the owner; stop.
+
+## Review 10 — 2026-11-01 ~09:20 local (Amendment 5; A3 running)
+
+**State.** Done since the new instruction: instruction recorded (`7ed7285`); component-code audit (no defect) and
+interpretation corrections (F18); Amendment 5 freeze `ee27b03`; data r3-v1 + gate (pass); tests 288 + smoke 3/3
+(smoke step records now captured); canary s43 passes all engineering checks; pilot analysis script and test committed
+before any pilot run; literature notes. Seeds 44 and 45 complete (each 0.923 of conservative); seed 46 running.
+
+**Validity.** The A3 design is unchanged since the freeze. No A3 contrast, arm mean or per-seed outcome has been read;
+the analysis stays blinded until 24/24. Calibration and pilot rules were fixed before their data exist. The research
+questions in the instruction (allocation vs strength, persistence, regime) map one-to-one to A3 H1/gate/secondary,
+the calibration targets and the pilot.
+
+**Resources and tracking.** Spend 11.43M of 130M (A3 11.36M; ~0.07M local tests). Required conservative remainder
+fits with the 12M reserve held. Monitors verified by process identity: battery watch 69759 (100%, AC), seeds driver
+71896 (create time matches), one watcher loop; review cron d308a314. No duplicates.
+
+**Next.** Seeds 46-66 (~4.5 h). Then `tools/analyze_a3.py --check-states`, figures, F19; then calibration batches
+cal-s67..69 -> `tools/analyze_cal.py` -> pilot batch files via `make_batches.py --pilot` (if selected) -> pilot.
