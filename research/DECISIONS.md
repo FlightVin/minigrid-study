@@ -546,3 +546,11 @@ superseded limits. Reconciliation with the evidence and the decisions taken:
   - Remaining required work: 59,952,000 conservative (58,998,880 expected).
   - Spent so far: 310,213 (local tests, data and bank).
   - Worst-case total: about 60.56M with the 0.3M audit, so the protection left is about 9.44M.
+
+## 2026-11-02 — A4 complete; recommendation
+
+A4 H1 is not supported: d(1M) = +0.0047 [-0.0152, +0.0246], p 0.63, n = 20. H2 was gated out. The descriptive pattern
+is an early benefit (+0.020 at 251,904) followed by catch-up. Decision: suffix-only preservation is not recommended for
+final normal-start success. There is no automatic extension and no RQ2 selector. Any further work needs a new owner
+instruction; the suggested target is access (q). Spend 55,727,013 of 70M; ledger 311,392,581. Monitors are stopped at
+completion. See FINDINGS F24-F25 and REPORT section S.

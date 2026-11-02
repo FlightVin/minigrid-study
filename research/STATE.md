@@ -1,45 +1,24 @@
 # State
 
-**Current milestone (2026-11-01c):** owner programme A4 under PROTOCOL_FREEZE Amendment 6 (instruction verbatim in
-`mac-agentic-engineering/project.md`, harness `d8155d4`). Earlier programmes are closed; their verdicts are preserved
-(F10-F22, read with the F23 wording corrections).
-
-**Active objective:** A4. In the calibrated K=3 initialization (BC rho 0.2, 8k), does suffix-only preservation
-(01s, effective 0.0075) improve normal-start P1 over ordinary PPO (00) at 1,001,472 actions (H1, n = 20, seeds
-70-89)? If H1 is supported: does the benefit grow from 251,904 (H2)? Treatment outcomes stay blinded until 20/20.
+**Current milestone (2026-11-02):** the owner programme 2026-11-01c (A4, PROTOCOL_FREEZE Amendment 6) is complete.
+No work is authorised. The owner decides on the next step (REPORT section S6).
 
 **Established (closed):**
-- A3 (F19): C-A +0.0106 at 251,904, supported conditional on the panel; the crossed bootstrap includes 0.
-- Calibration (F20): rho 0.2 / 8k qualified on means; fragile.
-- Pilot (F21): K3 bank competence rose; no resolved normal-start effect.
+- A4 (F24): suffix-only preservation against ordinary PPO at 1,001,472 actions, K=3, rho 0.2 / 8k, n = 20 (seeds
+  70-89). d = +0.0047 [-0.0152, +0.0246], p 0.63: not supported. H2 was gated out. Descriptive: +0.020 at 251,904,
+  +0.012 at 501,760, then catch-up. Independent verification agrees.
+- A4 cohort and costs (F25): 3/20 seeds met all calibration targets (tests the fixed procedure). Spend 55,727,013 of
+  70M. Ledger 311,392,581. No pauses or retries.
+- A3 (F19), calibration (F20), pilot (F21), synthesis (F22), corrections (F23): unchanged.
 
-**Uncertain:**
-- whether the A4 cohort reproduces the calibrated profile;
-- whether bank-competence gains transfer to normal-start success with more training;
-- whether the benefit grows, persists or is caught up.
+**Recommendation (F25, REPORT S6):** do not adopt suffix preservation for final success; no extension; no RQ2
+selector. If further work is funded, target access (q).
 
-**Owner limits:** 4 cores, 6 GiB, one job, native MPS/CPU via the runner, no paid or remote compute.
-- **Battery: stop at 31% or lower, also on AC.** The guard polls every 15 s. The persistent flag
-  `.mae/monitor/BATTERY_PAUSE.json` blocks all work. Never restart automatically; resume only on the owner's
-  explicit instruction.
-- Two-hour reviews: execution and validity only.
+**Owner limits (still in force):** 4 cores, 6 GiB, one job, native MPS/CPU via the runner, no paid or remote compute.
+Battery: stop at 31% or lower, also on AC; the persistent flag `.mae/monitor/BATTERY_PAUSE.json` blocks all work;
+never restart automatically. The guard must be started before any new heavy work.
 
-**Budget:** 70M from ledger 255,665,568 (`tools/run_program4.py --status`). Worst case about 61.8M; expected about
-59.5M; protection about 8M.
+**Monitors:** none running. Battery guard 31137 and review cron 5bcaa9b8 were stopped at completion on 2026-11-02.
+The driver and watchers exited normally.
 
-**Monitors:** battery guard PID 31137 (task b826abobo; log `.mae/monitor/battery_guard.log`; status
-`.mae/monitor/battery_status.json`); review cron 5bcaa9b8 (every 2 h at :43; checks the pause flag first;
-session-only). Canary s70 passed (batch 20261102T004500-31671, 2.71M, 16.8 min).
-Seeds driver PID 37930 (create 1793581332.43; seeds 71-89; log `.mae/monitor/a4_seeds.log`); watcher task
-(bound to 37930). Done: data (gate pass), arrival bank (96, frozen), tests 306 + smoke 6.
-
-**Recovery after a battery pause** (owner instruction only):
-1. Verify that nothing runs.
-2. Delete the flag on the owner's instruction.
-3. Run `tools/make_resume_a4.py <seeds>` and commit.
-4. Start the guard, then `tools/run_program4.py <resume batch> <remaining seed batches>`.
-
-Interrupted records are kept. `paused.json` in each paused branch gives the resume point.
-
-**Next action:** commit the frozen protocol, then: guard, data batch, gate, arrival batch, tests batch, canary s70,
-canary check, seeds 71-89, analysis, verification, report.
+**Next action:** none. Wait for an owner instruction.

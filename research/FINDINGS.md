@@ -918,3 +918,106 @@ No result, interval or verdict changes. Wording corrected in REPORT (headline an
   This does not establish that transfer will occur with more training. A4 tests that possibility.
 - **Decomposition (F19, F22).** The access/completion split is descriptive. "Acts mainly through completion after
   arrival" is replaced by "most of the difference fell in the completion term"; no causal attribution to a skill.
+
+## F24 — A4 confirmatory result (2026-11-02; owner instruction 2026-11-01c; Amendment 6)
+
+Design as frozen: K=3, BC rho 0.2 / 8,000 updates, seeds 70-89 (20, all kept). A = ordinary PPO and C = suffix-only
+preservation (effective 0.0075) were forked from the same post-probe state per seed. Normal starts: 256 a4_final
+layouts x 2 attempts, common to all seeds, arms and endpoints. The analysis was blinded until 20/20. The 40 branch jobs
+completed without pauses or retries, and the state hashes were checked. `tools/verify_a4.py` recomputed everything
+independently; all checks agree and it found no problems.
+
+- **H1 (primary), d = P1(C) - P1(A) at 1,001,472:** +0.0047, 95% t [-0.0152, +0.0246], p 0.63, 11/20 positive, seed
+  SD 0.042. Exact sign-flip p 0.64. **Not supported.** The interval excludes ±0.03 and ±0.05: under the
+  panel-conditional t, a benefit of 0.03 or more at 1M is incompatible with the data. Sensitivity: the crossed seed x
+  layout bootstrap gave [-0.020, +0.029]; the layouts-only bootstrap gave [-0.007, +0.017].
+- **H2 (gated):** not tested, because H1 is not supported. An increasing benefit is not supported. Descriptive:
+  d(1M) - d(250k) = -0.015 [-0.040, +0.009], p 0.21.
+- **d by endpoint (secondary, descriptive):**
+  - E250: +0.020 [+0.003, +0.037], p 0.024 (consistent in direction and size with A3, +0.011).
+  - E500: +0.012 [-0.004, +0.028].
+  - E1M: +0.005.
+
+  The estimate fell with longer training.
+- **Arm means of P1 (A / C):**
+
+  | Endpoint | A | C |
+  |---|---|---|
+  | E250 | 0.186 | 0.206 |
+  | E500 | 0.262 | 0.274 |
+  | E1M | 0.390 | 0.395 |
+
+  The post-probe median was 0.121. Both arms more than tripled P1, mostly through access: q rose from 0.21 to
+  0.61. r rose from about 0.54 to 0.64.
+- **Access and completion (C - A):**
+  - E250: q +0.027 [+0.003, +0.051].
+  - E500: r +0.025 [+0.004, +0.046].
+  - E1M: q +0.005 [-0.011, +0.020] and r +0.004 [-0.021, +0.029].
+
+  The decomposition gave the following terms (descriptive, not mediation, defined for 20/20):
+
+  | Endpoint | Access term | Completion term |
+  |---|---|---|
+  | E250 | +0.014 | +0.006 |
+  | E500 | +0.004 | +0.008 |
+  | E1M | +0.002 | +0.002 |
+- **Planner-entry bank versus actual-arrival bank (C - A):**
+
+  | Endpoint | Entry bank | Arrival bank |
+  |---|---|---|
+  | E250 | +0.035 [+0.003, +0.067] | +0.024 [+0.000, +0.047] |
+  | E500 | +0.030 [+0.010, +0.050] | +0.019 [-0.006, +0.044] |
+  | E1M | +0.016 [-0.001, +0.033] | -0.006 [-0.026, +0.014] |
+
+  Relative to pi0, the changes at E1M were:
+  - entry bank: A +0.015, C +0.031;
+  - arrival bank: A +0.061, C +0.055.
+
+  The arrival-bank gains in both arms were larger than the entry-bank gains. The preservation advantage on planner
+  entry states persisted longer than on actual-arrival states. It did not show up in normal-start success at 1M.
+- **Manipulation activity.** Suffix anchor KL in arm A rose to 0.088, then 0.126, then 0.166 (per interval). In arm C
+  it stayed at 0.055, then 0.066, then 0.077. Prefix anchor KL was the same in both arms (0.13 to 0.23). The applied
+  penalty was small (0.0004 to 0.0006 per update). Entropy, suffix visitation (7.4% to 16.4% of steps) and batch
+  successes (2.1 to 5.4 per rollout) were similar in both arms. The preservation constraint held the suffix policy
+  closer to BC throughout. Ordinary PPO reached the same normal-start success without it.
+- **Outcome pattern (descriptive, not a unique explanation):** early benefit, then catch-up. Ordinary PPO gained more
+  after 251,904. Other explanations remain possible: the constraint limits later suffix improvement, or the E250
+  difference was partly noise. These data do not separate them.
+- **Arrival timing and inventory:** mean arrival time tau and remaining time were similar in both arms (tau 76 and
+  remaining time 68 at E1M). The inventory at arrival was the yellow key in all but two arrivals.
+
+## F25 — A4 cohort, costs, interruptions and recommendation (2026-11-02)
+
+- **Cohort.** BC at 8,000 met all calibration targets in 3/20 seeds. Per target:
+  - K3 access 20/20, K3 room 20/20, K3 entry 17/20;
+  - K1 access 20/20, K1 entry 17/20, K1 room 6/20.
+
+  The K1 room failure means K1 P1 exceeded 0.60 (mean 0.624). The cohort does not fully match the intended profile,
+  so A4 tests the fixed rho 0.2 / 8k procedure, not the calibrated profile. On the K=3 margins that the online phase
+  uses, the profile mostly held. pi0 medians (a4 roles): q 0.148 (0.031 to 0.289), entry 0.615, arrival bank 0.596,
+  P1 0.082. Post-probe medians: q 0.215, entry 0.561, arrival bank 0.565, P1 0.121.
+- **Cohort stability (descriptive).** d(1M) was +0.006 in the 17 seeds that met the K3 entry target and -0.003 in the
+  other 3. Its correlation with pi0 q across seeds was -0.03. By pi0 q halves, d(1M) was -0.004 (low) and +0.015 (high).
+  No subgroup was prespecified, and none is claimed.
+- **Costs.** 55,727,013 of 70M (79.6%). The ledger is now 311,392,581.
+
+  | Item | Actions |
+  |---|---|
+  | Data | 110,066 |
+  | Arrival bank | 71,265 |
+  | Tests | 298,334 |
+  | 20 seed batches | 55,054,684 (mean 2.75M each; 91-95% of the conservative 2.97M) |
+  | Final tests (306 passed, 6 skipped) | 63,782 |
+
+  Protection was never used. The planned allowance of 1,001,472 continuation actions per branch and all required
+  evaluation artifacts are complete.
+- **Interruptions.** There were none. The battery stayed at 82-85% on AC, and the guard never paused. The first
+  final-tests submission was refused by the runner because the tree was dirty: the analysis outputs were uncommitted.
+  It used 0 actions and was resubmitted after a commit. One push got a GitHub 500 error and succeeded on retry. The
+  verifier needed a JSON serialization fix (numpy bool), with no change to any metric.
+- **Recommendation (decisive).** Do not adopt suffix-only preservation as a method for improving final normal-start
+  success in this setting. At 1M actions its effect is +0.005 [-0.015, +0.025], and any benefit of 0.03 or more is
+  incompatible with the data. The early advantage (+0.020 at 250k here; +0.011 in A3) is at most a modest,
+  transient speed-up that ordinary PPO catches up with. Do not extend A4. Do not build an RQ2 per-condition selector,
+  because no condition has a resolved long-run benefit. If any further work is funded, it should target access (q),
+  which drove most of the improvement in both arms, rather than preservation of post-boundary behaviour.

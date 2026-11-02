@@ -165,8 +165,8 @@ Dependencies: each line needs the lines above it unless marked (parallel-safe: d
 - [x] Arrival bank (runner); record counts / shortfall; freeze its hash; recompute conservative costs (driver)
 - [x] Tests batch (full suite + RL smoke + pause smoke)
 - [x] Canary seed 70 -> `tools/a4_canary_check.py` (no outcomes)
-- [ ] Seeds 71-89 (watcher; reviews every 2 h; battery rule)
-- [ ] Cohort profile (pi0/probe/BC targets) reported
-- [ ] Analysis `tools/analyze_a4.py --check-states` at 20/20; `tools/verify_a4.py`; figures
-- [ ] Final tests (p4-tests); cost reconciliation; FINDINGS; REPORT section S; recommendation; commit + push
-- [ ] Stop owned monitors at completion (or at a battery pause: record resume point, stop, wait)
+- [x] Seeds 71-89 (driver 37930; no pauses, no retries; battery 82-85% AC)
+- [x] Cohort profile (pi0/probe/BC targets) reported (F25, REPORT S4: 3/20 meet all targets; tests the fixed procedure)
+- [x] Analysis `tools/analyze_a4.py --check-states` at 20/20; `tools/verify_a4.py` (agrees); figures
+- [x] Final tests (p4-tests, 306 passed); cost reconciliation (55,727,013); FINDINGS F24-F25; REPORT section S; recommendation; commit + push
+- [x] Stop owned monitors at completion (battery guard 31137, review cron 5bcaa9b8)

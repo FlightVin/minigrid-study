@@ -1,6 +1,7 @@
 # MiniGrid study: demonstration-state starts and BC preservation after BC
 
-Status 2026-11-01b (final): the Amendment 5 programme is complete (section Q): A3 (24 seeds), initialization
+Status 2026-11-02 (final): the Amendment 6 programme (A4, 20 seeds) is complete (section S): H1 not supported.
+Status 2026-11-01b (as written then): the Amendment 5 programme is complete (section Q): A3 (24 seeds), initialization
 calibration and the calibrated-regime pilot, with independent verification. M0-M4, R1 and the Amendment 4
 programme (section P) are closed studies; their verdicts are preserved. Interpretation corrections of 2026-11-01b
 are marked in section P. Earlier sections are kept as written.
@@ -19,9 +20,15 @@ manipulation. A calibrated initialization with high boundary competence and low 
 (rho 0.2, 8,000 updates; fragile). In it, resets and suffix preservation raised K=3 fixed-bank boundary-entry
 competence without a resolved normal-start effect (3-seed pilot); that does not establish that transfer will occur
 with more training. A per-condition selector is not justified. (Corrected 2026-11-01c; owner instruction section 3.)
-**Programme 2026-11-01c (section S, running):** A4 tests, on 20 fresh seeds, whether suffix preservation improves
-normal-start success after 1,001,472 actions in the calibrated K=3 initialization, and whether the benefit grows
-relative to 251,904.
+**Programme 2026-11-01c (section S, complete):** On 20 fresh paired seeds (K=3, BC rho 0.2 / 8,000 updates),
+suffix-only preservation did not improve normal-start success after 1,001,472 continuation actions. The difference was
++0.0047 (95% t [-0.0152, +0.0246], p 0.63; prespecified test not supported; crossed seed x layout bootstrap
+[-0.020, +0.029]). The interval excludes a benefit of 0.03 or more. The time comparison was gated out. Descriptively,
+the difference was +0.020 [+0.003, +0.037] at 251,904, +0.012 at 501,760 and +0.005 at 1M, so ordinary PPO caught up.
+Both arms rose from P1 0.12 to about 0.39, mostly through access (q 0.21 to 0.61). Preservation kept the suffix policy
+closer to BC (suffix anchor KL 0.077 against 0.166). Its advantage on planner-entry states (+0.016 at 1M) did not
+appear on actual-arrival states (-0.006) or in normal-start success. Recommendation: do not adopt suffix preservation,
+do not extend, and do not build a per-condition selector.
 
 **Programme 2026-11-01 (section P):** the R2 20-seed replication gave +0.0097 [-0.0035, +0.0229], p 0.142:
 not supported; the K=3/early-BC preservation effect did not replicate at the M4 or R1 size. The paragraphs below
@@ -42,6 +49,80 @@ checkpoint interaction was not supported (adjusted p 0.096). The result did not 
 inconclusive, not negative. The estimates are compatible with a positive effect similar to M4's (corrected
 2026-11-01). The seed SD of the effect (0.043) was larger than in the M4 subgroup (0.008); the reasons are not
 resolved (R1.10).
+
+## S. Programme 2026-11-01c (Amendment 6): A4 long-allowance study
+
+Sources: FINDINGS F23-F25; PROTOCOL_FREEZE Amendment 6; DECISIONS 2026-11-01c; `reports/a4/a4_summary.json`,
+`reports/a4/verification.json` (independent recomputation, all checks agree), `reports/a4/power.md`, figures
+`reports/a4/paired_effects.svg`, `stages.svg`, `cohort.svg`. A4 is confirmatory. The analysis was frozen before any
+run and blinded until 20/20.
+
+### S1. Design
+- K=3 only, with BC rho 0.2 at 8,000 updates.
+- Seeds 70-89, n = 20, all kept and none filtered.
+- Arms: A ordinary PPO; C suffix-only preservation (effective 0.0075, alpha 0, pi0 = BC).
+- Both arms forked from the same post-probe state.
+- Allowance: 1,001,472 continuation actions per branch, evaluated at 251,904, 501,760 and 1,001,472 (primary).
+- Normal starts: 256 a4_final layouts x 2 attempts, common to all seeds, arms and endpoints.
+- Banks: an entry bank (128 planner entry states x 2) and a frozen actual-arrival bank (96 states from the calibration
+  policies, sha 15f5f18a) x 2.
+
+### S2. Primary and gated results (all 20 paired seeds)
+| | estimate | 95% t | p | notes |
+|---|---|---|---|---|
+| H1: d at 1,001,472 | +0.0047 | [-0.0152, +0.0246] | 0.63 | 11/20 positive; sign-flip p 0.64; **not supported** |
+| crossed seed x layout bootstrap | | [-0.020, +0.029] | | seeds and layouts random |
+| layouts-only bootstrap | | [-0.007, +0.017] | | conditional on the 20 seeds |
+| H2: d(1M) - d(250k) | -0.015 | [-0.040, +0.009] | 0.21 | gated out (descriptive) |
+| d at 251,904 | +0.020 | [+0.003, +0.037] | 0.024 | secondary |
+| d at 501,760 | +0.012 | [-0.004, +0.028] | 0.13 | secondary |
+
+Relative to 0, 0.03 and 0.05: the 1M interval includes 0 and excludes ±0.03 and ±0.05. The observed seed SD of d
+(0.042) lies between the planning rows for 0.03 and 0.05.
+
+### S3. Mechanism measures (descriptive; C - A, 95% t over seeds)
+| endpoint | q | r | entry bank | arrival bank | access term | completion term |
+|---|---|---|---|---|---|---|
+| 251,904 | +0.027 [+0.003, +0.051] | +0.027 [-0.011, +0.064] | +0.035 [+0.003, +0.067] | +0.024 [+0.000, +0.047] | +0.014 | +0.006 |
+| 501,760 | +0.007 [-0.013, +0.026] | +0.025 [+0.004, +0.046] | +0.030 [+0.010, +0.050] | +0.019 [-0.006, +0.044] | +0.004 | +0.008 |
+| 1,001,472 | +0.005 [-0.011, +0.020] | +0.004 [-0.021, +0.029] | +0.016 [-0.001, +0.033] | -0.006 [-0.026, +0.014] | +0.002 | +0.002 |
+
+- **Arm P1 (A / C).** E250 0.186 / 0.206; E500 0.262 / 0.274; E1M 0.390 / 0.395. The post-probe median was 0.121. At
+  1M, q was 0.606 / 0.610 and r was 0.635 / 0.639.
+- **Planner entry versus actual arrival.** Relative to pi0 at 1M:
+  - entry bank: A +0.015, C +0.031;
+  - arrival bank: A +0.061, C +0.055.
+
+  The preservation advantage on planner entry states outlasted that on actual-arrival states. Neither appeared in
+  normal-start success at 1M.
+- **Activity.** Suffix anchor KL was 0.088 / 0.126 / 0.166 for A and 0.055 / 0.066 / 0.077 for C. Prefix anchor KL
+  was the same in both arms. Entropy, suffix visitation and successful-return exposure were similar.
+- **Arrival timing and inventory.** These were similar in both arms.
+- **Interpretation.** The decomposition is not mediation. The pattern is early benefit followed by catch-up. That
+  explanation is not unique: a constraint on later suffix improvement, or noise at E250, are not excluded.
+
+### S4. Cohort
+BC at 8,000 met all calibration targets in 3/20 seeds. Per target:
+- K3 access 20/20, K3 room 20/20, K3 entry 17/20;
+- K1 entry 17/20, K1 room 6/20 (K1 P1 mean 0.624 against the 0.60 maximum).
+
+A4 therefore tests the fixed rho 0.2 / 8k procedure, not the exact calibrated profile.
+- pi0 medians: q 0.148 (range 0.031 to 0.289), entry 0.615, arrival bank 0.596, P1 0.082.
+- Cohort stability (descriptive): d(1M) was +0.006 in the 17 seeds that met the K3 entry target and -0.003 in the other
+  3. Its correlation with pi0 q was -0.03.
+
+### S5. Costs and interruptions
+- **Spend.** 55,727,013 of 70M. The ledger is now 311,392,581.
+- **Seed batches.** 55.05M in total, mean 2.75M per seed, 91-95% of the conservative bound.
+- **Interruptions.** There were no battery pauses (82-85%, AC) and no retries. One final-tests submission was refused
+  because the tree was dirty (0 actions). The final tests gave 306 passed and 6 skipped.
+
+### S6. Recommendation
+Do not adopt suffix-only preservation to improve final normal-start success here. Its long-run effect is
++0.005 [-0.015, +0.025], and a benefit of 0.03 or more is ruled out under the panel-conditional t. The early gain
+(+0.020 at 250k; A3 +0.011) is at most a transient speed-up. No automatic extension. No RQ2 selector: no
+condition has a resolved long-run benefit. If further work is funded, target access (q), which carried most of the
+improvement in both arms.
 
 ## Q. Programme 2026-11-01b (Amendment 5): consolidated report
 
