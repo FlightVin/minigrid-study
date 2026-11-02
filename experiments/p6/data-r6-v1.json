@@ -1,0 +1,53 @@
+{
+ "dataset_id": "r6-v1",
+ "purpose": "Frozen-policy controller diagnostics (owner instruction 2026-11-02b; PROTOCOL_FREEZE Amendment 8): every r5-v1 file and role copied unchanged; one new role d6_ctrl (64 layout seeds; only K=3 is used), disjoint by structure and suffix from every earlier role.",
+ "base_dataset": "r5-v1",
+ "Ks": [
+  1,
+  3
+ ],
+ "prefix_slack": 24,
+ "suffix_allowance": 80,
+ "registry_counts": {
+  "bc_train": 450,
+  "bc_val": 50,
+  "rl_train": 2048,
+  "reset_donor": 256,
+  "anchor_donor": 256,
+  "dev_eval": 32,
+  "dev_bank": 64,
+  "conf_select": 64,
+  "conf_bank": 64,
+  "conf_final": 64,
+  "r1_select": 64,
+  "r1_bank": 64,
+  "r1_final": 128,
+  "r2_select": 64,
+  "r2_bank": 64,
+  "r2_final": 128,
+  "a3_select": 64,
+  "a3_bank": 64,
+  "a3_final": 128,
+  "pl_select": 64,
+  "pl_bank": 64,
+  "pl_final": 64,
+  "a4_select": 64,
+  "a4_bank": 128,
+  "a4_final": 256,
+  "a4_donor": 512,
+  "d5_trace": 64,
+  "p5_select": 64,
+  "p5_eval": 64,
+  "p5_bank": 128,
+  "c5_select": 64,
+  "c5_bank": 128,
+  "c5_final": 256,
+  "d6_ctrl": 64
+ },
+ "generate_roles": [
+  "d6_ctrl"
+ ],
+ "trajectory_roles": [],
+ "bank_roles": [],
+ "bank_size": 64
+}

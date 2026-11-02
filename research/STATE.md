@@ -2,7 +2,7 @@
 
 **Current milestone (2026-11-02, complete):** owner programme 2026-11-02, the access-focused RQ1 study
 (PROTOCOL_FREEZE Amendment 7; instruction verbatim in `mac-agentic-engineering/project.md`, harness `936e761`). All
-authorised phases are finished. There is no active work, and nothing is running.
+authorised phases of that programme are finished.
 
 **Outcome.**
 - **Diagnostics.** The opportunity rule was met (reference 1 − P1 = +0.311; 1 − q = 0.328). Arrivals were mostly
@@ -25,6 +25,13 @@ counterfactuals on frozen checkpoints would cost about 0.3-0.5M actions. This ne
 **Budget.** 70M from ledger 311,392,581. Spent 16,835,872. The ledger total is 328,228,453. The remainder does not
 carry over.
 
-**Monitors.** Stopped at completion: battery guard 56292 and review cron 2f62d80b. No driver or watcher is running.
 
-**Next action.** Wait for the owner's next instruction.
+**Active programme (2026-11-02b).** Owner instruction 2026-11-02b authorizes a frozen-policy controller-diagnostic
+study: up to 2,000,000 executed actions from ledger 328,228,453, with no training. The question: on frozen policies,
+how much normal-start failure can be relieved by key-acquisition assistance, by door-transition assistance, or by
+masking physically ineffective actions?
+- **Policies:** eight frozen ordinary-PPO policies, A4 s70-73 and pilot s90-93.
+- **Panel:** fresh K=3 panel d6_ctrl, 8 conditions. The plan is in DECISIONS 2026-11-02b and Amendment 8.
+- **Monitors:** battery guard PID 30539; review cron eb95c0a1.
+
+**Next action.** Generate data r6-v1, then build and freeze the controller, analysis and verifier.

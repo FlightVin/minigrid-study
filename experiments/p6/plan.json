@@ -1,0 +1,9 @@
+{
+ "batches": [
+  {
+   "file": "experiments/p6/data.batch.json",
+   "study": "prep",
+   "required": true
+  }
+ ]
+}

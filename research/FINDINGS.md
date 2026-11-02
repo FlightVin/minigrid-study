@@ -1060,6 +1060,9 @@ This is a development comparison (6 seeds, 90-95). It is not confirmatory eviden
   or exclusions.
 - **Normal-start success P1** (means over 6 seeds):
 
+  [Corrected 2026-11-02b: r here is the unweighted mean of per-seed r; pooled r = S_A/A is A 0.507, B 0.500, C 0.489, D 0.515
+  (`reports/p6/audit_p5.md`). finishable q is a share of all attempts.]
+
   | Arm | P1 @251,904 | P1 @501,760 | q @501,760 | finishable q | r | entry bank | assisted-step fraction |
   |---|---|---|---|---|---|---|---|
   | A | 0.170 | 0.213 | 0.420 | 0.364 | 0.488 | 0.584 | 0 |
@@ -1093,7 +1096,10 @@ This is a development comparison (6 seeds, 90-95). It is not confirmatory eviden
   measures, and they are not pooled with them.
 - **Reading.** Module-entry starts (C, D) moved access up by about 0.04-0.05 on average. Completion after arrival
   did not change, so the P1 gain was at most about 0.03. The pattern fits a small access effect. It is far smaller
-  than the headroom in the diagnostics (reference 1 − P1 = +0.31 at the A4 final checkpoints). With 6 seeds it is
+  than the headroom in the diagnostics (reference 1 − P1 = +0.31 at the A4 final checkpoints). [Corrected 2026-11-02b: the observed
+  P1 changes were at most about 0.03; this does not follow from r being unchanged. Reference 1 is an assisted
+  reference under changed trajectories and arrival times, not an upper bound or a measure of headroom; it was measured
+  on different policies (A4) and a different panel.] With 6 seeds it is
   not resolved. D was the only arm whose P1 interval excluded 0. That interval is a development estimate among
   three comparisons, with no multiplicity control, and it is below the prespecified size.
 - **Interpretation limits** (section 9). Assisted starts change the training state distribution, the reward
@@ -1105,15 +1111,25 @@ This is a development comparison (6 seeds, 90-95). It is not confirmatory eviden
 
 - **Diagnostics** (A4 arm 00, seeds 70-73; probe and final checkpoints; d5_trace 64 K=3 layouts × 2; DECISIONS
   2026-11-02). At the final checkpoints:
+  - [Corrected 2026-11-02b: denominators are explicit in `reports/p6/audit_p5.md`. Pooled over the four final policies: n 512
+    attempts, A 344 arrivals, F 318 certified finishable (F/A 0.924), I 26 impossible (I/A 0.076 = 3-6% of attempts,
+    5-10% of arrivals), learned completion given arrival S_A/A 0.666, given a finishable arrival S_F/F 0.720.
+    Certified finishable means the planner can finish; the learned policy finished 72% of those.]
   - **Arrivals are mostly finishable.** Certified impossible: 3-6% of attempts. Unresolved: 0. Feasible arrivals
     completed at r = 0.63-0.80.
+  - [Corrected 2026-11-02b: "binding" is withdrawn. Most failures occurred before the boundary (0.49-0.71 of failures), but
+    reference 1 is an assisted reference, not a bound, so it does not show that access limits success.]
   - **Access is the binding stage.** Reference 1 (planner prefix, learned suffix) was 0.73-0.79, against P1 of
     0.27-0.58. Reference 2 (learned prefix, planner suffix from the actual arrival) equals finishable q (0.44-0.72).
   - **Where the failures are.** Pre-boundary failures ended mostly in the middle module (0.11-0.41 of attempts) and
     in the last module (0.09-0.10).
+  - [Corrected 2026-11-02b: these are observed behaviours. They do not establish why learning failed. A nominally wrong key
+    pickup (an earlier module's key) can serve a legitimate purpose, such as clearing a cell.]
   - **What failed attempts look like.** Per failed attempt: 9-23 toggles on a locked door and 38-61 no-ops; the
     pose-repeat fraction was 0.61-0.67. 26-42% of failed attempts picked up a wrong key at least once.
   - **Caveat.** This is accounting on a traced sample, not causal attribution.
+- [Corrected 2026-11-02b: "headroom" means the gap to an assisted reference, not a bound; the loop-at-locked-door account is a
+  hypothesis that the 2026-11-02b controller diagnostics test.]
 - **Synthesis.** The diagnostics showed large access headroom. Reset placement (B, C, D) at alpha 0.25 for 376,320
   actions captured only a small part of it. Each module-entry start gives the agent practice in a module from its
   entry. Failed normal-start attempts mostly loop at a locked door, often after holding a wrong key. A reasonable,

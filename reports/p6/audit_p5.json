@@ -1,0 +1,374 @@
+{
+ "diagnostics": {
+  "s70_probe": {
+   "counts": {
+    "n": 128,
+    "S": 19,
+    "A": 29,
+    "S_A": 19,
+    "F": 24,
+    "U": 0,
+    "I": 5,
+    "S_F": 19,
+    "pre_fail": 99,
+    "pre_end_m0": 25,
+    "pre_end_m1": 53,
+    "pre_end_m2": 21
+   },
+   "rates": {
+    "P1=S/n": 0.1484375,
+    "q=A/n": 0.2265625,
+    "r=S_A/A": 0.6551724137931034,
+    "finishable_of_arrivals=F/A": 0.8275862068965517,
+    "finishable_of_attempts=F/n": 0.1875,
+    "impossible_of_arrivals=I/A": 0.1724137931034483,
+    "completion_given_finishable=S_F/F": 0.7916666666666666,
+    "pre_boundary_of_failures": 0.908256880733945
+   }
+  },
+  "s71_probe": {
+   "counts": {
+    "n": 128,
+    "S": 21,
+    "A": 44,
+    "S_A": 21,
+    "F": 37,
+    "U": 0,
+    "I": 7,
+    "S_F": 21,
+    "pre_fail": 84,
+    "pre_end_m0": 10,
+    "pre_end_m1": 57,
+    "pre_end_m2": 17
+   },
+   "rates": {
+    "P1=S/n": 0.1640625,
+    "q=A/n": 0.34375,
+    "r=S_A/A": 0.4772727272727273,
+    "finishable_of_arrivals=F/A": 0.8409090909090909,
+    "finishable_of_attempts=F/n": 0.2890625,
+    "impossible_of_arrivals=I/A": 0.1590909090909091,
+    "completion_given_finishable=S_F/F": 0.5675675675675675,
+    "pre_boundary_of_failures": 0.7850467289719626
+   }
+  },
+  "s72_probe": {
+   "counts": {
+    "n": 128,
+    "S": 5,
+    "A": 9,
+    "S_A": 5,
+    "F": 8,
+    "U": 0,
+    "I": 1,
+    "S_F": 5,
+    "pre_fail": 119,
+    "pre_end_m0": 35,
+    "pre_end_m1": 64,
+    "pre_end_m2": 18
+   },
+   "rates": {
+    "P1=S/n": 0.0390625,
+    "q=A/n": 0.0703125,
+    "r=S_A/A": 0.5555555555555556,
+    "finishable_of_arrivals=F/A": 0.8888888888888888,
+    "finishable_of_attempts=F/n": 0.0625,
+    "impossible_of_arrivals=I/A": 0.1111111111111111,
+    "completion_given_finishable=S_F/F": 0.625,
+    "pre_boundary_of_failures": 0.967479674796748
+   }
+  },
+  "s73_probe": {
+   "counts": {
+    "n": 128,
+    "S": 15,
+    "A": 25,
+    "S_A": 15,
+    "F": 19,
+    "U": 0,
+    "I": 6,
+    "S_F": 15,
+    "pre_fail": 103,
+    "pre_end_m0": 29,
+    "pre_end_m1": 54,
+    "pre_end_m2": 19
+   },
+   "rates": {
+    "P1=S/n": 0.1171875,
+    "q=A/n": 0.1953125,
+    "r=S_A/A": 0.6,
+    "finishable_of_arrivals=F/A": 0.76,
+    "finishable_of_attempts=F/n": 0.1484375,
+    "impossible_of_arrivals=I/A": 0.24,
+    "completion_given_finishable=S_F/F": 0.7894736842105263,
+    "pre_boundary_of_failures": 0.911504424778761
+   }
+  },
+  "pooled_probe": {
+   "counts": {
+    "n": 512,
+    "S": 60,
+    "A": 107,
+    "S_A": 60,
+    "F": 88,
+    "U": 0,
+    "I": 19,
+    "S_F": 60,
+    "pre_fail": 405,
+    "pre_end_m0": 99,
+    "pre_end_m1": 228,
+    "pre_end_m2": 75
+   },
+   "rates": {
+    "P1=S/n": 0.1171875,
+    "q=A/n": 0.208984375,
+    "r=S_A/A": 0.5607476635514018,
+    "finishable_of_arrivals=F/A": 0.822429906542056,
+    "finishable_of_attempts=F/n": 0.171875,
+    "impossible_of_arrivals=I/A": 0.17757009345794392,
+    "completion_given_finishable=S_F/F": 0.6818181818181818,
+    "pre_boundary_of_failures": 0.8960176991150443
+   }
+  },
+  "s70_final": {
+   "counts": {
+    "n": 128,
+    "S": 74,
+    "A": 100,
+    "S_A": 74,
+    "F": 92,
+    "U": 0,
+    "I": 8,
+    "S_F": 74,
+    "pre_fail": 28,
+    "pre_end_m0": 2,
+    "pre_end_m1": 14,
+    "pre_end_m2": 12
+   },
+   "rates": {
+    "P1=S/n": 0.578125,
+    "q=A/n": 0.78125,
+    "r=S_A/A": 0.74,
+    "finishable_of_arrivals=F/A": 0.92,
+    "finishable_of_attempts=F/n": 0.71875,
+    "impossible_of_arrivals=I/A": 0.08,
+    "completion_given_finishable=S_F/F": 0.8043478260869565,
+    "pre_boundary_of_failures": 0.5185185185185185
+   }
+  },
+  "s71_final": {
+   "counts": {
+    "n": 128,
+    "S": 59,
+    "A": 87,
+    "S_A": 59,
+    "F": 83,
+    "U": 0,
+    "I": 4,
+    "S_F": 59,
+    "pre_fail": 41,
+    "pre_end_m0": 0,
+    "pre_end_m1": 30,
+    "pre_end_m2": 11
+   },
+   "rates": {
+    "P1=S/n": 0.4609375,
+    "q=A/n": 0.6796875,
+    "r=S_A/A": 0.6781609195402298,
+    "finishable_of_arrivals=F/A": 0.9540229885057471,
+    "finishable_of_attempts=F/n": 0.6484375,
+    "impossible_of_arrivals=I/A": 0.04597701149425287,
+    "completion_given_finishable=S_F/F": 0.7108433734939759,
+    "pre_boundary_of_failures": 0.5942028985507246
+   }
+  },
+  "s72_final": {
+   "counts": {
+    "n": 128,
+    "S": 35,
+    "A": 62,
+    "S_A": 35,
+    "F": 56,
+    "U": 0,
+    "I": 6,
+    "S_F": 35,
+    "pre_fail": 66,
+    "pre_end_m0": 1,
+    "pre_end_m1": 52,
+    "pre_end_m2": 13
+   },
+   "rates": {
+    "P1=S/n": 0.2734375,
+    "q=A/n": 0.484375,
+    "r=S_A/A": 0.5645161290322581,
+    "finishable_of_arrivals=F/A": 0.9032258064516129,
+    "finishable_of_attempts=F/n": 0.4375,
+    "impossible_of_arrivals=I/A": 0.0967741935483871,
+    "completion_given_finishable=S_F/F": 0.625,
+    "pre_boundary_of_failures": 0.7096774193548387
+   }
+  },
+  "s73_final": {
+   "counts": {
+    "n": 128,
+    "S": 61,
+    "A": 95,
+    "S_A": 61,
+    "F": 87,
+    "U": 0,
+    "I": 8,
+    "S_F": 61,
+    "pre_fail": 33,
+    "pre_end_m0": 2,
+    "pre_end_m1": 19,
+    "pre_end_m2": 12
+   },
+   "rates": {
+    "P1=S/n": 0.4765625,
+    "q=A/n": 0.7421875,
+    "r=S_A/A": 0.6421052631578947,
+    "finishable_of_arrivals=F/A": 0.9157894736842105,
+    "finishable_of_attempts=F/n": 0.6796875,
+    "impossible_of_arrivals=I/A": 0.08421052631578947,
+    "completion_given_finishable=S_F/F": 0.7011494252873564,
+    "pre_boundary_of_failures": 0.4925373134328358
+   }
+  },
+  "pooled_final": {
+   "counts": {
+    "n": 512,
+    "S": 229,
+    "A": 344,
+    "S_A": 229,
+    "F": 318,
+    "U": 0,
+    "I": 26,
+    "S_F": 229,
+    "pre_fail": 168,
+    "pre_end_m0": 5,
+    "pre_end_m1": 115,
+    "pre_end_m2": 48
+   },
+   "rates": {
+    "P1=S/n": 0.447265625,
+    "q=A/n": 0.671875,
+    "r=S_A/A": 0.6656976744186046,
+    "finishable_of_arrivals=F/A": 0.9244186046511628,
+    "finishable_of_attempts=F/n": 0.62109375,
+    "impossible_of_arrivals=I/A": 0.0755813953488372,
+    "completion_given_finishable=S_F/F": 0.720125786163522,
+    "pre_boundary_of_failures": 0.5936395759717314
+   }
+  }
+ },
+ "pilot": {
+  "00": {
+   "pooled_counts": {
+    "n": 1536,
+    "S": 327,
+    "A": 645,
+    "S_A": 327,
+    "F": 559,
+    "U": 1,
+    "I": 85,
+    "S_F": 327,
+    "pre_fail": 891,
+    "pre_end_m0": 113,
+    "pre_end_m1": 537,
+    "pre_end_m2": 235
+   },
+   "pooled_rates": {
+    "P1=S/n": 0.212890625,
+    "q=A/n": 0.419921875,
+    "r=S_A/A": 0.5069767441860465,
+    "finishable_of_arrivals=F/A": 0.8666666666666667,
+    "finishable_of_attempts=F/n": 0.3639322916666667,
+    "impossible_of_arrivals=I/A": 0.13178294573643412,
+    "completion_given_finishable=S_F/F": 0.5849731663685152,
+    "pre_boundary_of_failures": 0.7369727047146402
+   },
+   "mean_of_per_seed_r": 0.4877404923446589
+  },
+  "B5": {
+   "pooled_counts": {
+    "n": 1536,
+    "S": 339,
+    "A": 678,
+    "S_A": 339,
+    "F": 600,
+    "U": 2,
+    "I": 76,
+    "S_F": 339,
+    "pre_fail": 858,
+    "pre_end_m0": 112,
+    "pre_end_m1": 515,
+    "pre_end_m2": 224
+   },
+   "pooled_rates": {
+    "P1=S/n": 0.220703125,
+    "q=A/n": 0.44140625,
+    "r=S_A/A": 0.5,
+    "finishable_of_arrivals=F/A": 0.8849557522123894,
+    "finishable_of_attempts=F/n": 0.390625,
+    "impossible_of_arrivals=I/A": 0.11209439528023599,
+    "completion_given_finishable=S_F/F": 0.565,
+    "pre_boundary_of_failures": 0.7167919799498746
+   },
+   "mean_of_per_seed_r": 0.48668933381182766
+  },
+  "C5": {
+   "pooled_counts": {
+    "n": 1536,
+    "S": 345,
+    "A": 706,
+    "S_A": 345,
+    "F": 624,
+    "U": 0,
+    "I": 82,
+    "S_F": 345,
+    "pre_fail": 830,
+    "pre_end_m0": 118,
+    "pre_end_m1": 504,
+    "pre_end_m2": 204
+   },
+   "pooled_rates": {
+    "P1=S/n": 0.224609375,
+    "q=A/n": 0.4596354166666667,
+    "r=S_A/A": 0.4886685552407932,
+    "finishable_of_arrivals=F/A": 0.8838526912181303,
+    "finishable_of_attempts=F/n": 0.40625,
+    "impossible_of_arrivals=I/A": 0.11614730878186968,
+    "completion_given_finishable=S_F/F": 0.5528846153846154,
+    "pre_boundary_of_failures": 0.6968933669185559
+   },
+   "mean_of_per_seed_r": 0.466948439455003
+  },
+  "D5": {
+   "pooled_counts": {
+    "n": 1536,
+    "S": 370,
+    "A": 718,
+    "S_A": 370,
+    "F": 634,
+    "U": 2,
+    "I": 82,
+    "S_F": 370,
+    "pre_fail": 818,
+    "pre_end_m0": 119,
+    "pre_end_m1": 487,
+    "pre_end_m2": 209
+   },
+   "pooled_rates": {
+    "P1=S/n": 0.24088541666666666,
+    "q=A/n": 0.4674479166666667,
+    "r=S_A/A": 0.5153203342618384,
+    "finishable_of_arrivals=F/A": 0.883008356545961,
+    "finishable_of_attempts=F/n": 0.4127604166666667,
+    "impossible_of_arrivals=I/A": 0.11420612813370473,
+    "completion_given_finishable=S_F/F": 0.583596214511041,
+    "pre_boundary_of_failures": 0.7015437392795884
+   },
+   "mean_of_per_seed_r": 0.49279463837444953
+  }
+ }
+}

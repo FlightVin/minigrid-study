@@ -10,8 +10,9 @@ are marked in section P. Earlier sections are kept as written.
 
 ## Headline
 
-**Programme 2026-11-02 (section T, complete; development only):** The diagnostics on A4 checkpoints showed large
-access headroom: reference 1 (planner prefix, learned suffix) minus P1 was +0.31. Arrivals were mostly finishable
+**Programme 2026-11-02 (section T, complete; development only):** [Corrected 2026-11-02b: reference 1 is an assisted reference, not
+a bound on learner performance; "headroom" is withdrawn; denominators in `reports/p6/audit_p5.md`.] The diagnostics on
+A4 checkpoints showed large access headroom: reference 1 (planner prefix, learned suffix) minus P1 was +0.31. Arrivals were mostly finishable
 (3-6% certified impossible). A 6-seed development pilot of three reset placements ran 501,760 continuation actions:
 post-boundary resets, static module-entry resets, and a backward module curriculum. It gave P1 changes of +0.008,
 +0.012 and +0.028 [+0.004, +0.052] against ordinary PPO (0.213). Access rose by about 0.02-0.05, completion and
@@ -77,6 +78,11 @@ sequence and normal-start success, while keeping later-stage competence?
 - Preservation may give a small early advantage. Its long-budget benefit is unresolved and bounded below 0.03.
 
 ### T2. Diagnostics (A4 arm 00, seeds 70-73, probe and final checkpoints; 199,824 actions)
+
+[Corrected 2026-11-02b: "impossible" and "finishable q" below are shares of all 128 attempts per policy. Pooled final:
+F/A = 318/344 = 0.924 of arrivals were certified finishable by the planner; the learned policy finished
+S_A/A = 229/344 = 0.666 of all arrivals and S_F/F = 229/318 = 0.720 of finishable ones. The loop behaviours are
+observations, not causes.]
 | Final checkpoint | P1 | q | finishable q | impossible | reference 1 | pre-boundary share of failures |
 |---|---|---|---|---|---|---|
 | s70 | 0.578 | 0.781 | 0.719 | 0.062 | 0.766 | 0.52 |
@@ -114,7 +120,8 @@ The selection is none, the confirmation (seeds 96-115) was not run, and nothing 
 Not run, because the gate selected no method. The 36.36M reserve was not spent.
 
 ### T6. Interpretation
-- The diagnostics located the headroom in access, and reset placement captured only a small part of it.
+- The diagnostics located the headroom in access, and reset placement captured only a small part of it. [Corrected 2026-11-02b:
+  most failures occurred before the boundary; the assisted reference does not measure attainable headroom.]
 - Assisted starts change several things together, so they do not isolate exploration.
 - q and r are panel-level measures.
 - No novelty claim is made.

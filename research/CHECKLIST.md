@@ -194,3 +194,21 @@ Dependencies: each line needs the lines above it unless marked (parallel-safe: d
       recommendation; commit + push
 - [x] Stop owned monitors (battery guard 56292, review cron 2f62d80b)
 - [ ] Next question (key choice vs door approach counterfactual) — proposal only; awaits owner instruction
+
+## Programme 2026-11-02b (frozen-policy controller diagnostics; PROTOCOL_FREEZE Amendment 8; 2M from 328,228,453)
+
+- [x] Instruction recorded verbatim (harness `03d20ea`); starting ledger recorded
+- [x] Position checks: tree, ledger, workers, policy hashes (8/8)
+- [x] Denominator audit (`reports/p6/audit_p5.md`); marked corrections in F27/F28/REPORT T
+- [x] Battery guard restarted (PID 30539) and two-hour introspective review loop (cron eb95c0a1); no duplicates
+- [ ] Role d6_ctrl + data r6-v1 (runner) -> disjointness check
+- [ ] Controller module (KA/DA helpers, physical mask, step-indexed CRN), tests (zero remaining time, final-step
+      arrival, inventory changes, already-open door, unavailable assistance, budget interruption)
+- [ ] Conservative cost -> 64 or 32 layouts (before outcomes)
+- [ ] Frozen analysis + independent verifier; Amendment 8 (hashes, controller definitions, fallbacks, accounting,
+      manifest); commit before outcome-producing runs
+- [ ] Tests batch; engineering canary on d5_trace (no new-panel outcomes)
+- [ ] Evaluation batches: 8 policies x 8 conditions (reviews every 2 h; battery rule)
+- [ ] Verification replay sample (runner); analysis; independent verification
+- [ ] Trajectory inspection (predetermined sample); interpretation; ranked recommendation + one proposal (not launched)
+- [ ] Final tests; cost reconciliation; FINDINGS; REPORT; STATE; commit + push; stop owned monitors

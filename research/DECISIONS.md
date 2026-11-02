@@ -644,3 +644,47 @@ completion. See FINDINGS F24-F25 and REPORT section S.
 - **Close.** The final tests passed (308 passed, 10 skipped; batch 20261102T120422-87797). The programme total is
   16,835,872 of 70M. The next question is proposed in F28 and REPORT T8. It needs an owner instruction and has not
   been launched.
+
+## 2026-11-02b — Programme: frozen-policy controller diagnostics (owner instruction 2026-11-02b)
+
+- **Authorization.** At most 2,000,000 executed actions from ledger 328,228,453 (`tools/run_program6.py`). No training,
+  reward change, longer horizon, new reset curriculum or new training seed. The reset pilot and its confirmation are
+  not reopened.
+- **Preserved.**
+  - The pilot did not meet its frozen 0.05 rule; seeds 96-115 were correctly unused.
+  - D's +0.028 is exploratory (the largest of three) and establishes neither a benefit nor equivalence.
+  - Earlier preservation and reset results stay scoped to their procedures, task family and allowances.
+  - No cost-effective selector has been established.
+- **Position checks (no actions).**
+  - The tree was clean at 5d5b31d. No worker was running.
+  - The ledger total, 328,228,453, equals the previous start plus 16,835,872.
+  - The eight frozen policies load with hashes equal to their run summaries:
+
+    | Policy | Hash prefix |
+    |---|---|
+    | A4 s70 | 39e5fcd6 |
+    | A4 s71 | c320d16c |
+    | A4 s72 | 8fd58ae0 |
+    | A4 s73 | 0068d0be |
+    | pilot s90 | 46739e2a |
+    | pilot s91 | cdec2cd0 |
+    | pilot s92 | fb985af9 |
+    | pilot s93 | 52b909d5 |
+
+    A4 policies are arm 00 at 1,001,472; pilot policies are arm 00 at 501,760.
+- **Denominator audit** (`tools/audit_p5_denominators.py` → `reports/p6/audit_p5.md`).
+  - All rates were recomputed from pooled counts. No numeric error was found.
+  - Labels were corrected:
+    - "impossible 3-6%" is a share of attempts (5-10% of arrivals).
+    - The pilot "r" column is the mean of per-seed r; pooled r for A is 0.507.
+    - "binding", "headroom" and causal readings of loop behaviours are withdrawn.
+    - Reference 1 is an assisted reference, not a bound.
+  - Marked corrections were inserted into F27, F28 and REPORT T. The original text is kept.
+- **Plan** (frozen in Amendment 8 before any outcome on the new panel).
+  1. Generate the new disjoint panel d6_ctrl (namespace 136; data r6-v1 on top of r5-v1).
+  2. Write the controller module (key-acquisition and door-transition helpers, physical mask, step-indexed common
+     random numbers), its tests, the frozen analysis and the independent verifier.
+  3. Compute the conservative cost and choose 64 or 32 layouts before outcomes.
+  4. Run the tests batch, then an engineering canary on d5_trace layouts (not the new panel).
+  5. Run eight evaluation batches (one per policy; 8 conditions × layouts × 2 attempts).
+  6. Run the verification replay sample, then the analysis, verification, write-up and final tests.

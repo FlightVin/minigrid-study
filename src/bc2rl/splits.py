@@ -23,18 +23,19 @@ ROLE_NAMESPACE = {
     "a3_select": 118, "a3_bank": 119, "a3_final": 120, "pl_select": 121, "pl_bank": 122, "pl_final": 123,
     "a4_select": 124, "a4_bank": 125, "a4_final": 126, "a4_donor": 127,
     "d5_trace": 128, "p5_select": 129, "p5_eval": 135, "p5_bank": 131, "c5_select": 132, "c5_bank": 133, "c5_final": 134,
+    "d6_ctrl": 136,
 }
 TRAIN_ROLES = ("bc_train", "bc_val", "rl_train", "reset_donor", "anchor_donor")
 EVAL_ROLES = ("dev_eval", "dev_bank", "conf_select", "conf_bank", "conf_final", "r1_select", "r1_bank", "r1_final",
               "r2_select", "r2_bank", "r2_final", "a3_select", "a3_bank", "a3_final", "pl_select", "pl_bank", "pl_final",
               "a4_select", "a4_bank", "a4_final", "a4_donor",
-              "d5_trace", "p5_select", "p5_eval", "p5_bank", "c5_select", "c5_bank", "c5_final")
+              "d5_trace", "p5_select", "p5_eval", "p5_bank", "c5_select", "c5_bank", "c5_final", "d6_ctrl")
 # Earlier roles win a structural collision; evaluation roles come last so they stay untouched.
 ROLE_ORDER = ["bc_train", "bc_val", "rl_train", "reset_donor", "anchor_donor", "dev_eval", "dev_bank",
               "conf_select", "conf_bank", "conf_final", "r1_select", "r1_bank", "r1_final", "r2_select", "r2_bank",
               "r2_final", "a3_select", "a3_bank", "a3_final", "pl_select", "pl_bank", "pl_final",
               "a4_select", "a4_bank", "a4_final", "a4_donor",
-              "d5_trace", "p5_select", "p5_eval", "p5_bank", "c5_select", "c5_bank", "c5_final"]
+              "d5_trace", "p5_select", "p5_eval", "p5_bank", "c5_select", "c5_bank", "c5_final", "d6_ctrl"]
 ALLOWED_USE = {
     "bc_train": "supervised fitting only",
     "bc_val": "BC checkpoint/fitting development; no PPO branch outcomes",
@@ -69,6 +70,7 @@ ALLOWED_USE = {
     "c5_select": "2026-11-02 confirmation pi0/post-probe diagnostics; no fitting; never development",
     "c5_bank": "2026-11-02 confirmation planner boundary-entry competence bank; no fitting; never development",
     "c5_final": "2026-11-02 confirmation final evaluation (256 K=3 x 2) only; never tuning or selection",
+    "d6_ctrl": "2026-11-02b frozen-policy controller diagnostics panel (K=3 x 2 attempts); evaluation only; no fitting",
 }
 
 
