@@ -160,10 +160,10 @@ Dependencies: each line needs the lines above it unless marked (parallel-safe: d
       readings (32/31/30%, AC, missing) and pause/resume smoke (local)
 - [x] Data r4-v1 config, entry bank, arrival-bank job, A4 configs, batches, driver, frozen analysis, verifier,
       planning scenarios; DECISIONS, Amendment 6, STATE
-- [ ] Commit; verify no duplicate monitors; start battery guard; review cron
-- [ ] Data r4-v1 (runner) -> `tools/data_gate_r4.py` (stop on failure)
-- [ ] Arrival bank (runner); record counts / shortfall; freeze its hash; recompute conservative costs (driver)
-- [ ] Tests batch (full suite + RL smoke + pause smoke)
+- [x] Commit; verify no duplicate monitors; start battery guard; review cron
+- [x] Data r4-v1 (runner) -> `tools/data_gate_r4.py` (stop on failure)
+- [x] Arrival bank (runner); record counts / shortfall; freeze its hash; recompute conservative costs (driver)
+- [x] Tests batch (full suite + RL smoke + pause smoke)
 - [ ] Canary seed 70 -> `tools/a4_canary_check.py` (no outcomes)
 - [ ] Seeds 71-89 (watcher; reviews every 2 h; battery rule)
 - [ ] Cohort profile (pi0/probe/BC targets) reported

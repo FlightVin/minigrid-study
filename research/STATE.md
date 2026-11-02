@@ -27,7 +27,11 @@
 **Budget:** 70M from ledger 255,665,568 (`tools/run_program4.py --status`). Worst case about 61.8M; expected about
 59.5M; protection about 8M.
 
-**Monitors:** none running yet. To start: battery guard, then the driver, a watcher and the review cron.
+**Monitors:** battery guard PID 31137 (task b826abobo; log `.mae/monitor/battery_guard.log`; status
+`.mae/monitor/battery_status.json`); review cron 5bcaa9b8 (every 2 h at :43; checks the pause flag first;
+session-only). Canary driver PID 31664 (create 1793580296.22; batch 20261102T004500-31671; log
+`.mae/monitor/a4_canary.log`); watcher task bgf5l423o. Done: data (gate pass), arrival bank (96, frozen), tests
+306 + smoke 6.
 
 **Recovery after a battery pause** (owner instruction only):
 1. Verify that nothing runs.
