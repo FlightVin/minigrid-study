@@ -583,3 +583,12 @@ completion. See FINDINGS F24-F25 and REPORT section S.
   r2_select (the registry would have rejected the duplicate layout).
 - **Accounting fix.** Subprocess smoke-job records are now mirrored to the parent. The A4 `a4-smoke` gap will be
   measured and added as an adjustment.
+
+## 2026-11-02 — Diagnostics failure (deterministic) and fix
+
+- **Failure.** Batch 20261102T102002-57224 (p5-diag-v1) failed after 20,498 actions. These actions are counted, and
+  the records are kept.
+- **Cause.** An actual arrival on the final step (0 remaining time) cannot be restored as a snapshot.
+- **Fix.** `suffix_cert.certify` classifies such an arrival as impossible without search, because no action remains.
+  New test added.
+- **Scope.** Only certification. No earlier result used it. Rerun under a new batch ID.

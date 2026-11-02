@@ -98,3 +98,17 @@ def test_certification_feasible_impossible_and_tracker():
         assert c["status"] == "feasible" and c["plan_length"] == len(acts) - tau and c["lower_bound"] <= c["plan_length"]
         short = {**snap, "step_count": L.limit - c["lower_bound"] + 1}
         assert SC.certify(short)["status"] == "impossible"
+
+
+@need
+def test_certification_of_arrival_with_no_remaining_time():
+    it = next(it for it in json.loads((DS / "layouts.json").read_text())["reset_donor"] if it["layout"]["K"] == 3)
+    L = T.Layout.from_dict(it["layout"])
+    acts, tau = P.plan(L, it["planner_seed"])
+    env = T.StageTask()
+    env.reset(options={"layout": L})
+    for a in acts[:tau]:
+        env.step(a)
+    snap = {**env.snapshot(), "step_count": L.limit}
+    c = SC.certify(snap)
+    assert c["status"] == "impossible" and c["remaining"] == 0 and c["replay_actions"] == 0

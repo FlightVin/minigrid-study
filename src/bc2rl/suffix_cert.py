@@ -11,6 +11,7 @@ certify(snapshot) -> {"status": "feasible" | "impossible" | "unresolved", "lower
               (all non-wall cells passable) and counts one drop if a non-target object is carried, the moves to a
               pose facing the target, one pickup, and the moves onto the delivery cell. Every real plan needs at
               least that many steps, so the bound proves impossibility.
+- An arrival on the final step (no remaining time) is impossible without search.
 - unresolved: neither holds (no abstraction plan within the remaining time, but the bound does not exclude one).
               A failed or too-long abstraction search is not proof of impossibility.
 """
@@ -108,6 +109,10 @@ def abstract_plan(env, seed=0):
 
 
 def certify(snapshot, seed=0):
+    remaining = snapshot["layout"]["limit"] - snapshot["step_count"]
+    if remaining <= 0:             # arrival on the final step: no action remains, so completion is impossible
+        return {"remaining": int(remaining), "lower_bound": None, "plan_length": None, "replay_actions": 0,
+                "replay_success": None, "status": "impossible", "reason": "no remaining time"}
     env = T.StageTask()
     env.reset(options={"snapshot": snapshot})
     remaining = env.remaining()
