@@ -416,3 +416,21 @@ cal-s67..69 -> `tools/analyze_cal.py` -> pilot batch files via `make_batches.py 
 - **Next step.** Seed 89 needs about 17 min, then the final tests run. After that: `tools/analyze_a4.py
   --check-states`, `tools/verify_a4.py`, the figures, the cost reconciliation, F24+, REPORT section S and the
   recommendation.
+
+## 2026-11-02 ~12:00 (two-hour review; access-focused programme, Amendment 7)
+
+- **Pause flag.** `.mae/monitor/BATTERY_PAUSE.json` does not exist. Battery 87% on AC, decision ok.
+- **State.** Preparation, diagnostics and the canary s90 are complete. Pilot seeds 91-94 are complete (driver exit 0
+  for each batch). Seed 95 is in progress (batch 20261102T114609-71690): BC, probe, B5 and C5 exited 0; the last
+  branch runs now. Final tests remain after the pilot gate and the conditional confirmation.
+- **Validity.** No job failed, and no retry or exclusion happened. I did not read any pilot treatment outcomes; only
+  the s90 engineering check ran. The design, gate and analyses stay as frozen (Amendment 7).
+- **Resources.** Programme spend 15,892,982 of 70M. The confirmation reserve (36,356,960) is held until gate.json
+  exists. The remaining conservative headroom is 3,256,776. One job at a time.
+- **Monitors (by PID and create time).** Battery guard 56292 (1793614524.02). Driver 59587 (1793615926.45). Batch
+  supervisor 71690. Watcher loop br66vo8up (current watch_batch 71715). One instance each.
+- **Tooling frozen before the gate.** I committed `tools/verify_p5.py` (independent gate recomputation),
+  `tools/make_confirm_p5.py`, `tools/analyze_c5.py` and `tools/verify_c5.py` before any gate or confirmation outcome.
+- **Next step.** When s95 finishes: run `tools/analyze_p5.py` (gate), then `tools/verify_p5.py`. Apply the frozen gate
+  exactly. If a method qualifies, write the confirmation batches, run canary s96, then seeds 97-115. If none
+  qualifies, do not launch anything more; write the diagnostic synthesis and the proposal.
