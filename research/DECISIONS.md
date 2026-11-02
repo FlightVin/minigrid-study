@@ -697,3 +697,17 @@ completion. See FINDINGS F24-F25 and REPORT section S.
 - **Effect.** No controller or analysis code is affected. No outcome had been produced; the canary did not start.
 - **Fix.** The tests now write a self-contained two-layout dataset in a temporary directory. The frozen controller,
   analysis and verifier files are unchanged (Amendment 8 L). The tests rerun under a new run ID.
+
+## 2026-11-02b — Tests pass; engineering canary passes (no d6_ctrl outcome read)
+
+- **Tests.** Batch 20261102T143015-32997: 321 passed, 10 skipped; 71,001 actions.
+- **Canary.** Batch 20261102T143112-33037: d5_trace 4 layouts × 1 attempt × 8 conditions, a4_s70; 4,133 actions
+  (3,373 in episodes, 760 in certification replays). `tools/analyze_p6.py --canary` found no problems:
+  - rows and clocks are correct;
+  - helpers appear only in their scope and reach their goals;
+  - no ineffective prefix action was executed under the mask;
+  - every arrival is certified;
+  - step records equal the summary.
+- **Throughput.** About 5,500 actions/s.
+- **Spend.** Programme spend so far is 191,649, including the failed tests batch and local tests.
+- **Next.** Run the eight evaluation batches.
