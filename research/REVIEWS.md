@@ -400,3 +400,19 @@ cal-s67..69 -> `tools/analyze_cal.py` -> pilot batch files via `make_batches.py 
   matches `.mae/current.json`. Watcher loop btqqaphue (current watch_batch 70078). One instance each.
 - **Next step.** Let seeds 81–89 finish (about 2.6 h). Then run the analysis, the verification, the figures, the final
   tests, the cost reconciliation, F24+ and REPORT section S.
+
+## 2026-11-02 01:05 EST (06:05 UTC) — two-hour review, A4 (Amendment 6)
+
+- **Battery.** No pause flag. Guard status: 85%, AC, decision ok, rate 0.0 %/h.
+- **State.** Seeds 70–88 are complete (19/20). Seed 89 started at 06:03 UTC (batch 20261102T060348-3284; BC running).
+  The final tests are the only other queued batch in driver 37930.
+- **Validity (engineering only).** `tools/verify_a4.py --engineering` found no problems: 19 complete seeds, 38
+  completed branch jobs with step records equal to the summary actions. There were no retries or pauses. No A4
+  treatment outcome was read.
+- **Resources.** Spent 52,912,725 of 70M. Seed 89 was admitted with a worst-case need of 56,277,825, which leaves
+  13.7M of protection.
+- **Monitors (by PID and create time).** Battery guard 31137. Driver 37930 (create time matches). Supervisor 3284
+  matches `.mae/current.json`. Watcher loop btqqaphue (current watch_batch 3474). One instance each.
+- **Next step.** Seed 89 needs about 17 min, then the final tests run. After that: `tools/analyze_a4.py
+  --check-states`, `tools/verify_a4.py`, the figures, the cost reconciliation, F24+, REPORT section S and the
+  recommendation.
