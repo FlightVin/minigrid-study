@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 280" width="1080" height="280" role="img" aria-label="A4 stage measures">
+<style>
+:root{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--grid:#e4e3df;--zero:#8a8984}
+@media (prefers-color-scheme: dark){:root{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--grid:#3a3a37;--zero:#8a8984}}
+svg{background:var(--surface)} .t1{font:600 13px system-ui;fill:var(--ink)} .tick{font:11px system-ui;fill:var(--ink2)}
+.grid{stroke:var(--grid);stroke-width:1} .zero{stroke:var(--zero);stroke-width:1.2} .ref{stroke:var(--zero);stroke-width:1;stroke-dasharray:4 3}
+</style>
+<rect width="100%" height="100%" fill="var(--surface)"/>
+<text x="16" y="20" class="t1">A4 arm means by endpoint (grey: ordinary PPO; green: suffix preservation)</text>
+<text x="16" y="48" class="t1">normal-start P1</text>
+<line x1="46" x2="270" y1="206.0" y2="206.0" class="zero"/>
+<text x="43" y="210.0" class="tick" text-anchor="end">0.00</text>
+<line x1="46" x2="270" y1="132.0" y2="132.0" class="grid"/>
+<text x="43" y="136.0" class="tick" text-anchor="end">0.23</text>
+<line x1="46" x2="270" y1="58.0" y2="58.0" class="grid"/>
+<text x="43" y="62.0" class="tick" text-anchor="end">0.45</text>
+<g><title>pi0 normal-start P1: 0.089 (same states)</title><circle cx="56" cy="176.8" r="4" fill="#3b7dd8"/></g>
+<g><title>probe normal-start P1: 0.120 (same states)</title><circle cx="91" cy="167.0" r="4" fill="#3b7dd8"/></g>
+<polyline points="136,145.3 186,120.7 241,78.8" fill="none" stroke="#8a8984" stroke-width="2"/>
+<g><title>A E250 normal-start P1: 0.186</title><circle cx="136" cy="145.3" r="4" fill="#8a8984"/></g>
+<g><title>A E500 normal-start P1: 0.262</title><circle cx="186" cy="120.7" r="4" fill="#8a8984"/></g>
+<g><title>A E1M normal-start P1: 0.390</title><circle cx="241" cy="78.8" r="4" fill="#8a8984"/></g>
+<polyline points="136,138.7 186,116.8 241,77.3" fill="none" stroke="#1baf7a" stroke-width="2"/>
+<g><title>C E250 normal-start P1: 0.206</title><circle cx="136" cy="138.7" r="4" fill="#1baf7a"/></g>
+<g><title>C E500 normal-start P1: 0.274</title><circle cx="186" cy="116.8" r="4" fill="#1baf7a"/></g>
+<g><title>C E1M normal-start P1: 0.395</title><circle cx="241" cy="77.3" r="4" fill="#1baf7a"/></g>
+<text x="56" y="220" class="tick" text-anchor="middle">pi0</text>
+<text x="91" y="220" class="tick" text-anchor="middle">probe</text>
+<text x="136" y="220" class="tick" text-anchor="middle">250k</text>
+<text x="186" y="220" class="tick" text-anchor="middle">500k</text>
+<text x="241" y="220" class="tick" text-anchor="middle">1M</text>
+<text x="282" y="48" class="t1">access q</text>
+<line x1="312" x2="536" y1="206.0" y2="206.0" class="zero"/>
+<text x="309" y="210.0" class="tick" text-anchor="end">0.00</text>
+<line x1="312" x2="536" y1="132.0" y2="132.0" class="grid"/>
+<text x="309" y="136.0" class="tick" text-anchor="end">0.35</text>
+<line x1="312" x2="536" y1="58.0" y2="58.0" class="grid"/>
+<text x="309" y="62.0" class="tick" text-anchor="end">0.70</text>
+<g><title>pi0 access q: 0.157 (same states)</title><circle cx="322" cy="172.9" r="4" fill="#3b7dd8"/></g>
+<g><title>probe access q: 0.212 (same states)</title><circle cx="357" cy="161.3" r="4" fill="#3b7dd8"/></g>
+<polyline points="402,136.3 452,112.6 507,78.3" fill="none" stroke="#8a8984" stroke-width="2"/>
+<g><title>A E250 access q: 0.331</title><circle cx="402" cy="136.3" r="4" fill="#8a8984"/></g>
+<g><title>A E500 access q: 0.443</title><circle cx="452" cy="112.6" r="4" fill="#8a8984"/></g>
+<g><title>A E1M access q: 0.606</title><circle cx="507" cy="78.3" r="4" fill="#8a8984"/></g>
+<polyline points="402,130.7 452,111.2 507,77.3" fill="none" stroke="#1baf7a" stroke-width="2"/>
+<g><title>C E250 access q: 0.357</title><circle cx="402" cy="130.7" r="4" fill="#1baf7a"/></g>
+<g><title>C E500 access q: 0.450</title><circle cx="452" cy="111.2" r="4" fill="#1baf7a"/></g>
+<g><title>C E1M access q: 0.610</title><circle cx="507" cy="77.3" r="4" fill="#1baf7a"/></g>
+<text x="322" y="220" class="tick" text-anchor="middle">pi0</text>
+<text x="357" y="220" class="tick" text-anchor="middle">probe</text>
+<text x="402" y="220" class="tick" text-anchor="middle">250k</text>
+<text x="452" y="220" class="tick" text-anchor="middle">500k</text>
+<text x="507" y="220" class="tick" text-anchor="middle">1M</text>
+<text x="548" y="48" class="t1">planner-entry competence</text>
+<line x1="578" x2="802" y1="206.0" y2="206.0" class="zero"/>
+<text x="575" y="210.0" class="tick" text-anchor="end">0.00</text>
+<line x1="578" x2="802" y1="132.0" y2="132.0" class="grid"/>
+<text x="575" y="136.0" class="tick" text-anchor="end">0.37</text>
+<line x1="578" x2="802" y1="58.0" y2="58.0" class="grid"/>
+<text x="575" y="62.0" class="tick" text-anchor="end">0.73</text>
+<g><title>pi0 planner-entry competence: 0.608 (same states)</title><circle cx="588" cy="83.5" r="4" fill="#3b7dd8"/></g>
+<g><title>probe planner-entry competence: 0.576 (same states)</title><circle cx="623" cy="89.9" r="4" fill="#3b7dd8"/></g>
+<polyline points="668,93.1 718,86.2 773,80.6" fill="none" stroke="#8a8984" stroke-width="2"/>
+<g><title>A E250 planner-entry competence: 0.560</title><circle cx="668" cy="93.1" r="4" fill="#8a8984"/></g>
+<g><title>A E500 planner-entry competence: 0.595</title><circle cx="718" cy="86.2" r="4" fill="#8a8984"/></g>
+<g><title>A E1M planner-entry competence: 0.622</title><circle cx="773" cy="80.6" r="4" fill="#8a8984"/></g>
+<polyline points="668,86.1 718,80.1 773,77.3" fill="none" stroke="#1baf7a" stroke-width="2"/>
+<g><title>C E250 planner-entry competence: 0.595</title><circle cx="668" cy="86.1" r="4" fill="#1baf7a"/></g>
+<g><title>C E500 planner-entry competence: 0.625</title><circle cx="718" cy="80.1" r="4" fill="#1baf7a"/></g>
+<g><title>C E1M planner-entry competence: 0.638</title><circle cx="773" cy="77.3" r="4" fill="#1baf7a"/></g>
+<text x="588" y="220" class="tick" text-anchor="middle">pi0</text>
+<text x="623" y="220" class="tick" text-anchor="middle">probe</text>
+<text x="668" y="220" class="tick" text-anchor="middle">250k</text>
+<text x="718" y="220" class="tick" text-anchor="middle">500k</text>
+<text x="773" y="220" class="tick" text-anchor="middle">1M</text>
+<text x="814" y="48" class="t1">arrival-bank competence</text>
+<line x1="844" x2="1068" y1="206.0" y2="206.0" class="zero"/>
+<text x="841" y="210.0" class="tick" text-anchor="end">0.00</text>
+<line x1="844" x2="1068" y1="132.0" y2="132.0" class="grid"/>
+<text x="841" y="136.0" class="tick" text-anchor="end">0.37</text>
+<line x1="844" x2="1068" y1="58.0" y2="58.0" class="grid"/>
+<text x="841" y="62.0" class="tick" text-anchor="end">0.74</text>
+<g><title>pi0 arrival-bank competence: 0.580 (same states)</title><circle cx="854" cy="89.5" r="4" fill="#3b7dd8"/></g>
+<g><title>probe arrival-bank competence: 0.566 (same states)</title><circle cx="889" cy="92.4" r="4" fill="#3b7dd8"/></g>
+<polyline points="934,94.2 984,85.5 1039,77.3" fill="none" stroke="#8a8984" stroke-width="2"/>
+<g><title>A E250 arrival-bank competence: 0.557</title><circle cx="934" cy="94.2" r="4" fill="#8a8984"/></g>
+<g><title>A E500 arrival-bank competence: 0.600</title><circle cx="984" cy="85.5" r="4" fill="#8a8984"/></g>
+<g><title>A E1M arrival-bank competence: 0.641</title><circle cx="1039" cy="77.3" r="4" fill="#8a8984"/></g>
+<polyline points="934,89.5 984,81.7 1039,78.5" fill="none" stroke="#1baf7a" stroke-width="2"/>
+<g><title>C E250 arrival-bank competence: 0.580</title><circle cx="934" cy="89.5" r="4" fill="#1baf7a"/></g>
+<g><title>C E500 arrival-bank competence: 0.619</title><circle cx="984" cy="81.7" r="4" fill="#1baf7a"/></g>
+<g><title>C E1M arrival-bank competence: 0.635</title><circle cx="1039" cy="78.5" r="4" fill="#1baf7a"/></g>
+<text x="854" y="220" class="tick" text-anchor="middle">pi0</text>
+<text x="889" y="220" class="tick" text-anchor="middle">probe</text>
+<text x="934" y="220" class="tick" text-anchor="middle">250k</text>
+<text x="984" y="220" class="tick" text-anchor="middle">500k</text>
+<text x="1039" y="220" class="tick" text-anchor="middle">1M</text>
+<text x="16" y="270" class="tick">Means over seeds. Banks are fixed states (planner entry; calibration-policy arrivals); pi0/probe on the same states.</text>
+</svg>

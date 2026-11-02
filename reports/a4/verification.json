@@ -1,0 +1,72 @@
+{
+ "complete_seeds": [
+  70,
+  71,
+  72,
+  73,
+  74,
+  75,
+  76,
+  77,
+  78,
+  79,
+  80,
+  81,
+  82,
+  83,
+  84,
+  85,
+  86,
+  87,
+  88,
+  89
+ ],
+ "n_complete": 20,
+ "step_records_equal_summary_jobs": 40,
+ "H1": {
+  "n": 20,
+  "estimate": 0.0046875,
+  "sd": 0.04245355010513968,
+  "p": 0.6271143134553248,
+  "lo": -0.015181373052875289,
+  "hi": 0.02455637305287529,
+  "signflip_p": 0.6375770568847656,
+  "decision": "not supported"
+ },
+ "H2_descriptive_or_gated": {
+  "n": 20,
+  "estimate": -0.0154296875,
+  "sd": 0.05257957298389352,
+  "p": 0.20503033014759364,
+  "lo": -0.0400376851398698,
+  "hi": 0.009178310139869798
+ },
+ "d_means": {
+  "251904": 0.0201171875,
+  "501760": 0.01201171875,
+  "1001472": 0.0046875
+ },
+ "agrees_with_analyze_a4": {
+  "estimate": true,
+  "sd": true,
+  "p": true,
+  "t95_lo": true,
+  "t95_hi": true,
+  "signflip_p_exact": true,
+  "decision": true,
+  "H2_estimate": true,
+  "E250_P1": true,
+  "E250_q": true,
+  "E250_entry": true,
+  "E250_arrival_bank": true,
+  "E500_P1": true,
+  "E500_q": true,
+  "E500_entry": true,
+  "E500_arrival_bank": true,
+  "E1M_P1": true,
+  "E1M_q": true,
+  "E1M_entry": true,
+  "E1M_arrival_bank": true
+ },
+ "problems": []
+}

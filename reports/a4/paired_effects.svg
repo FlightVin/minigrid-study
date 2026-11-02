@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 340" width="560" height="340" role="img" aria-label="A4 paired effects">
+<style>
+:root{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--grid:#e4e3df;--zero:#8a8984}
+@media (prefers-color-scheme: dark){:root{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--grid:#3a3a37;--zero:#8a8984}}
+svg{background:var(--surface)} .t1{font:600 13px system-ui;fill:var(--ink)} .tick{font:11px system-ui;fill:var(--ink2)}
+.grid{stroke:var(--grid);stroke-width:1} .zero{stroke:var(--zero);stroke-width:1.2} .ref{stroke:var(--zero);stroke-width:1;stroke-dasharray:4 3}
+</style>
+<rect width="100%" height="100%" fill="var(--surface)"/>
+<text x="50" y="20" class="t1">A4: suffix preservation minus ordinary PPO, normal-start P1 (K=3; 20 seeds)</text>
+<line x1="50" x2="520" y1="275.5" y2="275.5" class="grid"/>
+<text x="44" y="279.5" class="tick" text-anchor="end">-0.10</text>
+<line x1="50" x2="520" y1="215.7" y2="215.7" class="grid"/>
+<text x="44" y="219.7" class="tick" text-anchor="end">-0.05</text>
+<line x1="50" x2="520" y1="155.8" y2="155.8" class="zero"/>
+<text x="44" y="159.8" class="tick" text-anchor="end">+0.00</text>
+<line x1="50" x2="520" y1="96.0" y2="96.0" class="ref"/>
+<text x="44" y="100.0" class="tick" text-anchor="end">+0.05</text>
+<line x1="50" x2="520" y1="36.2" y2="36.2" class="grid"/>
+<text x="44" y="40.2" class="tick" text-anchor="end">+0.10</text>
+<line x1="50" x2="520" y1="119.9" y2="119.9" class="ref"/>
+<text x="523" y="123.9" class="tick">0.03</text>
+<g><title>251,904, seed 70: -0.0137</title><circle cx="104.6" cy="172.2" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>251,904, seed 71: +0.0586</title><circle cx="105.8" cy="85.7" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>251,904, seed 72: +0.0000</title><circle cx="107.0" cy="155.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>251,904, seed 73: -0.0371</title><circle cx="108.2" cy="200.2" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>251,904, seed 74: +0.0508</title><circle cx="109.4" cy="95.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>251,904, seed 75: -0.0078</title><circle cx="110.6" cy="165.2" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>251,904, seed 76: -0.0430</title><circle cx="111.8" cy="207.3" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>251,904, seed 77: +0.0449</title><circle cx="113.0" cy="102.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>251,904, seed 78: +0.0273</title><circle cx="114.2" cy="123.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>251,904, seed 79: +0.0449</title><circle cx="115.4" cy="102.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>251,904, seed 80: +0.0391</title><circle cx="116.6" cy="109.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>251,904, seed 81: -0.0254</title><circle cx="117.8" cy="186.2" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>251,904, seed 82: +0.0586</title><circle cx="119.0" cy="85.7" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>251,904, seed 83: +0.0508</title><circle cx="120.2" cy="95.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>251,904, seed 84: -0.0039</title><circle cx="121.4" cy="160.5" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>251,904, seed 85: +0.0488</title><circle cx="122.6" cy="97.4" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>251,904, seed 86: -0.0195</title><circle cx="123.8" cy="179.2" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>251,904, seed 87: +0.0723</title><circle cx="125.0" cy="69.3" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>251,904, seed 88: +0.0566</title><circle cx="126.2" cy="88.0" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>251,904, seed 89: +0.0000</title><circle cx="127.4" cy="155.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<line x1="144.0" x2="144.0" y1="152.3" y2="111.2" stroke="#8a8984" stroke-width="2"/>
+<g><title>251,904: mean +0.0201, 95% t [+0.0029, +0.0373]</title><circle cx="144.0" cy="131.8" r="5" fill="#8a8984" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="130" y="298" class="tick" text-anchor="middle">251,904</text>
+<g><title>501,760, seed 70: +0.0176</title><circle cx="254.6" cy="134.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>501,760, seed 71: +0.0000</title><circle cx="255.8" cy="155.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>501,760, seed 72: +0.0449</title><circle cx="257.0" cy="102.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>501,760, seed 73: +0.0352</title><circle cx="258.2" cy="113.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>501,760, seed 74: +0.0039</title><circle cx="259.4" cy="151.2" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>501,760, seed 75: -0.0645</title><circle cx="260.6" cy="233.0" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>501,760, seed 76: +0.0586</title><circle cx="261.8" cy="85.7" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>501,760, seed 77: +0.0078</title><circle cx="263.0" cy="146.5" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>501,760, seed 78: +0.0137</title><circle cx="264.2" cy="139.5" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>501,760, seed 79: +0.0156</title><circle cx="265.4" cy="137.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>501,760, seed 80: +0.0293</title><circle cx="266.6" cy="120.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>501,760, seed 81: -0.0059</title><circle cx="267.8" cy="162.8" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>501,760, seed 82: +0.0078</title><circle cx="269.0" cy="146.5" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>501,760, seed 83: +0.0137</title><circle cx="270.2" cy="139.5" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>501,760, seed 84: +0.0156</title><circle cx="271.4" cy="137.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>501,760, seed 85: -0.0312</title><circle cx="272.6" cy="193.2" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>501,760, seed 86: +0.0723</title><circle cx="273.8" cy="69.3" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>501,760, seed 87: +0.0508</title><circle cx="275.0" cy="95.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>501,760, seed 88: +0.0098</title><circle cx="276.2" cy="144.1" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<g><title>501,760, seed 89: -0.0547</title><circle cx="277.4" cy="221.3" r="2.4" fill="#8a8984" opacity="0.7"/></g>
+<line x1="294.0" x2="294.0" y1="160.5" y2="122.4" stroke="#8a8984" stroke-width="2"/>
+<g><title>501,760: mean +0.0120, 95% t [-0.0039, +0.0279]</title><circle cx="294.0" cy="141.5" r="5" fill="#8a8984" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="280" y="298" class="tick" text-anchor="middle">501,760</text>
+<g><title>1,001,472 (primary), seed 70: -0.0059</title><circle cx="404.6" cy="162.8" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>1,001,472 (primary), seed 71: +0.0332</title><circle cx="405.8" cy="116.1" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>1,001,472 (primary), seed 72: +0.0254</title><circle cx="407.0" cy="125.4" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>1,001,472 (primary), seed 73: -0.0078</title><circle cx="408.2" cy="165.2" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>1,001,472 (primary), seed 74: -0.0527</title><circle cx="409.4" cy="218.9" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>1,001,472 (primary), seed 75: +0.0039</title><circle cx="410.6" cy="151.2" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>1,001,472 (primary), seed 76: +0.0195</title><circle cx="411.8" cy="132.5" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>1,001,472 (primary), seed 77: +0.0371</title><circle cx="413.0" cy="111.4" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>1,001,472 (primary), seed 78: +0.0078</title><circle cx="414.2" cy="146.5" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>1,001,472 (primary), seed 79: +0.0840</title><circle cx="415.4" cy="55.3" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>1,001,472 (primary), seed 80: -0.0176</title><circle cx="416.6" cy="176.9" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>1,001,472 (primary), seed 81: +0.0000</title><circle cx="417.8" cy="155.8" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>1,001,472 (primary), seed 82: -0.0449</title><circle cx="419.0" cy="209.6" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>1,001,472 (primary), seed 83: +0.0293</title><circle cx="420.2" cy="120.8" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>1,001,472 (primary), seed 84: -0.0938</title><circle cx="421.4" cy="268.0" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>1,001,472 (primary), seed 85: +0.0918</title><circle cx="422.6" cy="46.0" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>1,001,472 (primary), seed 86: +0.0098</title><circle cx="423.8" cy="144.1" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>1,001,472 (primary), seed 87: -0.0039</title><circle cx="425.0" cy="160.5" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>1,001,472 (primary), seed 88: -0.0254</title><circle cx="426.2" cy="186.2" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<g><title>1,001,472 (primary), seed 89: +0.0039</title><circle cx="427.4" cy="151.2" r="2.4" fill="#1baf7a" opacity="0.7"/></g>
+<line x1="444.0" x2="444.0" y1="174.0" y2="126.4" stroke="#1baf7a" stroke-width="2"/>
+<g><title>1,001,472 (primary): mean +0.0047, 95% t [-0.0152, +0.0246]</title><circle cx="444.0" cy="150.2" r="5" fill="#1baf7a" stroke="var(--surface)" stroke-width="1.5"/></g>
+<text x="430" y="298" class="tick" text-anchor="middle">1,001,472 (primary)</text>
+<text x="16" y="330" class="tick">H1 at 1,001,472: +0.0047 [-0.0152, +0.0246], p 0.627, not supported. H2 (growth from 251,904): not tested (gated).</text>
+</svg>

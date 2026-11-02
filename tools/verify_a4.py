@@ -156,15 +156,15 @@ def main():
         h1["decision"] = "supported" if h1["lo"] > 0 or h1["hi"] < 0 else "not supported"
         h2 = ttest(np.array(d[EPS[-1]]) - np.array(d[EPS[0]]))
         ref = json.loads((ROOT / "reports/a4/a4_summary.json").read_text())
-        agree = {k: abs(h1[x] - ref["H1"][k]) < 1e-6 for x, k in (("estimate", "estimate"), ("sd", "sd"), ("p", "p"),
+        agree = {k: bool(abs(h1[x] - ref["H1"][k]) < 1e-6) for x, k in (("estimate", "estimate"), ("sd", "sd"), ("p", "p"),
                                                                    ("lo", "t95_lo"), ("hi", "t95_hi"), ("signflip_p", "signflip_p_exact"))}
         agree["decision"] = h1["decision"] == ref["H1"]["decision"]
-        agree["H2_estimate"] = abs(h2["estimate"] - ref["H2"]["estimate"]) < 1e-9
+        agree["H2_estimate"] = bool(abs(h2["estimate"] - ref["H2"]["estimate"]) < 1e-9)
         names = {251904: "E250", 501760: "E500", 1001472: "E1M"}
         for at in EPS:
             for m in ("P1", "q", "entry", "arrival_bank"):
                 v = np.mean([M[(s, "01s", at)][m] - M[(s, "00", at)][m] for s in complete])
-                agree[f"{names[at]}_{m}"] = abs(v - ref["secondary"][names[at]][m]["estimate"]) < 1e-9
+                agree[f"{names[at]}_{m}"] = bool(abs(v - ref["secondary"][names[at]][m]["estimate"]) < 1e-9)
         if not all(agree.values()):
             problems.append(f"disagrees with analyze_a4: {[k for k, v in agree.items() if not v]}")
         res.update(H1=h1, H2_descriptive_or_gated=h2, d_means={str(at): float(np.mean(d[at])) for at in EPS},

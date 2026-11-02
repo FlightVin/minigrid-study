@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 340" width="420" height="340" role="img" aria-label="A4 cohort">
+<style>
+:root{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--grid:#e4e3df;--zero:#8a8984}
+@media (prefers-color-scheme: dark){:root{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--grid:#3a3a37;--zero:#8a8984}}
+svg{background:var(--surface)} .t1{font:600 13px system-ui;fill:var(--ink)} .tick{font:11px system-ui;fill:var(--ink2)}
+.grid{stroke:var(--grid);stroke-width:1} .zero{stroke:var(--zero);stroke-width:1.2} .ref{stroke:var(--zero);stroke-width:1;stroke-dasharray:4 3}
+</style>
+<rect width="100%" height="100%" fill="var(--surface)"/>
+<text x="16" y="20" class="t1">A4 cohort: pi0 access q vs planner-entry competence (one dot per seed)</text>
+<rect x="67.5" y="34.0" width="122.5" height="110.7" fill="var(--grid)" opacity="0.6"><title>calibration target region (K3 q 0.05-0.40, entry &gt;= 0.55)</title></rect>
+<line x1="50" x2="400" y1="280.0" y2="280.0" class="zero"/>
+<text x="44" y="284.0" class="tick" text-anchor="end">0.00</text>
+<text x="50.0" y="296" class="tick" text-anchor="middle">0.00</text>
+<line x1="50" x2="400" y1="218.5" y2="218.5" class="grid"/>
+<text x="44" y="222.5" class="tick" text-anchor="end">0.25</text>
+<text x="137.5" y="296" class="tick" text-anchor="middle">0.25</text>
+<line x1="50" x2="400" y1="157.0" y2="157.0" class="grid"/>
+<text x="44" y="161.0" class="tick" text-anchor="end">0.50</text>
+<text x="225.0" y="296" class="tick" text-anchor="middle">0.50</text>
+<line x1="50" x2="400" y1="95.5" y2="95.5" class="grid"/>
+<text x="44" y="99.5" class="tick" text-anchor="end">0.75</text>
+<text x="312.5" y="296" class="tick" text-anchor="middle">0.75</text>
+<line x1="50" x2="400" y1="34.0" y2="34.0" class="grid"/>
+<text x="44" y="38.0" class="tick" text-anchor="end">1.00</text>
+<text x="400.0" y="296" class="tick" text-anchor="middle">1.00</text>
+<text x="235.0" y="312" class="tick" text-anchor="middle">pi0 access q (a4_select, 64 x 2)</text>
+<g><title>seed 70: q 0.211, entry 0.668, arrival bank 0.656</title><circle cx="123.8" cy="115.7" r="4" fill="#3b7dd8" opacity="0.8"/></g>
+<g><title>seed 71: q 0.289, entry 0.648, arrival bank 0.599</title><circle cx="151.2" cy="120.5" r="4" fill="#3b7dd8" opacity="0.8"/></g>
+<g><title>seed 72: q 0.117, entry 0.551, arrival bank 0.557</title><circle cx="91.0" cy="144.5" r="4" fill="#3b7dd8" opacity="0.8"/></g>
+<g><title>seed 73: q 0.109, entry 0.613, arrival bank 0.604</title><circle cx="88.3" cy="129.1" r="4" fill="#3b7dd8" opacity="0.8"/></g>
+<g><title>seed 74: q 0.242, entry 0.543, arrival bank 0.474</title><circle cx="134.8" cy="146.4" r="4" fill="#3b7dd8" opacity="0.8"/></g>
+<g><title>seed 75: q 0.125, entry 0.586, arrival bank 0.557</title><circle cx="93.8" cy="135.9" r="4" fill="#3b7dd8" opacity="0.8"/></g>
+<g><title>seed 76: q 0.117, entry 0.641, arrival bank 0.583</title><circle cx="91.0" cy="122.4" r="4" fill="#3b7dd8" opacity="0.8"/></g>
+<g><title>seed 77: q 0.031, entry 0.691, arrival bank 0.667</title><circle cx="60.9" cy="109.9" r="4" fill="#3b7dd8" opacity="0.8"/></g>
+<g><title>seed 78: q 0.219, entry 0.508, arrival bank 0.500</title><circle cx="126.6" cy="155.1" r="4" fill="#3b7dd8" opacity="0.8"/></g>
+<g><title>seed 79: q 0.172, entry 0.645, arrival bank 0.604</title><circle cx="110.2" cy="121.4" r="4" fill="#3b7dd8" opacity="0.8"/></g>
+<g><title>seed 80: q 0.117, entry 0.641, arrival bank 0.630</title><circle cx="91.0" cy="122.4" r="4" fill="#3b7dd8" opacity="0.8"/></g>
+<g><title>seed 81: q 0.227, entry 0.637, arrival bank 0.562</title><circle cx="129.3" cy="123.4" r="4" fill="#3b7dd8" opacity="0.8"/></g>
+<g><title>seed 82: q 0.102, entry 0.699, arrival bank 0.615</title><circle cx="85.5" cy="108.0" r="4" fill="#3b7dd8" opacity="0.8"/></g>
+<g><title>seed 83: q 0.047, entry 0.617, arrival bank 0.594</title><circle cx="66.4" cy="128.2" r="4" fill="#3b7dd8" opacity="0.8"/></g>
+<g><title>seed 84: q 0.148, entry 0.578, arrival bank 0.599</title><circle cx="102.0" cy="137.8" r="4" fill="#3b7dd8" opacity="0.8"/></g>
+<g><title>seed 85: q 0.195, entry 0.609, arrival bank 0.672</title><circle cx="118.4" cy="130.1" r="4" fill="#3b7dd8" opacity="0.8"/></g>
+<g><title>seed 86: q 0.148, entry 0.559, arrival bank 0.396</title><circle cx="102.0" cy="142.6" r="4" fill="#3b7dd8" opacity="0.8"/></g>
+<g><title>seed 87: q 0.148, entry 0.570, arrival bank 0.589</title><circle cx="102.0" cy="139.7" r="4" fill="#3b7dd8" opacity="0.8"/></g>
+<g><title>seed 88: q 0.188, entry 0.512, arrival bank 0.521</title><circle cx="115.6" cy="154.1" r="4" fill="#3b7dd8" opacity="0.8"/></g>
+<g><title>seed 89: q 0.188, entry 0.637, arrival bank 0.625</title><circle cx="115.6" cy="123.4" r="4" fill="#3b7dd8" opacity="0.8"/></g>
+<text x="16" y="330" class="tick">y: pi0 success from the 128 planner entry states x 2. Shaded: calibration targets.</text>
+</svg>
