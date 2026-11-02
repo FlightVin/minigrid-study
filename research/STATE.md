@@ -29,9 +29,9 @@
 
 **Monitors:** battery guard PID 31137 (task b826abobo; log `.mae/monitor/battery_guard.log`; status
 `.mae/monitor/battery_status.json`); review cron 5bcaa9b8 (every 2 h at :43; checks the pause flag first;
-session-only). Canary driver PID 31664 (create 1793580296.22; batch 20261102T004500-31671; log
-`.mae/monitor/a4_canary.log`); watcher task bgf5l423o. Done: data (gate pass), arrival bank (96, frozen), tests
-306 + smoke 6.
+session-only). Canary s70 passed (batch 20261102T004500-31671, 2.71M, 16.8 min).
+Seeds driver PID 37930 (create 1793581332.43; seeds 71-89; log `.mae/monitor/a4_seeds.log`); watcher task
+(bound to 37930). Done: data (gate pass), arrival bank (96, frozen), tests 306 + smoke 6.
 
 **Recovery after a battery pause** (owner instruction only):
 1. Verify that nothing runs.

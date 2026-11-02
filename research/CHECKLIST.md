@@ -164,7 +164,7 @@ Dependencies: each line needs the lines above it unless marked (parallel-safe: d
 - [x] Data r4-v1 (runner) -> `tools/data_gate_r4.py` (stop on failure)
 - [x] Arrival bank (runner); record counts / shortfall; freeze its hash; recompute conservative costs (driver)
 - [x] Tests batch (full suite + RL smoke + pause smoke)
-- [ ] Canary seed 70 -> `tools/a4_canary_check.py` (no outcomes)
+- [x] Canary seed 70 -> `tools/a4_canary_check.py` (no outcomes)
 - [ ] Seeds 71-89 (watcher; reviews every 2 h; battery rule)
 - [ ] Cohort profile (pi0/probe/BC targets) reported
 - [ ] Analysis `tools/analyze_a4.py --check-states` at 20/20; `tools/verify_a4.py`; figures
