@@ -592,3 +592,23 @@ completion. See FINDINGS F24-F25 and REPORT section S.
 - **Fix.** `suffix_cert.certify` classifies such an arrival as impossible without search, because no action remains.
   New test added.
 - **Scope.** Only certification. No earlier result used it. Rerun under a new batch ID.
+
+## 2026-11-02 — Diagnostics complete; opportunity rule met; pilot proceeds
+
+- **Batch.** 20261102T102039-57342, 199,824 actions:
+
+  | Role | Actions |
+  |---|---|
+  | Planner prefixes | 2,588 |
+  | Normal starts | 134,271 |
+  | Certification replays | 10,019 |
+  | Reference 1 | 52,946 |
+- **Opportunity rule** (means over the four final checkpoints): 1 - q = 0.328 (rule >= 0.25); reference 1 - P1 =
+  +0.311 (rule >= 0.05). Met.
+- **Correctness checks clean.** No arrival with a locked door, no "impossible" arrival with a fitting plan, no failed
+  feasible replay, and no missing trace. No arrival was unresolved.
+- **Descriptive** (`reports/p5/diag/diag.md`). At the final checkpoints, most pre-boundary failures ended in the middle
+  module (m1: 0.11-0.41 of attempts). Arrivals certified impossible were 3-6% of attempts. Failed attempts showed many
+  toggles on locked doors and no-op actions.
+
+  This is accounting and does not establish which intervention would help. The design is not changed.

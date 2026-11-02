@@ -1,0 +1,1216 @@
+{
+ "job": "20261102T102039-57342/p5-diag-v1",
+ "actions": {
+  "planner_prefix": 2588,
+  "normal": 134271,
+  "certification": 10019,
+  "ref1": 52946
+ },
+ "policies": {
+  "s70_probe": {
+   "attempts": 128,
+   "P1": 0.1484375,
+   "q": 0.2265625,
+   "q_feasible": 0.1875,
+   "q_unresolved": 0.0,
+   "q_impossible": 0.0390625,
+   "r": 0.6551724137931034,
+   "r_feasible": 0.7916666666666666,
+   "ref1_P1": 0.6796875,
+   "ref2_P1": 0.1875,
+   "ref2_planner_suffix_actions": {
+    "p10": 20.0,
+    "p25": 22.0,
+    "p50": 24.0,
+    "p75": 27.0,
+    "p90": 28.0,
+    "mean": 24.375,
+    "n": 24
+   },
+   "taxonomy": {
+    "success": 19,
+    "arrived_failed_feasible": 5,
+    "arrived_failed_unresolved": 0,
+    "arrived_failed_impossible": 5,
+    "before_boundary_m2": 21,
+    "before_boundary_m1": 53,
+    "before_boundary_m0": 25
+   },
+   "taxonomy_share": {
+    "success": 0.1484375,
+    "arrived_failed_feasible": 0.0390625,
+    "arrived_failed_unresolved": 0.0,
+    "arrived_failed_impossible": 0.0390625,
+    "before_boundary_m2": 0.1640625,
+    "before_boundary_m1": 0.4140625,
+    "before_boundary_m0": 0.1953125
+   },
+   "share_of_failures_before_boundary": 0.908256880733945,
+   "arrival_tau": {
+    "p10": 55.6,
+    "p25": 62.0,
+    "p50": 78.0,
+    "p75": 98.0,
+    "p90": 125.6,
+    "mean": 84.44827586206897,
+    "n": 29
+   },
+   "arrival_remaining": {
+    "p10": 16.400000000000002,
+    "p25": 43.0,
+    "p50": 64.0,
+    "p75": 81.0,
+    "p90": 88.4,
+    "mean": 59.44827586206897,
+    "n": 29
+   },
+   "arrival_remaining_by_cert": {
+    "feasible": {
+     "p10": 44.5,
+     "p25": 55.75,
+     "p50": 73.5,
+     "p75": 86.25,
+     "p90": 89.4,
+     "mean": 69.20833333333333,
+     "n": 24
+    },
+    "unresolved": {
+     "n": 0
+    },
+    "impossible": {
+     "p10": 4.0,
+     "p25": 10.0,
+     "p50": 14.0,
+     "p75": 17.0,
+     "p90": 20.0,
+     "mean": 12.6,
+     "n": 5
+    }
+   },
+   "inventory_at_arrival": {
+    "key:yellow": 29
+   },
+   "progress": {
+    "reach_module": [
+     1.0,
+     0.7890625,
+     0.390625
+    ],
+    "open_door": [
+     0.8046875,
+     0.390625,
+     0.2265625
+    ],
+    "steps_in_module_median": [
+     24.0,
+     17.5,
+     16.0
+    ]
+   },
+   "errors": {
+    "success": {
+     "n": 19,
+     "wrong_key_pickups_per_attempt": 0.2631578947368421,
+     "share_with_wrong_key": 0.15789473684210525,
+     "locked_toggles_per_attempt": 1.0,
+     "door_closes_per_attempt": 0.0,
+     "noop_actions_per_attempt": 12.894736842105264,
+     "pose_repeat_frac": 0.3232650029537751,
+     "max_cell_visits_median": 13.0
+    },
+    "failure": {
+     "n": 109,
+     "wrong_key_pickups_per_attempt": 0.6880733944954128,
+     "share_with_wrong_key": 0.23853211009174313,
+     "locked_toggles_per_attempt": 19.798165137614678,
+     "door_closes_per_attempt": 0.0,
+     "noop_actions_per_attempt": 64.37614678899082,
+     "pose_repeat_frac": 0.7371020114003015,
+     "max_cell_visits_median": 57.0
+    },
+    "noop_share_of_actions": 0.3976607878593287
+   },
+   "checks": {
+    "arrival_with_locked_door": 0,
+    "impossible_but_plan_fits": 0,
+    "feasible_replay_failed": 0,
+    "missing_trace": 0
+   }
+  },
+  "s70_final": {
+   "attempts": 128,
+   "P1": 0.578125,
+   "q": 0.78125,
+   "q_feasible": 0.71875,
+   "q_unresolved": 0.0,
+   "q_impossible": 0.0625,
+   "r": 0.74,
+   "r_feasible": 0.8043478260869565,
+   "ref1_P1": 0.765625,
+   "ref2_P1": 0.71875,
+   "ref2_planner_suffix_actions": {
+    "p10": 17.0,
+    "p25": 21.75,
+    "p50": 25.0,
+    "p75": 28.0,
+    "p90": 30.0,
+    "mean": 24.51086956521739,
+    "n": 92
+   },
+   "taxonomy": {
+    "success": 74,
+    "arrived_failed_feasible": 18,
+    "arrived_failed_unresolved": 0,
+    "arrived_failed_impossible": 8,
+    "before_boundary_m1": 14,
+    "before_boundary_m2": 12,
+    "before_boundary_m0": 2
+   },
+   "taxonomy_share": {
+    "success": 0.578125,
+    "arrived_failed_feasible": 0.140625,
+    "arrived_failed_unresolved": 0.0,
+    "arrived_failed_impossible": 0.0625,
+    "before_boundary_m1": 0.109375,
+    "before_boundary_m2": 0.09375,
+    "before_boundary_m0": 0.015625
+   },
+   "share_of_failures_before_boundary": 0.5185185185185185,
+   "arrival_tau": {
+    "p10": 46.0,
+    "p25": 55.0,
+    "p50": 67.5,
+    "p75": 91.25,
+    "p90": 115.0,
+    "mean": 74.7,
+    "n": 100
+   },
+   "arrival_remaining": {
+    "p10": 30.5,
+    "p25": 55.0,
+    "p50": 77.0,
+    "p75": 89.0,
+    "p90": 96.20000000000002,
+    "mean": 69.46,
+    "n": 100
+   },
+   "arrival_remaining_by_cert": {
+    "feasible": {
+     "p10": 42.5,
+     "p25": 61.75,
+     "p50": 80.0,
+     "p75": 90.0,
+     "p90": 97.80000000000001,
+     "mean": 74.06521739130434,
+     "n": 92
+    },
+    "unresolved": {
+     "n": 0
+    },
+    "impossible": {
+     "p10": 4.2,
+     "p25": 11.25,
+     "p50": 21.5,
+     "p75": 22.5,
+     "p90": 24.0,
+     "mean": 16.5,
+     "n": 8
+    }
+   },
+   "inventory_at_arrival": {
+    "key:yellow": 100
+   },
+   "progress": {
+    "reach_module": [
+     1.0,
+     0.984375,
+     0.859375
+    ],
+    "open_door": [
+     0.984375,
+     0.875,
+     0.78125
+    ],
+    "steps_in_module_median": [
+     18.5,
+     20.0,
+     14.0
+    ]
+   },
+   "errors": {
+    "success": {
+     "n": 74,
+     "wrong_key_pickups_per_attempt": 0.33783783783783783,
+     "share_with_wrong_key": 0.08108108108108109,
+     "locked_toggles_per_attempt": 0.7027027027027027,
+     "door_closes_per_attempt": 0.0,
+     "noop_actions_per_attempt": 4.202702702702703,
+     "pose_repeat_frac": 0.24251265059854915,
+     "max_cell_visits_median": 8.5
+    },
+    "failure": {
+     "n": 54,
+     "wrong_key_pickups_per_attempt": 1.4074074074074074,
+     "share_with_wrong_key": 0.2962962962962963,
+     "locked_toggles_per_attempt": 17.09259259259259,
+     "door_closes_per_attempt": 0.0,
+     "noop_actions_per_attempt": 45.574074074074076,
+     "pose_repeat_frac": 0.6073903992997236,
+     "max_cell_visits_median": 45.5
+    },
+    "noop_share_of_actions": 0.15513737363377497
+   },
+   "checks": {
+    "arrival_with_locked_door": 0,
+    "impossible_but_plan_fits": 0,
+    "feasible_replay_failed": 0,
+    "missing_trace": 0
+   }
+  },
+  "s71_probe": {
+   "attempts": 128,
+   "P1": 0.1640625,
+   "q": 0.34375,
+   "q_feasible": 0.2890625,
+   "q_unresolved": 0.0,
+   "q_impossible": 0.0546875,
+   "r": 0.4772727272727273,
+   "r_feasible": 0.5675675675675675,
+   "ref1_P1": 0.6015625,
+   "ref2_P1": 0.2890625,
+   "ref2_planner_suffix_actions": {
+    "p10": 19.0,
+    "p25": 24.0,
+    "p50": 26.0,
+    "p75": 28.0,
+    "p90": 30.4,
+    "mean": 25.594594594594593,
+    "n": 37
+   },
+   "taxonomy": {
+    "success": 21,
+    "arrived_failed_feasible": 16,
+    "arrived_failed_unresolved": 0,
+    "arrived_failed_impossible": 7,
+    "before_boundary_m1": 57,
+    "before_boundary_m2": 17,
+    "before_boundary_m0": 10
+   },
+   "taxonomy_share": {
+    "success": 0.1640625,
+    "arrived_failed_feasible": 0.125,
+    "arrived_failed_unresolved": 0.0,
+    "arrived_failed_impossible": 0.0546875,
+    "before_boundary_m1": 0.4453125,
+    "before_boundary_m2": 0.1328125,
+    "before_boundary_m0": 0.078125
+   },
+   "share_of_failures_before_boundary": 0.7850467289719626,
+   "arrival_tau": {
+    "p10": 50.3,
+    "p25": 61.0,
+    "p50": 71.0,
+    "p75": 92.5,
+    "p90": 129.90000000000003,
+    "mean": 80.86363636363636,
+    "n": 44
+   },
+   "arrival_remaining": {
+    "p10": 12.899999999999999,
+    "p25": 50.75,
+    "p50": 73.0,
+    "p75": 84.0,
+    "p90": 91.0,
+    "mean": 63.02272727272727,
+    "n": 44
+   },
+   "arrival_remaining_by_cert": {
+    "feasible": {
+     "p10": 49.4,
+     "p25": 63.0,
+     "p50": 80.0,
+     "p75": 84.0,
+     "p90": 91.8,
+     "mean": 73.02702702702703,
+     "n": 37
+    },
+    "unresolved": {
+     "n": 0
+    },
+    "impossible": {
+     "p10": 0.6000000000000001,
+     "p25": 4.0,
+     "p50": 9.0,
+     "p75": 15.5,
+     "p90": 22.4,
+     "mean": 10.142857142857142,
+     "n": 7
+    }
+   },
+   "inventory_at_arrival": {
+    "key:yellow": 44
+   },
+   "progress": {
+    "reach_module": [
+     1.0,
+     0.9140625,
+     0.4765625
+    ],
+    "open_door": [
+     0.921875,
+     0.4765625,
+     0.34375
+    ],
+    "steps_in_module_median": [
+     19.5,
+     23.0,
+     16.0
+    ]
+   },
+   "errors": {
+    "success": {
+     "n": 21,
+     "wrong_key_pickups_per_attempt": 0.42857142857142855,
+     "share_with_wrong_key": 0.19047619047619047,
+     "locked_toggles_per_attempt": 0.14285714285714285,
+     "door_closes_per_attempt": 0.0,
+     "noop_actions_per_attempt": 1.8095238095238095,
+     "pose_repeat_frac": 0.24618100524868164,
+     "max_cell_visits_median": 10.0
+    },
+    "failure": {
+     "n": 107,
+     "wrong_key_pickups_per_attempt": 1.439252336448598,
+     "share_with_wrong_key": 0.3177570093457944,
+     "locked_toggles_per_attempt": 23.55140186915888,
+     "door_closes_per_attempt": 0.0,
+     "noop_actions_per_attempt": 42.691588785046726,
+     "pose_repeat_frac": 0.6784281916213971,
+     "max_cell_visits_median": 60.0
+    },
+    "noop_share_of_actions": 0.24856804677878125
+   },
+   "checks": {
+    "arrival_with_locked_door": 0,
+    "impossible_but_plan_fits": 0,
+    "feasible_replay_failed": 0,
+    "missing_trace": 0
+   }
+  },
+  "s71_final": {
+   "attempts": 128,
+   "P1": 0.4609375,
+   "q": 0.6796875,
+   "q_feasible": 0.6484375,
+   "q_unresolved": 0.0,
+   "q_impossible": 0.03125,
+   "r": 0.6781609195402298,
+   "r_feasible": 0.7108433734939759,
+   "ref1_P1": 0.7890625,
+   "ref2_P1": 0.6484375,
+   "ref2_planner_suffix_actions": {
+    "p10": 19.200000000000003,
+    "p25": 22.0,
+    "p50": 26.0,
+    "p75": 28.0,
+    "p90": 30.0,
+    "mean": 25.012048192771083,
+    "n": 83
+   },
+   "taxonomy": {
+    "success": 59,
+    "arrived_failed_feasible": 24,
+    "arrived_failed_unresolved": 0,
+    "arrived_failed_impossible": 4,
+    "before_boundary_m2": 11,
+    "before_boundary_m1": 30
+   },
+   "taxonomy_share": {
+    "success": 0.4609375,
+    "arrived_failed_feasible": 0.1875,
+    "arrived_failed_unresolved": 0.0,
+    "arrived_failed_impossible": 0.03125,
+    "before_boundary_m2": 0.0859375,
+    "before_boundary_m1": 0.234375
+   },
+   "share_of_failures_before_boundary": 0.5942028985507246,
+   "arrival_tau": {
+    "p10": 44.6,
+    "p25": 51.0,
+    "p50": 58.0,
+    "p75": 70.5,
+    "p90": 91.00000000000003,
+    "mean": 64.32183908045977,
+    "n": 87
+   },
+   "arrival_remaining": {
+    "p10": 51.4,
+    "p25": 73.0,
+    "p50": 86.0,
+    "p75": 94.0,
+    "p90": 97.4,
+    "mean": 79.94252873563218,
+    "n": 87
+   },
+   "arrival_remaining_by_cert": {
+    "feasible": {
+     "p10": 63.0,
+     "p25": 75.0,
+     "p50": 86.0,
+     "p75": 94.0,
+     "p90": 97.8,
+     "mean": 82.95180722891567,
+     "n": 83
+    },
+    "unresolved": {
+     "n": 0
+    },
+    "impossible": {
+     "p10": 10.0,
+     "p25": 14.5,
+     "p50": 19.5,
+     "p75": 22.5,
+     "p90": 23.4,
+     "mean": 17.5,
+     "n": 4
+    }
+   },
+   "inventory_at_arrival": {
+    "key:yellow": 87
+   },
+   "progress": {
+    "reach_module": [
+     1.0,
+     1.0,
+     0.7578125
+    ],
+    "open_door": [
+     1.0,
+     0.765625,
+     0.6796875
+    ],
+    "steps_in_module_median": [
+     17.0,
+     18.0,
+     13.0
+    ]
+   },
+   "errors": {
+    "success": {
+     "n": 59,
+     "wrong_key_pickups_per_attempt": 0.15254237288135594,
+     "share_with_wrong_key": 0.1016949152542373,
+     "locked_toggles_per_attempt": 0.6101694915254238,
+     "door_closes_per_attempt": 0.0,
+     "noop_actions_per_attempt": 2.3220338983050848,
+     "pose_repeat_frac": 0.23734048530147187,
+     "max_cell_visits_median": 8.0
+    },
+    "failure": {
+     "n": 69,
+     "wrong_key_pickups_per_attempt": 0.5072463768115942,
+     "share_with_wrong_key": 0.2608695652173913,
+     "locked_toggles_per_attempt": 23.202898550724637,
+     "door_closes_per_attempt": 0.0,
+     "noop_actions_per_attempt": 60.507246376811594,
+     "pose_repeat_frac": 0.6651973524329939,
+     "max_cell_visits_median": 71.0
+    },
+    "noop_share_of_actions": 0.23529469795830188
+   },
+   "checks": {
+    "arrival_with_locked_door": 0,
+    "impossible_but_plan_fits": 0,
+    "feasible_replay_failed": 0,
+    "missing_trace": 0
+   }
+  },
+  "s72_probe": {
+   "attempts": 128,
+   "P1": 0.0390625,
+   "q": 0.0703125,
+   "q_feasible": 0.0625,
+   "q_unresolved": 0.0,
+   "q_impossible": 0.0078125,
+   "r": 0.5555555555555556,
+   "r_feasible": 0.625,
+   "ref1_P1": 0.6328125,
+   "ref2_P1": 0.0625,
+   "ref2_planner_suffix_actions": {
+    "p10": 21.8,
+    "p25": 23.0,
+    "p50": 24.0,
+    "p75": 26.75,
+    "p90": 29.3,
+    "mean": 24.75,
+    "n": 8
+   },
+   "taxonomy": {
+    "success": 5,
+    "arrived_failed_feasible": 3,
+    "arrived_failed_unresolved": 0,
+    "arrived_failed_impossible": 1,
+    "before_boundary_m0": 35,
+    "before_boundary_m1": 64,
+    "before_boundary_m2": 18,
+    "before_boundary_m3": 2
+   },
+   "taxonomy_share": {
+    "success": 0.0390625,
+    "arrived_failed_feasible": 0.0234375,
+    "arrived_failed_unresolved": 0.0,
+    "arrived_failed_impossible": 0.0078125,
+    "before_boundary_m0": 0.2734375,
+    "before_boundary_m1": 0.5,
+    "before_boundary_m2": 0.140625,
+    "before_boundary_m3": 0.015625
+   },
+   "share_of_failures_before_boundary": 0.967479674796748,
+   "arrival_tau": {
+    "p10": 54.0,
+    "p25": 71.0,
+    "p50": 102.0,
+    "p75": 107.0,
+    "p90": 113.4,
+    "mean": 91.66666666666667,
+    "n": 9
+   },
+   "arrival_remaining": {
+    "p10": 26.6,
+    "p25": 38.0,
+    "p50": 46.0,
+    "p75": 69.0,
+    "p90": 90.4,
+    "mean": 52.888888888888886,
+    "n": 9
+   },
+   "arrival_remaining_by_cert": {
+    "feasible": {
+     "p10": 35.3,
+     "p25": 41.75,
+     "p50": 46.0,
+     "p75": 73.75,
+     "p90": 91.6,
+     "mean": 57.375,
+     "n": 8
+    },
+    "unresolved": {
+     "n": 0
+    },
+    "impossible": {
+     "p10": 17.0,
+     "p25": 17.0,
+     "p50": 17.0,
+     "p75": 17.0,
+     "p90": 17.0,
+     "mean": 17.0,
+     "n": 1
+    }
+   },
+   "inventory_at_arrival": {
+    "key:yellow": 9
+   },
+   "progress": {
+    "reach_module": [
+     1.0,
+     0.703125,
+     0.2109375
+    ],
+    "open_door": [
+     0.7265625,
+     0.2265625,
+     0.0859375
+    ],
+    "steps_in_module_median": [
+     33.0,
+     24.0,
+     15.0
+    ]
+   },
+   "errors": {
+    "success": {
+     "n": 5,
+     "wrong_key_pickups_per_attempt": 0.2,
+     "share_with_wrong_key": 0.2,
+     "locked_toggles_per_attempt": 1.6,
+     "door_closes_per_attempt": 0.0,
+     "noop_actions_per_attempt": 10.4,
+     "pose_repeat_frac": 0.3158146627443173,
+     "max_cell_visits_median": 6.0
+    },
+    "failure": {
+     "n": 123,
+     "wrong_key_pickups_per_attempt": 0.8699186991869918,
+     "share_with_wrong_key": 0.1951219512195122,
+     "locked_toggles_per_attempt": 18.634146341463413,
+     "door_closes_per_attempt": 0.0,
+     "noop_actions_per_attempt": 50.6910569105691,
+     "pose_repeat_frac": 0.7676971756692077,
+     "max_cell_visits_median": 61.0
+    },
+    "noop_share_of_actions": 0.3417539611706387
+   },
+   "checks": {
+    "arrival_with_locked_door": 0,
+    "impossible_but_plan_fits": 0,
+    "feasible_replay_failed": 0,
+    "missing_trace": 0
+   }
+  },
+  "s72_final": {
+   "attempts": 128,
+   "P1": 0.2734375,
+   "q": 0.484375,
+   "q_feasible": 0.4375,
+   "q_unresolved": 0.0,
+   "q_impossible": 0.046875,
+   "r": 0.5645161290322581,
+   "r_feasible": 0.625,
+   "ref1_P1": 0.7421875,
+   "ref2_P1": 0.4375,
+   "ref2_planner_suffix_actions": {
+    "p10": 20.0,
+    "p25": 22.0,
+    "p50": 25.0,
+    "p75": 27.0,
+    "p90": 28.5,
+    "mean": 24.553571428571427,
+    "n": 56
+   },
+   "taxonomy": {
+    "success": 35,
+    "arrived_failed_feasible": 21,
+    "arrived_failed_unresolved": 0,
+    "arrived_failed_impossible": 6,
+    "before_boundary_m2": 13,
+    "before_boundary_m1": 52,
+    "before_boundary_m0": 1
+   },
+   "taxonomy_share": {
+    "success": 0.2734375,
+    "arrived_failed_feasible": 0.1640625,
+    "arrived_failed_unresolved": 0.0,
+    "arrived_failed_impossible": 0.046875,
+    "before_boundary_m2": 0.1015625,
+    "before_boundary_m1": 0.40625,
+    "before_boundary_m0": 0.0078125
+   },
+   "share_of_failures_before_boundary": 0.7096774193548387,
+   "arrival_tau": {
+    "p10": 56.2,
+    "p25": 69.25,
+    "p50": 83.0,
+    "p75": 98.75,
+    "p90": 115.69999999999999,
+    "mean": 85.58064516129032,
+    "n": 62
+   },
+   "arrival_remaining": {
+    "p10": 32.0,
+    "p25": 42.25,
+    "p50": 63.0,
+    "p75": 76.0,
+    "p90": 85.8,
+    "mean": 58.983870967741936,
+    "n": 62
+   },
+   "arrival_remaining_by_cert": {
+    "feasible": {
+     "p10": 36.5,
+     "p25": 49.75,
+     "p50": 65.0,
+     "p75": 78.5,
+     "p90": 86.5,
+     "mean": 64.28571428571429,
+     "n": 56
+    },
+    "unresolved": {
+     "n": 0
+    },
+    "impossible": {
+     "p10": 0.0,
+     "p25": 2.25,
+     "p50": 10.5,
+     "p75": 16.5,
+     "p90": 18.0,
+     "mean": 9.5,
+     "n": 6
+    }
+   },
+   "inventory_at_arrival": {
+    "key:yellow": 62
+   },
+   "progress": {
+    "reach_module": [
+     1.0,
+     0.9921875,
+     0.578125
+    ],
+    "open_door": [
+     0.9921875,
+     0.5859375,
+     0.484375
+    ],
+    "steps_in_module_median": [
+     24.0,
+     26.0,
+     15.0
+    ]
+   },
+   "errors": {
+    "success": {
+     "n": 35,
+     "wrong_key_pickups_per_attempt": 0.17142857142857143,
+     "share_with_wrong_key": 0.11428571428571428,
+     "locked_toggles_per_attempt": 0.17142857142857143,
+     "door_closes_per_attempt": 0.0,
+     "noop_actions_per_attempt": 5.485714285714286,
+     "pose_repeat_frac": 0.2780529900434526,
+     "max_cell_visits_median": 9.0
+    },
+    "failure": {
+     "n": 93,
+     "wrong_key_pickups_per_attempt": 0.5483870967741935,
+     "share_with_wrong_key": 0.26881720430107525,
+     "locked_toggles_per_attempt": 8.924731182795698,
+     "door_closes_per_attempt": 0.0,
+     "noop_actions_per_attempt": 46.505376344086024,
+     "pose_repeat_frac": 0.6505112064334688,
+     "max_cell_visits_median": 46.0
+    },
+    "noop_share_of_actions": 0.24923314973773059
+   },
+   "checks": {
+    "arrival_with_locked_door": 0,
+    "impossible_but_plan_fits": 0,
+    "feasible_replay_failed": 0,
+    "missing_trace": 0
+   }
+  },
+  "s73_probe": {
+   "attempts": 128,
+   "P1": 0.1171875,
+   "q": 0.1953125,
+   "q_feasible": 0.1484375,
+   "q_unresolved": 0.0,
+   "q_impossible": 0.046875,
+   "r": 0.6,
+   "r_feasible": 0.7894736842105263,
+   "ref1_P1": 0.5703125,
+   "ref2_P1": 0.1484375,
+   "ref2_planner_suffix_actions": {
+    "p10": 16.8,
+    "p25": 21.0,
+    "p50": 26.0,
+    "p75": 27.0,
+    "p90": 28.799999999999997,
+    "mean": 24.68421052631579,
+    "n": 19
+   },
+   "taxonomy": {
+    "success": 15,
+    "arrived_failed_feasible": 4,
+    "arrived_failed_unresolved": 0,
+    "arrived_failed_impossible": 6,
+    "before_boundary_m1": 54,
+    "before_boundary_m0": 29,
+    "before_boundary_m2": 19,
+    "before_boundary_m3": 1
+   },
+   "taxonomy_share": {
+    "success": 0.1171875,
+    "arrived_failed_feasible": 0.03125,
+    "arrived_failed_unresolved": 0.0,
+    "arrived_failed_impossible": 0.046875,
+    "before_boundary_m1": 0.421875,
+    "before_boundary_m0": 0.2265625,
+    "before_boundary_m2": 0.1484375,
+    "before_boundary_m3": 0.0078125
+   },
+   "share_of_failures_before_boundary": 0.911504424778761,
+   "arrival_tau": {
+    "p10": 71.6,
+    "p25": 76.0,
+    "p50": 80.0,
+    "p75": 113.0,
+    "p90": 134.60000000000002,
+    "mean": 93.88,
+    "n": 25
+   },
+   "arrival_remaining": {
+    "p10": 9.400000000000002,
+    "p25": 28.0,
+    "p50": 62.0,
+    "p75": 66.0,
+    "p90": 71.6,
+    "mean": 49.48,
+    "n": 25
+   },
+   "arrival_remaining_by_cert": {
+    "feasible": {
+     "p10": 35.0,
+     "p25": 59.0,
+     "p50": 65.0,
+     "p75": 68.5,
+     "p90": 74.99999999999999,
+     "mean": 61.68421052631579,
+     "n": 19
+    },
+    "unresolved": {
+     "n": 0
+    },
+    "impossible": {
+     "p10": 3.0,
+     "p25": 6.25,
+     "p50": 10.0,
+     "p75": 13.0,
+     "p90": 19.5,
+     "mean": 10.833333333333334,
+     "n": 6
+    }
+   },
+   "inventory_at_arrival": {
+    "key:yellow": 25
+   },
+   "progress": {
+    "reach_module": [
+     1.0,
+     0.765625,
+     0.3359375
+    ],
+    "open_door": [
+     0.7734375,
+     0.3515625,
+     0.203125
+    ],
+    "steps_in_module_median": [
+     26.0,
+     27.0,
+     16.0
+    ]
+   },
+   "errors": {
+    "success": {
+     "n": 15,
+     "wrong_key_pickups_per_attempt": 0.06666666666666667,
+     "share_with_wrong_key": 0.06666666666666667,
+     "locked_toggles_per_attempt": 3.2,
+     "door_closes_per_attempt": 0.0,
+     "noop_actions_per_attempt": 7.733333333333333,
+     "pose_repeat_frac": 0.3639754398095351,
+     "max_cell_visits_median": 19.0
+    },
+    "failure": {
+     "n": 113,
+     "wrong_key_pickups_per_attempt": 0.584070796460177,
+     "share_with_wrong_key": 0.18584070796460178,
+     "locked_toggles_per_attempt": 38.63716814159292,
+     "door_closes_per_attempt": 0.0,
+     "noop_actions_per_attempt": 60.69911504424779,
+     "pose_repeat_frac": 0.7570742763341207,
+     "max_cell_visits_median": 67.0
+    },
+    "noop_share_of_actions": 0.37814232158559125
+   },
+   "checks": {
+    "arrival_with_locked_door": 0,
+    "impossible_but_plan_fits": 0,
+    "feasible_replay_failed": 0,
+    "missing_trace": 0
+   }
+  },
+  "s73_final": {
+   "attempts": 128,
+   "P1": 0.4765625,
+   "q": 0.7421875,
+   "q_feasible": 0.6796875,
+   "q_unresolved": 0.0,
+   "q_impossible": 0.0625,
+   "r": 0.6421052631578947,
+   "r_feasible": 0.7011494252873564,
+   "ref1_P1": 0.734375,
+   "ref2_P1": 0.6796875,
+   "ref2_planner_suffix_actions": {
+    "p10": 17.0,
+    "p25": 21.0,
+    "p50": 25.0,
+    "p75": 28.0,
+    "p90": 30.0,
+    "mean": 24.298850574712645,
+    "n": 87
+   },
+   "taxonomy": {
+    "success": 61,
+    "arrived_failed_feasible": 26,
+    "arrived_failed_unresolved": 0,
+    "arrived_failed_impossible": 8,
+    "before_boundary_m1": 19,
+    "before_boundary_m2": 12,
+    "before_boundary_m0": 2
+   },
+   "taxonomy_share": {
+    "success": 0.4765625,
+    "arrived_failed_feasible": 0.203125,
+    "arrived_failed_unresolved": 0.0,
+    "arrived_failed_impossible": 0.0625,
+    "before_boundary_m1": 0.1484375,
+    "before_boundary_m2": 0.09375,
+    "before_boundary_m0": 0.015625
+   },
+   "share_of_failures_before_boundary": 0.4925373134328358,
+   "arrival_tau": {
+    "p10": 53.0,
+    "p25": 59.0,
+    "p50": 76.0,
+    "p75": 103.0,
+    "p90": 117.60000000000001,
+    "mean": 80.92631578947369,
+    "n": 95
+   },
+   "arrival_remaining": {
+    "p10": 30.8,
+    "p25": 42.0,
+    "p50": 71.0,
+    "p75": 86.0,
+    "p90": 90.60000000000001,
+    "mean": 63.55789473684211,
+    "n": 95
+   },
+   "arrival_remaining_by_cert": {
+    "feasible": {
+     "p10": 37.0,
+     "p25": 49.0,
+     "p50": 75.0,
+     "p75": 86.0,
+     "p90": 91.80000000000001,
+     "mean": 67.93103448275862,
+     "n": 87
+    },
+    "unresolved": {
+     "n": 0
+    },
+    "impossible": {
+     "p10": 5.7,
+     "p25": 12.0,
+     "p50": 17.0,
+     "p75": 21.5,
+     "p90": 23.6,
+     "mean": 16.0,
+     "n": 8
+    }
+   },
+   "inventory_at_arrival": {
+    "key:yellow": 95
+   },
+   "progress": {
+    "reach_module": [
+     1.0,
+     0.984375,
+     0.8203125
+    ],
+    "open_door": [
+     0.984375,
+     0.8359375,
+     0.7421875
+    ],
+    "steps_in_module_median": [
+     20.0,
+     24.0,
+     14.0
+    ]
+   },
+   "errors": {
+    "success": {
+     "n": 61,
+     "wrong_key_pickups_per_attempt": 0.22950819672131148,
+     "share_with_wrong_key": 0.11475409836065574,
+     "locked_toggles_per_attempt": 0.6065573770491803,
+     "door_closes_per_attempt": 0.08196721311475409,
+     "noop_actions_per_attempt": 4.049180327868853,
+     "pose_repeat_frac": 0.27836974557774924,
+     "max_cell_visits_median": 9.0
+    },
+    "failure": {
+     "n": 67,
+     "wrong_key_pickups_per_attempt": 2.343283582089552,
+     "share_with_wrong_key": 0.417910447761194,
+     "locked_toggles_per_attempt": 11.313432835820896,
+     "door_closes_per_attempt": 0.014925373134328358,
+     "noop_actions_per_attempt": 37.61194029850746,
+     "pose_repeat_frac": 0.6210762300549544,
+     "max_cell_visits_median": 44.0
+    },
+    "noop_share_of_actions": 0.1527248450247426
+   },
+   "checks": {
+    "arrival_with_locked_door": 0,
+    "impossible_but_plan_fits": 0,
+    "feasible_replay_failed": 0,
+    "missing_trace": 0
+   }
+  }
+ },
+ "opportunity_rule": {
+  "mean_pre_boundary_failure": 0.328125,
+  "mean_ref1_minus_P1": 0.310546875,
+  "per_seed": {
+   "70": {
+    "1-q": 0.21875,
+    "ref1-P1": 0.1875
+   },
+   "71": {
+    "1-q": 0.3203125,
+    "ref1-P1": 0.328125
+   },
+   "72": {
+    "1-q": 0.515625,
+    "ref1-P1": 0.46875
+   },
+   "73": {
+    "1-q": 0.2578125,
+    "ref1-P1": 0.2578125
+   }
+  },
+  "met": true
+ },
+ "correctness_checks": {
+  "arrival_with_locked_door": 0,
+  "impossible_but_plan_fits": 0,
+  "feasible_replay_failed": 0,
+  "missing_trace": 0
+ },
+ "a4_arrival_timing": {
+  "00@251904": {
+   "attempts": 10240,
+   "deadline_failures": 0.81376953125,
+   "tau": {
+    "p10": 51.0,
+    "p25": 62.0,
+    "p50": 79.0,
+    "p75": 103.0,
+    "p90": 125.0,
+    "mean": 83.60750147666863,
+    "n": 3386
+   },
+   "remaining": {
+    "p10": 20.0,
+    "p25": 42.0,
+    "p50": 65.0,
+    "p75": 82.0,
+    "p90": 92.0,
+    "mean": 60.57265209686946,
+    "n": 3386
+   }
+  },
+  "00@501760": {
+   "attempts": 10240,
+   "deadline_failures": 0.73837890625,
+   "tau": {
+    "p10": 49.0,
+    "p25": 59.0,
+    "p50": 75.0,
+    "p75": 97.0,
+    "p90": 120.0,
+    "mean": 79.87301587301587,
+    "n": 4536
+   },
+   "remaining": {
+    "p10": 25.0,
+    "p25": 48.0,
+    "p50": 70.0,
+    "p75": 85.0,
+    "p90": 94.0,
+    "mean": 64.40564373897708,
+    "n": 4536
+   }
+  },
+  "00@1001472": {
+   "attempts": 10240,
+   "deadline_failures": 0.60986328125,
+   "tau": {
+    "p10": 48.0,
+    "p25": 56.0,
+    "p50": 69.0,
+    "p75": 88.0,
+    "p90": 112.0,
+    "mean": 74.69908079342042,
+    "n": 6201
+   },
+   "remaining": {
+    "p10": 32.0,
+    "p25": 57.0,
+    "p50": 76.0,
+    "p75": 88.0,
+    "p90": 96.0,
+    "mean": 69.87243992904371,
+    "n": 6201
+   }
+  },
+  "01s@251904": {
+   "attempts": 10240,
+   "deadline_failures": 0.79365234375,
+   "tau": {
+    "p10": 50.0,
+    "p25": 61.0,
+    "p50": 79.0,
+    "p75": 103.0,
+    "p90": 123.0,
+    "mean": 82.87807545106615,
+    "n": 3658
+   },
+   "remaining": {
+    "p10": 21.0,
+    "p25": 42.0,
+    "p50": 66.0,
+    "p75": 83.0,
+    "p90": 92.0,
+    "mean": 61.34089666484418,
+    "n": 3658
+   }
+  },
+  "01s@501760": {
+   "attempts": 10240,
+   "deadline_failures": 0.7263671875,
+   "tau": {
+    "p10": 49.0,
+    "p25": 58.0,
+    "p50": 75.0,
+    "p75": 97.0,
+    "p90": 120.0,
+    "mean": 79.34434064740387,
+    "n": 4603
+   },
+   "remaining": {
+    "p10": 26.0,
+    "p25": 48.0,
+    "p50": 70.0,
+    "p75": 86.0,
+    "p90": 94.0,
+    "mean": 65.04844666521834,
+    "n": 4603
+   }
+  },
+  "01s@1001472": {
+   "attempts": 10240,
+   "deadline_failures": 0.60517578125,
+   "tau": {
+    "p10": 48.0,
+    "p25": 56.0,
+    "p50": 69.0,
+    "p75": 89.0,
+    "p90": 114.0,
+    "mean": 74.97311569851176,
+    "n": 6249
+   },
+   "remaining": {
+    "p10": 31.0,
+    "p25": 56.0,
+    "p50": 76.0,
+    "p75": 88.0,
+    "p90": 96.0,
+    "mean": 69.5359257481197,
+    "n": 6249
+   }
+  }
+ }
+}
