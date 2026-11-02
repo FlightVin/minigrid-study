@@ -1,0 +1,67 @@
+{
+ "note": "post hoc, exploratory; added after outcomes",
+ "contrasts": {
+  "A4|key_all-mask_prefix": {
+   "mean": 0.0703125,
+   "lo": -0.001983942861500318,
+   "hi": 0.14260894286150033
+  },
+  "A4|both_all-key_all": {
+   "mean": 0.169921875,
+   "lo": 0.10170202079493314,
+   "hi": 0.23814172920506688
+  },
+  "A4|both_mid-key_mid": {
+   "mean": 0.072265625,
+   "lo": 0.021033286739928533,
+   "hi": 0.12349796326007147
+  },
+  "A4|key_mid-mask_prefix": {
+   "mean": 0.021484375,
+   "lo": -0.05327034730868202,
+   "hi": 0.09623909730868202
+  },
+  "P5|key_all-mask_prefix": {
+   "mean": 0.134765625,
+   "lo": 0.0776758803604454,
+   "hi": 0.1918553696395546
+  },
+  "P5|both_all-key_all": {
+   "mean": 0.1796875,
+   "lo": 0.1150774648307875,
+   "hi": 0.2442975351692125
+  },
+  "P5|both_mid-key_mid": {
+   "mean": 0.091796875,
+   "lo": 0.03953651688658234,
+   "hi": 0.14405723311341767
+  },
+  "P5|key_mid-mask_prefix": {
+   "mean": 0.03515625,
+   "lo": -0.018050976418530262,
+   "hi": 0.08836347641853026
+  }
+ },
+ "base_prefix_failure_actions": {
+  "A4": {
+   "n": 183,
+   "most_frequent_learner_action": {
+    "pickup": 35,
+    "toggle": 51,
+    "forward": 74,
+    "turn": 21,
+    "other": 2
+   }
+  },
+  "P5": {
+   "n": 291,
+   "most_frequent_learner_action": {
+    "pickup": 58,
+    "toggle": 65,
+    "forward": 145,
+    "turn": 23,
+    "other": 0
+   }
+  }
+ }
+}
