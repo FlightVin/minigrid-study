@@ -3,10 +3,17 @@
   70,
   71,
   72,
-  73
+  73,
+  74,
+  75,
+  76,
+  77,
+  78,
+  79,
+  80
  ],
- "n_complete": 4,
- "step_records_equal_summary_jobs": 9,
+ "n_complete": 11,
+ "step_records_equal_summary_jobs": 23,
  "outcomes": "not computed (engineering mode or fewer than 20 complete seeds)",
  "problems": []
 }
