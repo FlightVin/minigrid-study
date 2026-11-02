@@ -1,0 +1,11 @@
+{
+ "dir": ".mae/runs/20261102T143112-33037/p6-canary",
+ "problems": [],
+ "actions": {
+  "episode": 3373,
+  "certification": 760
+ },
+ "actions_total": 4133,
+ "wall_seconds": 0.7476668357849121,
+ "throughput_actions_per_s": 5527.863216857965
+}
