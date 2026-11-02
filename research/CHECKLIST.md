@@ -179,15 +179,18 @@ Dependencies: each line needs the lines above it unless marked (parallel-safe: d
       evaluation options, accounting mirror; unit tests + opt-in smoke (local)
 - [x] Roles d5_trace, p5_*, c5_* (registry dry-run passes); configs data-r5-v1, diag-v1, p5-v1, c5-v1; batches; driver
 - [x] Amendment 7 (design, opportunity rule, gate, confirmation, budget); DECISIONS; STATE
-- [ ] Commit; start battery guard (verify inclusive 31% decisions) and review cron; no duplicate monitors
-- [ ] Data r5-v1 (runner) -> gate check (roles, banks, disjointness)
-- [ ] Tests batch (full suite + smoke incl. p5 smoke) -> measure A4 smoke gap -> ledger adjustment
-- [ ] Analysis tools frozen before outcomes: `tools/analyze_diag5.py`, `tools/analyze_p5.py` (gate), canary check
-- [ ] Diagnostics batch -> failure taxonomy, references, certification -> opportunity rule (stop if not met)
-- [ ] Pilot canary s90 -> engineering check (hashes, restoration, schedules, counters, numerics)
-- [ ] Pilot seeds 91-95 (reviews every 2 h; battery rule)
-- [ ] Pilot analysis + gate.json (exact decision) -> if qualified: `tools/make_confirm_p5.py`, `tools/analyze_c5.py`
-      and verifier frozen before confirmation outcomes
-- [ ] Confirmation seeds 96-115 (blinded until 20/20) -> analysis -> independent verification
-- [ ] Final tests; cost reconciliation; FINDINGS; consolidated REPORT (diagnostics / development / confirmation);
-      recommendation; commit + push; stop monitors
+- [x] Commit; start battery guard (verify inclusive 31% decisions) and review cron; no duplicate monitors
+- [x] Data r5-v1 (runner) -> gate check (roles, banks, disjointness)
+- [x] Tests batch (full suite + smoke incl. p5 smoke) -> measure A4 smoke gap -> ledger adjustment
+- [x] Analysis tools frozen before outcomes: `tools/analyze_diag5.py`, `tools/analyze_p5.py` (gate), canary check
+- [x] Diagnostics batch -> failure taxonomy, references, certification -> opportunity rule (met; one deterministic
+      failure fixed, rerun)
+- [x] Pilot canary s90 -> engineering check (hashes, restoration, schedules, counters, numerics)
+- [x] Pilot seeds 91-95 (no pauses, no retries; battery 87-90% AC)
+- [x] Pilot analysis + gate.json: **no method qualified** (B +0.008, C +0.012, D +0.028; threshold 0.05);
+      `tools/verify_p5.py` agrees; confirmation tools committed before the gate but unused
+- [-] Confirmation seeds 96-115: not run (gate selected none; section 7)
+- [x] Final tests (308 passed, 10 skipped); cost reconciliation (16,835,872); FINDINGS F27-F28; REPORT section T;
+      recommendation; commit + push
+- [x] Stop owned monitors (battery guard 56292, review cron 2f62d80b)
+- [ ] Next question (key choice vs door approach counterfactual) — proposal only; awaits owner instruction

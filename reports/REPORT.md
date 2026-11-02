@@ -1,5 +1,7 @@
 # MiniGrid study: demonstration-state starts and BC preservation after BC
 
+Status 2026-11-02 (access programme, final): the Amendment 7 programme is complete (section T): diagnostics, development
+pilot and gate; no method qualified, so no confirmation was run.
 Status 2026-11-02 (final): the Amendment 6 programme (A4, 20 seeds) is complete (section S): H1 not supported.
 Status 2026-11-01b (as written then): the Amendment 5 programme is complete (section Q): A3 (24 seeds), initialization
 calibration and the calibrated-regime pilot, with independent verification. M0-M4, R1 and the Amendment 4
@@ -8,6 +10,14 @@ are marked in section P. Earlier sections are kept as written.
 
 ## Headline
 
+**Programme 2026-11-02 (section T, complete; development only):** The diagnostics on A4 checkpoints showed large
+access headroom: reference 1 (planner prefix, learned suffix) minus P1 was +0.31. Arrivals were mostly finishable
+(3-6% certified impossible). A 6-seed development pilot of three reset placements ran 501,760 continuation actions:
+post-boundary resets, static module-entry resets, and a backward module curriculum. It gave P1 changes of +0.008,
++0.012 and +0.028 [+0.004, +0.052] against ordinary PPO (0.213). Access rose by about 0.02-0.05, completion and
+entry-bank competence did not decrease, and the frozen gate (≥ 0.05) was not met by any method. No confirmation was
+run. Recommendation: do not adopt these reset placements. A next question on the binding in-module decision (key
+choice or door approach) is proposed but not launched.
 **Programme 2026-11-01b (section Q):** on 24 fresh paired seeds (K=3, early BC), preserving the BC policy only on
 post-boundary (suffix) states raised normal-start success at 251,904 actions by +0.0106 (95% t [+0.0019, +0.0193],
 p 0.019; prespecified test supported). The t-interval is conditional on the evaluated panel of 128 layouts. Under broader
@@ -49,6 +59,85 @@ checkpoint interaction was not supported (adjusted p 0.096). The result did not 
 inconclusive, not negative. The estimates are compatible with a positive effect similar to M4's (corrected
 2026-11-01). The seed SD of the effect (0.043) was larger than in the M4 subgroup (0.008); the reasons are not
 resolved (R1.10).
+
+## T. Programme 2026-11-02 (Amendment 7): access-focused reset placement
+
+Sources: FINDINGS F26-F28; PROTOCOL_FREEZE Amendment 7; DECISIONS 2026-11-02; `reports/a4/longitudinal.md`,
+`reports/p5/diag/diag.md`, `reports/p5/pilot.md`, `reports/p5/gate.json`, `reports/p5/gate_verification.json`
+(independent recomputation; agrees).
+
+**Question.** Can the placement and ordering of demonstration-state starts improve learning of the prerequisite
+sequence and normal-start success, while keeping later-stage competence?
+
+### T1. Corrections to A4 (no new actions; F26)
+- Within-panel learning in A4 arm A (a4_final): P1 went from 0.186 to 0.390 between 250k and 1M. The access term was
+  +0.162 of that +0.204, and the completion term was +0.042. This is descriptive.
+- The earlier cross-panel "learning gain" is withdrawn.
+- K=3 targets were met in 17/20 seeds.
+- Preservation may give a small early advantage. Its long-budget benefit is unresolved and bounded below 0.03.
+
+### T2. Diagnostics (A4 arm 00, seeds 70-73, probe and final checkpoints; 199,824 actions)
+| Final checkpoint | P1 | q | finishable q | impossible | reference 1 | pre-boundary share of failures |
+|---|---|---|---|---|---|---|
+| s70 | 0.578 | 0.781 | 0.719 | 0.062 | 0.766 | 0.52 |
+| s71 | 0.461 | 0.680 | 0.648 | 0.031 | 0.789 | 0.59 |
+| s72 | 0.273 | 0.484 | 0.438 | 0.047 | 0.742 | 0.71 |
+| s73 | 0.477 | 0.742 | 0.680 | 0.062 | 0.734 | 0.49 |
+
+- The frozen opportunity rule was met: 1 − q = 0.328 and reference 1 − P1 = +0.311.
+- No arrival was unresolved.
+- Reference 2 (planner suffix from the actual arrival, with the remaining time) equals finishable q.
+- Failed attempts loop:
+  - 9-23 toggles on a locked door and 38-61 no-ops per failed attempt;
+  - 26-42% held a wrong key at least once;
+  - pre-boundary failures ended mostly in the middle module.
+- This is accounting, not causal attribution.
+
+### T3. Development pilot (seeds 90-95; 501,760 continuation actions per branch; not confirmatory)
+| Arm | P1 @251,904 | P1 @501,760 | P1 − A @501,760 [95% t, df 5] | positive | q | r | entry bank |
+|---|---|---|---|---|---|---|---|
+| A ordinary | 0.170 | 0.213 | — | — | 0.420 | 0.488 | 0.584 |
+| B post-boundary | 0.183 | 0.221 | +0.008 [−0.034, +0.050] | 4/6 | 0.441 | 0.487 | 0.619 |
+| C module-entry (uniform) | 0.179 | 0.225 | +0.012 [−0.032, +0.055] | 4/6 | 0.460 | 0.467 | 0.600 |
+| D backward curriculum | 0.165 | 0.241 | +0.028 [+0.004, +0.052] | 5/6 | 0.467 | 0.493 | 0.603 |
+
+- Per-seed contrasts are in F27.
+- Assisted share of steps: B 0.072, C 0.162, D 0.162.
+- The module-entry arms raised access by about 0.04-0.05.
+- Completion after arrival and fixed-bank competence did not decrease.
+
+### T4. Gate decision (frozen, Amendment 7 D)
+No method qualified: the largest mean advantage was D at +0.028, below 0.05. Checks passed and the budget fitted.
+The selection is none, the confirmation (seeds 96-115) was not run, and nothing was added.
+
+### T5. Confirmation
+Not run, because the gate selected no method. The 36.36M reserve was not spent.
+
+### T6. Interpretation
+- The diagnostics located the headroom in access, and reset placement captured only a small part of it.
+- Assisted starts change several things together, so they do not isolate exploration.
+- q and r are panel-level measures.
+- No novelty claim is made.
+
+### T7. Costs, failures and interruptions
+- Programme total 16,835,872 of 70M:
+
+  | Phase | Actions |
+  |---|---|
+  | Preparation | 0.72M |
+  | Diagnostics | 0.33M |
+  | Pilot (6 seeds) | 15.73M |
+  | Final tests | 0.06M |
+- One deterministic diagnostics failure (20,498 actions) was fixed, with a new run ID.
+- There were no battery pauses, no retries and no exclusions.
+- Final tests: 308 passed, 10 skipped.
+
+### T8. Recommendation
+- Do not adopt these reset placements.
+- Do not extend them with doses, schedules or seeds.
+- Next question (proposal only; needs an owner instruction): use planner counterfactuals on frozen checkpoints to
+  find which in-module decision limits access, key choice or door approach. This costs about 0.3-0.5M evaluation
+  actions. Design a targeted method only if one bounds a gain of 0.05 or more.
 
 ## S. Programme 2026-11-01c (Amendment 6): A4 long-allowance study
 

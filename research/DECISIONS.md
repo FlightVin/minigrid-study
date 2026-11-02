@@ -623,3 +623,24 @@ completion. See FINDINGS F24-F25 and REPORT section S.
   129,024 to 253,952, and module 1 to 378,880. The last assisted episode in B ended at 378,880 (withdrawal at 376,320).
   In-progress episodes finished normally.
 - Seeds 91-95 follow unchanged.
+
+## 2026-11-02 — Pilot complete; frozen gate selects no method; no confirmation
+
+- **Pilot.** Seeds 90-95 were complete (24 branches) with no problems, retries or exclusions. Batches:
+  20261102T103848-59602, 20261102T105600-61618, 20261102T111302-68146, 20261102T112956-69875 and
+  20261102T114609-71690, plus canary 20261102T102122-57488.
+- **Gate (Amendment 7 D, applied exactly by `tools/analyze_p5.py`; `tools/verify_p5.py` agrees).**
+
+  | Method | Mean P1 − A @501,760 | Positive | Qualifies |
+  |---|---|---|---|
+  | B | +0.008 | 4/6 | no |
+  | C | +0.012 | 4/6 | no |
+  | D | +0.028 | 5/6 | no (below 0.05) |
+
+  Checks passed, and the budget fit (protection 16.4M).
+- **Decision.** Selected: none. Per section 7, I do not run the confirmation and do not add doses, schedules or
+  seeds. The confirmation tools (`tools/make_confirm_p5.py`, `tools/analyze_c5.py`, `tools/verify_c5.py`) stay
+  committed but unused.
+- **Close.** The final tests passed (308 passed, 10 skipped; batch 20261102T120422-87797). The programme total is
+  16,835,872 of 70M. The next question is proposed in F28 and REPORT T8. It needs an owner instruction and has not
+  been launched.

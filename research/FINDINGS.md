@@ -1044,3 +1044,107 @@ The A4 primary comparison (F24) is unchanged.
   entry competence in 17/20 and room in 20/20; all three were met in 17/20.
 - **Preservation.** Suffix preservation may give a small early advantage (+0.020 at 251,904). Its long-budget benefit
   in this test was +0.005 [-0.015, +0.025]: unresolved, and bounded below 0.03.
+
+## F27 — Reset-placement pilot and the frozen gate (2026-11-02; owner instruction 2026-11-02 sections 4-7; Amendment 7 D)
+
+This is a development comparison (6 seeds, 90-95). It is not confirmatory evidence. Sources: `reports/p5/pilot.md`,
+`reports/p5/pilot_summary.json`, `reports/p5/gate.json`, `reports/p5/gate_verification.json`.
+- **Design as frozen.** Every seed used joint BC (rho 0.2, 8,000 updates) and a K=3 probe, then four branches of
+  501,760 continuation actions each:
+  - A: ordinary PPO.
+  - B: post-boundary resets.
+  - C: static uniform module-entry resets.
+  - D: backward curriculum (module 3, then 2, then 1, then normal).
+  Assisted starts used alpha 0.25 during the first 376,320 actions and stopped after that. Evaluation was on p5_eval
+  (64 K=3 layouts × 4 attempts) plus a fixed entry bank. All 24 branches finished. There were no problems, retries
+  or exclusions.
+- **Normal-start success P1** (means over 6 seeds):
+
+  | Arm | P1 @251,904 | P1 @501,760 | q @501,760 | finishable q | r | entry bank | assisted-step fraction |
+  |---|---|---|---|---|---|---|---|
+  | A | 0.170 | 0.213 | 0.420 | 0.364 | 0.488 | 0.584 | 0 |
+  | B | 0.183 | 0.221 | 0.441 | 0.391 | 0.487 | 0.619 | 0.072 |
+  | C | 0.179 | 0.225 | 0.460 | 0.406 | 0.467 | 0.600 | 0.162 |
+  | D | 0.165 | 0.241 | 0.467 | 0.413 | 0.493 | 0.603 | 0.162 |
+- **Paired P1 contrasts at 501,760** (seeds 90..95; mean, 95% t with df 5, positive seeds):
+
+  | Contrast | Per seed | Mean [95% t] | Positive |
+  |---|---|---|---|
+  | B − A | −0.039, +0.062, +0.020, +0.004, +0.035, −0.035 | +0.008 [−0.034, +0.050] | 4/6 |
+  | C − A | −0.035, +0.035, +0.039, −0.047, +0.047, +0.031 | +0.012 [−0.032, +0.055] | 4/6 |
+  | D − A | +0.016, +0.047, +0.055, −0.008, +0.023, +0.035 | +0.028 [+0.004, +0.052] | 5/6 |
+
+  At 251,904 the contrasts were +0.013 (B), +0.009 (C) and −0.005 (D). All three intervals include 0.
+- **Gate decision (exact).** The frozen rule needs a mean advantage of at least 0.05 at 501,760, positive in at least
+  4/6 seeds, passing checks, and a confirmation that fits the budget. No method qualified. Checks passed, and the
+  confirmation (36,356,960 conservative) would have fit. The failure was on the size criterion: the largest mean was
+  D at +0.028. The independent recomputation agrees. **Selected: none. The confirmation (seeds 96-115) was not run.**
+  No doses, schedules or seeds were added (section 7).
+- **Secondary measures at 501,760** (paired m − A; descriptive, development):
+  - **Access q:** B +0.021 [−0.066, +0.109]; C +0.040 [−0.024, +0.104]; D +0.048 [−0.003, +0.098]. At 251,904,
+    q was higher for C (+0.053 [+0.012, +0.095]) and D (+0.047 [+0.001, +0.092]).
+  - **Completion after arrival r:** B −0.001, C −0.021, D +0.005. No arm changed it clearly.
+  - **Fixed entry bank:** B +0.035, C +0.016, D +0.019. All intervals include 0. No arm lost later-stage competence.
+  - **Room progress:** reach rates for modules 1/2/3 were A 1.00/0.92/0.57 and D 1.00/0.92/0.60. Door-open rates
+    were A 0.93/0.58/0.42 and D 0.92/0.61/0.47.
+- **Allocation (training).** Assisted share of continuation steps: B 0.072, C 0.162, D 0.162. Training success on
+  assisted starts: B 0.70 (post-boundary states are near the goal), C 0.28, D 0.29. Training success on normal
+  starts: A 0.146, B 0.164, C 0.167, D 0.167. Training-time rates differ in state mix. They are not evaluation
+  measures, and they are not pooled with them.
+- **Reading.** Module-entry starts (C, D) moved access up by about 0.04-0.05 on average. Completion after arrival
+  did not change, so the P1 gain was at most about 0.03. The pattern fits a small access effect. It is far smaller
+  than the headroom in the diagnostics (reference 1 − P1 = +0.31 at the A4 final checkpoints). With 6 seeds it is
+  not resolved. D was the only arm whose P1 interval excluded 0. That interval is a development estimate among
+  three comparisons, with no multiplicity control, and it is below the prespecified size.
+- **Interpretation limits** (section 9). Assisted starts change the training state distribution, the reward
+  exposure and the update mix together. They do not isolate exploration. q and r come from a fixed panel, and the
+  identity p = q × c is not assumed for a fixed bank. No novelty claim is made. The base levels are not comparable
+  to A4 (different seeds and panel).
+
+## F28 — Diagnostic synthesis, costs, interruptions and recommendation (2026-11-02; owner instruction section 11)
+
+- **Diagnostics** (A4 arm 00, seeds 70-73; probe and final checkpoints; d5_trace 64 K=3 layouts × 2; DECISIONS
+  2026-11-02). At the final checkpoints:
+  - **Arrivals are mostly finishable.** Certified impossible: 3-6% of attempts. Unresolved: 0. Feasible arrivals
+    completed at r = 0.63-0.80.
+  - **Access is the binding stage.** Reference 1 (planner prefix, learned suffix) was 0.73-0.79, against P1 of
+    0.27-0.58. Reference 2 (learned prefix, planner suffix from the actual arrival) equals finishable q (0.44-0.72).
+  - **Where the failures are.** Pre-boundary failures ended mostly in the middle module (0.11-0.41 of attempts) and
+    in the last module (0.09-0.10).
+  - **What failed attempts look like.** Per failed attempt: 9-23 toggles on a locked door and 38-61 no-ops; the
+    pose-repeat fraction was 0.61-0.67. 26-42% of failed attempts picked up a wrong key at least once.
+  - **Caveat.** This is accounting on a traced sample, not causal attribution.
+- **Synthesis.** The diagnostics showed large access headroom. Reset placement (B, C, D) at alpha 0.25 for 376,320
+  actions captured only a small part of it. Each module-entry start gives the agent practice in a module from its
+  entry. Failed normal-start attempts mostly loop at a locked door, often after holding a wrong key. A reasonable,
+  untested explanation is that more practice from module entry does not fix that error. The diagnostics do not
+  separate the key choice from door navigation as the binding decision.
+- **Costs** (programme ledger, 70M budget from 311,392,581; `tools/run_program5.py --status`):
+
+  | Phase | Actions |
+  |---|---|
+  | Preparation: data r5-v1 104,251 (includes planner trajectories and entry banks); tests 458,042; local tests outside the runner and ledger adjustments (A4 smoke gap 74,997) | 715,495 |
+  | Diagnostics: failed batch 20,498; rerun 199,824 (certification replays 10,019); local tests and adjustments (p5 local smoke 84,711) | 331,554 |
+  | Pilot canary s90 | 2,636,241 |
+  | Pilot seeds 91-95 (2.59-2.64M each; 83-85% of the conservative 3.11M) | 13,088,800 |
+  | Final tests (308 passed, 10 skipped) | 63,782 |
+  | **Total** | **16,835,872 (24.1% of 70M)** |
+
+  The confirmation reserve (36.36M) and the protected 8M were not used. Ledger total: 328,228,453.
+- **Failures, interruptions and exclusions.** One deterministic failure occurred: diagnostics batch
+  20261102T102002-57224 hit an arrival with no remaining time. It used 20,498 actions (counted). Certification was
+  fixed (now "impossible"), a test was added, and the rerun got a new run ID. The battery guard never paused (87-90%,
+  AC). There were no retries and no exclusions. Every seed was kept.
+- **Recommendation (decisive).** Do not adopt post-boundary, static module-entry or backward-curriculum reset
+  placement for normal-start success in this setting. None reached the prespecified 0.05 at 501,760. The best
+  development estimate (D, +0.028) is small compared with the measured access headroom. Do not add doses, schedules or
+  seeds to these methods.
+- **Proposed next question (not launched).** Which decision inside the module limits access: key choice, or reaching
+  and opening the correct door? A cheap counterfactual can answer this before any training intervention, with
+  about 0.3-0.5M evaluation actions:
+  - Use the frozen A4 and pilot checkpoints.
+  - Correct only one sub-decision with the planner, either the key pickup or the door approach.
+  - Measure the change in P1 and q under the same clock accounting.
+
+  Only if one sub-decision bounds a gain of 0.05 or more should a targeted training method be designed and gated.
+  This needs a new owner instruction.

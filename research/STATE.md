@@ -1,41 +1,30 @@
 # State
 
-**Current milestone (2026-11-02):** owner programme 2026-11-02, the access-focused RQ1 study (PROTOCOL_FREEZE
-Amendment 7; instruction verbatim in `mac-agentic-engineering/project.md`, harness `936e761`). Earlier verdicts are
-closed (F10-F25, read with F23 and F26).
+**Current milestone (2026-11-02, complete):** owner programme 2026-11-02, the access-focused RQ1 study
+(PROTOCOL_FREEZE Amendment 7; instruction verbatim in `mac-agentic-engineering/project.md`, harness `936e761`). All
+authorised phases are finished. There is no active work, and nothing is running.
 
-**Active objective.** Can the placement and ordering of demonstration-state starts improve learning of the
-prerequisite sequence and normal-start success at a fixed budget? Phases:
-1. Failure diagnostics on frozen A4 checkpoints, followed by the opportunity rule.
-2. Development pilot: seeds 90-95; arms 00, B5, C5, D5; 501,760 continuation actions.
-3. Frozen gate.
-4. Conditional confirmation: seeds 96-115, 00 against the selected method.
+**Outcome.**
+- **Diagnostics.** The opportunity rule was met (reference 1 − P1 = +0.311; 1 − q = 0.328). Arrivals were mostly
+  finishable.
+- **Pilot** (seeds 90-95, development). P1 − A at 501,760 was B +0.008, C +0.012 and D +0.028. Access rose by about
+  0.02-0.05, and later-stage competence did not decrease.
+- **Gate.** No method qualified (threshold 0.05), so no confirmation was run (F27).
+- **Recommendation** (F28, REPORT T8). Do not adopt these reset placements. Do not extend them.
 
-**Established.**
-- A4 (F24-F26): the preservation benefit at 1M is +0.005 [-0.015, +0.025]. Within-panel learning in arm A was mostly
-  in the access term (+0.162 of +0.204, E250 to E1M). K=3 targets were met in 17/20 seeds.
+**Established.** Closed verdicts F10-F28, read with F23 and F26.
 
-**Uncertain.**
-- whether access headroom translates into success (reference 1);
-- whether arrivals are finishable (certification);
-- whether any reset placement improves normal-start success by 0.05 or more.
+**Open / proposed (not authorised).** Which in-module decision binds access: key choice or door approach? Planner
+counterfactuals on frozen checkpoints would cost about 0.3-0.5M actions. This needs a new owner instruction.
 
 **Owner limits.** 4 cores, 6 GiB, one job, native MPS/CPU via the runner, no paid or remote compute.
 - **Battery:** stop at 31% or lower, also on AC. The persistent flag `.mae/monitor/BATTERY_PAUSE.json` blocks
   everything. Never restart automatically.
-- Two-hour reviews.
+- Two-hour reviews during active work.
 
-**Budget.** 70M from ledger 311,392,581 (`tools/run_program5.py --status`). Conservative bounds: preparation about
-1.4M, pilot 19.8M, confirmation reserve 38.8M, audit 0.3M. Protection is about 9.6M worst case.
+**Budget.** 70M from ledger 311,392,581. Spent 16,835,872. The ledger total is 328,228,453. The remainder does not
+carry over.
 
-**Monitors.** The battery guard and review cron are to be started at execution (none running yet).
+**Monitors.** Stopped at completion: battery guard 56292 and review cron 2f62d80b. No driver or watcher is running.
 
-**Next action.**
-1. Commit.
-2. Start the guard and the review cron.
-3. Run the data batch, then the tests batch.
-4. Run diagnostics, then `tools/analyze_diag5.py` (opportunity rule).
-5. Pilot canary s90, then canary check, then seeds 91-95.
-6. Run `tools/analyze_p5.py` (gate).
-7. Run the confirmation if the gate passes.
-8. Verify and report.
+**Next action.** Wait for the owner's next instruction.
