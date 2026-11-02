@@ -4,6 +4,66 @@
    "file": "experiments/p6/data.batch.json",
    "study": "prep",
    "required": true
+  },
+  {
+   "file": "experiments/p6/tests.batch.json",
+   "study": "prep",
+   "required": true
+  },
+  {
+   "file": "experiments/p6/canary.batch.json",
+   "study": "canary",
+   "required": true
+  },
+  {
+   "file": "experiments/p6/ctrl-a4_s70.batch.json",
+   "study": "eval",
+   "required": true
+  },
+  {
+   "file": "experiments/p6/ctrl-a4_s71.batch.json",
+   "study": "eval",
+   "required": true
+  },
+  {
+   "file": "experiments/p6/ctrl-a4_s72.batch.json",
+   "study": "eval",
+   "required": true
+  },
+  {
+   "file": "experiments/p6/ctrl-a4_s73.batch.json",
+   "study": "eval",
+   "required": true
+  },
+  {
+   "file": "experiments/p6/ctrl-p5_s90.batch.json",
+   "study": "eval",
+   "required": true
+  },
+  {
+   "file": "experiments/p6/ctrl-p5_s91.batch.json",
+   "study": "eval",
+   "required": true
+  },
+  {
+   "file": "experiments/p6/ctrl-p5_s92.batch.json",
+   "study": "eval",
+   "required": true
+  },
+  {
+   "file": "experiments/p6/ctrl-p5_s93.batch.json",
+   "study": "eval",
+   "required": true
+  },
+  {
+   "file": "experiments/p6/verify.batch.json",
+   "study": "verify",
+   "required": true
+  },
+  {
+   "file": "experiments/p6/final-tests.batch.json",
+   "study": "final",
+   "required": true
   }
  ]
 }

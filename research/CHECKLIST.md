@@ -201,11 +201,11 @@ Dependencies: each line needs the lines above it unless marked (parallel-safe: d
 - [x] Position checks: tree, ledger, workers, policy hashes (8/8)
 - [x] Denominator audit (`reports/p6/audit_p5.md`); marked corrections in F27/F28/REPORT T
 - [x] Battery guard restarted (PID 30539) and two-hour introspective review loop (cron eb95c0a1); no duplicates
-- [ ] Role d6_ctrl + data r6-v1 (runner) -> disjointness check
-- [ ] Controller module (KA/DA helpers, physical mask, step-indexed CRN), tests (zero remaining time, final-step
+- [x] Role d6_ctrl + data r6-v1 (runner; 6,343 actions) -> disjointness check (no failures)
+- [x] Controller module (KA/DA helpers, physical mask, step-indexed CRN), tests (zero remaining time, final-step
       arrival, inventory changes, already-open door, unavailable assistance, budget interruption)
-- [ ] Conservative cost -> 64 or 32 layouts (before outcomes)
-- [ ] Frozen analysis + independent verifier; Amendment 8 (hashes, controller definitions, fallbacks, accounting,
+- [x] Conservative cost -> 64 layouts fit (1,375,488 for evaluation; total about 1.80M of 2M)
+- [x] Frozen analysis + independent verifier + replay job; Amendment 8 (hashes, controller definitions, fallbacks, accounting,
       manifest); commit before outcome-producing runs
 - [ ] Tests batch; engineering canary on d5_trace (no new-panel outcomes)
 - [ ] Evaluation batches: 8 policies x 8 conditions (reviews every 2 h; battery rule)

@@ -871,3 +871,165 @@ only after the gate).
 **H. Accounting fix.** Real jobs that tests start as subprocesses with a temporary MAE_RUN_DIR now mirror their step
 record to the parent's ledger location (`BC2RL_STEPS_MIRROR`). The same gap affected A4's `a4-smoke` job. Its
 subprocess actions are re-measured by this programme's smoke job and added as an A4 adjustment.
+
+### Amendment 8 — 2026-11-02b (in force): frozen-policy controller diagnostics (owner instruction 2026-11-02b)
+
+Frozen before any outcome on the d6_ctrl panel. This is a diagnostic study of augmented controllers on existing
+policies. It is not a demonstration of improved learning. It has no confirmatory test.
+
+**A. Question.** On frozen policies, how much normal-start failure can be relieved by:
+- correcting key acquisition;
+- correcting navigation and passage through the appropriate door;
+- preventing physically ineffective actions?
+
+**B. Policies** (fixed by seed order, not performance; analysed in two cohorts, never pooled):
+
+| Cohort | Policy | Run | Hash prefix |
+|---|---|---|---|
+| A4 (arm 00, state at 1,001,472) | s70 | `20261102T004500-31671/a4-K3-s70-00` | 39e5fcd6 |
+| A4 | s71 | `20261102T010216-37940/a4-K3-s71-00` | c320d16c |
+| A4 | s72 | `20261102T011927-39746/a4-K3-s72-00` | 8fd58ae0 |
+| A4 | s73 | `20261102T013603-41276/a4-K3-s73-00` | 0068d0be |
+| P5 (pilot arm 00, state at 501,760) | s90 | `20261102T102122-57488/p5-K3-s90-00` | 46739e2a |
+| P5 | s91 | `20261102T103848-59602/p5-K3-s91-00` | cdec2cd0 |
+| P5 | s92 | `20261102T105600-61618/p5-K3-s92-00` | fb985af9 |
+| P5 | s93 | `20261102T111302-68146/p5-K3-s93-00` | 52b909d5 |
+
+Hashes are checked at load against the run summaries. These are existing trained policies, not eight independent
+training replications.
+
+**C. Panel.**
+- Role d6_ctrl (namespace 136), dataset r6-v1. It is built on r5-v1 with every file copied; manifest SHA-256 prefix
+  49e497e70ff3ded2.
+- The registry check passed, with structure and suffix disjointness from every earlier training, selection and
+  evaluation role. There were no planner failures.
+- 64 K=3 layouts × 2 attempts. Panel SHA-256: aa0504ec616ee6387dbb7f1074a33180d86cfb1a7776f197922aa00eff1d4c05.
+  The job checks it.
+- Limits: 132-156 (the existing rule, tau + 24 + 80; unchanged).
+- Evaluation seed 1009000. The same panel and attempt identifiers are used in every condition.
+- Cost decision: 64 layouts fit the budget under conservative bounds (section H), so the reduction to 32 is not used.
+
+**D. Conditions** (`bc2rl.controller.CONDITIONS`). All start from normal starts. The modules are the three
+prerequisite modules; "middle" is structural index 1.
+1. base;
+2. key_mid;
+3. door_mid;
+4. both_mid;
+5. key_all;
+6. door_all;
+7. both_all;
+8. mask_prefix.
+
+**E. Helpers.** The helpers execute legal `env.step` actions on the original clock. They do not teleport, change
+inventory, unlock doors directly or restore time. Every helper action is counted.
+- **Key-acquisition assistance (KA)** includes navigation and inventory management. It is not a pure intervention on
+  key identity.
+  - It is evaluated once per module in scope, at the first decision point inside that module's interior (module 0:
+    the start).
+  - It uses an exact module-local BFS until the module key is held.
+  - It may drop a carried object on an empty interior cell, but not on the cells in front of the entry or exit door.
+    Layout generation keeps those cells free. This rule was added during development after a synthetic check
+    (random policy, non-panel layouts) showed that a drop there blocks the door transition.
+- **Door-transition assistance (DA)** includes navigation and door operation. It is not a pure intervention on door
+  choice.
+  - It is evaluated once per module in scope, at the first decision point inside the interior while holding that
+    module's key, if the agent has never stood beyond that module's door.
+  - It uses an exact BFS over the interior, the door cell and the next cell. It opens the door if needed and ends on
+    the first cell beyond the door.
+  - For the last module, that cell is the first suffix cell, so the last helper action is the boundary crossing.
+- **Status of every evaluation** (deterministic; the episode always continues):
+  - assisted (plan length ≤ remaining; goal checked afterwards);
+  - certified_impossible (the relaxed bound exceeds the remaining time);
+  - unresolved (otherwise; search failure is not impossibility);
+  - not_needed (KA only, when the key is already held).
+- **Not eligible.** Modules never reached, or DA when the key was never held there, count as not eligible.
+- **No repeated rescues.** Later key drops after KA and backtracking after DA are recorded, not rescued.
+- **Exposure.** Door-only assistance can remain ineligible. Eligibility and exposure are reported, and a null door
+  result does not show that door behaviour is adequate.
+
+**F. Physical mask** (`physical_mask`; prefix only; the unmasked policy after the boundary).
+- **Rules.** The mask uses only the front cell, the carried object and MiniGrid semantics:
+  - left and right: always allowed;
+  - forward: only into an empty or overlappable cell;
+  - pickup: only with nothing carried and a pickable object in front (wrong keys stay available);
+  - drop: only when carrying, with an empty cell in front;
+  - toggle: only on a door that is unlocked, or locked with a key of its colour carried;
+  - done: never.
+- **Renormalisation.** The policy is renormalised over the permitted set. It falls back to uniform over the permitted
+  set if that set has no mass. Left and right keep the set nonempty.
+- **Recorded.** Removed mass, changed actions and executed actions.
+- **Status.** This is a new evaluation decision rule. It is not an implementation correction.
+
+**G. Coupling and records.**
+- **Random numbers.** The policy action at absolute step t uses u[t] from rng([1009000, item, attempt]).random(limit).
+  Helpers draw nothing. Base therefore reproduces `bc2rl.evaluate.run_attempts` (tested).
+- **Records.** Compact rows hold:
+  - identifiers, limit, outcome, tau, arrival remaining time and certification;
+  - module entries, assistance records, counters and the trace summary;
+  - the full action and actor strings, enough to reproduce any trajectory.
+
+**H. Accounting and cost.**
+- **Episode bound.** limit plus the longest certification replay. Every first crossing enters (13, 4) facing east
+  with an untouched suffix, so the replay is the exact abstraction plan from there. This gives 10,746 per attempt
+  pass over the panel.
+- **Batch costs (conservative):**
+
+  | Batch | Conservative actions |
+  |---|---|
+  | Data (done) | 6,343 |
+  | Tests | 150,000 |
+  | Canary (d5_trace, 4 layouts × 1 attempt × 8 conditions, a4_s70) | 5,304 |
+  | Evaluation (8 batches) | 1,375,488 |
+  | Verification replay (2 episodes per cell) | 24,064 |
+  | Final tests | 150,000 |
+  | Audit reserve | 60,000 |
+  | **Total with spending to date (about 1.80M)** | **2,000,000 cap** |
+
+- **Driver.** `tools/run_program6.py` adds a discharge-margin admission. The conservative batch time (at 150
+  actions/s) times the recent discharge rate, or 20%/h with no estimate, must leave ≥ 36%.
+
+**I. Analysis** (`tools/analyze_p6.py`, frozen; every condition reported).
+- Per policy and cohort, with explicit counts:
+  - P1 = S/n;
+  - q = A/n;
+  - r = S_A/A;
+  - F/A and S_F/F;
+  - exposure;
+  - helper fraction;
+  - assistance status counts;
+  - arrival time and remaining time;
+  - module durations;
+  - ineffective actions and mass;
+  - locked toggles;
+  - key pickups;
+  - rescue and loss tables.
+- **Intervals.** Paired per-layout differences with 95% t over layouts and a layout bootstrap. Cohort means over the
+  4 policies use t over layouts (conditional on the policies) and a crossed policy × layout bootstrap.
+- **Interactions.** both − key − door + base, per scope.
+- **Multiplicity.** All comparisons are exploratory; Bonferroni (0.05/9) intervals are shown as a simultaneous
+  sensitivity.
+- **Trajectory sample.** A predetermined rule selects the first 2 episodes per category (a-f) per cohort.
+
+**J. Interpretation rules** (fixed now, descriptive):
+- A condition **materially relieves failure** in a cohort if the cohort mean ΔP1 ≥ 0.05 and its 95% t lower bound
+  is > 0.
+- It is **consistent** if this holds in both cohorts.
+- **Beyond masking** means key_all ΔP1 minus mask_prefix ΔP1 ≥ 0.05 in both cohorts.
+- An assisted gain is an opportunity under privileged assistance. It does not show that a trainable intervention
+  would realise it.
+- The section 7 branches guide the single ranked recommendation. No training is launched under this authorization.
+
+**K. Verification.**
+- `tools/verify_p6.py` recomputes counts, rates, contrasts and action totals from the raw rows with separate code.
+  This uses shared upstream data.
+- `bc2rl.ctrl_replay` re-executes a fixed sample (2 per cell; rng([20261102, policy, condition])). It checks
+  outcomes, helper claims and policy actions. This is the genuinely independent check.
+
+**L. Frozen files (SHA-256 prefixes at the freeze commit).**
+  - `src/bc2rl/controller.py` 5f548f60327dd3c8
+  - `src/bc2rl/ctrl_replay.py` ecaac88da0d71b6d
+  - `tools/analyze_p6.py` 901c5d380278caaa
+  - `tools/verify_p6.py` cd2d0fd5c18ab059
+  - `tools/run_program6.py` 891360f95f5a1fe1
+  - `experiments/p6/ctrl-v1.json` 58b09ae8e5b75455
+  - `experiments/p6/canary-v1.json` 1cdebee751a21daa

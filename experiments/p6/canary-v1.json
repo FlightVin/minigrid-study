@@ -1,0 +1,26 @@
+{
+ "purpose": "Engineering canary (Amendment 8): d5_trace layouts (not the d6_ctrl panel), 4 K=3 layouts x 1 attempt, all 8 conditions, policy a4_s70. Engineering checks only.",
+ "dataset_id": "r6-v1",
+ "role": "d5_trace",
+ "n_layouts": 4,
+ "attempts": 1,
+ "eval_seed": 1009500,
+ "conditions": [
+  "base",
+  "key_mid",
+  "door_mid",
+  "both_mid",
+  "key_all",
+  "door_all",
+  "both_all",
+  "mask_prefix"
+ ],
+ "policies": {
+  "a4_s70": {
+   "kind": "state",
+   "run": "20261102T004500-31671/a4-K3-s70-00",
+   "at": 1001472,
+   "seed": 70
+  }
+ }
+}

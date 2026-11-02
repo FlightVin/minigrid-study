@@ -1,0 +1,19 @@
+{
+ "jobs": [
+  {
+   "id": "p6-ctrl-a4_s73",
+   "cpu_threads": 1,
+   "memory_gb": 2,
+   "device": "cpu",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.controller",
+    "--config",
+    "experiments/p6/ctrl-v1.json",
+    "--policy",
+    "a4_s73"
+   ]
+  }
+ ]
+}

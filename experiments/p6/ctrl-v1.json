@@ -1,0 +1,85 @@
+{
+ "purpose": "Frozen-policy controller diagnostics (owner instruction 2026-11-02b; PROTOCOL_FREEZE Amendment 8). Fixed policies by seed order: A4 arm 00 finals s70-73 (1,001,472) and pilot arm 00 finals s90-93 (501,760). Fresh panel d6_ctrl: 64 K=3 layouts x 2 attempts, identical across conditions; step-indexed common random numbers.",
+ "dataset_id": "r6-v1",
+ "role": "d6_ctrl",
+ "n_layouts": 64,
+ "attempts": 2,
+ "eval_seed": 1009000,
+ "panel_sha256": "aa0504ec616ee6387dbb7f1074a33180d86cfb1a7776f197922aa00eff1d4c05",
+ "conditions": [
+  "base",
+  "key_mid",
+  "door_mid",
+  "both_mid",
+  "key_all",
+  "door_all",
+  "both_all",
+  "mask_prefix"
+ ],
+ "policies": {
+  "a4_s70": {
+   "kind": "state",
+   "run": "20261102T004500-31671/a4-K3-s70-00",
+   "at": 1001472,
+   "seed": 70
+  },
+  "a4_s71": {
+   "kind": "state",
+   "run": "20261102T010216-37940/a4-K3-s71-00",
+   "at": 1001472,
+   "seed": 71
+  },
+  "a4_s72": {
+   "kind": "state",
+   "run": "20261102T011927-39746/a4-K3-s72-00",
+   "at": 1001472,
+   "seed": 72
+  },
+  "a4_s73": {
+   "kind": "state",
+   "run": "20261102T013603-41276/a4-K3-s73-00",
+   "at": 1001472,
+   "seed": 73
+  },
+  "p5_s90": {
+   "kind": "state",
+   "run": "20261102T102122-57488/p5-K3-s90-00",
+   "at": 501760,
+   "seed": 90
+  },
+  "p5_s91": {
+   "kind": "state",
+   "run": "20261102T103848-59602/p5-K3-s91-00",
+   "at": 501760,
+   "seed": 91
+  },
+  "p5_s92": {
+   "kind": "state",
+   "run": "20261102T105600-61618/p5-K3-s92-00",
+   "at": 501760,
+   "seed": 92
+  },
+  "p5_s93": {
+   "kind": "state",
+   "run": "20261102T111302-68146/p5-K3-s93-00",
+   "at": 501760,
+   "seed": 93
+  }
+ },
+ "cohorts": {
+  "A4": [
+   "a4_s70",
+   "a4_s71",
+   "a4_s72",
+   "a4_s73"
+  ],
+  "P5": [
+   "p5_s90",
+   "p5_s91",
+   "p5_s92",
+   "p5_s93"
+  ]
+ },
+ "verify_sample_per_cell": 2,
+ "verify_seed": 20261102
+}
