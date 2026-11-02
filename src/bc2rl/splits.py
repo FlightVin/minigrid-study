@@ -22,16 +22,19 @@ ROLE_NAMESPACE = {
     "r2_select": 115, "r2_bank": 116, "r2_final": 117,
     "a3_select": 118, "a3_bank": 119, "a3_final": 120, "pl_select": 121, "pl_bank": 122, "pl_final": 123,
     "a4_select": 124, "a4_bank": 125, "a4_final": 126, "a4_donor": 127,
+    "d5_trace": 128, "p5_select": 129, "p5_eval": 135, "p5_bank": 131, "c5_select": 132, "c5_bank": 133, "c5_final": 134,
 }
 TRAIN_ROLES = ("bc_train", "bc_val", "rl_train", "reset_donor", "anchor_donor")
 EVAL_ROLES = ("dev_eval", "dev_bank", "conf_select", "conf_bank", "conf_final", "r1_select", "r1_bank", "r1_final",
               "r2_select", "r2_bank", "r2_final", "a3_select", "a3_bank", "a3_final", "pl_select", "pl_bank", "pl_final",
-              "a4_select", "a4_bank", "a4_final", "a4_donor")
+              "a4_select", "a4_bank", "a4_final", "a4_donor",
+              "d5_trace", "p5_select", "p5_eval", "p5_bank", "c5_select", "c5_bank", "c5_final")
 # Earlier roles win a structural collision; evaluation roles come last so they stay untouched.
 ROLE_ORDER = ["bc_train", "bc_val", "rl_train", "reset_donor", "anchor_donor", "dev_eval", "dev_bank",
               "conf_select", "conf_bank", "conf_final", "r1_select", "r1_bank", "r1_final", "r2_select", "r2_bank",
               "r2_final", "a3_select", "a3_bank", "a3_final", "pl_select", "pl_bank", "pl_final",
-              "a4_select", "a4_bank", "a4_final", "a4_donor"]
+              "a4_select", "a4_bank", "a4_final", "a4_donor",
+              "d5_trace", "p5_select", "p5_eval", "p5_bank", "c5_select", "c5_bank", "c5_final"]
 ALLOWED_USE = {
     "bc_train": "supervised fitting only",
     "bc_val": "BC checkpoint/fitting development; no PPO branch outcomes",
@@ -59,6 +62,13 @@ ALLOWED_USE = {
     "a4_bank": "A4 planner boundary-entry competence bank donors (entry states only); no fitting",
     "a4_final": "A4 final normal-start evaluation (256 K=3 layouts x 2) only; never tuning or selection",
     "a4_donor": "A4 actual-arrival bank donor layouts (calibration policies' first crossings); no fitting",
+    "d5_trace": "2026-11-02 failure diagnostics: traced normal starts and assisted references of frozen A4 checkpoints",
+    "p5_select": "2026-11-02 pilot pi0/post-probe normal-start diagnostics; no fitting",
+    "p5_eval": "2026-11-02 pilot development evaluation panel (64 K=3 x 4); development only",
+    "p5_bank": "2026-11-02 pilot planner boundary-entry competence bank (128 K=3 entry states); no fitting",
+    "c5_select": "2026-11-02 confirmation pi0/post-probe diagnostics; no fitting; never development",
+    "c5_bank": "2026-11-02 confirmation planner boundary-entry competence bank; no fitting; never development",
+    "c5_final": "2026-11-02 confirmation final evaluation (256 K=3 x 2) only; never tuning or selection",
 }
 
 

@@ -1,0 +1,54 @@
+{
+ "batches": [
+  {
+   "file": "experiments/p5/data.batch.json",
+   "study": "prep",
+   "required": true
+  },
+  {
+   "file": "experiments/p5/tests.batch.json",
+   "study": "prep",
+   "required": true
+  },
+  {
+   "file": "experiments/p5/diag.batch.json",
+   "study": "diag",
+   "required": true
+  },
+  {
+   "file": "experiments/p5/pilot-s90.batch.json",
+   "study": "pilot",
+   "required": true
+  },
+  {
+   "file": "experiments/p5/pilot-s91.batch.json",
+   "study": "pilot",
+   "required": true
+  },
+  {
+   "file": "experiments/p5/pilot-s92.batch.json",
+   "study": "pilot",
+   "required": true
+  },
+  {
+   "file": "experiments/p5/pilot-s93.batch.json",
+   "study": "pilot",
+   "required": true
+  },
+  {
+   "file": "experiments/p5/pilot-s94.batch.json",
+   "study": "pilot",
+   "required": true
+  },
+  {
+   "file": "experiments/p5/pilot-s95.batch.json",
+   "study": "pilot",
+   "required": true
+  },
+  {
+   "file": "experiments/p5/final-tests.batch.json",
+   "study": "final",
+   "required": true
+  }
+ ]
+}

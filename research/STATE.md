@@ -1,24 +1,41 @@
 # State
 
-**Current milestone (2026-11-02):** the owner programme 2026-11-01c (A4, PROTOCOL_FREEZE Amendment 6) is complete.
-No work is authorised. The owner decides on the next step (REPORT section S6).
+**Current milestone (2026-11-02):** owner programme 2026-11-02, the access-focused RQ1 study (PROTOCOL_FREEZE
+Amendment 7; instruction verbatim in `mac-agentic-engineering/project.md`, harness `936e761`). Earlier verdicts are
+closed (F10-F25, read with F23 and F26).
 
-**Established (closed):**
-- A4 (F24): suffix-only preservation against ordinary PPO at 1,001,472 actions, K=3, rho 0.2 / 8k, n = 20 (seeds
-  70-89). d = +0.0047 [-0.0152, +0.0246], p 0.63: not supported. H2 was gated out. Descriptive: +0.020 at 251,904,
-  +0.012 at 501,760, then catch-up. Independent verification agrees.
-- A4 cohort and costs (F25): 3/20 seeds met all calibration targets (tests the fixed procedure). Spend 55,727,013 of
-  70M. Ledger 311,392,581. No pauses or retries.
-- A3 (F19), calibration (F20), pilot (F21), synthesis (F22), corrections (F23): unchanged.
+**Active objective.** Can the placement and ordering of demonstration-state starts improve learning of the
+prerequisite sequence and normal-start success at a fixed budget? Phases:
+1. Failure diagnostics on frozen A4 checkpoints, followed by the opportunity rule.
+2. Development pilot: seeds 90-95; arms 00, B5, C5, D5; 501,760 continuation actions.
+3. Frozen gate.
+4. Conditional confirmation: seeds 96-115, 00 against the selected method.
 
-**Recommendation (F25, REPORT S6):** do not adopt suffix preservation for final success; no extension; no RQ2
-selector. If further work is funded, target access (q).
+**Established.**
+- A4 (F24-F26): the preservation benefit at 1M is +0.005 [-0.015, +0.025]. Within-panel learning in arm A was mostly
+  in the access term (+0.162 of +0.204, E250 to E1M). K=3 targets were met in 17/20 seeds.
 
-**Owner limits (still in force):** 4 cores, 6 GiB, one job, native MPS/CPU via the runner, no paid or remote compute.
-Battery: stop at 31% or lower, also on AC; the persistent flag `.mae/monitor/BATTERY_PAUSE.json` blocks all work;
-never restart automatically. The guard must be started before any new heavy work.
+**Uncertain.**
+- whether access headroom translates into success (reference 1);
+- whether arrivals are finishable (certification);
+- whether any reset placement improves normal-start success by 0.05 or more.
 
-**Monitors:** none running. Battery guard 31137 and review cron 5bcaa9b8 were stopped at completion on 2026-11-02.
-The driver and watchers exited normally.
+**Owner limits.** 4 cores, 6 GiB, one job, native MPS/CPU via the runner, no paid or remote compute.
+- **Battery:** stop at 31% or lower, also on AC. The persistent flag `.mae/monitor/BATTERY_PAUSE.json` blocks
+  everything. Never restart automatically.
+- Two-hour reviews.
 
-**Next action:** none. Wait for an owner instruction.
+**Budget.** 70M from ledger 311,392,581 (`tools/run_program5.py --status`). Conservative bounds: preparation about
+1.4M, pilot 19.8M, confirmation reserve 38.8M, audit 0.3M. Protection is about 9.6M worst case.
+
+**Monitors.** The battery guard and review cron are to be started at execution (none running yet).
+
+**Next action.**
+1. Commit.
+2. Start the guard and the review cron.
+3. Run the data batch, then the tests batch.
+4. Run diagnostics, then `tools/analyze_diag5.py` (opportunity rule).
+5. Pilot canary s90, then canary check, then seeds 91-95.
+6. Run `tools/analyze_p5.py` (gate).
+7. Run the confirmation if the gate passes.
+8. Verify and report.

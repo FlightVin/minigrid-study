@@ -48,10 +48,23 @@ from bc2rl import battery as BAT
 from bc2rl import evaluate as E
 from bc2rl import model as M
 from bc2rl import ppo as PP
+from bc2rl import suffix_cert as SC
 from bc2rl import task as T
 from bc2rl.telemetry import Heartbeat, resource_heartbeat
 
 RESET_MIXTURE = [("entry", 0.5), ("retrieval", 0.25), ("carrying", 0.25)]
+
+
+def cert_summary(res, n_items):
+    """Item-weighted shares of normal-start attempts whose actual arrival was certified feasible / unresolved /
+    impossible (verified finishable access = feasible; unresolved is never counted as finishable)."""
+    out = {}
+    for st in ("feasible", "unresolved", "impossible"):
+        per = {}
+        for r in res:
+            per.setdefault(r["item"], []).append(r["arrival"] is not None and r["arrival"]["cert"]["status"] == st)
+        out[f"q_{st}"] = float(np.mean([np.mean(per[i]) for i in range(n_items)]))
+    return out
 
 
 class Ctx:
@@ -110,13 +123,28 @@ class Ctx:
         return A, {"prefix_states": int(len(pre)), "suffix_states": int(len(suf)),
                    "prefix_weight": self.cfg["anchor_prefix_weight"]}
 
-    def sampler(self, alpha):
+    def sampler(self, alpha, arm=None):
+        sched = self.cfg.get("assist_schedule", {}).get(arm) if alpha > 0 else None
+        if sched is not None:      # 2026-11-02 pilot arms: phases by executed continuation actions (clock set later)
+            names = sorted({b for ph in sched for b, _ in ph["mixture"]})
+            bins = PP.ResetBank(self.ds, "reset_donor", self.K, "reset").bins(names)
+            return PP.StartSampler(self.train_layouts, bins, alpha, None, [self.seed, 31], schedule=sched)
         bins = PP.ResetBank(self.ds, "reset_donor", self.K, "reset").bins([b for b, _ in RESET_MIXTURE]) if alpha > 0 else {}
         return PP.StartSampler(self.train_layouts, bins, alpha, RESET_MIXTURE, [self.seed, 31])
 
-    def evaluate(self, actor, attempts, bank_attempts, role, tag, layouts=None):
+    def evaluate(self, actor, attempts, bank_attempts, role, tag, layouts=None, certify=None):
         starts = [("layout", L) for L in (self.eval_layouts if layouts is None else layouts)]
-        res, n1 = E.run_attempts(actor, starts, attempts, self.cfg["eval_seed"], self.device, heartbeat=self.hb)
+        cert = bool(self.cfg.get("certify_arrivals") if certify is None else certify)
+        res, n1 = E.run_attempts(actor, starts, attempts, self.cfg["eval_seed"], self.device, heartbeat=self.hb,
+                                 capture=cert, trace=bool(self.cfg.get("trace_eval")))
+        if cert:                   # 2026-11-02: planner certification of each actual arrival (replay actions counted)
+            nc = 0
+            for r in res:
+                if r["arrival"] is not None:
+                    c = SC.certify(r["arrival"].pop("snapshot"))
+                    nc += c["replay_actions"]
+                    r["arrival"]["cert"] = c
+            self.actions["certification"] = self.actions.get("certification", 0) + nc
         snaps = [("snapshot", s["snapshot"]) for s in self.bank]
         bres, n2 = (E.run_attempts(actor, snaps, bank_attempts, self.cfg["eval_seed"] + 1, self.device, heartbeat=self.hb)
                     if bank_attempts else ([], 0))
@@ -129,7 +157,7 @@ class Ctx:
                 n3 += nx
         self.actions[role] += n1 + n2 + n3
         present = [b for b in ("entry", "retrieval", "carrying") if any(s["bin"] == b for s in self.bank)]
-        out = {"tag": tag, "normal": E.summarize(res, len(starts)),
+        out = {"tag": tag, "normal": {**E.summarize(res, len(starts)), **(cert_summary(res, len(starts)) if cert else {})},
                "bank": E.summarize(bres, len(snaps)) if bres else None,
                "bank_bins": {b: float(np.mean([r["success"] for r in bres if self.bank[r["item"]]["bin"] == b]))
                              for b in present} if bres else None,
@@ -332,8 +360,10 @@ def branch(a, cfg):
     alpha = cfg["alpha"] if use_reset else 0.0
     component = PP.COMPONENT.get(a.arm, "both")
     learner = PP.PPO(actor, critic, {**cfg, "kl_coef": PP.arm_kl_coef(a.arm, cfg)}, ctx.device,
-                     ctx.sampler(alpha), anchors, use_kl=use_kl, seed=seed, component=component)
+                     ctx.sampler(alpha, a.arm), anchors, use_kl=use_kl, seed=seed, component=component)
     learner.load(st)
+    fork_actions = learner.counters["env_actions"]
+    learner.sampler.clock = lambda: learner.counters["env_actions"] - fork_actions
     loaded_hash = PP.state_hash({**learner.state(), "pi0": st["pi0"]})
     assert loaded_hash == psum["fork_hash"], "loaded learner state differs from fork"
     base_actions = learner.counters["env_actions"]
@@ -421,7 +451,8 @@ def scheduled(ctx, cfg, learner, pi0_state, meta):
                 e = sched[done]
                 role = "eval_final" if done == target or e.get("endpoint") else "eval_diagnostic"
                 lay = ctx.diag_layouts if e.get("layouts") == "diag" else None
-                ev = ctx.evaluate(learner.actor, e["attempts"], e["bank_attempts"], role, e.get("tag", f"at_{done}"), lay)
+                ev = ctx.evaluate(learner.actor, e["attempts"], e["bank_attempts"], role, e.get("tag", f"at_{done}"), lay,
+                                  e.get("certify"))
                 ctx.log({"phase": "eval", "post_probe_actions": done, **ev})
                 evals.append({"actions": done, "tag": ev["tag"], "P1": ev["normal"]["P1"], "q": ev["normal"]["q"],
                               "C4": ev["normal"].get("C4"), "R4": ev["normal"].get("R4"),
@@ -484,9 +515,10 @@ def resume(a, cfg):
     anchors, anchor_info = ctx.anchors(pi0)
     learner = PP.PPO(M.Actor().to(ctx.device), M.Critic().to(ctx.device),
                      {**cfg, "alpha": meta["alpha"], "kl_coef": meta["kl_coef"]}, ctx.device,
-                     ctx.sampler(meta["alpha"]), anchors, use_kl=use_kl, seed=seed,
+                     ctx.sampler(meta["alpha"], arm), anchors, use_kl=use_kl, seed=seed,
                      component=meta.get("anchor_component", "both"))
     learner.load(st)
+    learner.sampler.clock = lambda: learner.counters["env_actions"] - meta["base_actions"]
     assert PP.state_hash({**learner.state(), "pi0": st["pi0"]}) == saved["hash"], "loaded learner differs from saved state"
     assert learner.counters["env_actions"] - meta["base_actions"] == meta["post_probe_actions"]
     meta.update(resumed_from=str(path), resumed_hash=saved["hash"], anchors=anchor_info)

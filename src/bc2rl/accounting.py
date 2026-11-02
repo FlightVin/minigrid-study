@@ -7,6 +7,9 @@ Outside the runner (tests, interactive checks) every process records its cumulat
 <project>/.mae/unmanaged_actions/<pid>-<start>.json (rewritten every FLUSH steps and at exit), which
 tools/ledger.py adds as measured outside-runner actions. Outside the runner a process also stops with an error
 after BC2RL_UNMANAGED_ACTION_LIMIT steps (default 1,000,000), so an unmanaged check cannot grow unnoticed.
+BC2RL_STEPS_MIRROR (2026-11-02): if set, every record is also written, identically, to that directory. Tests that
+start real jobs as subprocesses with a temporary MAE_RUN_DIR set it to the parent's ledger location (the runner
+job's env_steps, or <project>/.mae/unmanaged_actions outside the runner), so those actions are never lost.
 """
 import atexit
 import json
@@ -24,6 +27,7 @@ _path = None
 # The record directory is fixed at import, before any in-process test can change MAE_RUN_DIR (the RL smoke tests
 # point it at temporary job directories; fixed 2026-11-01 after r2-smoke's records were lost with them).
 _steps_dir = Path(os.environ["MAE_RUN_DIR"]) / "env_steps" if _managed else None
+_mirror = Path(os.environ["BC2RL_STEPS_MIRROR"]) if os.environ.get("BC2RL_STEPS_MIRROR") else None
 
 
 def _record():
@@ -38,10 +42,12 @@ def _record():
             d = root / ".mae" / "unmanaged_actions"
         d.mkdir(parents=True, exist_ok=True)
         _path = d / f"{os.getpid()}-{int(_start)}.json"
-    tmp = _path.with_suffix(".tmp")
-    tmp.write_text(json.dumps({"pid": os.getpid(), "argv": sys.argv, "started": _start, "updated": time.time(),
-                               "actions": _n}))
-    tmp.replace(_path)
+    rec = json.dumps({"pid": os.getpid(), "argv": sys.argv, "started": _start, "updated": time.time(), "actions": _n})
+    for path in [_path] + ([_mirror / ("mirror-" + _path.name)] if _mirror is not None else []):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        tmp = path.with_suffix(".tmp")
+        tmp.write_text(rec)
+        tmp.replace(path)
 
 
 def count():

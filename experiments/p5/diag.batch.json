@@ -1,0 +1,17 @@
+{
+ "jobs": [
+  {
+   "id": "p5-diag-v1",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.diag5",
+    "--config",
+    "experiments/p5/diag-v1.json"
+   ]
+  }
+ ]
+}

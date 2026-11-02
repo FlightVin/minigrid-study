@@ -29,7 +29,10 @@ from bc2rl import model as M
 from bc2rl import task as T
 
 ARMS = {"00": (False, False), "10": (True, False), "01": (False, True), "11": (True, True),
-        "01p": (False, True), "01s": (False, True), "01w": (False, True), "11s": (True, True)}
+        "01p": (False, True), "01s": (False, True), "01w": (False, True), "11s": (True, True),
+        "B5": (True, False), "C5": (True, False), "D5": (True, False)}
+# Arms B5/C5/D5 (owner instruction 2026-11-02, reset-placement pilot): demonstration-state starts under the config's
+# per-arm "assist_schedule" (phases by executed continuation actions); no preservation penalty.
 COMPONENT = {"01p": "prefix", "01s": "suffix", "11s": "suffix"}   # every other arm: "both" (the original loss)
 # Arm 01w (anchor-allocation study A3, arm E): the original mixed penalty with base coefficient 0.75 x config
 # (0.0075 for 0.01), i.e. 0.001875 E_prefix + 0.005625 E_suffix. Every other preservation arm uses the config value.
@@ -56,20 +59,35 @@ class StartSampler:
     Three independent streams (coin, normal layout, bank state) make the k-th normal layout the
     same in every arm that forks from one state, whatever the assist coin does."""
 
-    def __init__(self, layouts, reset_bank, alpha, mixture, seed):
+    def __init__(self, layouts, reset_bank, alpha, mixture, seed, schedule=None):
         self.layouts = layouts
         self.bank = reset_bank           # dict bin -> list of snapshot builders (callables)
         self.alpha = alpha
         self.mixture = mixture
+        # schedule (2026-11-02): [{"until": n, "alpha": a, "mixture": [[bin, w], ...]}, ...] by executed continuation
+        # actions (self.clock(), set by the caller); a phase applies to starts drawn while clock() < until; after the
+        # last phase, no assisted starts. Episodes in progress are never cut at a phase boundary.
+        self.schedule = schedule
+        self.clock = None
         base = [int(s) for s in np.atleast_1d(seed)]      # int or flat sequence of ints
         self.rngs = {k: np.random.default_rng(base + [i]) for i, k in enumerate(("coin", "layout", "bank"))}
 
+    def phase(self):
+        if self.schedule is None:
+            return self.alpha, self.mixture
+        now = self.clock() if self.clock is not None else 0
+        for ph in self.schedule:
+            if now < ph["until"]:
+                return ph["alpha"], ph["mixture"]
+        return 0.0, None
+
     def draw(self):
-        if self.alpha > 0 and self.rngs["coin"].random() < self.alpha:
+        alpha, mixture = self.phase()
+        if alpha > 0 and self.rngs["coin"].random() < alpha:
             r = self.rngs["bank"]
-            b = r.choice(len(self.mixture), p=[m[1] for m in self.mixture])
-            items = self.bank[self.mixture[b][0]]
-            return "snapshot", items[r.integers(len(items))](), True
+            b = r.choice(len(mixture), p=[m[1] for m in mixture])
+            items = self.bank[mixture[b][0]]
+            return "snapshot", items[r.integers(len(items))](), (mixture[b][0] if self.schedule is not None else True)
         return "layout", self.layouts[self.rngs["layout"].integers(len(self.layouts))], False
 
     def get_state(self):
@@ -103,7 +121,48 @@ class ResetBank:
         return build
 
     def bins(self, names):
-        return {n: [self.builder(int(r)) for r in self.rows(n)] for n in names}
+        return {n: [self.builder(int(r)) for r in (self.module_rows(int(n[3:])) if n.startswith("mod") else self.rows(n))]
+                for n in names}
+
+    def module_rows(self, j):
+        """Entry to prerequisite module j (2026-11-02): per donor trajectory, the first recorded state with the agent
+        inside module j's slot (j = 0: the initial state). Original clock; the module's key is not yet held."""
+        slot = T.N_SLOTS - self.K + j
+        x0, color = T.SLOT_X0[slot], T.MODULE_COLORS[slot]
+        key_color = 1 + __import__("minigrid.core.constants", fromlist=["COLOR_TO_IDX"]).COLOR_TO_IDX[color]
+        out = []
+        for ti in sorted(self.meta):
+            if self.meta[ti]["layout"]["K"] != self.K:
+                continue
+            rows = np.nonzero(self.traj == ti)[0]
+            rows = rows[np.argsort(self.step[rows], kind="stable")]
+            for r in rows:
+                xs = np.nonzero(self.grid[r][:, :, 3])[0]
+                if x0 <= int(xs[0]) < x0 + 3:
+                    assert not (self.aux[r][1] == 5 and self.aux[r][2] == key_color), "module key already held"
+                    assert self.step[r] < self.meta[ti]["tau"]
+                    out.append(int(r))
+                    break
+            else:
+                raise AssertionError(f"donor {ti} never enters module {j}")
+        return np.array(out, np.int64)
+
+
+def _region(env):
+    """Training-visitation region of the agent: m<j> (prefix module j of the layout) or suffix."""
+    if env.accessed:
+        return "suffix"
+    x = int(env.agent_pos[0])
+    for j, s in enumerate(env.layout.active_slots()):
+        if T.SLOT_X0[s] <= x <= T.DOOR_X[s]:
+            return f"m{j}"
+    return "suffix" if x >= T.GATEWAY[0] else "m0"
+
+
+def _doors_open(env):
+    L = env.layout
+    return sum(1 for j, s in enumerate(L.active_slots())
+               if not env.grid.get(T.DOOR_X[s], L.door_rows[j]).is_locked)
 
 
 def gae(reward, value, done, last_value, gamma, lam):
@@ -152,6 +211,7 @@ class PPO:
         self.assisted = [False] * self.n_envs
         self.torch_gen = torch.Generator(device="cpu").manual_seed(seed)
         self.np_rng = np.random.default_rng([seed, 11])
+        self.track_alloc = bool(cfg.get("track_allocation"))
         self.counters = {"env_actions": 0, "episodes": 0, "successes": 0, "assisted_episodes": 0,
                          "assisted_successes": 0, "normal_episodes": 0, "normal_successes": 0,
                          "normal_accessed": 0, "updates": 0, "actor_minibatches": 0, "timeouts": 0}
@@ -186,7 +246,11 @@ class PPO:
             rew, done, stage, assisted = [], [], [], []
             for i, env in enumerate(self.envs):
                 stage.append(env.stage())
-                assisted.append(self.assisted[i])
+                assisted.append(bool(self.assisted[i]))
+                if self.track_alloc:
+                    c = self.counters
+                    k = f"steps_{'assisted' if self.assisted[i] else 'normal'}_{_region(env)}"
+                    c[k] = c.get(k, 0) + 1
                 o, r, term, trunc, info = env.step(int(act[i]))
                 assert not trunc
                 self.counters["env_actions"] += 1
@@ -197,6 +261,12 @@ class PPO:
                     c["episodes"] += 1
                     c["successes"] += int(info["success"])
                     c["timeouts"] += int(info["deadline"])
+                    if self.track_alloc:
+                        tag = f"assisted_{self.assisted[i]}" if self.assisted[i] else "normal"
+                        for k, v in ((f"episodes_{tag}", 1), (f"successes_{tag}", int(info["success"])),
+                                     (f"accessed_{tag}", int(info["accessed"])),
+                                     (f"end_doors{_doors_open(env)}_{tag}", 1)):
+                            c[k] = c.get(k, 0) + v
                     if self.assisted[i]:
                         c["assisted_episodes"] += 1
                         c["assisted_successes"] += int(info["success"])

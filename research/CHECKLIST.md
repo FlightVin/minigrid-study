@@ -170,3 +170,24 @@ Dependencies: each line needs the lines above it unless marked (parallel-safe: d
 - [x] Analysis `tools/analyze_a4.py --check-states` at 20/20; `tools/verify_a4.py` (agrees); figures
 - [x] Final tests (p4-tests, 306 passed); cost reconciliation (55,727,013); FINDINGS F24-F25; REPORT section S; recommendation; commit + push
 - [x] Stop owned monitors at completion (battery guard 31137, review cron 5bcaa9b8)
+
+## Programme 2026-11-02 (access-focused RQ1; PROTOCOL_FREEZE Amendment 7; 70M from 311,392,581)
+
+- [x] Instruction recorded verbatim (harness `936e761`); starting ledger recorded
+- [x] Section 2 corrections: `tools/a4_longitudinal.py` -> `reports/a4/longitudinal.md`; F26
+- [x] Code: suffix certification, trace, diag5, module-entry banks, withdrawal schedule, allocation counters, certify/trace
+      evaluation options, accounting mirror; unit tests + opt-in smoke (local)
+- [x] Roles d5_trace, p5_*, c5_* (registry dry-run passes); configs data-r5-v1, diag-v1, p5-v1, c5-v1; batches; driver
+- [x] Amendment 7 (design, opportunity rule, gate, confirmation, budget); DECISIONS; STATE
+- [ ] Commit; start battery guard (verify inclusive 31% decisions) and review cron; no duplicate monitors
+- [ ] Data r5-v1 (runner) -> gate check (roles, banks, disjointness)
+- [ ] Tests batch (full suite + smoke incl. p5 smoke) -> measure A4 smoke gap -> ledger adjustment
+- [ ] Analysis tools frozen before outcomes: `tools/analyze_diag5.py`, `tools/analyze_p5.py` (gate), canary check
+- [ ] Diagnostics batch -> failure taxonomy, references, certification -> opportunity rule (stop if not met)
+- [ ] Pilot canary s90 -> engineering check (hashes, restoration, schedules, counters, numerics)
+- [ ] Pilot seeds 91-95 (reviews every 2 h; battery rule)
+- [ ] Pilot analysis + gate.json (exact decision) -> if qualified: `tools/make_confirm_p5.py`, `tools/analyze_c5.py`
+      and verifier frozen before confirmation outcomes
+- [ ] Confirmation seeds 96-115 (blinded until 20/20) -> analysis -> independent verification
+- [ ] Final tests; cost reconciliation; FINDINGS; consolidated REPORT (diagnostics / development / confirmation);
+      recommendation; commit + push; stop monitors

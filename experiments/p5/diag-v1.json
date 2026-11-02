@@ -1,0 +1,54 @@
+{
+ "purpose": "Failure diagnostics and assisted references (owner instruction 2026-11-02 section 3; Amendment 7). Fixed rule: A4 seeds 70-73, arm 00, post-probe fork and state at 1,001,472. d5_trace 64 K=3 layouts x 2 attempts, traced; arrivals certified; reference 1 from planner-prefix entries.",
+ "dataset_id": "r5-v1",
+ "role": "d5_trace",
+ "n_layouts": 64,
+ "attempts": 2,
+ "eval_seed": 979600,
+ "policies": {
+  "s70_probe": {
+   "kind": "probe",
+   "run": "20261102T004500-31671/a4-probe-K3-s70",
+   "seed": 70
+  },
+  "s70_final": {
+   "kind": "state",
+   "run": "20261102T004500-31671/a4-K3-s70-00",
+   "at": 1001472,
+   "seed": 70
+  },
+  "s71_probe": {
+   "kind": "probe",
+   "run": "20261102T010216-37940/a4-probe-K3-s71",
+   "seed": 71
+  },
+  "s71_final": {
+   "kind": "state",
+   "run": "20261102T010216-37940/a4-K3-s71-00",
+   "at": 1001472,
+   "seed": 71
+  },
+  "s72_probe": {
+   "kind": "probe",
+   "run": "20261102T011927-39746/a4-probe-K3-s72",
+   "seed": 72
+  },
+  "s72_final": {
+   "kind": "state",
+   "run": "20261102T011927-39746/a4-K3-s72-00",
+   "at": 1001472,
+   "seed": 72
+  },
+  "s73_probe": {
+   "kind": "probe",
+   "run": "20261102T013603-41276/a4-probe-K3-s73",
+   "seed": 73
+  },
+  "s73_final": {
+   "kind": "state",
+   "run": "20261102T013603-41276/a4-K3-s73-00",
+   "at": 1001472,
+   "seed": 73
+  }
+ }
+}

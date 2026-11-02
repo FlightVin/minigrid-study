@@ -734,3 +734,140 @@ normal-start success after 1,001,472 continuation actions, and does its benefit 
   stability, planner-entry versus arrival-bank competence, decomposition limits, costs, interruptions and one
   decisive recommendation.
 - No automatic extension or added seeds.
+
+### Amendment 7 — 2026-11-02 (in force): access-focused programme (RQ1): failure diagnostics, reset-placement pilot, conditional confirmation
+
+Owner instruction 2026-11-02, recorded verbatim in `mac-agentic-engineering/project.md` (harness `936e761`). This is an
+RQ1 study. No RQ2 selector. A4 is not extended. No preservation-only experiments. All earlier verdicts stand (F10-F25,
+read with F23 and F26).
+
+**A. Question.** Can the placement and ordering of demonstration-state starts improve learning of the prerequisite
+sequence and normal-start success at a fixed budget, while keeping useful later-stage competence?
+
+**B. Phase 1: failure diagnostics** (`bc2rl.diag5`, `experiments/p5/diag-v1.json`). No training.
+- **Policies.** Fixed rule, not performance: A4 seeds 70-73, arm 00, at the post-probe fork and at 1,001,472 (hashes
+  checked).
+- **Layouts.** d5_trace, 64 K=3 layouts. This role is separate from every A4 role and every role of this programme.
+- **Normal starts.** 2 attempts per layout, eval seed 979600. Each attempt is traced (`bc2rl.trace`): module entry
+  times, door openings, key pickups, wrong-key pickups, toggles on locked doors, door closes, no-op actions, pose
+  repeats, maximum cell visits, end stage and deadline.
+- **Reference 2.** Every actual arrival is certified (`bc2rl.suffix_cert`). The planner then attempts the suffix from
+  the actual arrival state with the remaining time:
+  - feasible: the abstraction plan is replayed in the real environment and succeeds within the remaining time; the
+    replay actions are counted;
+  - impossible: the relaxed lower bound exceeds the remaining time;
+  - unresolved: neither holds.
+  A failed search is never counted as impossible. "Verified finishable access" is the share of attempts whose arrival
+  is certified feasible. Unresolved arrivals are reported separately. Manuscript q is unchanged.
+- **Reference 1.** The planner executes the prefix once per layout; those actions are counted once. Each frozen policy
+  then executes the suffix from that state with the original clock: 2 attempts, eval seed 979601.
+- **Status of the references.** Both are diagnostic conditions, not normal-start performance. Reference 1 changes the
+  arrival state and timing and is not an upper bound.
+- **Existing A4 records.** These give arrival timing, remaining time and deadline failures for all 20 seeds.
+- **Opportunity rule (fixed before the diagnostics run).** The pilot runs only if both of the following hold, as
+  means over the four final checkpoints:
+  - (i) failures before the boundary are at least 25% of normal-start attempts (1 - q >= 0.25);
+  - (ii) reference-1 success minus normal-start P1 is at least 0.05.
+
+  If either fails, the result is reported and the pilot budget is not spent. Any correctness defect is resolved and
+  its scope stated before training. The rule shows headroom only. It does not show that an access intervention will
+  recover these failures.
+
+**C. Phase 2: development pilot** (`experiments/p5/p5-v1.json`, `tools/run_program5.py`).
+- **Initialization.** As A4: joint BC dataset, rho 0.2, BC checkpoint 8,000, K=3 online training, unchanged critic
+  preparation and probe, architecture, reward, horizon and PPO settings. No preservation penalty in any arm.
+- **Seeds.** 90-95, all kept, none filtered. Seed 90 is the engineering canary and is included in the analysis.
+- **Arms.** All four are forked from one post-probe state. Branch order is rotated by (seed - 90) mod 4.
+
+  | Arm | Starts |
+  |---|---|
+  | A (00) | Ordinary PPO |
+  | B (B5) | Post-boundary demonstration resets with the original 50/25/25 entry/retrieval/carrying mixture of reset_donor planner states |
+  | C (C5) | Uniform over three prerequisite-module-entry banks |
+  | D (D5) | Backward curriculum: module 3 entry, then module 2, then module 1, in successive quarters |
+- **Shared withdrawal schedule** (new specification; B is not a reproduction of the earlier constant-reset arm).
+  - Assisted starts have probability 0.25 for starts drawn while executed continuation actions are below 376,320
+    (75% of 501,760); there are none after that.
+  - Normal starts remain available throughout. Episodes in progress always finish; nothing is cut at a boundary.
+  - D's phases change at 125,440, 250,880 and 376,320 executed actions.
+  - The schedules depend only on executed actions, never on outcomes.
+- **Module-entry banks** (`ResetBank.module_rows`).
+  - Each bank holds one state per reset_donor K=3 planner trajectory: the first recorded state with the agent inside
+    module j's room, before that module's key is held.
+  - Each state is rebuilt from the recorded observation: full grid and objects, inventory, doors, pose, original
+    elapsed time and remaining time. Dynamics do not use the environment RNG.
+  - Module 1 entry is the donor's initial state, so those starts do not bypass any prefix.
+  - Tests: exact restoration, doors earlier/later, key not held, and the remaining planner plan still succeeds.
+  - Donors are the reset_donor role, separate from evaluation and competence-bank roles.
+- **Evaluation** at 251,904 and 501,760 (the fixed final pilot endpoint).
+  - Normal starts: p5_eval, 64 K=3 layouts x 4 attempts, common random numbers (eval seed 989000), traced; arrivals
+    certified.
+  - Entry bank: p5_bank, 128 planner boundary-entry states x 2, original clocks.
+  - pi0 and post-probe diagnostics: p5_select 64 x 2 and p5_bank x 2.
+- **Reported.**
+  - P1, q, verified finishable access (unresolved separate), arrival-conditioned completion, entry-bank competence,
+    arrival timing and inventory, per-module progress and completion;
+  - normal versus assisted training episodes and successes, assisted-step fractions and stage visitation (from
+    training counters);
+  - interaction and compute costs.
+
+  Assisted-start results are never pooled with normal starts. Every paired seed contrast is shown with uncertainty.
+  No per-arm checkpoint selection. Six seeds are development evidence, not confirmation.
+
+**D. Confirmation gate** (fixed before any pilot outcome; `tools/analyze_p5.py` writes `reports/p5/gate.json`).
+- A method m in {B, C, D} qualifies only if, at 501,760 on p5_eval, all of the following hold:
+  - (1) mean over the 6 seeds of [P1(m) - P1(A)] >= 0.05;
+  - (2) P1(m) - P1(A) > 0 in at least 4 of 6 seeds;
+  - (3) execution and evaluation checks pass for all 6 seeds of m and A;
+  - (4) the complete confirmation (conservative cost) fits in the remaining 70M budget.
+- Among qualifying methods, select the one with the highest mean final P1. If another qualifying method is within
+  0.02 of it, prefer the simpler one in the order B, C, D.
+- Access and competence measures explain the result; they are not filters.
+- If no method qualifies: no added doses, schedules or seeds. Finish the diagnostic synthesis and propose the next
+  discriminating question without launching it.
+
+**E. Phase 3: conditional confirmation** (`experiments/p5/c5-v1.json`; batches written by `tools/make_confirm_p5.py`
+only after the gate).
+- **Seeds.** 96-115 (n = 20, fixed): the same initialization, K=3, A (00) against the selected method with the exact
+  pilot schedule and bank construction.
+- **Primary endpoint.** 501,760, evaluated on c5_final (256 K=3 layouts x 2, eval seed 999000) and c5_bank (128 x 2).
+  The descriptive checkpoint at 251,904 uses the same panel.
+- **Certification.** Arrivals are certified at the primary endpoint only (budget; hard bounds).
+- **Primary estimand.** The mean paired difference P1(m) - P1(A) at 501,760 over 20 seeds. One two-sided paired
+  t-test at alpha 0.05, with its 95% interval.
+- **Sensitivity.** Crossed seed x layout bootstrap (10,000; layouts common to arms) and exact sign-flip, with their
+  assumptions.
+- **Discipline.** Pilot data are not pooled. Blinded until 20/20. No interim stopping, seed replacement, schedule
+  change or endpoint selection. No C4/R4.
+- **Interpretation.** A benefit means learning efficiency at a fixed budget, not better converged performance.
+
+**F. Budget.**
+- 70,000,000 actions from ledger 311,392,581. Unused earlier allowances are not carried over.
+- **Admission rule** (`tools/run_program5.py`): spent + conservative(batch) + conservative(other incomplete required
+  batches) + the conservative confirmation reserve (held until the gate is recorded) + 0.3M audit <= 70M.
+- **Hard bounds.** Each evaluation attempt runs to its time limit. Each certified arrival adds a replay bounded by the
+  time limit.
+- **Pre-data bounds** (all limits at 157):
+
+  | Item | Bound |
+  |---|---|
+  | Preparation (data, tests, diagnostics) | about 1.4M |
+  | Pilot | 19.8M |
+  | Confirmation | 38.8M |
+  | Audit | 0.3M |
+  | Worst-case total | about 60.4M |
+
+  That leaves about 9.6M protected.
+- Local development checks before freezing: 17,940 measured outside the runner, plus 60,000 estimated (in
+  `research/ledger_adjustments.json`).
+
+**G. Execution and recovery.** These are as Amendment 6:
+- 31% battery rule, guard and persistent flag; checkpoint-and-pause and exact resume;
+- completion only with the full allowance and endpoint artifacts;
+- canary seed 90 (engineering checks only, never retuning);
+- two-hour reviews;
+- the failure policy.
+
+**H. Accounting fix.** Real jobs that tests start as subprocesses with a temporary MAE_RUN_DIR now mirror their step
+record to the parent's ledger location (`BC2RL_STEPS_MIRROR`). The same gap affected A4's `a4-smoke` job. Its
+subprocess actions are re-measured by this programme's smoke job and added as an A4 adjustment.

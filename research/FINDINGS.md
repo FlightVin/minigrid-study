@@ -1021,3 +1021,26 @@ independently; all checks agree and it found no problems.
   transient speed-up that ordinary PPO catches up with. Do not extend A4. Do not build an RQ2 per-condition selector,
   because no condition has a resolved long-run benefit. If any further work is funded, it should target access (q),
   which drove most of the improvement in both arms, rather than preservation of post-boundary behaviour.
+
+## F26 — Remaining A4 interpretation corrections (2026-11-02; owner instruction section 2; no new actions)
+
+The A4 primary comparison (F24) is unchanged.
+- **Learning gain.** F24 and REPORT S compared the post-probe median (a4_select panel) with the E1M mean (a4_final)
+  as a learning gain. That comparison mixes panels and summary statistics and is withdrawn.
+- **Within-panel learning.** Source: `reports/a4/longitudinal.md`. The panel is a4_final, attempt-pooled, with means
+  over 20 seeds and 95% t-intervals.
+
+  | Arm | p (E250 → E500 → E1M) | q at E1M | r at E1M |
+  |---|---|---|---|
+  | A | 0.186 → 0.262 → 0.390 | 0.606 | 0.635 |
+  | C | 0.206 → 0.274 → 0.395 | 0.610 | 0.639 |
+
+  For A, the change from E250 to E1M was +0.204 [+0.178, +0.230]. Its exact decomposition gives an access term of
+  +0.162 [+0.141, +0.183] and a completion term of +0.042 [+0.028, +0.055]. This is descriptive, not mediation.
+- **Failure accounting.** At E1M, failures before the boundary were 0.63 [0.58, 0.68] of all failures in A. This is
+  accounting. It does not show that any access intervention would recover those failures.
+- **Cohort.** The "3/20 met all targets" statement in F25 is not a reason to discount A4. The failures of the full
+  profile were K=1 (room 6/20), and A4 trained online only at K=3. On the K=3 targets, access was met in 20/20 seeds,
+  entry competence in 17/20 and room in 20/20; all three were met in 17/20.
+- **Preservation.** Suffix preservation may give a small early advantage (+0.020 at 251,904). Its long-budget benefit
+  in this test was +0.005 [-0.015, +0.025]: unresolved, and bounded below 0.03.

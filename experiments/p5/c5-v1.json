@@ -1,0 +1,131 @@
+{
+ "dataset_id": "r5-v1",
+ "eval_role": "c5_final",
+ "bank_role": "c5_bank",
+ "n_envs": 16,
+ "n_steps": 128,
+ "gamma": 1.0,
+ "gae_lambda": 0.95,
+ "clip": 0.2,
+ "actor_lr": 3e-05,
+ "critic_lr": 0.0003,
+ "epochs": 4,
+ "minibatch": 512,
+ "ent_coef": 0.0,
+ "max_grad_norm": 0.5,
+ "anchor_batch": 128,
+ "anchor_prefix_weight": 0.25,
+ "alpha": 0.25,
+ "kl_coef": 0.01,
+ "critic_warmup_actions": 16000,
+ "critic_prefit_lr": 0.0003,
+ "critic_prefit_steps": 2000,
+ "probe_actions": 50000,
+ "diag_attempts": 2,
+ "diag_bank_attempts": 2,
+ "continuation_actions": 501760,
+ "eval_seed": 999000,
+ "diag_role": "c5_select",
+ "eval_schedule": [
+  {
+   "at": 251904,
+   "attempts": 2,
+   "bank_attempts": 2,
+   "tag": "conf_251904",
+   "endpoint": true,
+   "certify": false
+  },
+  {
+   "at": 501760,
+   "attempts": 2,
+   "bank_attempts": 2,
+   "tag": "conf_501760",
+   "endpoint": true,
+   "certify": true
+  }
+ ],
+ "save_state_at": [
+  251904,
+  501760
+ ],
+ "update_diagnostics": true,
+ "recovery_every": 100352,
+ "purpose": "Conditional independent confirmation (owner instruction 2026-11-02 section 8; Amendment 7). K=3; BC rho 0.2 / 8000; seeds 96-115 (n = 20, fixed). Ordinary PPO (00) versus the single method selected by the frozen pilot gate, with the exact pilot schedule and reset-bank construction. Primary endpoint 501,760: c5_final 256 K=3 x 2; c5_bank 128 x 2. Descriptive checkpoint 251,904 (same panel and bank). pi0/post-probe on c5_select 64 x 2. Eval seed 999000. Arrival certification (verified finishable access) only at the primary endpoint (budget: hard bounds).",
+ "assist_schedule": {
+  "B5": [
+   {
+    "until": 376320,
+    "alpha": 0.25,
+    "mixture": [
+     [
+      "entry",
+      0.5
+     ],
+     [
+      "retrieval",
+      0.25
+     ],
+     [
+      "carrying",
+      0.25
+     ]
+    ]
+   }
+  ],
+  "C5": [
+   {
+    "until": 376320,
+    "alpha": 0.25,
+    "mixture": [
+     [
+      "mod0",
+      0.3333333333333333
+     ],
+     [
+      "mod1",
+      0.3333333333333333
+     ],
+     [
+      "mod2",
+      0.3333333333333333
+     ]
+    ]
+   }
+  ],
+  "D5": [
+   {
+    "until": 125440,
+    "alpha": 0.25,
+    "mixture": [
+     [
+      "mod2",
+      1.0
+     ]
+    ]
+   },
+   {
+    "until": 250880,
+    "alpha": 0.25,
+    "mixture": [
+     [
+      "mod1",
+      1.0
+     ]
+    ]
+   },
+   {
+    "until": 376320,
+    "alpha": 0.25,
+    "mixture": [
+     [
+      "mod0",
+      1.0
+     ]
+    ]
+   }
+  ]
+ },
+ "certify_arrivals": false,
+ "trace_eval": true,
+ "track_allocation": true
+}

@@ -13,6 +13,7 @@ import torch
 
 from bc2rl import model as M
 from bc2rl import task as T
+from bc2rl import trace as TR
 
 
 def _sample(probs, u):
@@ -22,9 +23,10 @@ def _sample(probs, u):
 
 
 @torch.no_grad()
-def run_attempts(actor, starts, attempts, eval_seed, device, batch=128, greedy=False, heartbeat=None, capture=False):
+def run_attempts(actor, starts, attempts, eval_seed, device, batch=128, greedy=False, heartbeat=None, capture=False, trace=False):
     """starts: list of ("layout", Layout) or ("snapshot", dict). Returns list of per-attempt dicts.
-    capture=True stores the complete env snapshot at the first boundary crossing (original clock kept)."""
+    capture=True stores the complete env snapshot at the first boundary crossing (original clock kept).
+    trace=True adds the per-attempt progress/error summary of bc2rl.trace under "trace" (no extra actions)."""
     actor.eval()
     jobs = [(i, j) for i in range(len(starts)) for j in range(attempts)]
     results = [None] * len(jobs)
@@ -40,7 +42,7 @@ def run_attempts(actor, starts, attempts, eval_seed, device, batch=128, greedy=F
         rec = {"item": i, "attempt": j, "start_kind": kind, "start_step": info["step_count"],
                "start_accessed": info["accessed"], "limit": env.layout.limit, "K": env.layout.K,
                "arrival": None}
-        return [env, k, np.random.default_rng([eval_seed, i, j]), rec, obs]
+        return [env, k, np.random.default_rng([eval_seed, i, j]), rec, obs, TR.Tracker(env) if trace else None]
 
     while nxt < len(jobs) or slots:
         while len(slots) < batch and nxt < len(jobs):
@@ -55,8 +57,12 @@ def run_attempts(actor, starts, attempts, eval_seed, device, batch=128, greedy=F
             acts = _sample(probs, np.array([s[2].random() for s in slots]))
         keep = []
         for s, a in zip(slots, acts):
-            env, k, _, rec, _ = s
+            env, k, _, rec, _, tr = s
+            if tr is not None:
+                tr.before(env, a)
             o, r, term, _, info = env.step(int(a))
+            if tr is not None:
+                tr.after(env)
             actions += 1
             s[4] = o
             if info["crossed"]:
@@ -69,6 +75,8 @@ def run_attempts(actor, starts, attempts, eval_seed, device, batch=128, greedy=F
                 rec.update(success=bool(info["success"]), accessed=bool(info["accessed"]), tau=info["tau"],
                            end_step=info["step_count"], actions=info["step_count"] - rec["start_step"],
                            timeout=bool(info["deadline"]))
+                if tr is not None:
+                    rec["trace"] = tr.summary(env)
                 results[k] = rec
             else:
                 keep.append(s)

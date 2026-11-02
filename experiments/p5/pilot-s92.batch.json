@@ -1,0 +1,113 @@
+{
+ "jobs": [
+  {
+   "id": "p5-bc-s92",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.bc",
+    "--config",
+    "experiments/a4/bc-a4.json",
+    "--seed",
+    "92"
+   ]
+  },
+  {
+   "id": "p5-probe-K3-s92",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "probe",
+    "--config",
+    "experiments/p5/p5-v1.json",
+    "--K",
+    "3",
+    "--bc-run",
+    "@/p5-bc-s92",
+    "--bc-update",
+    "8000",
+    "--seed",
+    "92"
+   ]
+  },
+  {
+   "id": "p5-K3-s92-C5",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/p5/p5-v1.json",
+    "--probe-run",
+    "@/p5-probe-K3-s92",
+    "--arm",
+    "C5"
+   ]
+  },
+  {
+   "id": "p5-K3-s92-D5",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/p5/p5-v1.json",
+    "--probe-run",
+    "@/p5-probe-K3-s92",
+    "--arm",
+    "D5"
+   ]
+  },
+  {
+   "id": "p5-K3-s92-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/p5/p5-v1.json",
+    "--probe-run",
+    "@/p5-probe-K3-s92",
+    "--arm",
+    "00"
+   ]
+  },
+  {
+   "id": "p5-K3-s92-B5",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/p5/p5-v1.json",
+    "--probe-run",
+    "@/p5-probe-K3-s92",
+    "--arm",
+    "B5"
+   ]
+  }
+ ]
+}

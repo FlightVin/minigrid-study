@@ -61,3 +61,13 @@ def test_record_dir_fixed_at_import_not_by_later_env_changes(tmp_path):
     recs = list((tmp_path / "job/env_steps").glob("*.json"))
     assert len(recs) == 1 and json.loads(recs[0].read_text())["actions"] == 25
     assert not (tmp_path / "elsewhere").exists()
+
+
+def test_subprocess_job_record_is_mirrored_to_parent_ledger(tmp_path):
+    """A test that starts a real job with a temporary MAE_RUN_DIR mirrors its record to the parent's location
+    (2026-11-02: subprocess smoke-job records were previously lost with the temporary directory)."""
+    r = run(tmp_path, 120, MAE_RUN_DIR=str(tmp_path / "tmpjob"), BC2RL_STEPS_MIRROR=str(tmp_path / "parent/env_steps"))
+    assert r.returncode == 0, r.stderr
+    own = [json.loads(p.read_text()) for p in (tmp_path / "tmpjob/env_steps").glob("*.json")]
+    mir = [json.loads(p.read_text()) for p in (tmp_path / "parent/env_steps").glob("*.json")]
+    assert [x["actions"] for x in own] == [x["actions"] for x in mir] == [120]

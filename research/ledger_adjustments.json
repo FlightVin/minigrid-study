@@ -21,6 +21,12 @@
    "actions": 250000,
    "point_estimate": 219343,
    "basis": "Runner job r2-smoke (batch of experiments/r2/tests.batch.json, 2026-11-01): the RL smoke tests point MAE_RUN_DIR at temporary job directories, so the process's step record was written there and deleted. Point estimate = the same three tests measured on 2026-10-31 (163,325 + 47,331 + 8,687; CPU, fixed seeds). Conservative round-up. Fixed in src/bc2rl/accounting.py (record directory fixed at import) with tests/test_accounting.py::test_record_dir_fixed_at_import_not_by_later_env_changes."
+  },
+  {
+   "date": "2026-11-02",
+   "role": "p5_local_smoke_estimated",
+   "actions": 60000,
+   "detail": "Local opt-in smoke tests/test_p5_smoke.py (probe, straight D5 branch 2,048, paused 768, resumed 1,280, with evaluations) run once outside the runner during development of the 2026-11-02 programme; subprocess step records went to temporary run directories. Conservative upper estimate; in-process local checks are measured separately (.mae/unmanaged_actions)."
   }
  ]
 }

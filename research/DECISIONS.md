@@ -554,3 +554,32 @@ is an early benefit (+0.020 at 251,904) followed by catch-up. Decision: suffix-o
 final normal-start success. There is no automatic extension and no RQ2 selector. Any further work needs a new owner
 instruction; the suggested target is access (q). Spend 55,727,013 of 70M; ledger 311,392,581. Monitors are stopped at
 completion. See FINDINGS F24-F25 and REPORT section S.
+
+## 2026-11-02 — Access-focused programme (Amendment 7)
+
+- **Instruction.** Recorded verbatim (harness `936e761`). Starting ledger 311,392,581; new hard budget 70M. The
+  battery rule (31% or lower) is unchanged.
+- **Corrections.** Section 2 corrections are F26 (within-panel A4 learning; K=3 targets 17/20).
+- **Diagnostics before training.**
+  - Policies: fixed checkpoints (A4 seeds 70-73, arm 00, probe and final).
+  - Layouts: the new d5_trace role.
+  - References and certification as in Amendment 7 B.
+  - The opportunity rule decides whether the pilot runs.
+- **Pilot.** Seeds 90-95; arms 00, B5, C5, D5; shared withdrawal schedule (alpha 0.25 before 376,320 executed
+  actions); module-entry banks from reset_donor planner trajectories (module 1 entry = initial donor state); final
+  pilot endpoint 501,760 on p5_eval 64 x 4.
+- **Gate.** Recorded before any pilot outcome (Amendment 7 D).
+- **Confirmation.** Seeds 96-115, A against the selected method, primary 501,760 on c5_final 256 x 2. Certification
+  at the primary endpoint only, so the conservative reserve (38.8M) keeps about 9.6M protection worst case.
+- **Engineering.**
+  - New modules: `bc2rl.suffix_cert`, `bc2rl.trace`, `bc2rl.diag5`.
+  - Sampler schedule and module bins in `bc2rl.ppo`.
+  - Allocation counters (`track_allocation`): assisted and normal steps by region, and episodes, successes, access
+    and end-door counts by start type.
+  - Evaluation options `certify_arrivals` and `trace_eval`.
+  - Driver `tools/run_program5.py`.
+  - Tests: `tests/test_p5.py` and the opt-in `tests/test_p5_smoke.py`.
+- **Splits.** Namespace 130 for p5_eval was replaced by 135 before any use, because a raw seed collided with
+  r2_select (the registry would have rejected the duplicate layout).
+- **Accounting fix.** Subprocess smoke-job records are now mirrored to the parent. The A4 `a4-smoke` gap will be
+  measured and added as an adjustment.

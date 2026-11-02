@@ -39,7 +39,10 @@ def job(proj, name, args, cfg_path, extra_env=None):
     d = proj / ".mae/runs/batch" / name
     d.mkdir(parents=True)
     env = {**os.environ, "MAE_PROJECT": str(proj), "MAE_RUN_DIR": str(d), "MAE_DEVICE": "cpu", "OMP_NUM_THREADS": "1",
-           "PYTHONPATH": os.pathsep.join([str(ROOT / "src"), str(ROOT)]), **(extra_env or {})}
+           "PYTHONPATH": os.pathsep.join([str(ROOT / "src"), str(ROOT)]), **(extra_env or {}),
+           # the subprocess's step record is mirrored to the parent's ledger location (never lost with tmp_path)
+           "BC2RL_STEPS_MIRROR": (str(Path(os.environ["MAE_RUN_DIR"]) / "env_steps") if os.environ.get("MAE_RUN_DIR")
+                                  else str(PROJECT / ".mae/unmanaged_actions"))}
     env.pop("BC2RL_TEST_SIGTERM_AT", None) if not extra_env else None
     r = subprocess.run([sys.executable, "-m", "bc2rl.rl", *args, "--config", str(cfg_path)], env=env,
                        capture_output=True, text=True)

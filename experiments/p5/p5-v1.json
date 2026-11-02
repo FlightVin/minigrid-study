@@ -1,0 +1,127 @@
+{
+ "dataset_id": "r5-v1",
+ "eval_role": "p5_eval",
+ "bank_role": "p5_bank",
+ "n_envs": 16,
+ "n_steps": 128,
+ "gamma": 1.0,
+ "gae_lambda": 0.95,
+ "clip": 0.2,
+ "actor_lr": 3e-05,
+ "critic_lr": 0.0003,
+ "epochs": 4,
+ "minibatch": 512,
+ "ent_coef": 0.0,
+ "max_grad_norm": 0.5,
+ "anchor_batch": 128,
+ "anchor_prefix_weight": 0.25,
+ "alpha": 0.25,
+ "kl_coef": 0.01,
+ "critic_warmup_actions": 16000,
+ "critic_prefit_lr": 0.0003,
+ "critic_prefit_steps": 2000,
+ "probe_actions": 50000,
+ "diag_attempts": 2,
+ "diag_bank_attempts": 2,
+ "continuation_actions": 501760,
+ "eval_seed": 989000,
+ "diag_role": "p5_select",
+ "eval_schedule": [
+  {
+   "at": 251904,
+   "attempts": 4,
+   "bank_attempts": 2,
+   "tag": "dev_251904"
+  },
+  {
+   "at": 501760,
+   "attempts": 4,
+   "bank_attempts": 2,
+   "tag": "dev_501760"
+  }
+ ],
+ "save_state_at": [
+  251904,
+  501760
+ ],
+ "update_diagnostics": true,
+ "recovery_every": 100352,
+ "purpose": "Reset-placement development pilot (owner instruction 2026-11-02 sections 4-7; PROTOCOL_FREEZE Amendment 7). K=3; BC rho 0.2 / 8000; seeds 90-95 (all kept). Arms from one post-probe state: 00 (A, ordinary PPO), B5 (post-boundary resets, original 50/25/25 entry/retrieval/carrying mixture), C5 (static prefix-module-entry resets, uniform over the 3 module-entry banks), D5 (backward prefix curriculum: module 3, 2, 1 entry banks in successive quarters). Shared withdrawal schedule: alpha 0.25 for starts drawn before 376,320 executed continuation actions (75%), none after; episodes in progress always finish. No preservation penalty in any arm. Continuation 501,760. Evaluation at 251,904 and 501,760 (fixed pilot endpoint): p5_eval 64 K=3 layouts x 4, p5_bank 128 planner entry states x 2; arrivals certified; traced. pi0/post-probe on p5_select 64 x 2 and p5_bank x 2. Eval seed 989000.",
+ "assist_schedule": {
+  "B5": [
+   {
+    "until": 376320,
+    "alpha": 0.25,
+    "mixture": [
+     [
+      "entry",
+      0.5
+     ],
+     [
+      "retrieval",
+      0.25
+     ],
+     [
+      "carrying",
+      0.25
+     ]
+    ]
+   }
+  ],
+  "C5": [
+   {
+    "until": 376320,
+    "alpha": 0.25,
+    "mixture": [
+     [
+      "mod0",
+      0.3333333333333333
+     ],
+     [
+      "mod1",
+      0.3333333333333333
+     ],
+     [
+      "mod2",
+      0.3333333333333333
+     ]
+    ]
+   }
+  ],
+  "D5": [
+   {
+    "until": 125440,
+    "alpha": 0.25,
+    "mixture": [
+     [
+      "mod2",
+      1.0
+     ]
+    ]
+   },
+   {
+    "until": 250880,
+    "alpha": 0.25,
+    "mixture": [
+     [
+      "mod1",
+      1.0
+     ]
+    ]
+   },
+   {
+    "until": 376320,
+    "alpha": 0.25,
+    "mixture": [
+     [
+      "mod0",
+      1.0
+     ]
+    ]
+   }
+  ]
+ },
+ "certify_arrivals": true,
+ "trace_eval": true,
+ "track_allocation": true
+}
