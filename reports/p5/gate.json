@@ -1,0 +1,42 @@
+{
+ "methods": {
+  "B": {
+   "mean_diff": 0.0078125,
+   "n_positive": 4,
+   "checks_pass": true,
+   "fits_budget": true,
+   "mean_final_P1": 0.220703125,
+   "qualifies": false
+  },
+  "C": {
+   "mean_diff": 0.01171875,
+   "n_positive": 4,
+   "checks_pass": true,
+   "fits_budget": true,
+   "mean_final_P1": 0.224609375,
+   "qualifies": false
+  },
+  "D": {
+   "mean_diff": 0.027994791666666668,
+   "n_positive": 5,
+   "checks_pass": true,
+   "fits_budget": true,
+   "mean_final_P1": 0.24088541666666666,
+   "qualifies": false
+  }
+ },
+ "qualifying": [],
+ "selected": null,
+ "selected_arm": null,
+ "rule": "Amendment 7 D: mean(P1_m - P1_A) >= 0.05 at 501,760; > 0 in >= 4/6; checks pass; confirmation fits; highest mean final P1, simpler (B, C, D) within 0.02",
+ "budget": {
+  "spent": 16772090,
+  "confirmation_conservative": 36356960,
+  "final_tests": 150000,
+  "audit": 300000,
+  "need": 53579050,
+  "budget": 70000000,
+  "fits": true,
+  "protection_left": 16420950
+ }
+}
