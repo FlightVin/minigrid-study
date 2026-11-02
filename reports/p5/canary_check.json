@@ -1,0 +1,154 @@
+{
+ "seed": 90,
+ "problems": [],
+ "pass": true,
+ "training_allocation": {
+  "A": {
+   "train_actions": 501760,
+   "assisted_step_fraction": 0.0,
+   "steps_by_type_region": {
+    "normal_m0": 219526,
+    "normal_m1": 188213,
+    "normal_m2": 43238,
+    "normal_suffix": 50783
+   },
+   "episodes": {
+    "episodes_normal": 3619,
+    "successes_normal": 578,
+    "accessed_normal": 1269,
+    "end_doors3_normal": 1286,
+    "end_doors1_normal": 1366,
+    "end_doors0_normal": 577,
+    "end_doors2_normal": 390
+   }
+  },
+  "B": {
+   "train_actions": 501760,
+   "assisted_step_fraction": 0.0768913424744898,
+   "steps_by_type_region": {
+    "normal_m0": 198601,
+    "normal_m1": 177727,
+    "normal_m2": 42054,
+    "normal_suffix": 44797,
+    "assisted_suffix": 38581
+   },
+   "episodes": {
+    "episodes_normal": 3334,
+    "successes_normal": 498,
+    "accessed_normal": 1097,
+    "end_doors3_normal": 1110,
+    "end_doors1_normal": 1355,
+    "end_doors0_normal": 492,
+    "end_doors2_normal": 377,
+    "episodes_assisted_carrying": 199,
+    "successes_assisted_carrying": 166,
+    "accessed_assisted_carrying": 199,
+    "end_doors3_assisted_carrying": 199,
+    "episodes_assisted_entry": 375,
+    "successes_assisted_entry": 203,
+    "accessed_assisted_entry": 375,
+    "end_doors3_assisted_entry": 375,
+    "episodes_assisted_retrieval": 216,
+    "successes_assisted_retrieval": 140,
+    "accessed_assisted_retrieval": 216,
+    "end_doors3_assisted_retrieval": 216
+   }
+  },
+  "C": {
+   "train_actions": 501760,
+   "assisted_step_fraction": 0.15928332270408163,
+   "steps_by_type_region": {
+    "normal_m0": 182848,
+    "normal_m1": 154999,
+    "normal_m2": 40226,
+    "normal_suffix": 43765,
+    "assisted_m0": 13361,
+    "assisted_m2": 15969,
+    "assisted_suffix": 21591,
+    "assisted_m1": 29001
+   },
+   "episodes": {
+    "episodes_normal": 3053,
+    "successes_normal": 524,
+    "accessed_normal": 1098,
+    "end_doors3_normal": 1112,
+    "end_doors1_normal": 1119,
+    "end_doors0_normal": 469,
+    "end_doors2_normal": 353,
+    "episodes_assisted_mod2": 246,
+    "successes_assisted_mod2": 111,
+    "accessed_assisted_mod2": 214,
+    "end_doors3_assisted_mod2": 214,
+    "episodes_assisted_mod0": 212,
+    "successes_assisted_mod0": 42,
+    "accessed_assisted_mod0": 77,
+    "end_doors3_assisted_mod0": 77,
+    "end_doors2_assisted_mod2": 32,
+    "end_doors0_assisted_mod0": 39,
+    "episodes_assisted_mod1": 253,
+    "successes_assisted_mod1": 68,
+    "accessed_assisted_mod1": 129,
+    "end_doors1_assisted_mod1": 91,
+    "end_doors1_assisted_mod0": 78,
+    "end_doors3_assisted_mod1": 130,
+    "end_doors2_assisted_mod1": 32,
+    "end_doors2_assisted_mod0": 18
+   }
+  },
+  "D": {
+   "train_actions": 501760,
+   "assisted_step_fraction": 0.16062260841836734,
+   "steps_by_type_region": {
+    "normal_m0": 183661,
+    "normal_m1": 160628,
+    "normal_m2": 34627,
+    "normal_suffix": 42250,
+    "assisted_m2": 17150,
+    "assisted_suffix": 21191,
+    "assisted_m1": 29282,
+    "assisted_m0": 12971
+   },
+   "episodes": {
+    "episodes_normal": 3043,
+    "successes_normal": 518,
+    "accessed_normal": 1084,
+    "end_doors3_normal": 1092,
+    "end_doors1_normal": 1200,
+    "end_doors0_normal": 465,
+    "end_doors2_normal": 286,
+    "episodes_assisted_mod2": 241,
+    "successes_assisted_mod2": 98,
+    "accessed_assisted_mod2": 199,
+    "end_doors3_assisted_mod2": 199,
+    "end_doors2_assisted_mod2": 42,
+    "episodes_assisted_mod1": 238,
+    "successes_assisted_mod1": 51,
+    "accessed_assisted_mod1": 121,
+    "end_doors3_assisted_mod1": 121,
+    "end_doors2_assisted_mod1": 30,
+    "end_doors1_assisted_mod1": 87,
+    "episodes_assisted_mod0": 227,
+    "successes_assisted_mod0": 46,
+    "accessed_assisted_mod0": 84,
+    "end_doors2_assisted_mod0": 22,
+    "end_doors1_assisted_mod0": 89,
+    "end_doors3_assisted_mod0": 85,
+    "end_doors0_assisted_mod0": 31
+   }
+  }
+ },
+ "chains": {
+  "A": [
+   "20261102T102122-57488/p5-K3-s90-00"
+  ],
+  "B": [
+   "20261102T102122-57488/p5-K3-s90-B5"
+  ],
+  "C": [
+   "20261102T102122-57488/p5-K3-s90-C5"
+  ],
+  "D": [
+   "20261102T102122-57488/p5-K3-s90-D5"
+  ]
+ }
+}

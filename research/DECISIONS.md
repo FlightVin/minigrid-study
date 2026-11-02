@@ -612,3 +612,14 @@ completion. See FINDINGS F24-F25 and REPORT section S.
   toggles on locked doors and no-op actions.
 
   This is accounting and does not establish which intervention would help. The design is not changed.
+
+## 2026-11-02 — Pilot canary s90 passes engineering checks (no outcome read)
+
+- **Batch.** 20261102T102122-57488: 2,636,241 actions (85% of the conservative 3.11M).
+- **Checks** (`tools/analyze_p5.py --engineering 90`): lineage, fork hash and identity, frozen schedules, row counts,
+  traces, certification, and step records equal to summary actions. No problems.
+- **Allocation.** Executed continuation was 501,760 in every arm. Assisted-step fractions: B 0.077, C 0.159, D 0.161.
+- **D phase timing** (from the update counters): module 3 starts ended by 129,024 (boundary 125,440), module 2 from
+  129,024 to 253,952, and module 1 to 378,880. The last assisted episode in B ended at 378,880 (withdrawal at 376,320).
+  In-progress episodes finished normally.
+- Seeds 91-95 follow unchanged.
