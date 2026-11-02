@@ -16,6 +16,12 @@ a3:         reports/a3/paired_effects.svg  per-seed P1 contrasts (B-A, C-A, D-A,
 cal:        reports/cal/access_entry.svg  initial normal-start access q (x) against fixed-bank boundary-entry competence
             (y) for each calibration variant (rho, BC updates), one panel per K; seeds as small dots, the three-seed
             mean as a large marker; the frozen target region shaded. Development only.
+a4:         reports/a4/paired_effects.svg  per-seed d = P1(01s) - P1(00) at 251,904, 501,760 and 1,001,472 (primary),
+            mean and 95% t-interval; reference lines 0, 0.03, 0.05.
+            reports/a4/stages.svg  arm means at each endpoint of P1, q, planner-entry and actual-arrival-bank
+            competence (with pi0 and post-probe on the same states), one panel per measure.
+            reports/a4/cohort.svg  per-seed pi0 access q (a4_select) vs pi0 planner-entry competence, with the
+            calibration targets (K3 q 0.05-0.40, entry >= 0.55).
 pilot:      reports/pilot/contrasts.svg  per-seed normal-start P1 contrasts 10-00 (resets), 01s-00 (suffix
             preservation), 11s-00 (both) and the interaction at 251,904, one panel per K; mean and 95% t-interval
             (df 2, wide). Exploratory.
@@ -25,6 +31,8 @@ import argparse
 import csv
 import json
 from pathlib import Path
+
+import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 GREEN, ORANGE, BLUE, GREY, VIOLET = "#1baf7a", "#eb6834", "#3b7dd8", "#8a8984", "#9b59b6"
@@ -313,10 +321,84 @@ def pilot(d=None):
     (d / "contrasts.svg").write_text(svg(W, H, "Pilot contrasts", "\n".join(body), cap))
 
 
+def a4(d=None):
+    d = Path(d) if d else ROOT / "reports/a4"
+    S = json.loads((d / "a4_summary.json").read_text())
+    co = S["cohort"]["per_seed"]
+    # cohort figure (not a treatment outcome)
+    W, H, PL, PT, PB = 420, 340, 50, 34, 60
+    sx = lambda v: PL + (W - PL - 20) * v
+    sy = lambda v: PT + (H - PT - PB) * (1 - v)
+    body = ['<text x="16" y="20" class="t1">A4 cohort: pi0 access q vs planner-entry competence (one dot per seed)</text>',
+            f'<rect x="{sx(0.05):.1f}" y="{sy(1):.1f}" width="{sx(0.40) - sx(0.05):.1f}" height="{sy(0.55) - sy(1):.1f}" fill="var(--grid)" opacity="0.6">'
+            '<title>calibration target region (K3 q 0.05-0.40, entry &gt;= 0.55)</title></rect>']
+    for f in (0, 0.25, 0.5, 0.75, 1):
+        body.append(f'<line x1="{PL}" x2="{W - 20}" y1="{sy(f):.1f}" y2="{sy(f):.1f}" class="{"zero" if f == 0 else "grid"}"/>')
+        body.append(f'<text x="{PL - 6}" y="{sy(f) + 4:.1f}" class="tick" text-anchor="end">{f:.2f}</text>')
+        body.append(f'<text x="{sx(f):.1f}" y="{H - PB + 16}" class="tick" text-anchor="middle">{f:.2f}</text>')
+    body.append(f'<text x="{(PL + W) / 2}" y="{H - PB + 32}" class="tick" text-anchor="middle">pi0 access q (a4_select, 64 x 2)</text>')
+    for sd, c in co.items():
+        body.append(f'<g><title>seed {sd}: q {c["pi0"]["q"]:.3f}, entry {c["pi0"]["entry"]:.3f}, arrival bank {c["pi0"]["arrival_bank"]:.3f}</title>'
+                    f'<circle cx="{sx(c["pi0"]["q"]):.1f}" cy="{sy(c["pi0"]["entry"]):.1f}" r="4" fill="{BLUE}" opacity="0.8"/></g>')
+    (d / "cohort.svg").write_text(svg(W, H, "A4 cohort", "\n".join(body), "y: pi0 success from the 128 planner entry states x 2. Shaded: calibration targets."))
+    if not S.get("primary_computed"):
+        return
+    rows = list(csv.DictReader(open(d / "a4_seeds.csv")))
+    eps = [("E250", "251,904"), ("E500", "501,760"), ("E1M", "1,001,472 (primary)")]
+    per = {ep: [(f"seed {r['seed']}", float(r["P1_C"]) - float(r["P1_A"])) for r in rows if r["endpoint"] == ep] for ep, _ in eps}
+    sec = S["secondary"]
+    vals = [v for ep in per for _, v in per[ep]] + [sec[ep]["P1"][k] for ep, _ in eps for k in ("t95_lo", "t95_hi")]
+    lo_y, hi_y = min(-0.10, min(vals) - 0.01), max(0.10, max(vals) + 0.01)
+    W, H = 560, 340
+    sy = lambda v: PT + (H - PT - PB) * (hi_y - v) / (hi_y - lo_y)
+    body = [f'<text x="{PL}" y="20" class="t1">A4: suffix preservation minus ordinary PPO, normal-start P1 (K=3; {S["n"]} seeds)</text>']
+    body += axis(PL, W - 40, sy, [x / 100 for x in range(int(lo_y * 100) // 5 * 5, int(hi_y * 100) + 1, 5)], (0.03, 0.05))
+    for i, (ep, lab) in enumerate(eps):
+        cx = PL + 80 + i * 150
+        b = sec[ep]["P1"]
+        body += group(cx, sy, per[ep], b["estimate"], b["t95_lo"], b["t95_hi"], GREEN if ep == "E1M" else GREY, lab)
+        body.append(f'<text x="{cx}" y="{H - PB + 18}" class="tick" text-anchor="middle">{lab}</text>')
+    h1, h2 = S["H1"], S["H2"]
+    cap = (f"H1 at 1,001,472: {h1['estimate']:+.4f} [{h1['t95_lo']:+.4f}, {h1['t95_hi']:+.4f}], p {h1['p']:.3g}, {h1['decision']}. "
+           f"H2 (growth from 251,904): {'tested, ' + h2['decision'] if h2['tested'] else 'not tested (gated)'}.")
+    (d / "paired_effects.svg").write_text(svg(W, H, "A4 paired effects", "\n".join(body), cap))
+    # stage means
+    mets = [("P1", "normal-start P1"), ("q", "access q"), ("entry", "planner-entry competence"), ("arrival_bank", "arrival-bank competence")]
+    PW, PH = 260, 200
+    W2, H2 = 16 + 4 * (PW + 6), 40 + PH + 40
+    body2 = ['<text x="16" y="20" class="t1">A4 arm means by endpoint (grey: ordinary PPO; green: suffix preservation)</text>']
+    for k, (m, title) in enumerate(mets):
+        ox, oy = 16 + k * (PW + 6), 36
+        ys = [sec["arms"][f"{ep}/{a}"][m] for ep, _ in eps for a in ("A", "C")]
+        if m in ("entry", "arrival_bank", "P1", "q"):
+            ys += [float(np.mean([c[r][m] for c in co.values()])) for r in ("pi0", "probe") if m in next(iter(co.values()))[r]]
+        top = max(ys) * 1.15 + 1e-9
+        y0, y1 = oy + 22, oy + PH - 30
+        sy2 = lambda v: y1 - (y1 - y0) * v / top
+        xs = {"pi0": ox + 40, "probe": ox + 75, "E250": ox + 120, "E500": ox + 170, "E1M": ox + 225}
+        body2.append(f'<text x="{ox}" y="{oy + 12}" class="t1">{title}</text>')
+        for f in (0, 0.5, 1):
+            body2.append(f'<line x1="{ox + 30}" x2="{ox + PW - 6}" y1="{sy2(top * f):.1f}" y2="{sy2(top * f):.1f}" class="{"zero" if f == 0 else "grid"}"/>')
+            body2.append(f'<text x="{ox + 27}" y="{sy2(top * f) + 4:.1f}" class="tick" text-anchor="end">{top * f:.2f}</text>')
+        for r in ("pi0", "probe"):
+            if m in next(iter(co.values()))[r]:
+                v = float(np.mean([c[r][m] for c in co.values()]))
+                body2.append(f'<g><title>{r} {title}: {v:.3f} (same states)</title><circle cx="{xs[r]}" cy="{sy2(v):.1f}" r="4" fill="{BLUE}"/></g>')
+        for a, col in (("A", GREY), ("C", GREEN)):
+            pts = [(xs[ep], sy2(sec["arms"][f"{ep}/{a}"][m]), sec["arms"][f"{ep}/{a}"][m]) for ep, _ in eps]
+            body2.append(f'<polyline points="{" ".join(f"{x},{y:.1f}" for x, y, _ in pts)}" fill="none" stroke="{col}" stroke-width="2"/>')
+            for (x, y, v), (ep, _) in zip(pts, eps):
+                body2.append(f'<g><title>{a} {ep} {title}: {v:.3f}</title><circle cx="{x}" cy="{y:.1f}" r="4" fill="{col}"/></g>')
+        for key, lab in (("pi0", "pi0"), ("probe", "probe"), ("E250", "250k"), ("E500", "500k"), ("E1M", "1M")):
+            body2.append(f'<text x="{xs[key]}" y="{y1 + 14}" class="tick" text-anchor="middle">{lab}</text>')
+    (d / "stages.svg").write_text(svg(W2, H2, "A4 stage measures", "\n".join(body2),
+                                      "Means over seeds. Banks are fixed states (planner entry; calibration-policy arrivals); pi0/probe on the same states."))
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--which", nargs="*", default=["r2", "crosspanel", "comp"])
     a = ap.parse_args()
     for w in a.which:
-        {"r2": r2, "crosspanel": crosspanel, "comp": comp, "a3": a3, "cal": cal, "pilot": pilot}[w]()
+        {"r2": r2, "crosspanel": crosspanel, "comp": comp, "a3": a3, "cal": cal, "pilot": pilot, "a4": a4}[w]()
         print(w, "done")
