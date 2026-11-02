@@ -1,0 +1,35 @@
+{
+ "unchanged_files": [
+  "bank_competence_a3_bank.json",
+  "bank_competence_conf_bank.json",
+  "bank_competence_dev_bank.json",
+  "bank_competence_pl_bank.json",
+  "bank_competence_r1_bank.json",
+  "bank_competence_r2_bank.json",
+  "banks_index.npz",
+  "traj_a3_bank.npz",
+  "traj_anchor_donor.npz",
+  "traj_bc_train.npz",
+  "traj_bc_val.npz",
+  "traj_conf_bank.npz",
+  "traj_dev_bank.npz",
+  "traj_pl_bank.npz",
+  "traj_r1_bank.npz",
+  "traj_r2_bank.npz",
+  "traj_reset_donor.npz"
+ ],
+ "entry_bank": {
+  "states": 128,
+  "remaining_min": 104,
+  "remaining_max": 104
+ },
+ "counts": {
+  "a4_select": 64,
+  "a4_bank": 128,
+  "a4_final": 256,
+  "a4_donor": 512
+ },
+ "rejected_in_registry": 151,
+ "failures": [],
+ "passed": true
+}
