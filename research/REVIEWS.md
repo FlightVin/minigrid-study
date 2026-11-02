@@ -370,3 +370,18 @@ cal-s67..69 -> `tools/analyze_cal.py` -> pilot batch files via `make_batches.py 
 - **Monitors.** The programme is complete, so the owned monitors stop now, by verified identity: battery watch 69759
   and review cron d308a314. The driver watchers already exited with their drivers.
 - **Next step.** None is authorised. The owner decides on the REPORT Q7 recommendation.
+
+## 2026-11-01 21:05 EST (2026-11-02 02:05 UTC) — two-hour review, A4 (Amendment 6)
+
+- **Battery.** No pause flag. Guard status: 84%, AC, decision ok, rate 0.0 %/h. The 31% rule is in force.
+- **State.** Seeds 70–73 are complete. Seed 74 is running (BC, probe and arm 00 finished; arm 01s running) in batch
+  20261102T015256-42864. Seeds 75–89 and the final tests are queued in driver 37930.
+- **Validity (engineering only).** `tools/verify_a4.py --engineering` found no problems: 4 complete seeds, 9 completed
+  branch jobs with step records equal to the summary actions, correct identity, panel and row counts. No A4 treatment
+  outcome was read.
+- **Resources.** Spent 13,425,509 of 70M. Remaining conservative cost 47,541,600 (expected 46,917,104). Worst case
+  about 61.0M, so about 9M stays protected. Each seed takes about 17 min.
+- **Monitors (by PID and create time).** Battery guard 31137 (one instance). Driver 37930 (create time matches).
+  Supervisor 42864 matches `.mae/current.json`. Watcher loop btqqaphue (current watch_batch 47207). No duplicates.
+- **Next step.** Let seeds 74–89 finish (about 4.5 h). Then run `tools/analyze_a4.py --check-states`,
+  `tools/verify_a4.py`, the figures, the final tests, the cost reconciliation, F24+ and REPORT section S.
