@@ -529,3 +529,20 @@ superseded limits. Reconciliation with the evidence and the decisions taken:
   K=3 only, and BC stays joint.
 - **Interpretation corrections.** Section 3 of the instruction is applied in F23 and REPORT, marked "corrected
   2026-11-01c". No numbers changed.
+
+## 2026-11-01c — A4 data, arrival bank frozen, conservative costs recomputed (before any A4 training)
+
+- **Data.** r4-v1 (batch 20261102T004051-31202, 110,066 actions). The gate passes (`reports/a4/data_gate.json`).
+  The entry bank has 128 K=3 states, each with 104 steps remaining.
+- **Arrival bank.** data/a4-arrival-v1 (batch 20261102T004138-31283, 71,265 actions), frozen with SHA-256
+  15f5f18ad297811e94cc9361d7676503f49a51edc1959be3de8ecef22f729dea.
+  - 512 donors run; 100 arrivals (19.5%); 96 kept (cap), so no shortfall. The last kept donor is index 491.
+  - Kept by source (s67/s68/s69): 41/32/23. The sources' access differs, so the bank weights s67's arrivals most.
+  - Remaining time at arrival: median 65 (range 2-103). The arrival tau has median 78.5. Every kept state carries
+    an object at arrival.
+  - The bank is not representative of any A4 policy's own arrival distribution.
+- **Conservative costs** (hard bounds from the real limits): BC 102,432; probe 183,920; branch 1,339,374;
+  endpoint evaluation 112,634.
+  - Remaining required work: 59,952,000 conservative (58,998,880 expected).
+  - Spent so far: 310,213 (local tests, data and bank).
+  - Worst-case total: about 60.56M with the 0.3M audit, so the protection left is about 9.44M.
