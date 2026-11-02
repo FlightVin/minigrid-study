@@ -55,14 +55,20 @@ def _layouts():
     return json.loads((DATA / "layouts.json").read_text())
 
 
+ROLE_N = {"a4_select": 64, "a4_final": 256}
+
+
 def normal_bound(role, attempts=2):
+    if not DATA.exists():            # before r4-v1 exists: every layout at the K=3 maximum limit
+        return attempts * ROLE_N[role] * K3_MAX_LIMIT
     return attempts * sum(it["layout"]["limit"] for it in _layouts()[role] if it["layout"]["K"] == 3)
 
 
 def banks_bound(attempts=2):
     """Entry bank + actual-arrival bank, every attempt to the state's remaining time (cap x max limit before the
     arrival bank exists)."""
-    entry = attempts * sum(s["remaining"] for s in json.loads((DATA / "bank_competence_a4_bank.json").read_text())["3"])
+    entry = (attempts * sum(s["remaining"] for s in json.loads((DATA / "bank_competence_a4_bank.json").read_text())["3"])
+             if DATA.exists() else attempts * 128 * K3_MAX_LIMIT)
     arr = (attempts * sum(s["remaining"] for s in json.loads(ARRIVAL.read_text())["states"]) if ARRIVAL.exists()
            else attempts * ARRIVAL_CAP * K3_MAX_LIMIT)
     return entry + arr
@@ -96,8 +102,6 @@ def cost(jid):
         return 450_000, 300_000
     if re.fullmatch(r"p4-tests", jid):
         return 100_000, 70_000
-    if not DATA.exists():
-        raise RuntimeError("A4 study costs need data/r4-v1")
     if re.fullmatch(r"a4-bc-s\d+", jid):
         return bc_bound(), 80_000
     if re.fullmatch(r"a4-probe-K3-s\d+", jid):
