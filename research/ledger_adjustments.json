@@ -25,8 +25,14 @@
   {
    "date": "2026-11-02",
    "role": "p5_local_smoke_estimated",
-   "actions": 60000,
-   "detail": "Local opt-in smoke tests/test_p5_smoke.py (probe, straight D5 branch 2,048, paused 768, resumed 1,280, with evaluations) run once outside the runner during development of the 2026-11-02 programme; subprocess step records went to temporary run directories. Conservative upper estimate; in-process local checks are measured separately (.mae/unmanaged_actions)."
+   "actions": 84711,
+   "detail": "Local opt-in smoke tests/test_p5_smoke.py (probe, straight D5 branch 2,048, paused 768, resumed 1,280, with evaluations) run once outside the runner during development of the 2026-11-02 programme; subprocess step records went to temporary run directories. Conservative upper estimate; in-process local checks are measured separately (.mae/unmanaged_actions). Replaced 2026-11-02 by the measured value: the same deterministic tests (CPU, fixed seeds) run through the runner in p5-smoke (batch 20261102T101613-56399) recorded 30,127 + 27,292 + 768 + 26,524 = 84,711 subprocess actions."
+  },
+  {
+   "date": "2026-11-02",
+   "role": "a4_smoke_subprocess_unrecorded",
+   "actions": 74997,
+   "basis": "Runner job a4-smoke (batch 20261102T004225-31353, A4 tests batch): tests/test_pause_smoke.py started real jobs as subprocesses with a temporary MAE_RUN_DIR, so their step records were deleted with it. Measured by the deterministic rerun in p5-smoke (batch 20261102T101613-56399, mirrored records): 29,941 + 22,528 + 11,557 + 10,971 = 74,997. An A4 cost, charged to the 2026-11-02 programme ledger (conservative). Fixed by BC2RL_STEPS_MIRROR (src/bc2rl/accounting.py)."
   }
  ]
 }
