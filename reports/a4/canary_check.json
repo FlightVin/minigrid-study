@@ -1,0 +1,33 @@
+{
+ "batch": "20261102T004500-31671",
+ "seed": 70,
+ "arrival_states": 96,
+ "jobs": {
+  "bc": {
+   "step_records": 61008,
+   "summary_actions": null,
+   "conservative": 102432,
+   "expected": 80000
+  },
+  "probe": {
+   "step_records": 142348,
+   "summary_actions": 142348,
+   "conservative": 183920,
+   "expected": 185000
+  },
+  "00": {
+   "step_records": 1254644,
+   "summary_actions": 1254644,
+   "conservative": 1339374,
+   "expected": 1331472
+  },
+  "01s": {
+   "step_records": 1253151,
+   "summary_actions": 1253151,
+   "conservative": 1339374,
+   "expected": 1331472
+  }
+ },
+ "failures": [],
+ "passed": true
+}
