@@ -711,3 +711,18 @@ completion. See FINDINGS F24-F25 and REPORT section S.
 - **Throughput.** About 5,500 actions/s.
 - **Spend.** Programme spend so far is 191,649, including the failed tests batch and local tests.
 - **Next.** Run the eight evaluation batches.
+
+## 2026-11-02b — Controller diagnostics complete; recommendation recorded; nothing launched
+
+- **Evaluation.** Eight batches, 20261102T143155-33217 to 20261102T143530-34801: 1,116,009 actions, all complete.
+- **Verification.**
+  - The replay (20261102T143602-39773, 17,554 actions) re-ran 128 sampled episodes with 0 mismatches.
+  - `tools/verify_p6.py` agrees with `tools/analyze_p6.py`.
+  - Action totals from the rows, the job summaries and the step records are equal for all 8 jobs.
+- **Final tests.** 20261102T143755-40217: 321 passed, 10 skipped. Total spend 1,396,213 of 2,000,000.
+- **Result (frozen rules).** key_all, both_mid and both_all give material, consistent relief. door_mid, door_all
+  and mask_prefix do not. key_mid is material only in the pilot cohort. key_all exceeds masking by ≥ 0.05 in both
+  cohorts.
+- **Decision.** Under this authorization nothing more is run. One training study (corrective imitation of the
+  module subroutine; REPORT U5) is proposed, with "close the line" as the alternative. It needs an owner instruction.
+- **Monitors.** The owned battery guard and the review loop are stopped at completion.

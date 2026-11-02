@@ -26,12 +26,15 @@ counterfactuals on frozen checkpoints would cost about 0.3-0.5M actions. This ne
 carry over.
 
 
-**Active programme (2026-11-02b).** Owner instruction 2026-11-02b authorizes a frozen-policy controller-diagnostic
-study: up to 2,000,000 executed actions from ledger 328,228,453, with no training. The question: on frozen policies,
-how much normal-start failure can be relieved by key-acquisition assistance, by door-transition assistance, or by
-masking physically ineffective actions?
-- **Policies:** eight frozen ordinary-PPO policies, A4 s70-73 and pilot s90-93.
-- **Panel:** fresh K=3 panel d6_ctrl, 8 conditions. The plan is in DECISIONS 2026-11-02b and Amendment 8.
-- **Monitors:** battery guard PID 30539; review cron eb95c0a1.
+**Programme 2026-11-02b (complete).** Controller diagnostics on eight frozen policies (Amendment 8; F29-F30;
+REPORT U); 1,396,213 of 2,000,000 actions; no training.
+- **Results.** key_all, both_mid and both_all materially and consistently relieve failure (+0.10 to +0.34).
+  door-only assistance and masking do not (≤ 0.05).
+- **Interaction and suffix.** The assistance forms interact positively. Learned suffix completion stays at 0.57-0.70.
+- **Status of the gains.** These are opportunities under privileged help, not training results.
+- **Monitors.** Stopped (battery guard 30539, review cron eb95c0a1). Nothing is running.
 
-**Next action.** Generate data r6-v1, then build and freeze the controller, analysis and verifier.
+**Proposed (not authorised).** Corrective imitation of the prefix module subroutine (REPORT U5; about 48M
+conservative), or close the line.
+
+**Next action.** Wait for the owner's instruction.

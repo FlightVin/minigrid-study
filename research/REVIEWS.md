@@ -434,3 +434,25 @@ cal-s67..69 -> `tools/analyze_cal.py` -> pilot batch files via `make_batches.py 
 - **Next step.** When s95 finishes: run `tools/analyze_p5.py` (gate), then `tools/verify_p5.py`. Apply the frozen gate
   exactly. If a method qualifies, write the confirmation batches, run canary s96, then seeds 97-115. If none
   qualifies, do not launch anything more; write the diagnostic synthesis and the proposal.
+
+## 2026-11-02b ~14:45 (closing introspective review; controller diagnostics)
+
+- **What changed in the evidence.**
+  - Key-acquisition and joint assistance relieve 0.10-0.34 of normal-start failure on frozen policies.
+  - Door-only assistance and masking relieve ≤ 0.05.
+  - Completion after arrival is unchanged by prefix assistance.
+- **Which interpretation could be wrong.**
+  - "Key-swap deficit" summarizes helper effects that also save time and move the agent to different states. The
+    helper is broader than key choice.
+  - Door-only nulls are confounded by eligibility.
+  - The four policies per cohort are a fixed, small selection.
+- **Denominators, clocks, privileges, costs.**
+  - Denominators are explicit (n = 512 per cell; r = S_A/A).
+  - Helper actions consume the clock and the budget.
+  - The replay confirmed outcomes and helper claims.
+  - Costs reconcile with the ledger.
+- **Is the next action informative?** Only a training study can test whether the opportunity is realisable. It is
+  proposed, not launched.
+- **Tuning drift?** No. The analysis rules were frozen, every condition is reported, and post hoc contrasts are
+  labelled.
+- **Continue, simplify or stop?** Stop under this authorization.

@@ -1,5 +1,6 @@
 # MiniGrid study: demonstration-state starts and BC preservation after BC
 
+Status 2026-11-02b (final): the Amendment 8 controller diagnostics are complete (section U); exploratory, no training.
 Status 2026-11-02 (access programme, final): the Amendment 7 programme is complete (section T): diagnostics, development
 pilot and gate; no method qualified, so no confirmation was run.
 Status 2026-11-02 (final): the Amendment 6 programme (A4, 20 seeds) is complete (section S): H1 not supported.
@@ -10,6 +11,13 @@ are marked in section P. Earlier sections are kept as written.
 
 ## Headline
 
+**Programme 2026-11-02b (section U, complete; diagnostic, exploratory):** On eight frozen ordinary-PPO policies
+and a fresh panel, privileged module-local key-acquisition assistance (navigation and inventory swap, legal actions,
+original clock) in every module raised normal-start success by +0.100 (A4 cohort) and +0.158 (pilot cohort), and
+full prefix assistance by +0.27 to +0.34. Door-only assistance (often ineligible) and masking physically ineffective
+actions gave ≤ 0.05. The forms interact positively, and learned suffix completion stayed at 0.57-0.70 even from
+finishable arrivals. These are opportunities under privileged help, not training results. A corrective-imitation
+study is proposed and not launched.
 **Programme 2026-11-02 (section T, complete; development only):** [Corrected 2026-11-02b: reference 1 is an assisted reference, not
 a bound on learner performance; "headroom" is withdrawn; denominators in `reports/p6/audit_p5.md`.] The diagnostics on
 A4 checkpoints showed large access headroom: reference 1 (planner prefix, learned suffix) minus P1 was +0.31. Arrivals were mostly finishable
@@ -60,6 +68,105 @@ checkpoint interaction was not supported (adjusted p 0.096). The result did not 
 inconclusive, not negative. The estimates are compatible with a positive effect similar to M4's (corrected
 2026-11-01). The seed SD of the effect (0.043) was larger than in the M4 subgroup (0.008); the reasons are not
 resolved (R1.10).
+
+## U. Programme 2026-11-02b (Amendment 8): controller diagnostics on frozen policies
+
+Sources: FINDINGS F29-F30; PROTOCOL_FREEZE Amendment 8; DECISIONS 2026-11-02b; `reports/p6/` (table, summary,
+cells, trajectories, verification, supplementary); `reports/p6/audit_p5.md`.
+
+**Question.** On frozen policies, how much normal-start failure can be relieved by correcting key acquisition, by
+correcting navigation and passage through the appropriate door, or by preventing physically ineffective actions? This
+is a diagnostic study of augmented controllers, not a demonstration of improved learning.
+
+### U1. Completed evidence
+- **Design.**
+  - Policies: eight frozen ordinary-PPO policies (A4 s70-73; pilot s90-93), as two cohorts.
+  - Panel: fresh disjoint panel, 64 K=3 layouts × 2 attempts.
+  - Conditions: 8, with step-indexed common random numbers.
+  - Helpers: legal actions on the original clock.
+  - Verification: an independent recomputation agrees, and a replay of 128 sampled episodes reproduced every
+    outcome, certification, helper claim and policy action.
+
+| Condition | A4 P1 (n 512) | A4 Δ vs base [95% t over layouts] | P5 P1 (n 512) | P5 Δ vs base [95% t] |
+|---|---|---|---|---|
+| base | 0.432 | — | 0.232 | — |
+| key_mid | 0.482 | +0.051 [−0.013, +0.115] | 0.291 | +0.059 [+0.007, +0.110] |
+| door_mid | 0.404 | −0.027 [−0.064, +0.009] | 0.252 | +0.020 [−0.004, +0.043] |
+| both_mid | 0.555 | +0.123 [+0.062, +0.184] | 0.383 | +0.150 [+0.095, +0.206] |
+| key_all | 0.531 | +0.100 [+0.030, +0.169] | 0.391 | +0.158 [+0.099, +0.218] |
+| door_all | 0.459 | +0.027 [−0.012, +0.066] | 0.279 | +0.047 [+0.009, +0.085] |
+| both_all | 0.701 | +0.270 [+0.202, +0.337] | 0.570 | +0.338 [+0.275, +0.401] |
+| mask_prefix | 0.461 | +0.029 [−0.010, +0.068] | 0.256 | +0.023 [−0.012, +0.059] |
+
+- Boundary reach, completion after arrival (r = S_A/A), certified finishability, exposure, helper fractions,
+  timing, behaviours and per-policy results are in F29 and `reports/p6/table.md`.
+- Interactions (both − key − door + base) were positive:
+  - mid: +0.100 (A4) and +0.072 (P5);
+  - all: +0.143 and +0.133.
+
+### U2. Interpretation (frozen rules; exploratory)
+- **Material and consistent relief** in both cohorts: key assistance in every module, and joint assistance (middle
+  module, every module).
+- **Small:** door-only assistance and physical masking.
+- **Mechanism.**
+  - Assistance mainly saves prefix time and repairs inventory state, removing the observed pickup and locked-door
+    loops.
+  - Learned completion after arrival hardly changes (A4 0.65-0.70; P5 0.51-0.57), even when every arrival is
+    finishable.
+- **Masking** removes the 23-31% of prefix steps that were ineffective but gives only 0.02-0.03.
+
+### U3. Unresolved explanations
+- Missing demonstration coverage of learner-visited error states, inadequate exploration in PPO, and representation
+  or credit-assignment limits remain indistinguishable.
+- Door behaviour is not shown to be adequate, because door-only assistance was often ineligible.
+- The positive interaction shows complementary failures under these controllers, not a unique skill decomposition.
+- The assisted gains are opportunities under privileged help, not attainable training gains.
+
+### U4. Costs and deviations
+- Spend: 1,396,213 of 2,000,000. Evaluation took 1,116,009; local development work 39,818; one failed tests batch
+  70,354.
+- There were no battery pauses (85-86%, AC) and no exclusions.
+- The tests batch failed once (test design) and was rerun.
+- The key-helper drop rule was set before the freeze.
+- Post hoc contrasts are labelled.
+
+### U5. Proposed next study (not launched; needs an owner instruction)
+**Corrective imitation of the prefix module subroutine.**
+- **Hypothesis.** PPO continuation with an auxiliary imitation loss on planner labels for learner-visited prefix
+  states raises normal-start P1 at 501,760 continuation actions over ordinary PPO with identical environment actions.
+  The labels are the module-local key-acquisition / door-transition planner action from the current state.
+- **Intervention.**
+  - The joint BC start (rho 0.2, 8,000), then PPO as in the pilot.
+  - Each update adds λ · cross-entropy to planner labels on at most every 4th prefix state of the rollout. This caps
+    labels at about 75k per branch.
+  - λ = 0.1 is fixed in advance; no λ search.
+  - Evaluation is always unassisted.
+- **Matched baseline.** Ordinary PPO from the same BC start and probe, with the same environment actions, rollouts,
+  evaluation panel and common random numbers.
+- **Information privileges.** Full state and the module-local planner during training only. No planner, mask or
+  helper at evaluation.
+- **Supervision cost.** Report expert queries (number of planner calls), labelled states and planner compute time,
+  separately from environment actions. Labels add no environment actions; any label verification replay would be
+  counted.
+- **Development and confirmation.**
+  - Development: 6 seeds on fresh development roles. Gate: mean ΔP1 ≥ 0.05 at 501,760, positive in ≥ 4/6, checks
+    pass.
+  - Confirmation, only if the gate passes: 20 fresh seeds, fresh roles, never pooled with development.
+- **Seed count.** Paired seed SDs of P1 differences in the pilot were 0.02-0.05, so n = 20 gives a standard error of
+  about 0.01. It detects about 0.03 with 80% power at SD 0.045.
+- **Endpoints and metric.**
+  - Primary: P1 at 501,760, one two-sided paired t test.
+  - Descriptive: P1 at 251,904; q, r, key-swap errors, locked toggles and label counts.
+- **Multiplicity.** One primary test. Secondaries are descriptive.
+- **Conservative action cost.** Development about 11M; confirmation about 36.4M (per seed as c5: about 1.82M);
+  total about 48M plus tests.
+- **Stopping rule.** Stop after development if the gate fails. Confirmation has fixed n and no interim analysis.
+
+### U6. Ranked recommendation
+1. The proposal above (or close the line if about 48M is judged too costly for an effect likely well below 0.10).
+2. Do not pursue action-masked training.
+3. Do not pursue door-only interventions.
+4. Treat learned suffix completion as a separate limit in any future study.
 
 ## T. Programme 2026-11-02 (Amendment 7): access-focused reset placement
 

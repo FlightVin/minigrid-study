@@ -1164,3 +1164,144 @@ This is a development comparison (6 seeds, 90-95). It is not confirmatory eviden
 
   Only if one sub-decision bounds a gain of 0.05 or more should a targeted training method be designed and gated.
   This needs a new owner instruction.
+
+## F29 — Controller diagnostics on frozen policies (2026-11-02b; owner instruction 2026-11-02b; Amendment 8)
+
+This is a diagnostic study of augmented controllers, not a demonstration of improved learning. All comparisons are
+exploratory.
+- **Policies.** Eight frozen ordinary-PPO policies: A4 s70-73 (1,001,472) and pilot s90-93 (501,760). They are
+  analysed as two cohorts.
+- **Panel and conditions.** The fresh disjoint panel d6_ctrl has 64 K=3 layouts × 2 attempts. There are 8
+  conditions, with step-indexed common random numbers.
+- **Sources.**
+  - `reports/p6/table.md`, `summary.json`, `cells.csv` and `trajectories.md`;
+  - `reports/p6/verification.json` (independent recomputation agrees; replay 128/128 with 0 outcome,
+    certification, helper or policy-action mismatches);
+  - `reports/p6/supplementary.json` (post hoc).
+- **Full comparison.** P1 = S/n, with n = 512 per cell. Δ is the cohort mean of per-layout paired differences
+  against base, with a 95% t interval over layouts conditional on the 4 policies:
+
+  | Condition | A4 P1 | A4 Δ [95% t] | A4 q | A4 r | P5 P1 | P5 Δ [95% t] | P5 q | P5 r |
+  |---|---|---|---|---|---|---|---|---|
+  | base | 0.432 (221) | — | 0.643 | 0.672 | 0.232 (119) | — | 0.432 | 0.538 |
+  | key_mid | 0.482 (247) | +0.051 [−0.013, +0.115] | 0.736 | 0.655 | 0.291 (149) | +0.059 [+0.007, +0.110] | 0.574 | 0.507 |
+  | door_mid | 0.404 (207) | −0.027 [−0.064, +0.009] | 0.621 | 0.651 | 0.252 (129) | +0.020 [−0.004, +0.043] | 0.451 | 0.558 |
+  | both_mid | 0.555 (284) | +0.123 [+0.062, +0.184] | 0.812 | 0.683 | 0.383 (196) | +0.150 [+0.095, +0.206] | 0.693 | 0.552 |
+  | key_all | 0.531 (272) | +0.100 [+0.030, +0.169] | 0.803 | 0.662 | 0.391 (200) | +0.158 [+0.099, +0.218] | 0.738 | 0.529 |
+  | door_all | 0.459 (235) | +0.027 [−0.012, +0.066] | 0.672 | 0.683 | 0.279 (143) | +0.047 [+0.009, +0.085] | 0.492 | 0.567 |
+  | both_all | 0.701 (359) | +0.270 [+0.202, +0.337] | 1.000 | 0.701 | 0.570 (292) | +0.338 [+0.275, +0.401] | 1.000 | 0.570 |
+  | mask_prefix | 0.461 (236) | +0.029 [−0.010, +0.068] | 0.691 | 0.667 | 0.256 (131) | +0.023 [−0.012, +0.059] | 0.498 | 0.514 |
+
+  - Bonferroni (0.05/9) and crossed policy × layout bootstrap intervals, exposure, helper fractions and per-policy
+    contrasts are in `table.md`.
+  - **Denominators.** r = S_A/A. Certified-finishable arrivals F/A were 0.93 at base and 1.00 under both_all.
+- **Frozen interpretation rules (Amendment 8 J).**
+
+  | Result | Conditions |
+  |---|---|
+  | Material and consistent relief (both cohorts: Δ ≥ 0.05, lower bound > 0) | both_mid, key_all, both_all |
+  | Material in one cohort only | key_mid (P5, not A4) |
+  | Not material in either cohort | door_mid, door_all, mask_prefix |
+
+  - Per policy, both_mid, key_all and both_all were positive in 8/8 policies. Intervals excluded 0 in 6/8, 7/8 and
+    8/8 policies respectively.
+  - **Beyond masking** (key_all Δ − mask_prefix Δ ≥ 0.05 in both cohorts): met (A4 +0.070, P5 +0.135). Post hoc
+    intervals are A4 [−0.002, +0.143] and P5 [+0.078, +0.192].
+- **Interactions** (both − key − door + base; interaction between controller modifications, not a decomposition of
+  skills):
+
+  | Scope | A4 | P5 |
+  |---|---|---|
+  | mid | +0.100 [+0.053, +0.147] | +0.072 [+0.027, +0.118] |
+  | all | +0.143 [+0.067, +0.219] | +0.133 [+0.067, +0.199] |
+
+  Joint assistance gave more than the sum of the single forms.
+- **Eligibility and exposure.**
+  - Door-only assistance in the middle module was eligible in only 409/512 (A4) and 302/512 (P5) episodes. Under
+    both_mid it ran in 500 and 459.
+  - Key assistance therefore creates much of the door assistance's exposure. The null door-only result does not
+    show that door behaviour is adequate.
+  - Statuses were almost all "assisted". Certified impossible: at most 5 per cell. Unresolved: at most 5 per cell.
+- **Mechanism observations** (descriptive).
+  - **Time.** Assistance shortened the prefix. Median arrival went from 70 to 41 (A4) and from 79 to 41 (P5) under
+    both_all. Learned completion given arrival hardly changed, even with about 28-37 more remaining steps:
+    - A4: 0.672 at base, 0.70 under both_all;
+    - P5: 0.538 at base, 0.57 under both_all;
+    - range across conditions: 0.65-0.70 (A4) and 0.51-0.57 (P5).
+    Gains came through boundary reach, not suffix completion.
+  - **Inventory and loops.** Base prefix failures often show long repeated pickup attempts while carrying the
+    previous key (pickup was the most frequent learner action in 35/183 (A4) and 58/291 (P5) base prefix failures).
+    They also show repeated locked-door toggles with a key of the wrong colour (toggle most frequent in 51/183 and
+    65/291). Key assistance roughly halved learner locked toggles per episode: 11.4 → 5.5 (A4) and 14.2 → 9.2 (P5).
+  - **Given key dropped.** In key-only conditions, the learner later dropped the key it had just been given in
+    243/502 (A4) and 241/465 (P5) assisted middle-module episodes. These are observations; they do not establish
+    why learning failed.
+  - **Masking.** It removed 0.076 (A4) and 0.106 (P5) mean policy mass per masked step. At base, ineffective
+    actions were 23.5% and 30.8% of learner prefix steps. Masking eliminated them but raised P1 by only 0.02-0.03.
+  - **Suffix limit.** Even with every arrival certified finishable (both_all), the learned suffix finished only 70%
+    (A4) and 57% (P5).
+  - **Re-randomisation.** Every modification re-randomises later trajectories. Some base successes were lost under
+    each condition (42-73 of 221 in A4; 20-46 of 119 in P5). Net Δ is the summary; the rescue and loss tables are
+    descriptive.
+- **Cohorts.** The two cohorts show the same qualitative pattern. The less-trained pilot cohort had a lower base and
+  larger key-assistance gains.
+
+## F30 — Interpretation, costs and recommendation (2026-11-02b)
+
+- **Supported by evidence (this panel, these 8 frozen policies, these helpers).**
+  - Under privileged module-local assistance that executes legal actions on the original clock, acquiring the
+    module key (navigation plus inventory swap) in every module relieved 0.10 (A4) and 0.16 (P5) of normal-start
+    failure. Full prefix assistance relieved 0.27-0.34.
+  - Door transition alone, and masking of physically ineffective actions, relieved little (≤ 0.05).
+  - The forms interact positively. The learned suffix limits success even after finishable arrivals.
+- **Answers to the instruction's questions.**
+  - **What assistance mainly does.** It saves prefix time and changes inventory state, which removes the observed
+    pickup and locked-door loops. It does not change how often the learner finishes from an arrival.
+  - **Eligibility.** Key assistance creates eligibility for door assistance, so door-only results understate door
+    errors.
+  - **Masking.** It does not capture much of the planner benefit: 0.02-0.03 against 0.10-0.16 for key_all.
+  - **Cohorts.** Both show the same pattern.
+  - **Explanations.**
+    - The ineffective-action interface explanation is weakly supported, because masking is small.
+    - A deficit in the key-swap subroutine (drop the old key, pick and keep the new one) and in completing the
+      module is consistent with the data.
+    - Missing demonstration coverage of learner-visited states, inadequate exploration during PPO, and
+      representation or credit-assignment limits remain indistinguishable. The planner demonstrations always swap
+      keys the same way from planner states; whether the learner fails because it never saw its own error states,
+      because PPO did not discover the swap, or for another reason is not tested here.
+- **Not shown.**
+  - That a trainable intervention would realise any of these gains: the helpers use full state and solution
+    knowledge.
+  - That door behaviour is adequate.
+  - Any causal decomposition of policy skills.
+- **Costs.** 1,396,213 of the 2,000,000 authorization:
+
+  | Item | Actions |
+  |---|---|
+  | Data r6-v1 | 6,343 |
+  | Local development tests and the synthetic analysis check, outside the runner | 39,818 |
+  | Failed tests batch (test design; counted) | 70,354 |
+  | Tests | 71,001 |
+  | Canary | 4,133 |
+  | Evaluation (8 batches; 81% of the conservative 1,375,488) | 1,116,009 |
+  | Verification replay | 17,554 |
+  | Final tests (321 passed, 10 skipped) | 71,001 |
+
+  Ledger: 329,624,666. No battery pause occurred (85-86%, AC). There were no exclusions; every policy and condition
+  was kept.
+- **Deviations.**
+  - The tests batch failed once (test design) and was rerun under a new run ID.
+  - The key-helper drop rule (keep door-front cells free) was added during development, before the freeze, after a
+    synthetic check.
+  - The post hoc supplementary contrasts are labelled as such.
+- **Ranked recommendation.**
+  1. **Proposal (not launched):** corrective imitation of the prefix module subroutine (key acquisition and door
+     transition) on learner-visited states, as specified in REPORT U5. It is a new supervision method with explicit
+     expert-query cost. It is justified only because key assistance gave consistent, beyond-masking relief and joint
+     assistance interacted positively. The realised gain is expected to be well below the privileged assisted gain.
+  2. **Do not pursue** action-masked training: the masked controller's relief was 0.02-0.03.
+  3. **Do not pursue** door-only interventions without first establishing key competence.
+  4. **Note for any future work:** learned suffix completion (0.57-0.70 from finishable arrivals) is a separate
+     limit. Report r.
+  5. **Close the line instead** if the owner judges about 48M conservative actions too costly for an effect expected
+     to be a fraction of 0.10-0.16.

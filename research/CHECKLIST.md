@@ -207,8 +207,9 @@ Dependencies: each line needs the lines above it unless marked (parallel-safe: d
 - [x] Conservative cost -> 64 layouts fit (1,375,488 for evaluation; total about 1.80M of 2M)
 - [x] Frozen analysis + independent verifier + replay job; Amendment 8 (hashes, controller definitions, fallbacks, accounting,
       manifest); commit before outcome-producing runs
-- [ ] Tests batch; engineering canary on d5_trace (no new-panel outcomes)
-- [ ] Evaluation batches: 8 policies x 8 conditions (reviews every 2 h; battery rule)
-- [ ] Verification replay sample (runner); analysis; independent verification
-- [ ] Trajectory inspection (predetermined sample); interpretation; ranked recommendation + one proposal (not launched)
-- [ ] Final tests; cost reconciliation; FINDINGS; REPORT; STATE; commit + push; stop owned monitors
+- [x] Tests batch (first failed: test design, 70,354 counted; rerun 321 passed); engineering canary on d5_trace (no problems)
+- [x] Evaluation batches: 8 policies x 8 conditions (1,116,009 actions; no pauses)
+- [x] Verification replay sample (128/128, 0 mismatches); analysis; independent verification (agrees)
+- [x] Trajectory inspection (predetermined sample); interpretation; ranked recommendation + one proposal (REPORT U5; not launched)
+- [x] Final tests (321 passed); cost reconciliation (1,396,213 of 2M); FINDINGS F29-F30; REPORT U; STATE; commit + push; stop owned monitors (guard 30539, cron eb95c0a1)
+- [ ] Corrective-imitation study (REPORT U5) or close the line — awaits owner instruction
