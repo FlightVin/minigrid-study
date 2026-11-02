@@ -688,3 +688,12 @@ completion. See FINDINGS F24-F25 and REPORT section S.
   4. Run the tests batch, then an engineering canary on d5_trace layouts (not the new panel).
   5. Run eight evaluation batches (one per policy; 8 conditions × layouts × 2 attempts).
   6. Run the verification replay sample, then the analysis, verification, write-up and final tests.
+
+## 2026-11-02b — Tests batch failed deterministically (test design); fixed; rerun
+
+- **Failure.** Batch 20261102T142856-32688 (p6-tests): 3 failed, 318 passed, 10 skipped; 70,354 actions, counted.
+  The three new main-loop tests (budget interruption, pause flag, resume) read `data/r6-v1` through ROOT. The runner
+  runs tests in a code snapshot that has no `data/`.
+- **Effect.** No controller or analysis code is affected. No outcome had been produced; the canary did not start.
+- **Fix.** The tests now write a self-contained two-layout dataset in a temporary directory. The frozen controller,
+  analysis and verifier files are unchanged (Amendment 8 L). The tests rerun under a new run ID.

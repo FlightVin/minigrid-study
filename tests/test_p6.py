@@ -213,8 +213,11 @@ def test_mask_condition_records_and_respects_mask():
 
 def _main(tmp_path, monkeypatch, extra, flag=False, existing=()):
     proj = tmp_path / "proj"
-    (proj / "data").mkdir(parents=True)
-    os.symlink(ROOT / "data/r6-v1", proj / "data/r6-v1")
+    ds = proj / "data/r6-v1"                             # self-contained: the runner's code snapshot has no data/
+    ds.mkdir(parents=True)
+    items = [{"layout": json.loads(planned(s)[0].to_json())} for s in (11, 12)]
+    (ds / "layouts.json").write_text(json.dumps({"d6_ctrl": items}))
+    (ds / "manifest.json").write_text("{}")
     if flag:
         BAT.set_pause({"reason": "test"}, proj)
     run = tmp_path / "run"
