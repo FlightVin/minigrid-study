@@ -1,0 +1,66 @@
+{
+ "purpose": "A4 calibrated-initialization long-budget study (owner instruction 2026-11-01c; PROTOCOL_FREEZE Amendment 6). K=3; BC rho 0.2 / 8000 updates; seeds 70-89; arms 00 (ordinary PPO) and 01s (suffix-only preservation, base 0.01 x suffix share 0.75 -> effective 0.0075 E_suffix, prefix 0); alpha 0; pi0 = the BC checkpoint. PPO, critic preparation and probe settings unchanged (as A3 and the pilot). Endpoints 251,904, 501,760 and 1,001,472 (primary): a4_final 256 K=3 layouts x 2 attempts, a4_bank 128 planner entry states x 2, the fixed actual-arrival bank x 2; states saved at all three; recovery state every 100,352 actions. pi0/post-probe diagnostics on a4_select (64 x 2) and both banks (x 2). New eval seed 969000.",
+ "dataset_id": "r4-v1",
+ "eval_role": "a4_final",
+ "bank_role": "a4_bank",
+ "n_envs": 16,
+ "n_steps": 128,
+ "gamma": 1.0,
+ "gae_lambda": 0.95,
+ "clip": 0.2,
+ "actor_lr": 3e-05,
+ "critic_lr": 0.0003,
+ "epochs": 4,
+ "minibatch": 512,
+ "ent_coef": 0.0,
+ "max_grad_norm": 0.5,
+ "anchor_batch": 128,
+ "anchor_prefix_weight": 0.25,
+ "alpha": 0.0,
+ "kl_coef": 0.01,
+ "critic_warmup_actions": 16000,
+ "critic_prefit_lr": 0.0003,
+ "critic_prefit_steps": 2000,
+ "probe_actions": 50000,
+ "diag_attempts": 2,
+ "diag_bank_attempts": 2,
+ "continuation_actions": 1001472,
+ "eval_seed": 969000,
+ "diag_role": "a4_select",
+ "eval_schedule": [
+  {
+   "at": 251904,
+   "attempts": 2,
+   "bank_attempts": 2,
+   "tag": "final_251904",
+   "endpoint": true
+  },
+  {
+   "at": 501760,
+   "attempts": 2,
+   "bank_attempts": 2,
+   "tag": "final_501760",
+   "endpoint": true
+  },
+  {
+   "at": 1001472,
+   "attempts": 2,
+   "bank_attempts": 2,
+   "tag": "final_1001472",
+   "endpoint": true
+  }
+ ],
+ "save_state_at": [
+  251904,
+  501760,
+  1001472
+ ],
+ "update_diagnostics": true,
+ "recovery_every": 100352,
+ "extra_banks": [
+  {
+   "name": "arrival",
+   "path": "data/a4-arrival-v1/arrival_bank.json"
+  }
+ ]
+}

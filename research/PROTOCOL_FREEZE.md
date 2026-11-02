@@ -626,3 +626,111 @@ delta-c, measurement and trial costs). No selector is trained unless the data ju
 **G. Interruption and failures.** One job at a time; deterministic watcher; an interrupted or failed job is rerun from
 its latest complete input checkpoint under a new batch ID after diagnosis (deterministic failure: fix + new ID; verified
 transient failure: one documented retry). Partial outputs are kept. No design change after outcomes.
+
+### Amendment 6 — 2026-11-01c (in force): A4 calibrated-initialization long-budget study; battery rule 31%
+
+Owner instruction 2026-11-01c (verbatim in `mac-agentic-engineering/project.md`, harness `d8155d4`). This amendment
+was frozen before any A4 run. Completed-study verdicts are preserved, and Amendment 5's battery rule (below 20%) is
+superseded. Earlier replications are not reopened, and the five-arm allocation study is not repeated.
+
+**A. Question.** In the calibrated K=3 initialization (BC rho 0.2, 8,000 updates), does suffix preservation improve
+normal-start success after 1,001,472 continuation actions, and does its benefit grow relative to 251,904?
+
+**B. Design.**
+- Seeds 70-89 (n = 20), every seed kept. Seeds are never filtered by the calibration targets.
+- **BC.** `experiments/a4/bc-a4.json` uses the unchanged joint conf-v1 K=1/K=3 dataset and the calibration sampler
+  with rho 0.2. It saves one checkpoint at 8,000 updates. It is evaluated on bc_val and dev_bank with eval seed
+  525000, as in calibration.
+- **Probe.** The unchanged critic preparation and probe (`experiments/a4/a4-v1.json`; PPO settings identical to A3
+  and the pilot). It runs on K=3 only, and its diagnostics use a4_select (64 × 2) plus both banks (× 2).
+- **Arms, from the same post-probe state.**
+  - A = 00, ordinary PPO.
+  - C = 01s, suffix-only preservation: the existing estimator, base 0.01 on suffix rows with the full-batch
+    denominator, effective (0, 0.0075).
+  - pi0 is the BC checkpoint.
+  - Both arms use alpha 0, normal starts and the same action allowance and optimization settings.
+  - Branch order alternates by seed: 00 first for even seeds.
+- **Allowance and endpoints.** 1,001,472 continuation actions (489 rollouts of 2,048; exact). States are saved and
+  evaluated at 251,904, 501,760 and 1,001,472 (primary). A recovery state is saved every 100,352 actions; only the
+  latest is kept, and it is removed at completion.
+
+**C. Data and banks.**
+- `r4-v1` (`experiments/a4/data-r4-v1.json`) copies every r3-v1 file and role unchanged and adds four roles:
+  - a4_select (64);
+  - a4_bank (128 planner boundary-entry states, K=3, original remaining time, labelled "entry", separate from every
+    historical mixed bank);
+  - a4_final (256 K=3 layouts);
+  - a4_donor (512).
+- Gate: `tools/data_gate_r4.py`. Training files are byte-identical, and every new role shares no structure, seed or
+  suffix with any earlier role.
+- **Normal-start evaluation.** a4_final, 256 × 2 attempts, eval seed 969000, the same layouts and attempt streams
+  for every policy.
+- **Entry bank.** 128 × 2 (seed 969001).
+- **Actual-arrival bank** (`experiments/a4/arrival-v1.json`), frozen before any A4 run:
+  - Sources: the calibration BC policies rho 0.2 / 8k, seeds 67-69.
+  - Donor i goes to source i mod 3, with one sampled attempt per donor on a4_donor K=3, collect seed 979500.
+  - The complete snapshot is taken at the first crossing.
+  - Kept: crossings with at least 1 remaining step, the first 96 in donor order.
+  - All 512 donors run. A shortfall is reported, and nothing is re-collected.
+  - Evaluated × 2 with seed 969002.
+- P1 is primary. C4 and R4 are not computed from two attempts.
+
+**D. Statistics** (`tools/analyze_a4.py`, frozen; synthetic test `tests/test_analyze_a4.py`).
+- **H1.** d_i = P1(C, 1,001,472) − P1(A, 1,001,472). Two-sided paired t at alpha 0.05 with a 95% interval, n = 20.
+  The decision is "supported" if the interval excludes 0.
+- **H2, gated.** Only if H1 is supported: g_i = d_i(1,001,472) − d_i(251,904), two-sided paired t at alpha 0.05. An
+  increasing benefit is called supported only if H1 is positive and H2 is supported and positive. Otherwise the
+  change across time is descriptive.
+- **Sensitivity** (not decision rules):
+  - crossed seed × layout bootstrap: 10,000 replicates, RNG 20261104, layouts resampled jointly for all seeds and
+    arms;
+  - layouts-only bootstrap;
+  - exact sign-flip over 2^20 patterns.
+- The 95% interval is reported against 0, ±0.03 and ±0.05. The analysis uses A4 data only, with no pooling.
+- **Secondary and descriptive measures, at each endpoint:**
+  - p, q and r (missing when there is no arrival);
+  - entry-bank and arrival-bank competence, and their changes from pi0 and the probe on the same states;
+  - arrival timing and inventory;
+  - the per-seed decomposition (not mediation; bank competence is never used for r);
+  - training anchor KL, applied penalty, update size, suffix visitation and successful-return exposure, by interval;
+  - descriptive pattern labels from section 8. No single pattern is taken as an explanation.
+- **Cohort profile.** BC-evaluation targets per seed, and pi0/probe q, entry and arrival competence. If the cohort
+  does not reproduce the profile, the study is described as testing the fixed rho 0.2 / 8k procedure.
+- Treatment outcomes stay blinded until 20/20. There is no interim stopping, extension, endpoint substitution or
+  seed selection.
+- Planning scenarios are in `reports/a4/power.md`: for seed SDs of 0.03-0.10, the 95% half-width is 0.014-0.047.
+
+**E. Budget.**
+- 70,000,000 actions from ledger 255,665,568. Earlier allowances are not carried over.
+- Driver `tools/run_program4.py`. Before each batch, the worst-case conservative cost of this batch, plus every other
+  incomplete required batch, plus 0.3M audit, must fit in 70M.
+- Conservative costs are hard bounds: every evaluation attempt runs to its time limit.
+- Planned worst case: about 61.8M with the real role limits (64.4M with every limit at 157). Expected: about 59.5M.
+  The remaining protection is about 8M worst case and about 10.5M expected.
+- Failures and retries consume the protection. If the fixed study no longer fits, the driver stops and the problem
+  is reported. Seeds are never dropped.
+
+**F. Battery and recovery.**
+- **Rule.** Execution stops at 31% or lower, also on AC.
+- **Guard** (`tools/battery_guard.py`).
+  - Polls `pmset` every 15 s.
+  - A failed reading sets an admission hold; after 8 consecutive failures it triggers a pause.
+  - It pauses early when the discharge rate over the last 15 minutes predicts 31% or lower within 300 s.
+  - At a pause it writes the persistent `.mae/monitor/BATTERY_PAUSE.json` and writes STOP into a running batch with
+    verified identity.
+- **Stop sequence.** The runner sends SIGTERM to the job. The branch saves `recovery.pt`, writes `paused.json` and
+  exits 75 at the next update boundary. After a 10 s grace the runner kills anything left.
+- **Admission.** The driver and every job check admission at start. The driver also requires a live guard with a
+  fresh "ok" status.
+- **Restart.** The flag is never cleared by code. Work resumes only on the owner's explicit instruction: the agent
+  removes the flag, then `tools/make_resume_a4.py` writes resume batches.
+- **Resume.** Exact resume from the latest valid state, verified by the smoke test. BC and probe jobs rerun from
+  their complete inputs under a new batch. Interrupted records are kept and counted.
+- **Completion** requires the full allowance and all endpoint artifacts across the lineage, never an exit code alone.
+
+**G. Reporting.**
+- `tools/verify_a4.py` gives an independent recomputation.
+- Required content: all 20 paired seeds, inference and layout sensitivity, the gated time comparison, cohort
+  stability, planner-entry versus arrival-bank competence, decomposition limits, costs, interruptions and one
+  decisive recommendation.
+- No automatic extension or added seeds.

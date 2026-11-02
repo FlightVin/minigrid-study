@@ -1,0 +1,77 @@
+{
+ "jobs": [
+  {
+   "id": "a4-bc-s87",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.bc",
+    "--config",
+    "experiments/a4/bc-a4.json",
+    "--seed",
+    "87"
+   ]
+  },
+  {
+   "id": "a4-probe-K3-s87",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "probe",
+    "--config",
+    "experiments/a4/a4-v1.json",
+    "--K",
+    "3",
+    "--bc-run",
+    "@/a4-bc-s87",
+    "--bc-update",
+    "8000",
+    "--seed",
+    "87"
+   ]
+  },
+  {
+   "id": "a4-K3-s87-01s",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/a4/a4-v1.json",
+    "--probe-run",
+    "@/a4-probe-K3-s87",
+    "--arm",
+    "01s"
+   ]
+  },
+  {
+   "id": "a4-K3-s87-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/a4/a4-v1.json",
+    "--probe-run",
+    "@/a4-probe-K3-s87",
+    "--arm",
+    "00"
+   ]
+  }
+ ]
+}

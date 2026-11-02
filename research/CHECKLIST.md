@@ -150,3 +150,23 @@ Dependencies: each line needs the lines above it unless marked (parallel-safe: d
 - [x] Consolidated report (closed / A3 confirmatory / secondary / calibration / pilot / remaining hypotheses);
       FINDINGS; review; commit + push
 - [x] Stop owned monitors by verified identity only when the programme is complete
+
+## Programme 2026-11-01c (A4; PROTOCOL_FREEZE Amendment 6; 70M from 255,665,568)
+
+- [x] Instruction recorded verbatim (harness `d8155d4`); active battery rule set to 31% or lower (STATE, project.md
+      note; tools/battery_watch.py and every "below 20%" record are historical)
+- [x] Interpretation corrections (F23; REPORT marked "corrected 2026-11-01c")
+- [x] Battery guard, job/driver admission, checkpoint-and-pause, recovery states, resume tool; tests on simulated
+      readings (32/31/30%, AC, missing) and pause/resume smoke (local)
+- [x] Data r4-v1 config, entry bank, arrival-bank job, A4 configs, batches, driver, frozen analysis, verifier,
+      planning scenarios; DECISIONS, Amendment 6, STATE
+- [ ] Commit; verify no duplicate monitors; start battery guard; review cron
+- [ ] Data r4-v1 (runner) -> `tools/data_gate_r4.py` (stop on failure)
+- [ ] Arrival bank (runner); record counts / shortfall; freeze its hash; recompute conservative costs (driver)
+- [ ] Tests batch (full suite + RL smoke + pause smoke)
+- [ ] Canary seed 70 -> `tools/a4_canary_check.py` (no outcomes)
+- [ ] Seeds 71-89 (watcher; reviews every 2 h; battery rule)
+- [ ] Cohort profile (pi0/probe/BC targets) reported
+- [ ] Analysis `tools/analyze_a4.py --check-states` at 20/20; `tools/verify_a4.py`; figures
+- [ ] Final tests (p4-tests); cost reconciliation; FINDINGS; REPORT section S; recommendation; commit + push
+- [ ] Stop owned monitors at completion (or at a battery pause: record resume point, stop, wait)

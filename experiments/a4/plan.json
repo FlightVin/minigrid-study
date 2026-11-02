@@ -1,0 +1,124 @@
+{
+ "batches": [
+  {
+   "file": "experiments/a4/data.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/arrival.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/tests.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/seed-s70.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/seed-s71.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/seed-s72.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/seed-s73.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/seed-s74.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/seed-s75.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/seed-s76.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/seed-s77.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/seed-s78.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/seed-s79.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/seed-s80.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/seed-s81.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/seed-s82.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/seed-s83.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/seed-s84.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/seed-s85.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/seed-s86.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/seed-s87.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/seed-s88.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/seed-s89.batch.json",
+   "study": "a4",
+   "required": true
+  },
+  {
+   "file": "experiments/a4/final-tests.batch.json",
+   "study": "a4",
+   "required": true
+  }
+ ]
+}

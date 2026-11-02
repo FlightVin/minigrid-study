@@ -1,0 +1,61 @@
+{
+  "dataset_id": "r4-v1",
+  "purpose": "A4 calibrated-initialization long-budget study (owner instruction 2026-11-01c; PROTOCOL_FREEZE Amendment 6): every r3-v1 file and role copied unchanged (training data unchanged); new roles a4_select (64; pi0/post-probe normal-start diagnostics), a4_bank (128; planner boundary-entry states, K=3 bank of 128 entry states, original remaining time), a4_final (256; final normal-start evaluation, 256 K=3 layouts x 2 attempts) and a4_donor (512; donor layouts for the fixed actual-arrival bank). Matched K=1/K=3 layouts are planned as before; only K=3 is used.",
+  "base_dataset": "r3-v1",
+  "Ks": [
+    1,
+    3
+  ],
+  "prefix_slack": 24,
+  "suffix_allowance": 80,
+  "registry_counts": {
+    "bc_train": 450,
+    "bc_val": 50,
+    "rl_train": 2048,
+    "reset_donor": 256,
+    "anchor_donor": 256,
+    "dev_eval": 32,
+    "dev_bank": 64,
+    "conf_select": 64,
+    "conf_bank": 64,
+    "conf_final": 64,
+    "r1_select": 64,
+    "r1_bank": 64,
+    "r1_final": 128,
+    "r2_select": 64,
+    "r2_bank": 64,
+    "r2_final": 128,
+    "a3_select": 64,
+    "a3_bank": 64,
+    "a3_final": 128,
+    "pl_select": 64,
+    "pl_bank": 64,
+    "pl_final": 64,
+    "a4_select": 64,
+    "a4_bank": 128,
+    "a4_final": 256,
+    "a4_donor": 512
+  },
+  "generate_roles": [
+    "a4_select",
+    "a4_bank",
+    "a4_final",
+    "a4_donor"
+  ],
+  "trajectory_roles": [
+    "a4_bank"
+  ],
+  "bank_roles": [
+    "a4_bank"
+  ],
+  "bank_size": 64,
+  "bank_spec": {
+    "a4_bank": {
+      "bins": "entry",
+      "size": 128,
+      "Ks": [
+        3
+      ]
+    }
+  }
+}

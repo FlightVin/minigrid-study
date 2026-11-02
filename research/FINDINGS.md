@@ -902,3 +902,19 @@ Normal-start P1 (arm means; contrasts with 95% t, df 2):
 - The 12M protected reserve was not used.
 - Every batch was under its conservative cost: A3 seeds about 0.92, pilot about 0.84.
 - No failures, retries or exclusions. Final suite 289 passed, 3 skipped.
+
+## F23 — Interpretation corrections (2026-11-01c; owner instruction section 3; before A4)
+
+No result, interval or verdict changes. Wording corrected in REPORT (headline and section Q, marked
+"corrected 2026-11-01c"); F19-F22 stay as written and are read with these corrections.
+- **A3 H1 (F19).** The prespecified result stays "supported": +0.0106 [+0.0019, +0.0193]. That t-interval is
+  conditional on the evaluated panel of 128 a3_final layouts. Under broader layout uncertainty the crossed seed x
+  layout bootstrap [-0.0014, +0.0235] includes 0, so the effect is not resolved for new layout panels.
+- **Allocation (F19, F22).** "The state restriction is not needed" and similar categorical wording are replaced by:
+  no superiority of the suffix restriction over the full or 0.75x mixed penalty was demonstrated at the tested
+  strengths (C-D, C-E within about ±0.01). The prefix-only arm (B) was a weak manipulation.
+- **K1 in the pilot (F21).** Access was at its ceiling (q about 1), not success: P1 about 0.71 leaves room.
+- **Pilot competence (F21).** Fixed-bank boundary-entry competence improved without a resolved normal-start effect.
+  This does not establish that transfer will occur with more training. A4 tests that possibility.
+- **Decomposition (F19, F22).** The access/completion split is descriptive. "Acts mainly through completion after
+  arrival" is replaced by "most of the difference fell in the completion term"; no causal attribution to a skill.

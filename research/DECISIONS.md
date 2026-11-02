@@ -497,3 +497,35 @@ superseded limits. Reconciliation with the evidence and the decisions taken:
   - Battery was 59% at launch, with an expected drain of about 9 points.
   - The analysis (`tools/analyze_pilot.py`) and the figure code were committed before any pilot run. The pilot is
     exploratory, with no retuning.
+
+## 2026-11-01c — Owner programme: A4 calibrated long-budget study; battery rule 31% (PROTOCOL_FREEZE Amendment 6)
+
+- **Instruction.** Recorded verbatim in project.md (harness `d8155d4`). It supersedes the 2026-11-01b completion state
+  and every earlier "below 20%" battery rule; those records are historical. Completed-study verdicts are preserved.
+- **Budget.** 70,000,000 actions from ledger total 255,665,568 (= 158,314,282 + 97,351,286; nothing ran in between).
+  Earlier unused allowances are not carried over.
+- **Plan.**
+  - Worst case: about 61.8M. This is a hard bound in which every evaluation attempt runs to its time limit; it is
+    64.4M with every limit at 157.
+  - Expected: about 59.5M.
+  - Protection left: about 8M worst case and about 10.5M expected, close to the requested 8M. The driver admits a
+    batch only if the remaining fixed study still fits in the worst case.
+- **Delegated design choices.** All were fixed before any A4 run.
+  - **Arrival-bank cap: 96 states × 2 attempts.** "Modest" in the instruction's sense, and it keeps the protection
+    near 8M. 512 donors × 1 attempt is about 100 expected arrivals at the calibration K3 access of about 0.2.
+  - **Arrival-bank sources and assignment:** the three calibration BC policies, round-robin, so no policy is
+    selected by outcome.
+  - **min_remaining 1:** a state needs time left to be evaluated.
+  - **BC evaluation:** one checkpoint, identical to the calibration evaluation, so cohort stability is directly
+    comparable with F20 at about 80k actions per seed.
+  - **Recovery interval: 100,352 actions** (49 rollouts, about 45 s of training). It bounds lost work. 501,760 is
+    also a multiple.
+  - **Guard settings:** 15 s polling, a 300 s horizon for the early pause, and escalation after 8 unavailable
+    readings.
+  - **Eval seeds:** 969000, 969001 and 969002 are new; collection seed 979500.
+  - **Branch order:** alternating by seed.
+- **Unchanged components.** The task, architecture, reward, horizon, PPO settings, critic preparation, probe, anchor
+  data and estimator are unchanged. There are no resets, stronger penalties or new BC variants. Online training is
+  K=3 only, and BC stays joint.
+- **Interpretation corrections.** Section 3 of the instruction is applied in F23 and REPORT, marked "corrected
+  2026-11-01c". No numbers changed.

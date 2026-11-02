@@ -199,3 +199,44 @@ The watcher then reported the previous batch; it was restarted after the new bat
 - Tests: `tests/test_ppo.py` (+4: coefficients, fixed-state value/gradient additivity and scaling, exact expected
   penalty, diagnostics leave training bitwise unchanged), `tests/test_bc_sampler.py` (2), `tests/test_analyze_a3.py`
   (6), `tests/test_analyze_cal.py` (2). Local full suite: 288 passed, 3 skipped (actions recorded by the ledger).
+
+## 2026-11-01c — A4 engineering (battery 31%, checkpoint-and-pause, banks, driver, analysis)
+
+- `src/bc2rl/battery.py`: implements the 31%-inclusive rule.
+  - `pmset` parsing; a failed reading returns None (never assumes charge).
+  - A rate-based early pause.
+  - The persistent pause flag and the admission hold.
+  - Job admission: `require_admission` exits 75 when refused.
+- `tools/battery_guard.py`: polls every 15 s and writes status atomically. At a pause it sets the flag and writes
+  STOP into a running batch, after verifying its identity. It replaces `tools/battery_watch.py` (20%, historical).
+- `src/bc2rl/rl.py`:
+  - Admission check at start.
+  - `recovery_every` keeps only the latest `recovery.pt` and deletes it at completion.
+  - SIGTERM requests checkpoint-and-pause: at the next update boundary the job saves the state, writes
+    `paused.json` and exits 75, and writes no summary.
+  - `extra_banks` adds evaluation on the arrival bank (kind `bank_extra`).
+  - Bank bins are restricted to bins that are present.
+  - Attempt files and branch summaries are written atomically.
+  - Test hook `BC2RL_TEST_SIGTERM_AT`.
+- `src/bc2rl/bc.py`: admission check at start.
+- `src/bc2rl/data.py`: `bank_spec` builds an entry-only bank per K with no cross-K matching.
+- `src/bc2rl/splits.py`: new roles a4_select, a4_bank, a4_final and a4_donor (namespaces 124-127).
+- `src/bc2rl/arrival_bank.py`: fixed actual-arrival bank job (frozen rule; outcome never used).
+- Tools:
+  - `tools/run_program4.py`: driver with battery and budget admission and strict completion.
+  - `tools/data_gate_r4.py`, `tools/a4_canary_check.py`, `tools/make_resume_a4.py`.
+  - `tools/analyze_a4.py`, frozen.
+  - `tools/verify_a4.py`, independent.
+  - `tools/power_a4.py`.
+- Tests:
+  - `tests/test_battery.py` (15): simulated 32/31/30%, AC, missing readings, rate, persistence, STOP identity,
+    admission, driver paused status.
+  - `tests/test_pause_smoke.py` (3, opt-in):
+    - SIGTERM at 1,280 gives exit 75, a hashed `recovery.pt` and no summary;
+    - ledger partial accounting equals the step records;
+    - the resume reproduces the uninterrupted endpoint state hash and attempts exactly;
+    - a flag blocks admission;
+    - arrival capture restores with the original clock.
+  - `tests/test_analyze_a4.py` (2): synthetic lineage with a paused and resumed branch, blinding, H2 gating and the
+    decomposition identity.
+- Local runs: default suite 304 passed, 6 skipped. Pause smoke 3/3 (unmanaged actions, counted by the ledger).

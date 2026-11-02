@@ -1,0 +1,17 @@
+{
+ "jobs": [
+  {
+   "id": "a4-arrival-v1",
+   "cpu_threads": 1,
+   "memory_gb": 2,
+   "device": "cpu",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.arrival_bank",
+    "--config",
+    "experiments/a4/arrival-v1.json"
+   ]
+  }
+ ]
+}

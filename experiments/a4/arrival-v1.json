@@ -1,0 +1,25 @@
+{
+ "purpose": "A4 fixed actual-arrival bank (owner instruction 2026-11-01c, section 6; PROTOCOL_FREEZE Amendment 6). Sources: the calibration development BC policies rho 0.2 / 8000 updates, seeds 67, 68, 69 (existing; not selected by any A4 outcome). Donors: a4_donor K=3 layouts in role order; donor i -> source i mod 3; one sampled attempt per donor; the complete snapshot at the first boundary crossing; keep crossings with >= 1 remaining step, first 96 in donor order; never selected by eventual success. All 512 donors run; a shortfall is reported, never re-collected.",
+ "dataset_id": "r4-v1",
+ "donor_role": "a4_donor",
+ "K": 3,
+ "n_donors": 512,
+ "collect_seed": 979500,
+ "cap": 96,
+ "min_remaining": 1,
+ "out": "data/a4-arrival-v1",
+ "sources": [
+  {
+   "run": "20261101T212138-79498/cal-bc-p2-s67",
+   "update": 8000
+  },
+  {
+   "run": "20261101T212609-80088/cal-bc-p2-s68",
+   "update": 8000
+  },
+  {
+   "run": "20261101T212943-80369/cal-bc-p2-s69",
+   "update": 8000
+  }
+ ]
+}

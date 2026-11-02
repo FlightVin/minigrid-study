@@ -9,12 +9,19 @@ are marked in section P. Earlier sections are kept as written.
 
 **Programme 2026-11-01b (section Q):** on 24 fresh paired seeds (K=3, early BC), preserving the BC policy only on
 post-boundary (suffix) states raised normal-start success at 251,904 actions by +0.0106 (95% t [+0.0019, +0.0193],
-p 0.019; prespecified test supported; the crossed seed x layout bootstrap [-0.0014, +0.0235] includes 0). The gain
-persisted at 501,760 (+0.016, descriptive) and came mainly from completion after arrival. The full mixed penalty and a
-0.75x mixed penalty did as well (gate tests C-D and C-E not supported; both within about ±0.01). The state restriction
-is therefore not needed in this regime. A calibrated initialization with high boundary competence and low K=3
-access exists (rho 0.2, 8,000 updates). In it, resets and suffix preservation raised K=3 boundary-entry competence but
-did not detectably change normal-start success (3-seed pilot). A per-condition selector is not justified.
+p 0.019; prespecified test supported). The t-interval is conditional on the evaluated panel of 128 layouts. Under broader
+layout uncertainty, the crossed seed x layout bootstrap [-0.0014, +0.0235] includes 0, so the effect is not resolved
+there. The difference persisted at 501,760 (+0.016, descriptive); most of it fell in the completion term of the
+descriptive access/completion decomposition, which is not a causal attribution to a skill. The full mixed penalty and a
+0.75x mixed penalty gave similar estimates (gate tests C-D and C-E not supported; both within about ±0.01): no
+superiority of the suffix restriction was demonstrated at the tested strengths, and the prefix-only arm was a weak
+manipulation. A calibrated initialization with high boundary competence and low K=3 access exists on three-seed means
+(rho 0.2, 8,000 updates; fragile). In it, resets and suffix preservation raised K=3 fixed-bank boundary-entry
+competence without a resolved normal-start effect (3-seed pilot); that does not establish that transfer will occur
+with more training. A per-condition selector is not justified. (Corrected 2026-11-01c; owner instruction section 3.)
+**Programme 2026-11-01c (section S, running):** A4 tests, on 20 fresh seeds, whether suffix preservation improves
+normal-start success after 1,001,472 actions in the calibrated K=3 initialization, and whether the benefit grows
+relative to 251,904.
 
 **Programme 2026-11-01 (section P):** the R2 20-seed replication gave +0.0097 [-0.0035, +0.0229], p 0.142:
 not supported; the K=3/early-BC preservation effect did not replicate at the M4 or R1 size. The paragraphs below
@@ -53,7 +60,8 @@ result is affected.
 - **H1, C-A at 251,904:** +0.0106 [+0.0019, +0.0193], p 0.019, 17/24 positive, exact sign-flip p 0.014.
   **Supported.**
   - Arm means were 0.066 (A) and 0.076 (C).
-  - The crossed bootstrap includes 0, so the support is modest once layout-panel uncertainty is included.
+  - The t-interval is conditional on the evaluated panel. The crossed bootstrap includes 0, so the effect is not
+    resolved under broader layout uncertainty (corrected 2026-11-01c).
 - **Gate (Holm):** C-D +0.0007 [-0.0079, +0.0093] and C-E -0.0003 [-0.0101, +0.0094]. **Neither supported.**
 - **Secondary (descriptive):**
   - B-A was about 0 at both endpoints. B is a weak manipulation: its prefix KL was barely reduced.
@@ -74,18 +82,22 @@ More prefix sampling bought access at the cost of boundary-entry competence. The
 meets every target on its own, and K1 has little room. Figure: `reports/cal/access_entry.svg`.
 
 ### Q4. Calibrated-regime pilot (F21; exploratory; 3 seeds; never pooled with normal access)
-- **K1:** at a ceiling. q was about 1 and P1 about 0.71 in every arm.
+- **K1:** access was at its ceiling (q about 1); success was not (P1 about 0.71 in every arm leaves room). Interventions
+  that act on access have little to change in K1 (corrected 2026-11-01c).
 - **K3:** normal-start P1 was 0.240 (00), 0.241 (10), 0.242 (01s) and 0.255 (11s). The intervals were about ±0.08.
 - **K3 bank boundary-entry competence:** 0.500 (00), 0.586 (10), 0.633 (01s), 0.599 (11s). 01s-00 was +0.133, with
-  3/3 seeds positive.
+  3/3 seeds positive. Fixed-bank competence improved without a resolved normal-start effect. This does not establish
+  that transfer to normal-start success will occur with more training; A4 tests that possibility (corrected 2026-11-01c).
 - **RQ2 hindsight headroom:** +0.0065 in-sample.
 - Figure: `reports/pilot/contrasts.svg`.
 
 ### Q5. Synthesis
 See F22 for the full list. In short:
-- **Objective 1:** suffix-only preservation gives a small, persistent improvement. It acts through completion after
-  arrival.
-- **Objectives 2-3:** where the penalty is placed and its strength in the tested range made no measurable difference.
+- **Objective 1:** suffix-only preservation gave a small improvement, supported by the prespecified test conditional on
+  the evaluated panel and not resolved under the crossed layout bootstrap. Descriptively, most of it fell in the
+  completion term; that is not a causal attribution (corrected 2026-11-01c).
+- **Objectives 2-3:** no superiority of the suffix restriction over the full or 0.75x mixed penalty was demonstrated
+  at the tested strengths; the prefix-only arm was weak (corrected 2026-11-01c).
   The 3-seed E2 pattern was not reproduced.
 - **Objective 4:** the gain persisted at 500k.
 - **Objective 5:** a high-competence, low-access initialization can be built, but only fragilely.
@@ -93,7 +105,8 @@ See F22 for the full list. In short:
   both preserved boundary competence.
 - **RQ2:** there is no basis for condition-adaptive selection.
 - **Novelty:** state-selective retention is known (Wolczyk et al. 2024). The contribution is a controlled, adequately
-  powered allocation test in one task family, which finds the restriction unnecessary at these strengths.
+  powered allocation test in one task family, which did not demonstrate an advantage of the restriction at these
+  strengths (corrected 2026-11-01c).
 
 ### Q6. Verification, costs and deviations
 - **Verification:** `tools/verify_program2.py` recomputes every reported number from the raw attempt records with its
@@ -111,11 +124,12 @@ See F22 for the full list. In short:
 **Stop new training on this question and write up the A3 result with its stated scope.**
 - In this K=3 early-BC regime, a forward-KL anchor to the BC policy on stored demonstration states gives about +1
   point of normal-start success at 250k, rising to about +1.6 at 500k.
-- The anchor can be applied to all stored states. Restricting it to suffix states is not needed.
+- No superiority of restricting the anchor to suffix states was demonstrated at the tested strengths; the full
+  mixed anchor gave a similar estimate (corrected 2026-11-01c).
 - Do not train a selector.
 - Do not replicate automatically.
 
-If the owner funds one more study, the most informative one asks whether the K3 gain in boundary-entry competence from
+The owner funded this study on 2026-11-01c (section S). As written then: if the owner funds one more study, the most informative one asks whether the K3 gain in boundary-entry competence from
 suffix preservation becomes normal-start success with a longer budget in the calibrated regime. That would need
 pre-registration and at least 16 seeds, because the pilot intervals are about ±0.08.
 

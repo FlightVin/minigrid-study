@@ -10,6 +10,10 @@ Outputs under $MAE_PROJECT/data/<dataset_id>/:
   manifest.json           config, registry hash, counts, SHA-256 of every file
 A copy of manifest.json goes to $MAE_RUN_DIR.
 
+Optional "bank_spec" (owner instruction 2026-11-01c): {role: {"bins": "entry", "size": n, "Ks": [3]}} builds that
+role's competence bank from boundary-entry states only (the first state after the planner's crossing, original
+remaining time), for the listed Ks, from the first n donors in role order. No progress mixing; no cross-K matching.
+
 Optional "base_dataset": every file and layout role of data/<base_dataset> is copied unchanged, and only
 generate_roles are planned. The registry is still built from all registry_counts, so new roles (later in
 splits.ROLE_ORDER) are checked against every earlier role; the base roles' registry entries must be identical.
@@ -159,12 +163,15 @@ def main():
         bank_counts = {}
         for role in cfg["bank_roles"]:
             bank = {}
-            for K in cfg["Ks"]:
+            spec = cfg.get("bank_spec", {}).get(role)
+            for K in (spec["Ks"] if spec else cfg["Ks"]):
                 donors = [it for it in layouts[role] if it["layout"]["K"] == K]
                 d = np.load(out / f"traj_{role}.npz")
                 snaps = []
-                for i, it in enumerate(donors[:cfg["bank_size"]]):
-                    b = bin_of_index(i)
+                size = spec["size"] if spec else cfg["bank_size"]
+                assert len(donors) >= size, f"{role} K={K}: {len(donors)} planned donors < bank size {size}"
+                for i, it in enumerate(donors[:size]):
+                    b = "entry" if spec else bin_of_index(i)
                     t = competence_choice(it["tau"], it["pickup_t"], it["length"], b, it["planner_seed"])
                     rows = np.nonzero(d["traj"] == it["traj_index"])[0]
                     r = rows[t]
@@ -177,7 +184,7 @@ def main():
                 bank_counts[f"{role}/K{K}"] = {b: sum(s["bin"] == b for s in snaps) for b in BINS}
             # Matched across K by construction: same donor, bin, suffix offset and remaining time.
             keys = lambda s: (s["bin"], s["donor_seed"], s["suffix_offset"], s["remaining"])
-            for K in cfg["Ks"][1:]:
+            for K in ([] if spec else cfg["Ks"][1:]):
                 assert [keys(s) for s in bank[str(K)]] == [keys(s) for s in bank[str(cfg["Ks"][0])]], "bank not matched"
             (out / f"bank_competence_{role}.json").write_text(json.dumps(bank))
 

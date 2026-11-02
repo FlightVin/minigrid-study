@@ -20,6 +20,7 @@ import time
 import numpy as np
 import torch
 
+from bc2rl import battery as BAT
 from bc2rl import evaluate as E
 from bc2rl import model as M
 from bc2rl import task as T
@@ -100,6 +101,7 @@ def main():
     ap.add_argument("--seed", type=int, required=True)
     a = ap.parse_args()
     cfg = json.loads(Path(a.config).read_text())
+    BAT.require_admission("bc")
     threads = int(os.environ.get("OMP_NUM_THREADS", "1"))
     torch.set_num_threads(threads)
     torch.set_num_interop_threads(1)

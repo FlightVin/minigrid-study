@@ -1,4 +1,5 @@
-"""Battery watch (owner instructions 2026-10-31 and 2026-11-01): check every 5 minutes; below 20%, stop any running
+"""HISTORICAL; superseded on 2026-11-01c by tools/battery_guard.py (stop at 31% or lower, 15 s polling). Do not run.
+Battery watch (owner instructions 2026-10-31 and 2026-11-01): check every 5 minutes; below 20%, stop any running
 mae batch (STOP file), write .mae/monitor/battery_low.flag and exit 2 so the agent ends execution.
 Run as a managed background task: .venv/bin/python -I tools/battery_watch.py >> .mae/monitor/battery_watch.log"""
 import json

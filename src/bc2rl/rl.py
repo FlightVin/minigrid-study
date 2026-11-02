@@ -18,6 +18,15 @@ Optional config keys (absent in M3 configs, so earlier runs are unchanged):
       (default: eval_role); "endpoint": true counts an earlier point as eval_final (a second endpoint).
   save_state_at: [actions, ...]  complete learner state (actor, critic, both optimizers, all RNGs,
       sampler streams, in-flight environments, counters) + pi0, hashed, as state_<actions>.pt.
+  recovery_every: n  (owner instruction 2026-11-01c) also save the same complete state as recovery.pt (atomic
+      replace; only the latest is kept) every n post-probe actions; removed when the job completes.
+  extra_banks: [{"name": n, "path": p}]  further fixed snapshot banks (list of {"snapshot": ...}; path relative to
+      the project), evaluated with the same bank_attempts on eval_seed + 2 + index; attempt rows kind "bank_extra".
+
+Battery (owner instruction 2026-11-01c; bc2rl.battery): every job checks admission at start and exits 75 without work
+when refused. In scheduled branch/resume jobs SIGTERM (sent by the runner after a STOP) requests checkpoint-and-pause:
+at the next update boundary the job saves recovery.pt, writes paused.json (resume point, hash, actions of this job)
+and exits 75. It never writes summary.json then, so a paused job is never counted as complete.
 
 Paths: --bc-run / --probe-run / --state are relative to $MAE_PROJECT/.mae/runs, or "@/job" for a job
 earlier in the same batch. All evaluation uses the
@@ -29,11 +38,13 @@ import copy
 import json
 import os
 from pathlib import Path
+import signal
 import time
 
 import numpy as np
 import torch
 
+from bc2rl import battery as BAT
 from bc2rl import evaluate as E
 from bc2rl import model as M
 from bc2rl import ppo as PP
@@ -65,6 +76,8 @@ class Ctx:
         # pi0 / post-probe diagnostics may use their own layouts (diag_role); default: the eval role.
         self.diag_layouts = pick(cfg.get("diag_role", cfg["eval_role"]))
         self.bank = json.loads((self.ds / f"bank_competence_{cfg['bank_role']}.json").read_text())[str(K)]
+        self.extra_banks = [(b["name"], json.loads((self.project / b["path"]).read_text())["states"])
+                            for b in cfg.get("extra_banks", [])]
         self.metrics = (self.run_dir / "metrics.jsonl").open("a")
         self.actions = {"critic_warmup": 0, "train": 0, "eval_diagnostic": 0, "eval_final": 0}
         self.compute = {"actor_minibatches": 0, "critic_fit_steps": 0}
@@ -107,17 +120,31 @@ class Ctx:
         snaps = [("snapshot", s["snapshot"]) for s in self.bank]
         bres, n2 = (E.run_attempts(actor, snaps, bank_attempts, self.cfg["eval_seed"] + 1, self.device, heartbeat=self.hb)
                     if bank_attempts else ([], 0))
-        self.actions[role] += n1 + n2
+        extra, n3 = {}, 0
+        for k, (name, states) in enumerate(self.extra_banks):
+            if bank_attempts:
+                xs = [("snapshot", s["snapshot"]) for s in states]
+                xres, nx = E.run_attempts(actor, xs, bank_attempts, self.cfg["eval_seed"] + 2 + k, self.device, heartbeat=self.hb)
+                extra[name] = (xres, len(xs))
+                n3 += nx
+        self.actions[role] += n1 + n2 + n3
+        present = [b for b in ("entry", "retrieval", "carrying") if any(s["bin"] == b for s in self.bank)]
         out = {"tag": tag, "normal": E.summarize(res, len(starts)),
                "bank": E.summarize(bres, len(snaps)) if bres else None,
                "bank_bins": {b: float(np.mean([r["success"] for r in bres if self.bank[r["item"]]["bin"] == b]))
-                             for b in ("entry", "retrieval", "carrying")} if bres else None,
-               "eval_actions": n1 + n2}
-        with (self.run_dir / f"attempts_{tag}.jsonl").open("w") as f:
+                             for b in present} if bres else None,
+               "extra_banks": {n: E.summarize(x, m) for n, (x, m) in extra.items()},
+               "eval_actions": n1 + n2 + n3}
+        tmp = self.run_dir / f"attempts_{tag}.jsonl.tmp"
+        with tmp.open("w") as f:
             for r in res:
                 f.write(json.dumps({"kind": "normal", **r}) + "\n")
             for r in bres:
                 f.write(json.dumps({"kind": "bank", "bin": self.bank[r["item"]]["bin"], **r}) + "\n")
+            for name, (xres, _) in extra.items():
+                for r in xres:
+                    f.write(json.dumps({"kind": "bank_extra", "bank": name, **r}) + "\n")
+        os.replace(tmp, self.run_dir / f"attempts_{tag}.jsonl")
         return out
 
 
@@ -276,8 +303,10 @@ def probe(a, cfg):
         os.replace(tmp, ctx.run_dir / "fork.pt")
     ctx.compute["actor_minibatches"] += learner.counters["actor_minibatches"]
     summary = {"mode": "probe", "K": a.K, "seed": a.seed, "bc_update": a.bc_update, "fork_hash": fork_hash,
-               "pi0": {"p": ev0["normal"]["P1"], "q": ev0["normal"]["q"], "c": ev0["bank"]["P1"], "bins": ev0["bank_bins"]},
-               "probe": {"p": ev1["normal"]["P1"], "q": ev1["normal"]["q"], "c": ev1["bank"]["P1"], "bins": ev1["bank_bins"]},
+               "pi0": {"p": ev0["normal"]["P1"], "q": ev0["normal"]["q"], "c": ev0["bank"]["P1"], "bins": ev0["bank_bins"],
+                       **({"extra_c": {n: v["P1"] for n, v in ev0["extra_banks"].items()}} if ev0["extra_banks"] else {})},
+               "probe": {"p": ev1["normal"]["P1"], "q": ev1["normal"]["q"], "c": ev1["bank"]["P1"], "bins": ev1["bank_bins"],
+                         **({"extra_c": {n: v["P1"] for n, v in ev1["extra_banks"].items()}} if ev1["extra_banks"] else {})},
                "delta_c": ev1["bank"]["P1"] - ev0["bank"]["P1"], "critic_prefit": cdiag, "anchors": anchor_info,
                "actions": ctx.actions, "compute": ctx.compute, "probe_wall_seconds": probe_wall,
                "wall_seconds": time.time() - t0, "counters": learner.counters}
@@ -347,14 +376,22 @@ def branch(a, cfg):
     print(json.dumps({"arm": a.arm, "final": summary["final"]}), flush=True)
 
 
-def save_state(ctx, learner, pi0_state, meta, done):
+def save_state(ctx, learner, pi0_state, meta, done, name=None):
     st = learner.state()
     st["pi0"] = pi0_state
     h = PP.state_hash(st)
-    tmp = ctx.run_dir / f"state_{done}.pt.tmp"
+    name = name or f"state_{done}.pt"
+    tmp = ctx.run_dir / (name + ".tmp")
     torch.save({"state": st, "hash": h, "meta": {**meta, "post_probe_actions": done}}, tmp)
-    os.replace(tmp, ctx.run_dir / f"state_{done}.pt")
+    os.replace(tmp, ctx.run_dir / name)
     return h
+
+
+_SIGTERM = []
+
+
+def _request_pause(sig, frame):
+    _SIGTERM.append(sig)
 
 
 def scheduled(ctx, cfg, learner, pi0_state, meta):
@@ -370,6 +407,10 @@ def scheduled(ctx, cfg, learner, pi0_state, meta):
     since_fork = lambda: learner.counters["env_actions"] - meta["base_actions"]
     start = since_fork()
     evals, states = [], {}
+    rec_every = cfg.get("recovery_every")
+    assert rec_every is None or rec_every % step == 0, "recovery_every must be a rollout multiple"
+    recovery = {}
+    signal.signal(signal.SIGTERM, _request_pause)
     (ctx.run_dir / "config.resolved.json").write_text(json.dumps({**cfg, **{k: v for k, v in meta.items()
         if k != "anchors"}, "device": str(ctx.device), "executed_target": target}, indent=1))
     t0 = time.time()
@@ -386,17 +427,40 @@ def scheduled(ctx, cfg, learner, pi0_state, meta):
                               "C4": ev["normal"].get("C4"), "R4": ev["normal"].get("R4"),
                               "P_success_given_arrival": ev["normal"]["P_success_given_arrival"],
                               "c": ev["bank"]["P1"] if ev["bank"] else None, "bins": ev["bank_bins"],
+                              "extra_c": {n: v["P1"] for n, v in ev["extra_banks"].items()},
                               "attempts": e["attempts"], "bank_attempts": e["bank_attempts"],
                               "layouts": e.get("layouts", "eval"), "endpoint": done == target or bool(e.get("endpoint"))})
             if done in saves:
                 states[done] = save_state(ctx, learner, pi0_state, meta, done)
+            elif rec_every and done % rec_every == 0 and done < target:
+                recovery.update(at=done, hash=save_state(ctx, learner, pi0_state, meta, done, "recovery.pt"))
+            if os.environ.get("BC2RL_TEST_SIGTERM_AT") == str(done):    # test hook: the real signal path, deterministic
+                os.kill(os.getpid(), signal.SIGTERM)
+            if _SIGTERM and done < target:       # checkpoint-and-pause (battery or owner stop); never complete
+                if done in states:
+                    point = {"at": done, "file": f"state_{done}.pt", "hash": states[done]}
+                else:
+                    if recovery.get("at") != done:
+                        recovery.update(at=done, hash=save_state(ctx, learner, pi0_state, meta, done, "recovery.pt"))
+                    point = {"at": done, "file": "recovery.pt", "hash": recovery["hash"]}
+                BAT.write_atomic(ctx.run_dir / "paused.json", {
+                    "status": "paused", "signal": int(_SIGTERM[0]), "resume_point": point, "target": target,
+                    "evals_done": [e["actions"] for e in evals], "states_saved": sorted(states),
+                    "train_actions_this_job": done - start,
+                    "eval_actions_this_job": {k: v for k, v in ctx.actions.items() if k.startswith("eval")},
+                    "resumed_from": meta.get("resumed_from"), "unix": time.time()})
+                ctx.log({"phase": "paused", "post_probe_actions": done})
+                print(json.dumps({"event": "paused", "resume_point": point}), flush=True)
+                raise SystemExit(BAT.PAUSED_EXIT)
         wall = train_loop(ctx, learner, target - start, "branch", on_update=on_update)
     assert since_fork() == target, (since_fork(), target)
     c = learner.counters
     summary = {**meta, "final": next(e for e in evals if e["actions"] == target), "evals": evals,
                "state_hashes": states, "continuation_actions": target, "actions_this_job": ctx.actions,
                "actions": ctx.actions, "counters": c, "train_wall_seconds": wall, "wall_seconds": time.time() - t0}
-    (ctx.run_dir / "summary.json").write_text(json.dumps(summary, indent=1))
+    BAT.write_atomic(ctx.run_dir / "summary.json", summary)
+    if (ctx.run_dir / "recovery.pt").exists():       # the endpoint states supersede it; keep no extra copies
+        (ctx.run_dir / "recovery.pt").unlink()
     print(json.dumps({"arm": meta["arm"], "evals": [(e["actions"], e["P1"], e["c"]) for e in evals]}), flush=True)
 
 
@@ -445,6 +509,7 @@ def main():
     ap.add_argument("--state", help="resume: saved branch state, relative to .mae/runs or @/job/state_<n>.pt")
     a = ap.parse_args()
     cfg = json.loads(Path(a.config).read_text())
+    BAT.require_admission(f"rl {a.mode}")
     if a.alpha is not None:
         cfg["alpha"] = a.alpha
     if a.kl_coef is not None:

@@ -1,0 +1,13 @@
+{
+  "purpose": "A4 BC initialization (owner instruction 2026-11-01c; PROTOCOL_FREEZE Amendment 6): the selected calibration procedure rho 0.2 (prefix count Binomial(128, 0.2) within each K, K-balanced batches, uniform within K x stage), joint conf-v1 dataset unchanged, constant lr, batch 256, architecture unchanged; one checkpoint at 8000 updates (the evaluation at 4000 in calibration used no training randomness); evaluated on bc_val (50 layouts per K x 4) and dev_bank (64 per K x 4) with eval seed 525000, as in calibration, so the cohort is comparable to F20.",
+  "dataset_id": "conf-v1",
+  "lr": 0.0003,
+  "batch_size": 256,
+  "checkpoints": [
+    8000
+  ],
+  "eval_attempts": 4,
+  "bank_attempts": 4,
+  "eval_seed": 525000,
+  "prefix_prob": 0.2
+}
