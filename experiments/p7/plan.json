@@ -53,6 +53,18 @@
    "study": "dev",
    "category": "scientific",
    "required": true
+  },
+  {
+   "file": "experiments/p7/verify.batch.json",
+   "study": "verify",
+   "category": "reserve",
+   "required": true
+  },
+  {
+   "file": "experiments/p7/final-tests.batch.json",
+   "study": "final",
+   "category": "reserve",
+   "required": true
   }
  ]
 }
