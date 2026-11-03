@@ -456,3 +456,28 @@ cal-s67..69 -> `tools/analyze_cal.py` -> pilot batch files via `make_batches.py 
 - **Tuning drift?** No. The analysis rules were frozen, every condition is reported, and post hoc contrasts are
   labelled.
 - **Continue, simplify or stop?** Stop under this authorization.
+
+## 2026-11-02c 22:10 EST (03:10 UTC 2026-11-03) — review at the development gate (Amendment 9)
+
+- **Evidence changed.** All 18 development branches (seeds 116-121 × A, R, C) completed with integrity. At 501,760
+  actions on r7_dev (64 layouts × 4 attempts): A 0.191, R 0.195, C 0.080. C − A = −0.111 (95% t over seeds
+  [−0.136, −0.086], 0/6 positive). R − A = +0.004 ([−0.067, +0.075], 3/6). C − R = −0.115 (1/6). The frozen gate
+  selects no arm. The independent recomputation (tools/verify_p7.py gate) agrees.
+- **Uncertainty.** Six seeds, one evaluation panel. The negative sign of C − A is consistent in all six seeds and at
+  both evaluation points. The R − A interval is wide and includes zero. The intervals are descriptive; the gate is a
+  spending rule, not a test.
+- **Fairness of controls.** A, R and C fork from the same probe state (fork hashes recorded). R7 matched C7's
+  per-update example count exactly in every seed. Coefficient, schedule and minibatch split are the same for R and
+  C. Behaviour records are unchanged in both. No tuning of lambda.
+- **Privileges and costs.** C used 68,747-70,865 planner queries per branch (cap 75,000; never reached), 13-20 s of
+  planner time and about 30 s more wall time than A. Labels came from the current rollout only. Recovery-bank labels
+  and confirmation layouts were not used for training.
+- **Match to the frozen procedure.** Yes. Label failures (time_exceeded, no plan) gave no label; there were no fallback
+  labels and 0 observation conflicts. One documented abstraction gap (ties through obstacle pickups) remains.
+- **Observations, not tested.** C raised policy entropy from about 0.4 to 0.8-0.9. About one third of C's labels are
+  tie sets of 2-4 actions with uniform targets. C reduced locked-door toggles (2.6 vs 17.3 per episode) and no-ops
+  (13.9 vs 49.7) but lowered boundary reach (0.289 vs 0.417) and completion after arrival (0.277 vs 0.457). Recovery-bank
+  label mass rose slightly for C (0.675 vs 0.647). These are candidate mechanisms only.
+- **Next batch justified?** No scientific batch. The frozen rule says to stop and write up development. Only the
+  reserve items remain: the evaluation replay check (36 episodes) and the final test run.
+- **Decision.** Stop scientific spending. Run reserve verification, then write up.
