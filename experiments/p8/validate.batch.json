@@ -1,0 +1,18 @@
+{
+ "jobs": [
+  {
+   "id": "p8-validate",
+   "cpu_threads": 1,
+   "memory_gb": 4,
+   "device": "cpu",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.capability",
+    "validate",
+    "--config",
+    "experiments/p8/validate-v1.json"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,39 @@
+{
+ "batches": [
+  {
+   "file": "experiments/p8/tests.batch.json",
+   "kind": "actions",
+   "required": true
+  },
+  {
+   "file": "experiments/p8/collect.batch.json",
+   "kind": "actions",
+   "required": true
+  },
+  {
+   "file": "experiments/p8/validate.batch.json",
+   "kind": "actions",
+   "required": true
+  },
+  {
+   "file": "experiments/p8/tiny.batch.json",
+   "kind": "fit",
+   "required": true
+  },
+  {
+   "file": "experiments/p8/fits.batch.json",
+   "kind": "fit",
+   "required": true
+  },
+  {
+   "file": "experiments/p8/test.batch.json",
+   "kind": "fit",
+   "required": true
+  },
+  {
+   "file": "experiments/p8/rollout.batch.json",
+   "kind": "actions",
+   "required": true
+  }
+ ]
+}

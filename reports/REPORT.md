@@ -123,7 +123,8 @@ ordinary PPO (A), and do they add value beyond replay of the original prefix dem
 - C > A is not supported; the development evidence points the other way in every seed. C > R is not supported.
 - R ≈ A is unresolved; the interval is wide, and similar results do not prove equivalence.
 - Candidate mechanisms (post hoc, not separated): entropy increase from uniform tie labels and imperfect label fit
-  (CE about 1.1); interference outside the supervised region (completion after arrival fell without suffix labels);
+  (CE about 1.1; [corrected 2026-11-03: 0.87 nats above the 0.244 tie-entropy floor, on fresh rollout examples;
+  `reports/p8/premise_audit.md`]); interference outside the supervised region (completion after arrival fell without suffix labels);
   shortest-path labels that conflict with the learner's rewarded routes.
 - Scope: this fixed procedure only. No novelty claim; the method is a DAgger-style auxiliary loss in PPO.
 

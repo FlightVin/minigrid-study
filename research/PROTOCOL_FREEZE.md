@@ -1197,3 +1197,110 @@ al. 2018). The study tests one fixed instance of their combination at one streng
   and `test_p7_smoke`) 4 passed.
 - Exact conservative bounds: BC 102,432; probe 165,864; development branch 588,344; seed 2,033,328; development
   12.20M; confirmation 45.88M (C) or 32.37M (R); planned worst case with C 59.26M.
+
+### Amendment 10 — 2026-11-03 (in force): final actor capability audit (owner instruction 2026-11-03)
+
+Frozen before any audit state is collected. The audit qualifies completed findings. It does not reopen the
+programme: no PPO, no intervention, no selector, no architecture programme. Every completed verdict stands.
+
+**A. Premise audit (done before this freeze; `reports/p8/premise_audit.md`).** The actor observes the full grid
+(type, colour, state incl. door state; agent marker with direction), direction, carried type and colour, and remaining
+time. Three stride-1, padding-1 3 × 3 convolutions without pooling (7 × 7 local receptive field per feature) feed a
+position-preserving flatten (6,048 features + 23 scalars) into one 128-unit dense layer, so the dense layer sees the
+whole grid. Labels are a function of the observation; `accessed` (unobserved) only selects prefix states; the
+original key position (unobserved) is used only by the stratum record. The C7 cross-entropy was 0.87 nats above its
+tie-entropy floor of 0.244. WRITEUP, F33 and REPORT V carry marked corrections.
+
+**B. Budget.** At most 500,000 executed actions from ledger 342,196,148 (tests, collection, label checks, expert
+replay, rollouts, local checks). Fitting compute at most 21,600 s, counted as runner wall time of fit batches.
+Driver `tools/run_program8.py` admits a batch only if spent + its conservative bound + the bounds of all other
+incomplete action batches + 20,000 local allowance ≤ 500,000, and (fit batches) fit seconds + bound ≤ 21,600. Battery
+rule unchanged (31% or lower stops, also on AC; persistent flag; no automatic resume). 2,374 smoke actions that
+bypassed the ledger are added in `research/ledger_adjustments.json`.
+
+**C. States (`bc2rl.capability collect`, `experiments/p8/collect-v1.json`).** Source policies: the 18 frozen
+2026-11-02c development branches (A, C, R of seeds 116-121 at 501,760), inverse-CDF sampling with
+u = rng([20261103, group, episode]). No existing record holds learner states with labels (attempt rows keep traces
+only; C7 saved none), so states are collected; the 480-state recovery bank is reused as a second held-out set.
+- train: positions 0-1535 of a fixed permutation (seed 20261103) of the 2,048 rl_train K=3 layouts, one episode per
+  layout (policy rotation), until 150,000 actions (the running episode finishes);
+- val: positions 1536-2047 of the same permutation, until 35,000 actions;
+- test (final): r7_conf K=3 items 0-63 (never used by any run), three episodes per layout (A, C, R of seed
+  116 + item mod 6).
+Episodes run from normal starts until the first boundary crossing or the deadline, and end early after 32
+consecutive steps without a new configuration in the episode. Every visited prefix state is recorded with the
+planner query, category, stratum, remaining time and relaxed lower bounds.
+- Provenance: rl_train layouts were seen by the collecting policies during PPO training, not by any BC
+  initialisation (BC used bc_train). r7_conf layouts were seen by no run. Structure-hash overlaps are reported.
+
+**D. Validation before fitting (`validate`).**
+1. Every collected state is rebuilt from its observation and layout alone; the planner is re-run; the status and
+   label set must match. Layout reads used by the planner (door rows and colours) must be visible in the grid.
+   Conflicts are counted for identical full observations and for identical configurations at different times
+   (label sets must agree). Zero actions.
+2. `check_label` in the real environment on up to 200 unique labelled training states per stratum (seed 20261106):
+   each label action reduces the shortest plan by one; no other action gives a strictly shorter plan. Reported by
+   stratum (on_track, wrong_key, key_lost = premature key loss, backtracked, all_unlocked) and label action type
+   (turn, forward, pickup, drop = inventory exchange, toggle = door unlock or opening).
+3. Unlabelled states: time_exceeded and unresolved are not certificates. A state is certified impossible when its
+   relaxed lower bound (non-wall cells all passable) exceeds the remaining time (module goal; boundary).
+4. Expert prefix controller (lowest-index label action each step; stops at the first unlabelled state) on the first
+   32 validation layouts from normal starts, original clock. **Gate:** it must cross the boundary on at least 31/32;
+   otherwise labels and controller semantics are investigated before any fit.
+5. Any rebuilt-label mismatch, conflict, or check_label violation outside the documented abstraction limit stops the
+   audit for investigation before fitting.
+
+**E. Dataset (`tools/build_p8_dataset.py`).** Labelled states only. Unit of unique state: configuration (grid,
+pose, inventory; time excluded, because label sets do not depend on time); first labelled occurrence kept with its
+time input; multiplicity recorded. Sizes: N unique training states; S3 = min(N, 200,000); S1 = min(25,000, N // 4);
+S2 = 100,000 if S3 ≥ 150,000 else round(√(S1 · S3), −3); subsets nested by whole layouts in a fixed layout permutation
+(seed 20261104). Tiny set: 512 states (seed 20261105) from the check_label-verified training states. Recovery bank:
+480 states (agreement only). Strata proportions and label sizes and types are reported per split.
+
+**F. Models and loss (`bc2rl.capfit`).** Original actor (CapActor(128) = bc2rl.model.Actor) and one comparison
+actor chosen now: the same encoder with the dense layer widened from 128 to 1,024 units (one change that adds
+global decision capacity after the full-grid flatten). No other architecture is fitted. Loss: −log(sum of
+probabilities over the valid label set), floor 0 (differs from the C7 uniform-target loss; does not revise it).
+
+**G. Tiny-set check.** Original actor from scratch (init seed 7), the 512 tiny states, full batch, Adam, 3,000
+updates, learning rates 3e-4 and 1e-3 only. Logged every 100 updates: set loss, argmax-in-set, mass, gradient norm;
+checks of loss reduction, preprocessing (same logits as the rollout path) and labels. Pass: argmax-in-set ≥ 0.99
+and set loss ≤ 0.05 at 3,000 updates. **Rule:** main lr = 3e-4 if it passes, else 1e-3 if it passes; if neither
+passes, no full-data result may be read as a representation result (the fits may still run, labelled so).
+
+**H. Main fits (15, matched).** Fit seeds 0, 1, 2. Warm original (BC actor_u8000 of p7-bc-s116/117/118 for seeds
+0/1/2) at S1, S2, S3; scratch original and scratch comparison at S3. Adam (lr from G), batch 512, per-epoch
+permutation from torch.Generator(6000 + seed), init seed 5000 + seed, 30,000 updates for every fit. Every 500
+updates: full validation set and a fixed 10,000-row training probe. **Checkpoint selection:** highest validation
+argmax-in-set (ties: earlier). No added training after any result. The final test set is not read by any fit.
+
+**I. Final test (once, after all fits and an addendum with the selected-checkpoint hashes).** `capfit test`: every
+selected checkpoint on the test states and the recovery bank. Metrics per state: argmax-in-set, mass, set loss.
+Reported overall, by stratum, by label action type, for training probe / validation / test, with curves and compute.
+Uncertainty: per-layout means, then the mean over layouts with a 95% layout bootstrap (10,000, seed 20261108);
+fit-seed variation as the per-seed values and their range. Comparisons (scratch 1024 − scratch 128; warm − scratch
+at S3; S3 − S1 warm): per-layout differences of seed means, layout bootstrap, plus per-seed differences.
+
+**J. Rollouts (`rollout`, `experiments/p8/rollout-v1.json`, written after the fits, before the test).** Panel: the 64
+test layouts (r7_conf items 0-63), normal start, original limit and observation processing, no planner, mask, reset
+or hidden input. Controllers (19): the 15 selected fits, the 3 warm-start BC actors (unfitted), and the expert prefix
+controller. Execution rule: deterministic argmax (primary; no stochastic execution). One attempt per layout: under
+argmax on CPU a second attempt is identical; this is verified by a second attempt on the first 8 layouts for two
+controllers. Episodes stop at the first crossing or the deadline. Measures: boundary reach, time to boundary, failure
+category at the deadline (stratum, frontier module), locked toggles, wrong-key pickups, premature key drops, no-ops,
+pose repeats. Uncertainty: layout-level paired bootstrap; per-seed values. This concerns prefix execution only.
+
+**K. Interpretation (owner instruction section 7; no single agreement threshold decides).**
+- Poor tiny-set fit: implementation, labels or optimisation unresolved.
+- Strong training fit, weak fresh-layout fit: generalisation or coverage limits; capacity not uniquely identified.
+- Strong held-out fit, weak rollout access: accumulated errors, distribution shift, execution rule or target adequacy
+  to investigate; the abstraction is not concluded wrong automatically.
+- Original actor performs well under pure supervision: it can learn a useful prefix policy under this data and
+  procedure; this does not identify why PPO plus imitation failed.
+- Comparison actor substantially better under matched conditions: model sensitivity, not proof that architecture
+  caused the earlier nulls.
+- Both fail: inconclusive among the remaining explanations.
+
+**L. Verification.** `tools/verify_p8.py` recomputes the final metrics from the saved checkpoints and dataset with its
+own code (CPU), the rollout summaries from the raw rollout rows, and the action totals from step records. Hashes of
+models, dataset, layouts and code are saved.

@@ -1,0 +1,27 @@
+{
+ "purpose": "Observation sufficiency, conflicts, check_label sample and expert prefix controller (Amendment 10).",
+ "dataset_id": "r7-v1",
+ "data_dir": "data/cap-v1",
+ "groups": [
+  "train",
+  "val",
+  "test"
+ ],
+ "group_roles": {
+  "train": "rl_train",
+  "val": "rl_train",
+  "test": "r7_conf"
+ },
+ "check": {
+  "group": "train",
+  "per_stratum": 200,
+  "seed": 20261106
+ },
+ "expert_panel": {
+  "dataset_id": "r7-v1",
+  "role": "rl_train",
+  "perm_seed": 20261103,
+  "start": 1536,
+  "count": 32
+ }
+}

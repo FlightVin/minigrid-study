@@ -239,3 +239,17 @@ Dependencies: each line needs the lines above it unless marked (parallel-safe: d
 - [x] Negative results, small effects, failed replications, measurement lessons, costs, limitations
 - [x] Reassessment: unresolved premise, deciding observation, smallest test (proposal only)
 - [ ] Offline supervised capacity check, or close the project — awaits owner instruction
+
+## 2026-11-03 — Final actor capability audit (Amendment 10)
+
+- [x] Record instruction verbatim (harness `ba458b0`); battery guard and review cron restarted (no duplicates)
+- [x] Premise audit: observation, architecture (full-grid dense access; 7 × 7 is the local field), planner inputs,
+      C7 CE floor (0.244; excess 0.87); WRITEUP / F33 / REPORT V corrections marked
+- [x] Code, tests (6 pass locally), local smoke (2,374 actions added to the ledger), Amendment 10 frozen
+- [ ] Tests batch; collection; validation (rebuild, conflicts, check_label, expert gate ≥ 31/32)
+- [ ] Dataset build and size freeze (addendum)
+- [ ] Tiny-set check (two learning rates) → lr rule
+- [ ] 15 matched fits → selected-checkpoint hashes (addendum)
+- [ ] Final test once; rollouts (19 controllers)
+- [ ] Analysis; independent verification; hashes
+- [ ] WRITEUP, REPORT, FINDINGS, DECISIONS, STATE; commit and push; stop monitors

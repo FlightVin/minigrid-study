@@ -1,0 +1,19 @@
+{
+ "jobs": [
+  {
+   "id": "p8-tests",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "cpu",
+   "command": [
+    "{python}",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "tests/test_p8.py"
+   ]
+  }
+ ]
+}

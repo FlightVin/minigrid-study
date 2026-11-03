@@ -1,0 +1,232 @@
+{
+ "purpose": "Learner-visited prefix states for the actor capability audit (owner instruction 2026-11-03; Amendment 10). 18 frozen 2026-11-02c development policies (A, C, R of seeds 116-121 at 501,760), stochastic sampling, prefix only. Train and val are disjoint slices (positions 0-1535 and 1536-2047) of one frozen rl_train K=3 permutation, filled until their action budgets; test is r7_conf K=3 items 0-63 with 3 policies each. Episodes end early after 32 steps without a new configuration.",
+ "dataset_id": "r7-v1",
+ "out_dir": "data/cap-v1",
+ "sample_seed": 20261103,
+ "policies": [
+  {
+   "kind": "state",
+   "job": "p7-K3-s116-00",
+   "at": 501760
+  },
+  {
+   "kind": "state",
+   "job": "p7-K3-s116-C7",
+   "at": 501760
+  },
+  {
+   "kind": "state",
+   "job": "p7-K3-s116-R7",
+   "at": 501760
+  },
+  {
+   "kind": "state",
+   "job": "p7-K3-s117-00",
+   "at": 501760
+  },
+  {
+   "kind": "state",
+   "job": "p7-K3-s117-C7",
+   "at": 501760
+  },
+  {
+   "kind": "state",
+   "job": "p7-K3-s117-R7",
+   "at": 501760
+  },
+  {
+   "kind": "state",
+   "job": "p7-K3-s118-00",
+   "at": 501760
+  },
+  {
+   "kind": "state",
+   "job": "p7-K3-s118-C7",
+   "at": 501760
+  },
+  {
+   "kind": "state",
+   "job": "p7-K3-s118-R7",
+   "at": 501760
+  },
+  {
+   "kind": "state",
+   "job": "p7-K3-s119-00",
+   "at": 501760
+  },
+  {
+   "kind": "state",
+   "job": "p7-K3-s119-C7",
+   "at": 501760
+  },
+  {
+   "kind": "state",
+   "job": "p7-K3-s119-R7",
+   "at": 501760
+  },
+  {
+   "kind": "state",
+   "job": "p7-K3-s120-00",
+   "at": 501760
+  },
+  {
+   "kind": "state",
+   "job": "p7-K3-s120-C7",
+   "at": 501760
+  },
+  {
+   "kind": "state",
+   "job": "p7-K3-s120-R7",
+   "at": 501760
+  },
+  {
+   "kind": "state",
+   "job": "p7-K3-s121-00",
+   "at": 501760
+  },
+  {
+   "kind": "state",
+   "job": "p7-K3-s121-C7",
+   "at": 501760
+  },
+  {
+   "kind": "state",
+   "job": "p7-K3-s121-R7",
+   "at": 501760
+  }
+ ],
+ "groups": [
+  {
+   "name": "train",
+   "dataset_id": "r7-v1",
+   "role": "rl_train",
+   "perm_seed": 20261103,
+   "start": 0,
+   "count": 1536,
+   "mode": "rotate",
+   "n_policies": 18,
+   "per_layout": 1,
+   "action_budget": 150000,
+   "stall_steps": 32
+  },
+  {
+   "name": "val",
+   "dataset_id": "r7-v1",
+   "role": "rl_train",
+   "perm_seed": 20261103,
+   "start": 1536,
+   "count": 512,
+   "mode": "rotate",
+   "n_policies": 18,
+   "per_layout": 1,
+   "action_budget": 35000,
+   "stall_steps": 32
+  },
+  {
+   "name": "test",
+   "dataset_id": "r7-v1",
+   "role": "r7_conf",
+   "indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63
+   ],
+   "mode": "table",
+   "per_layout": 3,
+   "policy_table": [
+    [
+     0,
+     1,
+     2
+    ],
+    [
+     3,
+     4,
+     5
+    ],
+    [
+     6,
+     7,
+     8
+    ],
+    [
+     9,
+     10,
+     11
+    ],
+    [
+     12,
+     13,
+     14
+    ],
+    [
+     15,
+     16,
+     17
+    ]
+   ],
+   "stall_steps": 32
+  }
+ ]
+}

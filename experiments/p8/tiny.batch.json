@@ -1,0 +1,36 @@
+{
+ "jobs": [
+  {
+   "id": "p8-tiny-lr3e-4",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.capfit",
+    "tiny",
+    "--config",
+    "experiments/p8/fit-v1.json",
+    "--lr",
+    "3e-4"
+   ]
+  },
+  {
+   "id": "p8-tiny-lr1e-3",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.capfit",
+    "tiny",
+    "--config",
+    "experiments/p8/fit-v1.json",
+    "--lr",
+    "1e-3"
+   ]
+  }
+ ]
+}

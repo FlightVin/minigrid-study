@@ -1,0 +1,37 @@
+{
+ "purpose": "Supervised fits (Amendment 10). lr is set by the frozen tiny-check rule before any main fit.",
+ "dataset": "data/cap-v1/dataset.npz",
+ "tiny": {
+  "init_seed": 7,
+  "updates": 3000,
+  "log_every": 100,
+  "pass_agree": 0.99,
+  "pass_loss": 0.05,
+  "lrs": [
+   0.0003,
+   0.001
+  ]
+ },
+ "lr": null,
+ "batch": 512,
+ "updates": 30000,
+ "eval_every": 500,
+ "probe_seed": 20261107,
+ "init_seed_base": 5000,
+ "batch_seed_base": 6000,
+ "warm": {
+  "0": {
+   "job": "p7-bc-s116",
+   "update": 8000
+  },
+  "1": {
+   "job": "p7-bc-s117",
+   "update": 8000
+  },
+  "2": {
+   "job": "p7-bc-s118",
+   "update": 8000
+  }
+ },
+ "test_jobs": []
+}

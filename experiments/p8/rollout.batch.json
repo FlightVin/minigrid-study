@@ -1,0 +1,18 @@
+{
+ "jobs": [
+  {
+   "id": "p8-rollout",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "cpu",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.capability",
+    "rollout",
+    "--config",
+    "experiments/p8/rollout-v1.json"
+   ]
+  }
+ ]
+}

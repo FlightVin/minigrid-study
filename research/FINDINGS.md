@@ -1435,7 +1435,11 @@ batches 20261103T014754-95022 (seed 116, canary) to 20261103T025448-57101 (seed 
   budget. It does not show that corrective supervision cannot help in this task.
 - **Candidate explanations (not tested; post hoc).**
   1. Higher entropy. C roughly doubled policy entropy. One third of labels were uniform over 2-4 actions, and the
-     labels conflicted with the policy in about 45% of queried states; CE stayed near 1.1. A more random policy
+     labels conflicted with the policy in about 45% of queried states; CE stayed near 1.1.
+     [Corrected 2026-11-03 (premise audit, `reports/p8/premise_audit.md`): "conflicted" means that the sampled
+     behaviour action was outside the label set in 40-47% of queried states. The CE floor under uniform tie
+     targets is 0.244 nats; the logged CE was 0.87 above it (0.79 in the last 20 updates). It was measured on
+     fresh current-rollout examples, so it mixes fitting and generalisation.] A more random policy
      takes longer through the prefix (tau +19.5) and arrives later and in worse states.
   2. Global interference. Completion after arrival fell (0.277 vs 0.457) though no suffix state was labelled. The
      shared network changed behaviour outside the supervised region.

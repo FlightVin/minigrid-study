@@ -69,7 +69,7 @@ early in training, and is not resolved under layout uncertainty. A matching earl
 | A4 longitudinal (F26) | Ordinary PPO: P1 0.186 → 0.390 from 251,904 to 1M; access term +0.162 of +0.204 | Descriptive decomposition |
 | Failure diagnostics (F28) | At A4 finals: 3-6% of attempts arrived in a certified impossible state; 0.49-0.71 of failures were before the boundary; failed attempts repeated locked-door toggles and no-ops | Traced sample; behaviours, not causes |
 | Controller diagnostics (F29-F31) | Privileged key help in every module +0.100 (A4 cohort) and +0.158 (pilot cohort); full prefix help +0.27 to +0.34; door-only help and action masking ≤ 0.05. The A4 key-only crossed intervals include zero | Frozen policies, privileged help; opportunities, not training results |
-| Corrective-imitation secondaries (F32) | C doubled policy entropy; removed most locked toggles and no-ops; lowered q (0.29 vs 0.42) and r (0.28 vs 0.46) without labelling suffix states; held-out label agreement rose only 0.647 → 0.675 | Development; post hoc mechanisms not separated |
+| Corrective-imitation secondaries (F32) | C doubled policy entropy; removed most locked toggles and no-ops; lowered q (0.29 vs 0.42) and r (0.28 vs 0.46) without labelling suffix states; policy mass on the held-out recovery bank's label sets rose only 0.647 → 0.675; auxiliary CE 0.87 nats above its tie-entropy floor (premise audit) | Development; post hoc mechanisms not separated |
 
 ## 4. Negative results, small effects and failed replications
 
@@ -170,17 +170,26 @@ and planner corrections.
 
 **The unresolved claim.** All the access interventions rest on one untested premise: *this policy class can
 represent the prefix decisions, and only the training signal is missing.* The record has three hints against it:
-- Under direct planner supervision of 387,948 learner-visited states, held-out label agreement rose only from 0.647
-  to 0.675. Training cross-entropy stayed near 1.1, and argmax agreement stayed at 0.62-0.68 (F32). This is
-  confounded by the PPO coupling, the 0.1 coefficient and uniform tie targets.
+- Under direct planner supervision of 387,948 learner-visited states, the policy mass on the label set of the
+  held-out recovery bank rose only from 0.647 to 0.675 (F32).
+  [Corrected 2026-11-03 (premise audit, `reports/p8/premise_audit.md`): raw cross-entropy is not fitting error.
+  With uniform targets over tie sets the floor is the target entropy, 0.244 nats on average. The logged CE (1.115)
+  was 0.87 nats above that floor (0.79 over the last 20 updates). Argmax-in-set agreement was 0.64 (0.68 over the
+  last 20 updates). Those examples were fresh current-rollout states, so the excess mixes fitting and
+  generalisation, under the joint PPO objective with coefficient 0.1.]
 - BC validation loss bottomed at 0.28 near 8,000 updates and then rose. K=3 access after BC was 0.05-0.53
   across the BC variants tried (F1, F20).
-- The actor sees the 21 × 9 grid through three 3 × 3 convolutions, a 7 × 7 receptive field. Relations such as
-  "this key's colour matches that distant door" and "which door is the first locked one" must be formed by a single
-  128-unit layer.
+- [Corrected 2026-11-03 (premise audit): the earlier text said the actor "sees the 21 × 9 grid through three
+  3 × 3 convolutions, a 7 × 7 receptive field". That is wrong. The convolutions use stride 1 and padding 1, with no
+  pooling. Each convolution feature has a 7 × 7 local receptive field. But the full 32 × 21 × 9 feature map is
+  flattened (6,048 features, position kept) into one dense layer of 128 units, so the actor's dense layer sees
+  the whole grid.] Relations between distant cells, such as "this key's colour matches that door" and "which
+  door is the first locked one", must be formed by that single 128-unit layer (777k of the 797k parameters).
 
-If the premise is false, the null and negative results above say more about the network than about starts,
-preservation or corrections. A new environment with the same network would repeat that confound.
+If the premise is false, the null and negative results above could reflect the network as well as the
+interventions. A new environment with the same network could repeat that confound.
+[Note 2026-11-03: the owner authorised a bounded version of the test below as a final capability audit
+(PROTOCOL_FREEZE Amendment 10; results in section 9). The proposal text is kept as written.]
 
 **The observation that would change belief.** Can the same actor, trained by supervision alone on planner labels
 for learner-visited prefix states, reach high held-out agreement on fresh layouts, and does that policy then reach

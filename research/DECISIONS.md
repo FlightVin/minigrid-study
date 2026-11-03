@@ -778,3 +778,20 @@ completion. See FINDINGS F24-F25 and REPORT section S.
   intervention (F32 label agreement 0.647 → 0.675 under direct supervision is the main hint; it is confounded).
   The proposed test is offline and supervised because either outcome changes the next step, and it costs at most
   about 0.5M actions. It is not launched. Suffix completion is noted as a second, later question.
+
+## 2026-11-03 — Owner instruction: final actor capability audit (Amendment 10)
+
+- Recorded verbatim (harness `ba458b0`). Start ledger 342,196,148; cap 500,000 actions; fitting compute 6 h.
+- Premise audit first. It corrected the WRITEUP: the actor's dense layer sees the whole grid (7 × 7 is the local
+  receptive field of each convolution feature). Labels need no unobserved information. C7's raw CE (1.115) is
+  0.87 nats above the 0.244 tie-entropy floor.
+- Reuse: no existing record holds labelled learner states (attempt rows have traces only; C7 saved none). The
+  recovery bank (480) is reused as a held-out set. New states are collected with action budgets (train 150k,
+  val 35k) rather than a fixed state count, so the actions do not chase a target size.
+- Unit of unique state: configuration without time. Time is in the observation, so a looping agent produces a new
+  observation each step; repeats of the same configuration are not new data (smoke run: 35-60% of rows were new
+  configurations). Episodes end after 32 steps without a new configuration, which saves actions in loops.
+- Comparison actor fixed before any data: dense layer widened 128 → 1,024, encoder unchanged.
+- Rollouts use one attempt per layout: under deterministic argmax a second attempt is identical; this is verified on
+  8 layouts for two controllers rather than spending a full second attempt.
+- Smoke runs with MAE_RUN_DIR in the scratch directory bypassed the ledger (2,374 actions); added as an adjustment.

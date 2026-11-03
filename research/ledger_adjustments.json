@@ -33,6 +33,12 @@
    "role": "a4_smoke_subprocess_unrecorded",
    "actions": 74997,
    "basis": "Runner job a4-smoke (batch 20261102T004225-31353, A4 tests batch): tests/test_pause_smoke.py started real jobs as subprocesses with a temporary MAE_RUN_DIR, so their step records were deleted with it. Measured by the deterministic rerun in p5-smoke (batch 20261102T101613-56399, mirrored records): 29,941 + 22,528 + 11,557 + 10,971 = 74,997. An A4 cost, charged to the 2026-11-02 programme ledger (conservative). Fixed by BC2RL_STEPS_MIRROR (src/bc2rl/accounting.py)."
+  },
+  {
+   "date": "2026-11-03",
+   "role": "p8_local_smoke_scratch_run_dir",
+   "actions": 2374,
+   "basis": "2026-11-03 local smoke runs of bc2rl.capability (collect 928 + 872; validate 130 + 157 + 130 + 157) were started with MAE_RUN_DIR pointing at a session scratch directory, so bc2rl.accounting treated them as managed and wrote their step records there instead of .mae/unmanaged_actions. Summed from those six records (one per process). Charged to the 2026-11-03 capability audit (500k cap). Later local checks run without MAE_RUN_DIR."
   }
  ]
 }

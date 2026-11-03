@@ -1,6 +1,12 @@
 # State
 
-**Current milestone (2026-11-02c, complete):** corrective prefix imitation study (owner instruction 2026-11-02c,
+**Current milestone (2026-11-03, running):** final actor capability audit (owner instruction 2026-11-03, verbatim in
+`mac-agentic-engineering/project.md`, harness `ba458b0`; PROTOCOL_FREEZE Amendment 10). Offline supervised fits and
+prefix rollouts only; no PPO, no intervention retest. Budget 500,000 actions from ledger 342,196,148; fitting compute
+6 h. Premise audit done (`reports/p8/premise_audit.md`); WRITEUP architecture and CE claims corrected.
+Monitors: battery guard (background task; pid file), review cron `b54533ae`.
+
+**Previous milestone (2026-11-02c, complete):** corrective prefix imitation study (owner instruction 2026-11-02c,
 verbatim in `mac-agentic-engineering/project.md`, harness `1efcb5f`; PROTOCOL_FREEZE Amendment 9). Stopped at the
 frozen development gate. No arm qualified, so no confirmation was run.
 
@@ -29,4 +35,4 @@ Seeds 116-121 are used (development). Seeds 122-141 and role r7_conf were reserv
 
 **Budget.** Ceiling 80M from ledger 329,624,666. Spent 12,571,482 (scientific 12,492,768; reserve 78,714).
 
-**Monitors owned.** None. Battery guard and review cron `14175706` stopped at completion.
+**Monitors owned.** Battery guard (restarted 2026-11-03) and review cron `b54533ae`.
