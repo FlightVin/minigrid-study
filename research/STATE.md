@@ -11,7 +11,13 @@ over ordinary PPO (A), and do they add value beyond matched demonstration replay
 C − A −0.111 [−0.136, −0.086], 0/6 positive. R − A +0.004 [−0.067, +0.075], 3/6. C − R −0.115.
 Independent recomputation agrees; evaluation replay 36/36 matched.
 
-**Next.** None authorized. Proposals (not launched) are in F33 and REPORT V6. They need an owner instruction.
+**2026-11-02d (owner instruction; no new training).** Training stopped; nothing was running and all records were
+committed. Consolidated write-up `reports/WRITEUP.md`: hypothesis-to-evidence table (H1-H9, RQ2), exploratory
+diagnostics kept separate, negatives, small effects, failed replications, measurement lessons, costs, limitations.
+
+**Next.** None authorized. The reassessment (WRITEUP section 8) names the unresolved premise (the actor can
+represent the prefix decisions) and proposes the smallest test: an offline supervised capacity check, at most about
+0.5M actions. Not launched; it needs an owner instruction.
 
 **Established (earlier, unchanged).** Closed verdicts F10-F30, read with F23, F26 and the F31 corrections.
 Seeds 116-121 are used (development). Seeds 122-141 and role r7_conf were reserved and not used.

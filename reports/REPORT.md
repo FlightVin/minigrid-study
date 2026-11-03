@@ -1,5 +1,7 @@
 # MiniGrid study: demonstration-state starts and BC preservation after BC
 
+**Final consolidated write-up (2026-11-02d): `reports/WRITEUP.md`** — hypothesis table, exploratory diagnostics,
+negative results, failed replications, measurement lessons, costs and a reassessment. No new training.
 Status 2026-11-02c (final): the Amendment 9 corrective prefix imitation study is complete at the development gate
 (section V): no arm qualified, so no confirmation was run.
 Status 2026-11-02b (final): the Amendment 8 controller diagnostics are complete (section U); exploratory, no training.

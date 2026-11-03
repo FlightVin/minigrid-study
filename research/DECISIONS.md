@@ -767,3 +767,14 @@ completion. See FINDINGS F24-F25 and REPORT section S.
 - **Post hoc observations** (entropy, tie labels, suffix interference) are labelled as candidate explanations in
   F33. A follow-up is proposed only; it needs an owner instruction.
 - **Monitors.** Battery guard (background task) and review cron `14175706` stopped at completion.
+
+## 2026-11-02d — Owner instruction: stop training, consolidate, write up, reassess
+
+- Recorded verbatim (harness `d015799`). The corrective-imitation programme had already completed at its gate;
+  no checkpointing was needed. No environment actions were executed under this instruction.
+- Write-up placed in a new file `reports/WRITEUP.md` rather than a further REPORT section, because REPORT is a
+  layered historical record; REPORT's status block points to it. Corrected wording is used throughout.
+- Reassessment choice: the unresolved claim named is the representational premise behind every access
+  intervention (F32 label agreement 0.647 → 0.675 under direct supervision is the main hint; it is confounded).
+  The proposed test is offline and supervised because either outcome changes the next step, and it costs at most
+  about 0.5M actions. It is not launched. Suffix completion is noted as a second, later question.

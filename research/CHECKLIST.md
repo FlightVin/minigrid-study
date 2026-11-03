@@ -230,3 +230,12 @@ Dependencies: each line needs the lines above it unless marked (parallel-safe: d
 - [x] Reserve: eval replay (36/36), final tests (334 passed); independent verification (agrees)
 - [x] FINDINGS F32-F33, REPORT V, STATE, DECISIONS, REVIEWS; commit and push; stop owned monitors
 - [ ] Follow-up mechanism study (F33) or close the line — awaits owner instruction
+
+## 2026-11-02d — Consolidation and write-up (no new training)
+
+- [x] Record instruction verbatim (harness `d015799`)
+- [x] Stop new training: confirmed no project processes; records already committed (`9149d77`)
+- [x] Hypothesis → evidence → uncertainty → conclusion table; exploratory diagnostics separate (`reports/WRITEUP.md`)
+- [x] Negative results, small effects, failed replications, measurement lessons, costs, limitations
+- [x] Reassessment: unresolved premise, deciding observation, smallest test (proposal only)
+- [ ] Offline supervised capacity check, or close the project — awaits owner instruction
