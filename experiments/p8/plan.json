@@ -6,6 +6,11 @@
    "required": true
   },
   {
+   "file": "experiments/p8/tests2.batch.json",
+   "kind": "actions",
+   "required": true
+  },
+  {
    "file": "experiments/p8/collect.batch.json",
    "kind": "actions",
    "required": true

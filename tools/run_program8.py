@@ -51,7 +51,7 @@ def _limits(group):
 
 def cost(jid):
     """(conservative actions, conservative fit seconds) of one job."""
-    if jid == "p8-tests":
+    if jid.startswith("p8-tests"):
         return TEST_BOUND, 0
     if jid == "p8-collect":
         tot = 0
@@ -92,9 +92,9 @@ def job_complete(jid):
         s = d / "summary.json"
         if s.exists() and json.loads(s.read_text()).get("complete"):
             return True
-        if s.exists() and jid == "p8-tests":
+        if s.exists() and jid.startswith("p8-tests"):
             return True
-    if jid == "p8-tests":
+    if jid.startswith("p8-tests"):
         for ex in (ROOT / ".mae/runs").glob("*/execution.json"):
             if json.loads(ex.read_text()).get("jobs", {}).get(jid, {}).get("returncode") == 0:
                 return True

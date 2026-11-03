@@ -1,6 +1,7 @@
 """Actor capability audit (owner instruction 2026-11-03; PROTOCOL_FREEZE Amendment 10). Few counted actions."""
 import json
 import math
+import os
 from pathlib import Path
 
 import numpy as np
@@ -14,7 +15,7 @@ from bc2rl import model as M
 from bc2rl import task as T
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA = ROOT / "data/r7-v1/layouts.json"
+DATA = Path(os.environ.get("MAE_PROJECT", ROOT)) / "data/r7-v1/layouts.json"   # runner jobs run from a code snapshot
 pytestmark = pytest.mark.skipif(not DATA.exists(), reason="dataset r7-v1 not generated")
 
 

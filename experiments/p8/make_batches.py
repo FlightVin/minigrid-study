@@ -42,6 +42,9 @@ def main():
     add = lambda p, kind: plan.append({"file": p, "kind": kind, "required": True})
     add(write("experiments/p8/tests.batch.json",
               [job("p8-tests", ["pytest", "-q", "-p", "no:cacheprovider", "tests/test_p8.py"])]), "actions")
+    # p8-tests ran with every test skipped (data path not resolved from the runner's code snapshot); fixed, new ID
+    add(write("experiments/p8/tests2.batch.json",
+              [job("p8-tests-fix1", ["pytest", "-q", "-p", "no:cacheprovider", "tests/test_p8.py"])]), "actions")
     add(write("experiments/p8/collect.batch.json",
               [job("p8-collect", ["bc2rl.capability", "collect", "--config", "experiments/p8/collect-v1.json"], mem=4)]), "actions")
     add(write("experiments/p8/validate.batch.json",
