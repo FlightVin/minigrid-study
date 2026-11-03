@@ -246,10 +246,11 @@ Dependencies: each line needs the lines above it unless marked (parallel-safe: d
 - [x] Premise audit: observation, architecture (full-grid dense access; 7 × 7 is the local field), planner inputs,
       C7 CE floor (0.244; excess 0.87); WRITEUP / F33 / REPORT V corrections marked
 - [x] Code, tests (6 pass locally), local smoke (2,374 actions added to the ledger), Amendment 10 frozen
-- [ ] Tests batch; collection; validation (rebuild, conflicts, check_label, expert gate ≥ 31/32)
-- [ ] Dataset build and size freeze (addendum)
-- [ ] Tiny-set check (two learning rates) → lr rule
-- [ ] 15 matched fits → selected-checkpoint hashes (addendum)
-- [ ] Final test once; rollouts (19 controllers)
-- [ ] Analysis; independent verification; hashes
-- [ ] WRITEUP, REPORT, FINDINGS, DECISIONS, STATE; commit and push; stop monitors
+- [x] Tests batch; collection; validation (rebuild, conflicts, check_label, expert gate ≥ 31/32)
+- [x] Dataset build and size freeze (addendum)
+- [x] Tiny-set check (two learning rates) → lr rule
+- [x] 15 matched fits → selected-checkpoint hashes (addendum)
+- [x] Final test once; rollouts (19 controllers)
+- [x] Analysis; independent verification; hashes
+- [x] WRITEUP, REPORT, FINDINGS, DECISIONS, STATE; commit and push; stop monitors
+- [ ] Further experiments — none authorized; recommendation only (WRITEUP section 9)

@@ -1,10 +1,9 @@
-# State
-
-**Current milestone (2026-11-03, running):** final actor capability audit (owner instruction 2026-11-03, verbatim in
-`mac-agentic-engineering/project.md`, harness `ba458b0`; PROTOCOL_FREEZE Amendment 10). Offline supervised fits and
-prefix rollouts only; no PPO, no intervention retest. Budget 500,000 actions from ledger 342,196,148; fitting compute
-6 h. Premise audit done (`reports/p8/premise_audit.md`); WRITEUP architecture and CE claims corrected.
-Monitors: battery guard (background task; pid file), review cron `b54533ae`.
+**Current milestone (2026-11-03, complete):** final actor capability audit (owner instruction 2026-11-03, verbatim in
+`mac-agentic-engineering/project.md`, harness `ba458b0`; PROTOCOL_FREEZE Amendment 10 with addenda 1, 1b, 2).
+Result (F34, WRITEUP section 9, REPORT W): the original actor fits planner prefix labels (fresh-layout agreement
+0.975-0.979 at 78,621 states) and reaches the boundary unassisted on 0.71-0.73 of 64 fresh layouts (BC start
+0.005, expert 1.00). A wider dense layer gives +0.15 reach at equal agreement. Verification agrees. Spent 330,050
+of 500,000 actions; fitting 7,707 s of 6 h. No further experiments are authorized. Monitors stopped.
 
 **Previous milestone (2026-11-02c, complete):** corrective prefix imitation study (owner instruction 2026-11-02c,
 verbatim in `mac-agentic-engineering/project.md`, harness `1efcb5f`; PROTOCOL_FREEZE Amendment 9). Stopped at the
@@ -21,7 +20,7 @@ Independent recomputation agrees; evaluation replay 36/36 matched.
 committed. Consolidated write-up `reports/WRITEUP.md`: hypothesis-to-evidence table (H1-H9, RQ2), exploratory
 diagnostics kept separate, negatives, small effects, failed replications, measurement lessons, costs, limitations.
 
-**Next.** None authorized. The reassessment (WRITEUP section 8) names the unresolved premise (the actor can
+**Next (as of 2026-11-02d; superseded by the 2026-11-03 audit).** None authorized. The reassessment (WRITEUP section 8) names the unresolved premise (the actor can
 represent the prefix decisions) and proposes the smallest test: an offline supervised capacity check, at most about
 0.5M actions. Not launched; it needs an owner instruction.
 
@@ -35,4 +34,4 @@ Seeds 116-121 are used (development). Seeds 122-141 and role r7_conf were reserv
 
 **Budget.** Ceiling 80M from ledger 329,624,666. Spent 12,571,482 (scientific 12,492,768; reserve 78,714).
 
-**Monitors owned.** Battery guard (restarted 2026-11-03) and review cron `b54533ae`.
+**Monitors owned.** None (battery guard and review cron `b54533ae` stopped at completion, 2026-11-03).

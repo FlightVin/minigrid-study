@@ -5,6 +5,9 @@ Consolidated under the owner instruction of 2026-11-02d. This document summarise
 `research/FINDINGS.md` (F1-F33) and `research/PROTOCOL_FREEZE.md` (Amendments 1-9). Where those records carry a
 marked correction, this document uses the corrected wording.
 
+[Added 2026-11-03: section 9 reports the final actor capability audit (owner instruction 2026-11-03,
+Amendment 10). It is the only new experiment in this document; sections 1-8 are kept, with marked corrections.]
+
 ## 1. Question and task
 
 **Research questions (manuscript).**
@@ -223,3 +226,93 @@ an attempt to obtain a positive ending.
 **A second open question, for after this one.** Completion after arrival stayed near 0.46-0.64 under every
 intervention. Learned suffix completion is a separate limit, and it should not be pooled with access in any new
 study.
+
+## 9. Final actor capability audit (owner instruction 2026-11-03; PROTOCOL_FREEZE Amendment 10)
+
+This audit qualifies the completed findings. It does not reopen the programme. It used offline supervised fits and
+prefix rollouts only: no PPO, no intervention retest, no selector, no architecture change. Full results:
+`reports/p8/audit.md`; verification: `reports/p8/verification.json`; FINDINGS F34.
+
+**Premise audit (before any fit).** The actor sees the whole 21 × 9 grid. Each convolution feature has a 7 × 7
+local field, but the dense layer reads the full flattened map (section 8 corrected). Planner labels use no
+unobserved information. No identical observation had two different labels. The C7 cross-entropy of 1.115 was 0.87
+nats above the 0.244 tie-entropy floor.
+
+**Data.** 205,958 actions collected learner-visited prefix states with 18 frozen PPO policies (seeds 116-121, arms
+00/C7/R7). Unique labelled states (configuration without time): train 78,621 (1,415 layouts), validation 18,386
+(331 layouts), test 8,088 (64 fresh r7_conf layouts). No layout or state is shared between groups. On-track states
+are about 81%; wrong-key 10%, backtracked 5%, key-lost 2%, all-unlocked 1%.
+- Validation of labels: 0 rebuild mismatches, 0 label conflicts. The expert prefix controller crossed 32/32
+  validation layouts and 64/64 test layouts with the original clock.
+- Label caveat: 6 of 1,000 audited labels fail a real-environment check. All 6 are inside documented planner
+  simplifications (drops in front of doors; obstacle-key pickup). About 2.5% of audited wrong-key labels.
+- The 150k-action collection budget gave fewer than the 200k target states. The nested sizes were frozen at
+  19,726 / 39,068 / 78,621 states.
+
+**Fits.** Loss = −log(policy mass on the valid label set), which differs from the C7 uniform-target loss. Adam, lr
+3e-4 (chosen by a frozen rule after the tiny check), batch 512, 30,000 updates, three fit seeds, checkpoint selected
+by validation argmax-in-set. The test set was scored once, after the selected checkpoints were hashed.
+
+| Condition (training states) | Train probe | Validation | Fresh-layout test [95% layout CI] | Recovery bank | Boundary reach, 64 fresh layouts [95% CI]; per seed |
+|---|---|---|---|---|---|
+| Warm original, 19,726 | 1.000 | 0.915 | 0.905 [0.894, 0.916] | 0.87 | 0.198 [0.130, 0.271]; 0.09 / 0.30 / 0.20 |
+| Warm original, 39,068 | 1.000 | 0.961 | 0.951 [0.943, 0.958] | 0.94 | 0.396 [0.307, 0.490]; 0.38 / 0.45 / 0.36 |
+| Warm original, 78,621 | 1.000 | 0.983 | 0.975 [0.969, 0.980] | 0.97 | 0.734 [0.656, 0.807]; 0.67 / 0.80 / 0.73 |
+| Scratch original, 78,621 | 1.000 | 0.986 | 0.979 [0.973, 0.984] | 0.98 | 0.708 [0.620, 0.792]; 0.75 / 0.70 / 0.67 |
+| Scratch, dense 1,024 (6.2M params), 78,621 | 1.000 | 0.988 | 0.980 [0.974, 0.985] | 0.97 | 0.859 [0.797, 0.917]; 0.91 / 0.78 / 0.89 |
+| BC warm start (unfitted, update 8,000) | — | — | — | — | 0.005 [0.000, 0.016]; 0 / 1 / 0 of 64 |
+| Expert prefix controller | — | — | — | — | 1.000 (64/64) |
+
+Metric columns: argmax-in-set (fraction of states where the most probable action is in the label set), seed means.
+Rollouts: deterministic argmax on CPU, normal start, original allowance, no planner, mask or reset; stop at the first
+crossing. A second attempt on 8 layouts was identical for two controllers (8/8, 8/8). When fitted actors cross,
+their time to the boundary is close to the expert's (about 41 vs 40.6 steps). Most failures end on track in the
+last module before the deadline, or in a wrong-key state.
+
+Paired comparisons (per-layout differences of seed means, layout bootstrap):
+- Comparison − scratch original: test agreement +0.001 [−0.001, +0.003]; boundary reach **+0.151 [+0.083, +0.224]**.
+- Warm − scratch original (78,621): agreement −0.004 [−0.007, −0.002]; reach +0.026 [−0.052, +0.109].
+- Warm 78,621 − warm 19,726: agreement +0.070 [+0.062, +0.078]; reach +0.536 [+0.448, +0.625].
+
+**Answers to the owner's questions.**
+1. *Can the original actor fit the audited targets?* Yes. It fits the 512-state tiny set fully (implementation,
+   labels and optimisation are not blocking) and every training probe at 1.000.
+2. *Does the fit generalise to fresh layouts?* Yes, at state level, if the data is large enough: 0.975-0.979 on 64
+   fresh layouts and 0.95-0.98 on the separate recovery bank at 78,621 states. Agreement still rises with data
+   (0.905 → 0.951 → 0.975), so coverage, not capacity, limits the smaller fits.
+3. *Can the fitted actor execute the prefix?* Partly. The original actor reaches the boundary on 0.71-0.73 of fresh
+   layouts with no help, compared with 0.005 for its BC warm start and 1.00 for the expert. Per-state errors of
+   about 2% still compound over about 41 steps. The expert executes the labels perfectly, so the gap is not a label
+   or abstraction failure on this panel; the residual failures were not investigated further (no authorisation).
+4. *Does the comparison actor materially change the answer?* Not for questions 1-2 (+0.001 agreement). For
+   execution it does: +0.15 boundary reach. This shows model sensitivity in closed-loop execution. It does not show
+   that the architecture caused the earlier RL nulls.
+5. *Which limitations qualify existing conclusions?* See below.
+
+**What this changes in the earlier record (verdicts preserved).**
+- The section 8 premise is supported for the original actor under supervision: it can represent and execute
+  most of the K=3 prefix from local, unprivileged observations. The earlier "hints against" (F32 mass 0.647 → 0.675;
+  BC loss) are therefore not evidence of a representational limit. They mixed fitting, generalisation and the joint
+  PPO objective, as the premise audit noted.
+- The failure of the RL interventions (H4, H8, F32-F33) is therefore not explained by an inability of this actor
+  to learn a prefix policy. It remains open why PPO, with or without the interventions, did not deliver it. This
+  audit does not test that.
+- Model choice is not neutral: a wider dense layer gave a materially better executed prefix with the same data.
+  Earlier RL results apply to the original actor only; whether a wider actor would change them is untested.
+- Prefix reach here is not task success. Suffix completion (section 8, second question) is not measured.
+- Supervision used about 79k distinct planner-labelled states from 18 policies. Reach still rose steeply with data
+  (0.20 → 0.40 → 0.73). Data volume of this kind, not network capacity, was the larger lever in this audit.
+
+**Measurement lesson (new).** State-level label agreement saturates near 0.98 and does not separate actors whose
+closed-loop reach differs by 0.15. Any future representational claim needs rollouts, not agreement alone.
+
+**What to carry forward (recommendation; nothing is launched).**
+- Keep: the original actor can learn an executable prefix policy under dense supervision; the RL failures are about
+  the training signal or its delivery, not representability.
+- Keep: agreement metrics need a rollout check; quote CE relative to its floor.
+- Keep as an open, untested sensitivity: dense width changes executed reach under supervision.
+- Do not carry forward: "the 7 × 7 receptive field" claim; "C7 CE near 1.1 shows poor fit".
+
+**Costs.** 330,050 of 500,000 actions (collection 205,958; validation 7,319; tests 180; rollouts 113,667; local
+checks and smoke 2,926). Fitting compute 7,707 s (2.1 h) of 6 h runner wall time. Independent recomputation agrees
+(test metrics in float64 on CPU; rollout reach; action totals reconcile exactly).

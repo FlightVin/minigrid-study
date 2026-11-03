@@ -795,3 +795,13 @@ completion. See FINDINGS F24-F25 and REPORT section S.
 - Rollouts use one attempt per layout: under deterministic argmax a second attempt is identical; this is verified on
   8 layouts for two controllers rather than spending a full second attempt.
 - Smoke runs with MAE_RUN_DIR in the scratch directory bypassed the ledger (2,374 actions); added as an adjustment.
+- Execution (2026-11-03): first tests batch skipped all tests (data path) → fixed, p8-tests-fix1. First tiny batch
+  stopped by the runner (no MPS telemetry from capfit) → heartbeat added, p8-tiny-fix1-*. Both deterministic; new
+  IDs; old batches kept and marked superseded.
+- Subset sizes frozen smaller than 25k/100k/200k (19,726 / 39,068 / 78,621) because the 150k-action collection
+  budget gave 78,621 unique training states; allowed by instruction section 4. No extra collection.
+- lr 3e-4 by the frozen rule (both learning rates passed the tiny check).
+- Interpretation: per instruction section 7, no single threshold. The headline is that the original actor can learn
+  an executable prefix policy under supervision (0.71-0.73 reach), so representability does not explain the RL
+  nulls; the wider actor's +0.15 reach is reported as model sensitivity only. Residual rollout failures were not
+  investigated because the audit grants no further experiments; nothing is launched.

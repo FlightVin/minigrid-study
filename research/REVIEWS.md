@@ -580,3 +580,15 @@ beyond the frozen plan is added.
 
 **Decision: continue.** No stop criteria apply; budgets and battery have a large margin. The commit of this review
 waits for the end of the fit batch (no commit while a runner batch is active).
+
+## 2026-11-03 final review — actor capability audit complete (Amendment 10)
+
+- No pause flag; battery 85% on AC throughout the final batches.
+- Evidence: F34. The original actor fits the audited targets, generalises to 64 fresh layouts at state level
+  (0.975-0.979), and executes the prefix on 0.71-0.73 of them. The wider actor matches it on agreement and adds
+  +0.15 reach. Warm and scratch starts do not differ materially at 78,621 states.
+- Fairness: matched data, objective, batch order, updates, lr and selection; the wider actor is not matched on
+  parameters or compute, by design. The test was read once after addendum 2 (eb3a5ab).
+- Budget: 330,050 of 500,000 actions; 7,707 s of 21,600 s fitting compute. Actions reconcile exactly.
+- Match to design: as frozen, with the recorded deviations (two reruns under new IDs; smaller subsets by rule).
+- Decision: **stop.** The audit is complete; no further experiments are authorized. Monitors stopped.

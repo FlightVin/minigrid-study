@@ -1469,3 +1469,32 @@ batches 20261103T014754-95022 (seed 116, canary) to 20261103T025448-57101 (seed 
      same accounting. These are proposals, not launched.
   3. Plain demonstration replay at this dose is not worth confirming (+0.004).
   4. Learned suffix completion stays a separate limit (r 0.46-0.48 in A and R).
+
+## F34 — Final actor capability audit (2026-11-03; owner instruction 2026-11-03; Amendment 10)
+
+Offline supervised fits on planner prefix labels and unassisted prefix rollouts. No PPO and no intervention retest.
+Full tables: `reports/p8/audit.md`, WRITEUP section 9, REPORT W. Independent recomputation agrees
+(`reports/p8/verification.json`).
+
+- **Premise audit.** The dense layer sees the full grid (the 7 × 7 claim is corrected). Labels need no hidden
+  information; 0 label conflicts. The C7 CE was 0.87 nats above its 0.244 floor.
+- **Data.** 78,621 / 18,386 / 8,088 unique labelled train / val / test states; test = 64 fresh r7_conf layouts.
+  Label caveat: 6/1,000 audited labels fail the real-environment check (documented planner simplifications).
+- **Fit.** The original actor fits the tiny set and all training probes (1.000). Fresh-layout test argmax-in-set at
+  78,621 states: warm 0.975 [0.969, 0.980], scratch 0.979 [0.973, 0.984]; wider (dense 1,024) 0.980. Data curve
+  (warm): 0.905 → 0.951 → 0.975 at 19,726 / 39,068 / 78,621. Recovery bank 0.87 → 0.94 → 0.97.
+- **Execution.** Boundary reach on the 64 fresh layouts, deterministic argmax: warm original 0.20 → 0.40 → 0.73
+  along the data curve; scratch original 0.71; wider 0.86; BC warm start 0.005; expert 1.00.
+  Wider − scratch original: +0.151 [+0.083, +0.224] reach with +0.001 [−0.001, +0.003] agreement.
+- **Interpretation (section 7 categories).** Not "poor tiny fit". Fresh-layout fit is strong at the largest size
+  (smaller sizes: coverage-limited). Strong held-out fit with partial execution (0.71-0.73): compounding errors,
+  not a label or abstraction failure on this panel (the expert crosses 64/64); not investigated further. The
+  original actor can learn an executable prefix policy under supervision; this does not explain why PPO with or
+  without the interventions failed. The wider actor's +0.15 is model sensitivity in execution, not proof that
+  the architecture caused earlier nulls.
+- **Qualifications of earlier findings.** F32's mass 0.647 → 0.675 and the BC loss are not evidence of a
+  representational limit. F33 candidate explanation 1 is read with the corrected CE. H4/H8/F32 verdicts stand
+  and apply to the original actor; the representability premise behind them is supported.
+- **Measurement lesson.** State agreement near 0.98 did not separate actors that differ by 0.15 in closed-loop
+  reach. Representational claims need rollouts.
+- **Costs.** 330,050 of 500,000 actions; fitting compute 7,707 s of 21,600 s.
