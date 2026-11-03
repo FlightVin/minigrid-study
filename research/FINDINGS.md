@@ -1362,3 +1362,106 @@ actions, local). Added after outcomes. No historical verdict changes; correction
   Planner assistance changes trajectories, inventory and time together; it does not isolate a learner skill.
 - **Limitation.** The drop classification uses door state at the drop. It does not judge whether the drop was
   useful for the next action.
+
+## F32 — Corrective prefix imitation: development results and the frozen gate (2026-11-02c; Amendment 9)
+
+Sources: `reports/p7/dev.{json,md}`, `reports/p7/gate.json`, `reports/p7/gate_verification.json` (independent
+recomputation, agrees), `reports/p7/verification.json` (evaluation replay 36/36 episodes, 0 mismatches);
+batches 20261103T014754-95022 (seed 116, canary) to 20261103T025448-57101 (seed 121).
+
+- **Design (as frozen).** K=3; BC rho 0.2, 8,000 updates; shared probe; three matched forks per seed: A (ordinary
+  PPO), R (replay of the stage-0 demonstration rows, one-hot), C (planner corrections on learner-visited prefix
+  states, uniform over all shortest first actions). Coefficient 0.1 on the mean cross-entropy of the selected
+  examples; R used the same per-update example counts as C of the same seed. Six development seeds 116-121;
+  r7_dev, 64 layouts × 4 attempts, unassisted; primary endpoint P1 at 501,760 continuation actions.
+- **Results (P1, unassisted normal starts).**
+
+  | Seed | A @251,904 | R | C | A @501,760 | R | C | R − A | C − A | C − R |
+  |---|---|---|---|---|---|---|---|---|---|
+  | 116 | 0.109 | 0.105 | 0.004 | 0.176 | 0.223 | 0.074 | +0.047 | −0.102 | −0.148 |
+  | 117 | 0.059 | 0.105 | 0.016 | 0.102 | 0.156 | 0.012 | +0.055 | −0.090 | −0.145 |
+  | 118 | 0.102 | 0.137 | 0.004 | 0.117 | 0.188 | 0.016 | +0.070 | −0.102 | −0.172 |
+  | 119 | 0.262 | 0.242 | 0.180 | 0.297 | 0.277 | 0.172 | −0.020 | −0.125 | −0.105 |
+  | 120 | 0.109 | 0.090 | 0.023 | 0.172 | 0.152 | 0.020 | −0.020 | −0.152 | −0.133 |
+  | 121 | 0.246 | 0.117 | 0.078 | 0.281 | 0.172 | 0.188 | −0.109 | −0.094 | +0.016 |
+  | mean | 0.148 | 0.133 | 0.051 | 0.191 | 0.195 | 0.080 | +0.004 | −0.111 | −0.115 |
+
+  - 95% t over seeds at 501,760 (descriptive): C − A [−0.136, −0.086], 0/6 positive; R − A [−0.067, +0.075],
+    3/6; C − R [−0.185, −0.044], 1/6. At 251,904: C − A −0.097 [−0.140, −0.054], 0/6; R − A −0.015, 2/6.
+- **Gate.** Neither arm qualifies (threshold +0.05 and ≥ 4/6 positive). Integrity passed; both confirmation plans fit
+  the budget. Selected: none. The independent recomputation gives the same selection and means. No confirmation
+  seeds were run; seeds 122-141 and role r7_conf stay unused.
+- **Secondary measures at 501,760** (pooled, 1,536 episodes per arm; per-episode means for behaviour counts):
+
+  | Arm | S/n | Arrive A/n (q) | S_A/A (r) | Finishable F/A | tau | key pickups | wrong-key pickups | premature drops | locked toggles | no-ops |
+  |---|---|---|---|---|---|---|---|---|---|---|
+  | A | 293/1536 | 641 (0.417) | 293/641 (0.457) | 574/641 | 78.4 | 3.24 | 0.73 | 0.50 | 17.3 | 49.7 |
+  | R | 299/1536 | 620 (0.404) | 299/620 (0.482) | 555/620 | 78.5 | 3.02 | 0.70 | 0.35 | 24.6 | 51.5 |
+  | C | 123/1536 | 444 (0.289) | 123/444 (0.277) | 324/444 | 97.9 | 4.13 | 1.27 | 0.92 | 2.6 | 13.9 |
+
+  - C reached the boundary less often and later, and completed less often after arrival. Planner finishability of
+    arrivals was also lower (0.73 vs 0.90), so C arrived in worse states. Completion after arrival fell although
+    C supervised no post-boundary state.
+  - C removed most locked-door toggles and no-ops but made more key pickups, wrong-key pickups and premature drops.
+- **Supervision and update diagnostics (C).**
+  - Queries 418,957 of 2,883,580 eligible prefix transitions (max per branch 70,865; cap 75,000 never reached);
+    387,948 labelled; 31,009 failed (time limit or no plan in the abstraction) and gave no label; 0 observation
+    conflicts; 1,551,792 example uses (4 epochs); 101 s planner time; 169.9M search nodes.
+  - Label sets: 1 action 66.1%, 2 actions 31.8%, 3-4 actions 2.1%.
+  - At query time, the executed action was in the label set in 0.53-0.60 of states, and policy mass on the label set
+    was the same.
+  - Policy entropy: A 0.31-0.51, R 0.33-0.51, C 0.69-0.93 (per-seed means). Auxiliary CE: C 1.06-1.15, R 0.23-0.37.
+    Raw PPO approx KL: mean 0.004-0.007 in all arms; C maxima 0.05-0.33 (single updates); prefix update KL C max
+    0.06-0.34. On the first supervised minibatch of each update, the norm of the gradient of 0.1 × CE was 0.37-0.65
+    of the PPO policy-gradient norm (ratio of per-seed means); R 0.28-0.31.
+- **Recovery-bank agreement** (policy mass on the planner label set; 480 states per seed; never trained):
+  A 0.647 → 0.647, R 0.647 → 0.653, C 0.647 → 0.675 (fork → 501,760). By stratum at 501,760, C rose on wrong_key
+  (0.514 vs A 0.355) and key_lost (0.503 vs 0.459) and fell on backtracked (0.679 vs 0.727).
+- **Integrity.** Same fork hash for the three arms of each seed; R matched C per update in every seed;
+  learner-only actions; planner-free evaluation; step records equal summaries; 36/36 replayed evaluation episodes
+  reproduced success, end step and boundary time.
+
+## F33 — Interpretation, costs and recommendation (2026-11-02c)
+
+- **Answer to the question.** In this fixed procedure, expert corrections did not improve unassisted performance
+  over ordinary PPO. They reduced it: C − A = −0.111 at 501,760, negative in all six development seeds and at both
+  evaluation points. C also did not add value beyond replay: C − R = −0.115. Matched demonstration replay gave no
+  material change over A (+0.004, interval [−0.067, +0.075]).
+- **Strength of the evidence.** These are development results with six seeds; no confirmation test was run, by the
+  frozen rule. The negative C − A direction is consistent and large compared with the seed spread (SD 0.024). The
+  R − A result is unresolved in either direction; "no material change" is not a proof of equivalence.
+- **Scope.** The negative result concerns this procedure only: planner labels uniform over shortest first actions,
+  frontier = first locked door, coefficient 0.1, every-4th query rule, current-rollout labels, this BC start and
+  budget. It does not show that corrective supervision cannot help in this task.
+- **Candidate explanations (not tested; post hoc).**
+  1. Higher entropy. C roughly doubled policy entropy. One third of labels were uniform over 2-4 actions, and the
+     labels conflicted with the policy in about 45% of queried states; CE stayed near 1.1. A more random policy
+     takes longer through the prefix (tau +19.5) and arrives later and in worse states.
+  2. Global interference. Completion after arrival fell (0.277 vs 0.457) though no suffix state was labelled. The
+     shared network changed behaviour outside the supervised region.
+  3. Objective mismatch. Labels target the shortest path to the next door. The learner's own (rewarded) routes are
+     not always shortest; forcing towards shortest-path actions with partial fit may break learned subroutines
+     (backtracked-stratum agreement fell) while it fixed some error states (wrong_key rose).
+  These explanations overlap; the data does not separate them.
+- **Relation to the literature.** C is a single-strength, planner-expert, current-rollout variant of interactive
+  imitation (DAgger, AggreVaTe, HG-DAgger) used as an auxiliary loss inside PPO, related to demonstration-augmented
+  RL (Nair et al. 2018; DAPG; DQfD; POfD). Known risks in that family include conflict between imitation and RL
+  objectives and imitation of an expert the learner cannot match; Q-filtered or annealed imitation losses address
+  this. No novelty is claimed.
+- **Costs** (executed environment actions; ledger start 329,624,666; ceiling 80,000,000):
+  - total 12,571,482: scientific 12,492,768 (of the 72M cap), reserve 78,714 (of 8M);
+  - development (6 seeds, 18 branches plus BC and probe) 11,582,084; data 45,471; recovery bank 27,794; tests and
+    smoke 259,901; section 1 audit 349,457; local development and validation 228,061;
+  - reserve: evaluation replay 5,160; final tests 73,554 (334 passed, 11 skipped);
+  - no interruptions, retries, pauses or exclusions; battery at 100% on AC throughout;
+  - supervision (C only): 418,957 expert queries, 387,948 labelled states, 1,551,792 example uses, 101 s planner
+    time; branch wall time A 1,253 s, R 1,336 s, C 1,460 s in total over six seeds; development wall time about
+    81 minutes.
+- **Recommendation.**
+  1. Do not run confirmation or retune this procedure under the current authorization (the frozen rule stops here).
+  2. Do not treat the result as closing the corrective-supervision question. If the owner wants to continue, a new
+     frozen study should first test a mechanism, not tune λ: for example deterministic single-action labels (no
+     uniform ties) or labels restricted to off-track states (wrong key, lost key), each against A and R with the
+     same accounting. These are proposals, not launched.
+  3. Plain demonstration replay at this dose is not worth confirming (+0.004).
+  4. Learned suffix completion stays a separate limit (r 0.46-0.48 in A and R).

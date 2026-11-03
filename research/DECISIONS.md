@@ -750,3 +750,20 @@ completion. See FINDINGS F24-F25 and REPORT section S.
   - if R alone is selected, confirmation R uses the rounded mean development C schedule (frozen now);
   - no suffix competence bank in branch evaluations (not required; saves cost); the probe keeps its established
     diagnostics.
+
+## 2026-11-02c — Canary, gate and close-out (Amendment 9)
+
+- **Canary (seed 116).** Health only, no outcomes inspected: 245 updates per arm; C7 69,110 queries (cap not
+  reached), 0 observation conflicts; R7 matched C7 exactly; C7 entropy 0.81 vs A 0.41 and single-update KL maxima
+  up to 0.34 on prefix states. Judged acceptable under Amendment 9 (no tuning of λ allowed); seeds 117-121 run
+  unchanged.
+- **Gate.** Applied as frozen: C − A −0.111 (0/6), R − A +0.004 (3/6), C − R −0.115. Neither arm qualifies; the
+  independent recomputation agrees. No confirmation batches were written; `make_confirm.py` wrote only the reserve
+  batches (evaluation replay, final tests).
+- **Reserve spending (itemised).** Evaluation replay 5,160 actions (36 episodes, 0 mismatches); final tests 73,554
+  (334 passed, 11 skipped). Total reserve 78,714. Nothing from reserve funded a new hypothesis, dose or seed.
+- **Unmanaged actions reconciled.** Ledger total minus batch actions = 577,518 = section 1 audit 349,457 + local
+  development and validation runs 228,061 (planner trials, pytest runs, local smoke with mirrored step records).
+- **Post hoc observations** (entropy, tie labels, suffix interference) are labelled as candidate explanations in
+  F33. A follow-up is proposed only; it needs an owner instruction.
+- **Monitors.** Battery guard (background task) and review cron `14175706` stopped at completion.

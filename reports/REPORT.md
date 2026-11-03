@@ -1,5 +1,7 @@
 # MiniGrid study: demonstration-state starts and BC preservation after BC
 
+Status 2026-11-02c (final): the Amendment 9 corrective prefix imitation study is complete at the development gate
+(section V): no arm qualified, so no confirmation was run.
 Status 2026-11-02b (final): the Amendment 8 controller diagnostics are complete (section U); exploratory, no training.
 Status 2026-11-02 (access programme, final): the Amendment 7 programme is complete (section T): diagnostics, development
 pilot and gate; no method qualified, so no confirmation was run.
@@ -11,6 +13,11 @@ are marked in section P. Earlier sections are kept as written.
 
 ## Headline
 
+**Programme 2026-11-02c (section V, complete; development only):** Expert corrections on learner-visited prefix
+states (C: planner labels, auxiliary cross-entropy 0.1 inside PPO) lowered unassisted normal-start success from
+0.191 (ordinary PPO, A) to 0.080 at 501,760 actions (C − A −0.111, 95% t [−0.136, −0.086], 0/6 seeds positive).
+Matched replay of the original demonstrations (R) gave 0.195 (R − A +0.004 [−0.067, +0.075]; C − R −0.115). The
+frozen gate selected no arm, so no confirmation was run. The negative result concerns this fixed procedure only.
 **Programme 2026-11-02b (section U, complete; diagnostic, exploratory):** On eight frozen ordinary-PPO policies
 and a fresh panel, privileged module-local key-acquisition assistance (navigation and inventory swap, legal actions,
 original clock) in every module raised normal-start success by +0.100 (A4 cohort) and +0.158 (pilot cohort), and
@@ -72,6 +79,64 @@ checkpoint interaction was not supported (adjusted p 0.096). The result did not 
 inconclusive, not negative. The estimates are compatible with a positive effect similar to M4's (corrected
 2026-11-01). The seed SD of the effect (0.043) was larger than in the M4 subgroup (0.008); the reasons are not
 resolved (R1.10).
+
+## V. Programme 2026-11-02c (Amendment 9): corrective prefix imitation
+
+Sources: FINDINGS F31-F33; PROTOCOL_FREEZE Amendment 9 and addendum; DECISIONS 2026-11-02c; `reports/p7/`
+(dev, gate, gate_verification, verification, power); `reports/p6/audit_p6b.md`.
+
+**Question.** Do expert corrections on learner-visited prefix states (C) improve unassisted performance over
+ordinary PPO (A), and do they add value beyond replay of the original prefix demonstrations (R)?
+
+### V1. Record audit (section 1; F31)
+- Direct key − mask contrasts: A4 key_all − mask_prefix +0.070, layout-conditional [−0.002, +0.143], crossed
+  [−0.035, +0.176]; P5 +0.135 [+0.078, +0.192], [+0.055, +0.215]. The A4 key-only crossed intervals include zero.
+- Premature key drops after key assistance: 177/501 (A4) and 183/462 (P5), reclassified by door state.
+- Planner finishability and learned completion are separate quantities. Assistance changes trajectories, inventory
+  and time together. Corrections are marked in F29, F30 and section U.
+
+### V2. Design (frozen before outcomes)
+- K=3; BC rho 0.2, 8,000 updates; shared probe; three forks per seed from the same state.
+- A: ordinary PPO. R: auxiliary CE on stage-0 demonstration rows. C: auxiliary CE on planner labels (all shortest
+  first actions towards the first locked door, uniform target) for at most every 4th eligible prefix transition of
+  the current rollout; hard cap 75,000 queries per branch. Coefficient 0.1; R matched C's examples per update.
+- Behaviour records and the PPO objective unchanged; evaluation always unassisted and planner-free.
+- Six development seeds (116-121) on r7_dev (64 × 4). Gate: mean gain ≥ 0.05 and ≥ 4/6 positive.
+
+### V3. Development results (P1 at 501,760; unassisted)
+
+| Arm | Mean P1 | Δ vs A [95% t over 6 seeds] | Seeds positive | q (arrive) | r (complete after arrival) | tau |
+|---|---|---|---|---|---|---|
+| A | 0.191 | — | — | 0.417 | 0.457 | 78.4 |
+| R | 0.195 | +0.004 [−0.067, +0.075] | 3/6 | 0.404 | 0.482 | 78.5 |
+| C | 0.080 | −0.111 [−0.136, −0.086] | 0/6 | 0.289 | 0.277 | 97.9 |
+
+- C − R = −0.115 [−0.185, −0.044], 1/6. At 251,904: A 0.148, R 0.133, C 0.051.
+- Gate: no arm selected; independent recomputation agrees; 36/36 replayed evaluation episodes match.
+- C removed most locked-door toggles (2.6 vs 17.3 per episode) and no-ops (13.9 vs 49.7) but raised key pickups,
+  wrong-key pickups and premature drops. C doubled policy entropy (0.69-0.93 vs 0.31-0.51).
+- Recovery-bank label agreement rose slightly for C (0.675 vs 0.647), mainly on wrong-key states.
+
+### V4. Interpretation
+- C > A is not supported; the development evidence points the other way in every seed. C > R is not supported.
+- R ≈ A is unresolved; the interval is wide, and similar results do not prove equivalence.
+- Candidate mechanisms (post hoc, not separated): entropy increase from uniform tie labels and imperfect label fit
+  (CE about 1.1); interference outside the supervised region (completion after arrival fell without suffix labels);
+  shortest-path labels that conflict with the learner's rewarded routes.
+- Scope: this fixed procedure only. No novelty claim; the method is a DAgger-style auxiliary loss in PPO.
+
+### V5. Costs
+- 12,571,482 of 80,000,000 actions: scientific 12,492,768, reserve 78,714. Development 11,582,084; preparation
+  333,166; audit 349,457; local validation 228,061; replay 5,160; final tests 73,554.
+- C supervision: 418,957 expert queries, 387,948 labelled states, 1,551,792 example uses, 101 s planner time.
+- No pauses, retries, exclusions or deviations. Battery 100% on AC.
+
+### V6. Recommendation
+1. Stop this procedure; no confirmation and no λ tuning.
+2. If the line continues, freeze a new mechanism test (deterministic single-action labels, or labels only on
+   off-track states) against A and R, with the same accounting. Not launched.
+3. Do not confirm plain replay at this dose.
+4. Treat learned suffix completion as a separate limit.
 
 ## U. Programme 2026-11-02b (Amendment 8): controller diagnostics on frozen policies
 

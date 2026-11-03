@@ -221,11 +221,12 @@ Dependencies: each line needs the lines above it unless marked (parallel-safe: d
 - [x] Label planner, sources, PPO/rl integration, trace drop classification, recovery bank, eval replay
 - [x] Unit tests and local smoke pass; power table; conservative costs; analysis and verification scripts
 - [x] Amendment 9 frozen and committed before outcome-producing runs
-- [ ] Data r7-v1 (registry disjointness) → panel and bank hashes addendum
-- [ ] Recovery bank (label check 0 violations)
-- [ ] Tests + smoke batch in the runner
-- [ ] Development seeds 116-121 (116 canary: health only)
-- [ ] Frozen gate + independent gate recomputation
-- [ ] Confirmation 122-141 (only if selected; blinded until complete)
-- [ ] Reserve: eval replay, final tests; independent verification
-- [ ] FINDINGS, REPORT, STATE, DECISIONS; commit and push; stop owned monitors
+- [x] Data r7-v1 (registry disjointness) → panel and bank hashes addendum
+- [x] Recovery bank (label check 1/480 tie-set gap through obstacle pickup; documented in the addendum)
+- [x] Tests + smoke batch in the runner (334 passed, 11 skipped; smoke 4 passed)
+- [x] Development seeds 116-121 (116 canary: health only; no tuning)
+- [x] Frozen gate + independent gate recomputation (no arm selected; agrees)
+- [x] Confirmation 122-141 — not run (gate selected none)
+- [x] Reserve: eval replay (36/36), final tests (334 passed); independent verification (agrees)
+- [x] FINDINGS F32-F33, REPORT V, STATE, DECISIONS, REVIEWS; commit and push; stop owned monitors
+- [ ] Follow-up mechanism study (F33) or close the line — awaits owner instruction
