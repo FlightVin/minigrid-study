@@ -3,7 +3,8 @@
 experiments/p8/tests.batch.json      p8-tests (tests/test_p8.py, CPU)
 experiments/p8/collect.batch.json    p8-collect (train, val, test states; CPU)
 experiments/p8/validate.batch.json   p8-validate (zero-action checks, check_label sample, expert panel; CPU)
-experiments/p8/tiny.batch.json       p8-tiny-lr3e-4, p8-tiny-lr1e-3 (MPS)
+experiments/p8/tiny.batch.json       p8-tiny-lr3e-4, p8-tiny-lr1e-3 (MPS; stopped, no telemetry)
+experiments/p8/tiny2.batch.json      p8-tiny-fix1-lr3e-4, p8-tiny-fix1-lr1e-3 (MPS; telemetry fixed)
 experiments/p8/fits.batch.json       15 fits (MPS): warm original at subset sizes 0, 1, 2 x seeds 0-2; scratch original
                                      and comparison (hidden 1024) at size 2 x seeds 0-2
 experiments/p8/test.batch.json       p8-test (selected checkpoints on the final test states and recovery bank; MPS)
@@ -51,11 +52,15 @@ def main():
               [job("p8-validate", ["bc2rl.capability", "validate", "--config", "experiments/p8/validate-v1.json"], mem=4)]), "actions")
     add(write("experiments/p8/tiny.batch.json",
               [job(f"p8-tiny-lr{lr}", ["bc2rl.capfit", "tiny", "--config", FIT, "--lr", lr], "mps") for lr in ("3e-4", "1e-3")]), "fit")
+    # p8-tiny-* stopped by the runner after 30 s: capfit wrote no MPS telemetry; fixed (Heartbeat), new IDs
+    add(write("experiments/p8/tiny2.batch.json",
+              [job(f"p8-tiny-fix1-lr{lr}", ["bc2rl.capfit", "tiny", "--config", FIT, "--lr", lr], "mps") for lr in ("3e-4", "1e-3")]), "fit")
     add(write("experiments/p8/fits.batch.json",
               [job(i, ["bc2rl.capfit", "fit", "--config", FIT, *a], "mps", 4) for i, a in fit_jobs()]), "fit")
     add(write("experiments/p8/test.batch.json", [job("p8-test", ["bc2rl.capfit", "test", "--config", FIT], "mps", 4)]), "fit")
     add(write("experiments/p8/rollout.batch.json",
               [job("p8-rollout", ["bc2rl.capability", "rollout", "--config", "experiments/p8/rollout-v1.json"])]), "actions")
+    plan[4].update(required=False, note="stopped by the runner (no MPS telemetry); superseded by tiny2")
     (ROOT / "experiments/p8/plan.json").write_text(json.dumps({"batches": plan}, indent=1) + "\n")
 
 

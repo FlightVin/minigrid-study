@@ -31,6 +31,7 @@ from torch import nn
 
 from bc2rl import battery as BAT
 from bc2rl import model as M
+from bc2rl.telemetry import Heartbeat
 
 DONE = 6
 
@@ -244,12 +245,13 @@ def main():
     a = ap.parse_args()
     cfg = json.loads(Path(a.config).read_text())
     BAT.require_admission("capfit_" + a.mode)
-    if a.mode == "tiny":
-        tiny(cfg, a.lr)
-    elif a.mode == "fit":
-        fit(cfg, a.init, a.hidden, a.size, a.seed)
-    else:
-        test(cfg)
+    with Heartbeat(interval=5):      # the runner stops MPS jobs without fresh telemetry (first tiny batch, 2026-11-03)
+        if a.mode == "tiny":
+            tiny(cfg, a.lr)
+        elif a.mode == "fit":
+            fit(cfg, a.init, a.hidden, a.size, a.seed)
+        else:
+            test(cfg)
 
 
 if __name__ == "__main__":

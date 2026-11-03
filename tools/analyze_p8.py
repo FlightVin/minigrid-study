@@ -65,7 +65,7 @@ def prep():
     out["dataset"] = json.loads((OUT / "dataset_manifest.json").read_text())
     out["tiny"] = {}
     for lr in ("3e-4", "1e-3"):
-        s = js(f"p8-tiny-lr{lr}")
+        s = js(f"p8-tiny-fix1-lr{lr}")
         if s:
             out["tiny"][lr] = {k: s[k] for k in ("final", "checks", "passes", "compute_seconds", "n")}
             out["tiny"][lr]["curve"] = s["curve"]

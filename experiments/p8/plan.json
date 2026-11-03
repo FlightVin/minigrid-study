@@ -23,6 +23,12 @@
   {
    "file": "experiments/p8/tiny.batch.json",
    "kind": "fit",
+   "required": false,
+   "note": "stopped by the runner (no MPS telemetry); superseded by tiny2"
+  },
+  {
+   "file": "experiments/p8/tiny2.batch.json",
+   "kind": "fit",
    "required": true
   },
   {
