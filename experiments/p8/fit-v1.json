@@ -12,7 +12,7 @@
    0.001
   ]
  },
- "lr": null,
+ "lr": 0.0003,
  "batch": 512,
  "updates": 30000,
  "eval_every": 500,
@@ -33,5 +33,6 @@
    "update": 8000
   }
  },
- "test_jobs": []
+ "test_jobs": [],
+ "lr_rule_result": "tiny batch 20261103T164109-52763: lr 3e-4 passes (argmax 1.000, set loss 1.2e-4 at 3,000 updates); lr 1e-3 also passes; rule selects 3e-4"
 }

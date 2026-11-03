@@ -1331,3 +1331,9 @@ models, dataset, layouts and code are saved.
 - Tiny set: 512 states from the 994 audited-pass states (seed 20261105), stratified (on_track 94, wrong_key 99,
   key_lost 104, backtracked 102, all_unlocked 113).
 - The test arrays stay unread until the selected checkpoints are hashed in addendum 2.
+
+**Amendment 10 addendum 1b (2026-11-03, before any fit).** First tiny batch (20261103T163959-52592) was stopped by
+the runner after 30 s: `capfit` wrote no MPS telemetry (deterministic; fixed with the telemetry heartbeat; new IDs
+p8-tiny-fix1-*). Tiny check (batch 20261103T164109-52763, 512 audited states, 3,000 full-batch updates): lr 3e-4 →
+argmax-in-set 1.000, set loss 1.2e-4; lr 1e-3 → 1.000, 1.1e-5. Loss-reduction, preprocessing and label checks pass.
+Per rule, lr = 3e-4 for all fits (`experiments/p8/fit-v1.json`).
