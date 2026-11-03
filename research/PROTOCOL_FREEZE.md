@@ -1304,3 +1304,30 @@ pose repeats. Uncertainty: layout-level paired bootstrap; per-seed values. This 
 **L. Verification.** `tools/verify_p8.py` recomputes the final metrics from the saved checkpoints and dataset with its
 own code (CPU), the rollout summaries from the raw rollout rows, and the action totals from step records. Hashes of
 models, dataset, layouts and code are saved.
+
+**Amendment 10 addendum 1 (2026-11-03, before any fit; dataset frozen).**
+- Dataset `data/cap-v1/dataset.npz`, sha256 `3f127003cabdb630db96d110d82b137e42900229296855d90a9d3150ef1d37a4`;
+  manifest `reports/p8/dataset_manifest.json`. Collection files: train `8b94e9ee…`, val `8e9d1912…`, test `731222a2…`
+  (full hashes in the manifest).
+- Collection (batch 20261103T141741-90793, 205,958 actions) and validation (batch 20261103T142002-91204, 7,319
+  actions): 0 rebuild mismatches, 0 identical-observation conflicts, 0 configuration-label conflicts, 0 door-visibility
+  failures; expert prefix controller crossed 32/32 validation-panel layouts with the original clock.
+- Label check: 6 of 1,000 audited states violate the check, all inside documented planner simplifications (5 drops
+  on a cell in front of a door, wrong_key states; 1 pickup of an obstacle key, key_lost). Reported as a label-adequacy
+  caveat (0.6% overall, about 2.5% of audited wrong_key states). The audit continues.
+- Unique labelled states (unit: configuration without time): train 78,621 (1,415 layouts), val 18,386 (331 layouts),
+  test 8,088 (64 layouts). Layout overlap between groups 0; shared configurations between groups 0.
+- Unlabelled rows are kept out of fitting. Certified impossible (relaxed lower bound > remaining time): train 876
+  module + 2,855 boundary, val 217 + 612, test 120 + 421. Not certified (unresolved planning): train 5,359, val 1,167,
+  test 1,062.
+- Stratum share of unique train states: on_track about 0.81, wrong_key 0.106, key_lost 0.020, backtracked 0.052,
+  all_unlocked 0.012 (val and test similar; manifest).
+- Sizes. The 150,000-action collection budget gave 78,621 unique training states, below the 200,000 target. Per rule
+  C the nested subsets are frozen smaller, by whole layouts: S1 = 19,726 states (358 layouts), S2 = 39,068 (712),
+  S3 = 78,621 (1,415). Fit job suffixes n0/n1/n2 are S1/S2/S3.
+- Provenance. Train and val layouts are rl_train layouts (seen in PPO training; not "unseen"). Test layouts are r7_conf
+  items 0-63, never used to train any actor or the warm-start BC actors. The recovery bank (480 states, r7_recov
+  layouts, A4 source policies) is a second held-out set.
+- Tiny set: 512 states from the 994 audited-pass states (seed 20261105), stratified (on_track 94, wrong_key 99,
+  key_lost 104, backtracked 102, all_unlocked 113).
+- The test arrays stay unread until the selected checkpoints are hashed in addendum 2.

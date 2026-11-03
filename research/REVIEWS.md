@@ -481,3 +481,40 @@ cal-s67..69 -> `tools/analyze_cal.py` -> pilot batch files via `make_batches.py 
 - **Next batch justified?** No scientific batch. The frozen rule says to stop and write up development. Only the
   reserve items remain: the evaluation replay check (36 episodes) and the final test run.
 - **Decision.** Stop scientific spending. Run reserve verification, then write up.
+
+## 2026-11-03 10:43 EST — two-hour review, final actor capability audit (Amendment 10)
+
+- **Evidence changed.**
+  - Premise audit: the actor's dense layer sees the whole grid; 7 × 7 is only the local receptive field of each
+    convolution feature. The WRITEUP claim was corrected. C7's cross-entropy was 0.87 nats above its 0.244
+    tie-entropy floor.
+  - Collection: 205,958 actions; 1,415 train, 331 validation and 64 test layouts.
+  - Validation:
+    - about 105k unique labelled configurations rebuilt from observation alone, with 0 mismatches;
+    - 0 observation conflicts and 0 label conflicts across time;
+    - all planner layout reads visible in the grid;
+    - expert prefix controller 32/32 on the validation panel.
+  - check_label: 6/1000 violations, all inside the documented abstraction limits. Five were drops onto a
+    door-front cell; one was an obstacle-key pickup. 5 of the 6 are wrong_key states (2.5% of that stratum).
+- **Uncertainty.**
+  - Labels are shortest within the abstraction, not always in the real environment (about 0.6% overall). This
+    caveat applies mainly to wrong-key states.
+  - The final test has not been read. No fit has run yet.
+- **Fairness of comparisons.** Not yet exercised. The design fixes matched data subsets, the set loss, batch 512,
+  30,000 updates, minibatch permutations per seed, and validation-based selection for all 15 fits.
+- **Budget.**
+  - Actions: 216,383 of 500,000. Planned remaining conservative bound: rollout ≤ 200,816 plus the 20k local
+    allowance.
+  - Fitting compute: 0 of 21,600 s.
+- **Deviations, all recorded.**
+  - The first tests job skipped every test because the data path did not resolve from the runner's code snapshot.
+    It was fixed and rerun as p8-tests-fix1: 6 passed, 180 actions.
+  - One validate submission was refused with 0 actions because the tree was dirty. This was my error.
+  - 2,374 smoke actions that bypassed the ledger were added as an adjustment.
+- **Match to the frozen design.** Yes. Collection, the stall rule, the validation gates and the dataset rules are
+  as frozen.
+- **Battery.** 100%, now discharging (off AC). The guard is running. There is no pause flag.
+- **Next step justified?** Yes. The validation gates passed. Next: dataset build and the size addendum, then the
+  tiny-set check at two learning rates, then the 15 fits. The final test stays sealed until the selected
+  checkpoints are hashed and committed.
+- **Decision.** Continue.
