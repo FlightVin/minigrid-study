@@ -518,3 +518,65 @@ cal-s67..69 -> `tools/analyze_cal.py` -> pilot batch files via `make_batches.py 
   tiny-set check at two learning rates, then the 15 fits. The final test stays sealed until the selected
   checkpoints are hashed and committed.
 - **Decision.** Continue.
+
+## 2026-11-03 17:45 UTC — two-hour review, final actor capability audit (Amendment 10)
+
+**Battery and safety.** No pause flag (`.mae/monitor/BATTERY_PAUSE.json` absent). Battery 85%, now discharging
+(AC removed during the fits); the guard runs and stops work at 31% or lower. Fits use about 0.2 CPU cores, 1.6 GB.
+
+**Evidence changed since the 10:43 review.**
+- Dataset frozen (addendum 1, b86d2a0): 78,621 / 18,386 / 8,088 unique labelled train / val / test states; 0 layout
+  and 0 state overlap between groups. The collection budget gave fewer states than 200k, so the nested subsets were
+  frozen smaller (S1 19,726; S2 39,068; S3 78,621), as section 4 allows.
+- Tiny-set check (addendum 1b): the original actor from scratch fits the 512 audited states (argmax-in-set 1.000,
+  set loss 1e-4) at both learning rates; the three implementation checks pass. Category "poor tiny fit" is excluded:
+  implementation, labels and optimisation do not block fitting. Rule selects lr 3e-4.
+- One deterministic failure: the first tiny batch was stopped after 30 s (no MPS telemetry from `capfit`). Fixed;
+  new IDs; recorded in the plan and the addendum.
+- Fits (batch 20261103T164251-53120, active): 8 of 15 complete, all warm original. Validation and training-probe
+  values only (the test arrays are unread):
+
+  | Condition | n train | train-probe argmax | val argmax-in-set (selected), seeds 0/1/2 | val at update 0 (BC) |
+  |---|---|---|---|---|
+  | warm128 S1 | 19,726 | 1.000 | 0.913 / 0.916 / 0.915 | 0.71 / 0.69 / 0.66 |
+  | warm128 S2 | 39,068 | 1.000 | 0.958 / 0.964 / 0.960 | same |
+  | warm128 S3 | 78,621 | 1.000 | 0.982 / 0.985 / (running) | same |
+
+  Reading: the original actor reaches about 1.0 on its training states at every size. Validation agreement rises with
+  data (0.91 → 0.96 → 0.98) and seed spread is small (≤ 0.006). The gap between train and validation shrinks with
+  data, which points to coverage, not a capacity ceiling, at these sizes. Several selected checkpoints are at or near
+  the last update (22,000–30,000), so the fits may not have converged at 30,000 updates; the update limit is frozen
+  and I do not change it.
+
+**Uncertainty and limits on these numbers.**
+- Validation layouts are rl_train layouts (seen in PPO training) and the states come from the same 18 collection
+  policies as the training states. Validation is not a fresh-layout measure; only the sealed test (r7_conf) is.
+- Selection takes the best of 60 validation checkpoints, so the selected validation values are slightly optimistic.
+  The test is scored once and is not used for selection.
+- Argmax-in-set on states is not prefix execution. Rollouts on the 64 fresh layouts answer that question.
+- Labels have the documented 0.6% check-violation rate (about 2.5% for wrong_key states).
+
+**Fairness of comparisons.** Within each seed, all conditions use the same data subset order (batch generator seed
+6000 + seed), objective (set loss), batch 512, 30,000 updates, lr 3e-4, evaluation schedule and selection rule.
+Warm and scratch differ only in initial weights (by design). The comparison actor (dense width 1024) is matched on
+data, objective, sampling and updates, not on parameters or compute (that is the point of the comparison). Scratch
+and comparison run only at S3, as the instruction requires. These conditions are not yet run, so there is no
+comparison evidence yet.
+
+**Budget.** Actions 216,383 of 500,000 (no actions since the last review; fits and the test use none). Remaining
+planned: rollout ≤ 200,816 plus the 20,000 local allowance; projected total ≤ 437,199. Fitting compute: 115 s
+recorded for completed batches; the active batch has run about 3,650 s; projected total about 2.1–2.5 h of the 6 h
+cap (conservative admission bound 16,650 s).
+
+**Match to the frozen design.** As frozen, with the recorded deviations: smaller subset sizes (allowed by rule), the
+telemetry rerun (new IDs), and the superseded tiny batch marked not required. The rollout config is drafted in the
+scratchpad and will be committed with the checkpoint hashes, before the test is read. No PPO, interventions,
+selector or architecture changes.
+
+**Next step and justification.** Let the fits finish (warm S3 seed 2, scratch original ×3, comparison ×3). Then run
+`analyze_p8.py prep`, commit addendum 2 with the selected-checkpoint hashes and the rollout config, run the single
+final test, then the rollout panel, then `verify_p8.py`. Each step answers one of the five owner questions; nothing
+beyond the frozen plan is added.
+
+**Decision: continue.** No stop criteria apply; budgets and battery have a large margin. The commit of this review
+waits for the end of the fit batch (no commit while a runner batch is active).

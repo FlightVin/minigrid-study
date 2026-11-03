@@ -33,6 +33,22 @@
    "update": 8000
   }
  },
- "test_jobs": [],
+ "test_jobs": [
+  "p8-fit-scratch1024-n2-s0",
+  "p8-fit-scratch1024-n2-s1",
+  "p8-fit-scratch1024-n2-s2",
+  "p8-fit-scratch128-n2-s0",
+  "p8-fit-scratch128-n2-s1",
+  "p8-fit-scratch128-n2-s2",
+  "p8-fit-warm128-n0-s0",
+  "p8-fit-warm128-n0-s1",
+  "p8-fit-warm128-n0-s2",
+  "p8-fit-warm128-n1-s0",
+  "p8-fit-warm128-n1-s1",
+  "p8-fit-warm128-n1-s2",
+  "p8-fit-warm128-n2-s0",
+  "p8-fit-warm128-n2-s1",
+  "p8-fit-warm128-n2-s2"
+ ],
  "lr_rule_result": "tiny batch 20261103T164109-52763: lr 3e-4 passes (argmax 1.000, set loss 1.2e-4 at 3,000 updates); lr 1e-3 also passes; rule selects 3e-4"
 }

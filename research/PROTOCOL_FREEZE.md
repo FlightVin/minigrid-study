@@ -1337,3 +1337,17 @@ the runner after 30 s: `capfit` wrote no MPS telemetry (deterministic; fixed wit
 p8-tiny-fix1-*). Tiny check (batch 20261103T164109-52763, 512 audited states, 3,000 full-batch updates): lr 3e-4 →
 argmax-in-set 1.000, set loss 1.2e-4; lr 1e-3 → 1.000, 1.1e-5. Loss-reduction, preprocessing and label checks pass.
 Per rule, lr = 3e-4 for all fits (`experiments/p8/fit-v1.json`).
+
+**Amendment 10 addendum 2 (2026-11-03, after the fits, before the final test is read).**
+- Fits: batch 20261103T164251-53120, 15/15 complete, 7,703 s wall (fitting compute total 7,818 s with the tiny
+  batches, of 21,600). Selected checkpoints (best validation argmax-in-set, earlier on ties) and their sha256 values:
+  `reports/p8/selected_checkpoints.json`. Preparation report (validation and training probe only):
+  `reports/p8/prep.md`.
+- Validation argmax-in-set of the selected checkpoints (seeds 0/1/2): warm128 S1 0.913/0.916/0.915; S2
+  0.958/0.964/0.960; S3 0.982/0.985/0.982; scratch128 S3 0.986/0.985/0.986; scratch1024 S3 0.989/0.988/0.988.
+  Training-probe argmax-in-set 1.000 for all 15. Selected updates 22,000-30,000.
+- Final test jobs: the 15 fit jobs (`experiments/p8/fit-v1.json` `test_jobs`). Rollout config
+  `experiments/p8/rollout-v1.json` (sha256 a691e929…): 64 r7_conf layouts; 19 controllers (15 fits, bc-s116/117/118
+  at update 8000, expert); deterministic argmax on CPU; second attempt on the first 8 layouts for warm128-n2-s0 and
+  bc-s116. Conservative rollout actions 178,123.
+- No setting changes after this point. The test is scored once.

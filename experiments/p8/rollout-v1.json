@@ -1,0 +1,176 @@
+{
+ "purpose": "Actor capability audit rollouts (owner instruction 2026-11-03 section 6; PROTOCOL_FREEZE Amendment 10 J). Deterministic argmax on CPU, normal start, original limit; prefix only (stop at first crossing).",
+ "panel": {
+  "dataset_id": "r7-v1",
+  "role": "r7_conf",
+  "indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   49,
+   50,
+   51,
+   52,
+   53,
+   54,
+   55,
+   56,
+   57,
+   58,
+   59,
+   60,
+   61,
+   62,
+   63
+  ]
+ },
+ "controllers": [
+  {
+   "name": "warm128-n0-s0",
+   "kind": "fit",
+   "job": "p8-fit-warm128-n0-s0"
+  },
+  {
+   "name": "warm128-n0-s1",
+   "kind": "fit",
+   "job": "p8-fit-warm128-n0-s1"
+  },
+  {
+   "name": "warm128-n0-s2",
+   "kind": "fit",
+   "job": "p8-fit-warm128-n0-s2"
+  },
+  {
+   "name": "warm128-n1-s0",
+   "kind": "fit",
+   "job": "p8-fit-warm128-n1-s0"
+  },
+  {
+   "name": "warm128-n1-s1",
+   "kind": "fit",
+   "job": "p8-fit-warm128-n1-s1"
+  },
+  {
+   "name": "warm128-n1-s2",
+   "kind": "fit",
+   "job": "p8-fit-warm128-n1-s2"
+  },
+  {
+   "name": "warm128-n2-s0",
+   "kind": "fit",
+   "job": "p8-fit-warm128-n2-s0"
+  },
+  {
+   "name": "warm128-n2-s1",
+   "kind": "fit",
+   "job": "p8-fit-warm128-n2-s1"
+  },
+  {
+   "name": "warm128-n2-s2",
+   "kind": "fit",
+   "job": "p8-fit-warm128-n2-s2"
+  },
+  {
+   "name": "scratch128-n2-s0",
+   "kind": "fit",
+   "job": "p8-fit-scratch128-n2-s0"
+  },
+  {
+   "name": "scratch128-n2-s1",
+   "kind": "fit",
+   "job": "p8-fit-scratch128-n2-s1"
+  },
+  {
+   "name": "scratch128-n2-s2",
+   "kind": "fit",
+   "job": "p8-fit-scratch128-n2-s2"
+  },
+  {
+   "name": "scratch1024-n2-s0",
+   "kind": "fit",
+   "job": "p8-fit-scratch1024-n2-s0"
+  },
+  {
+   "name": "scratch1024-n2-s1",
+   "kind": "fit",
+   "job": "p8-fit-scratch1024-n2-s1"
+  },
+  {
+   "name": "scratch1024-n2-s2",
+   "kind": "fit",
+   "job": "p8-fit-scratch1024-n2-s2"
+  },
+  {
+   "name": "bc-s116",
+   "kind": "bc",
+   "job": "p7-bc-s116",
+   "update": 8000
+  },
+  {
+   "name": "bc-s117",
+   "kind": "bc",
+   "job": "p7-bc-s117",
+   "update": 8000
+  },
+  {
+   "name": "bc-s118",
+   "kind": "bc",
+   "job": "p7-bc-s118",
+   "update": 8000
+  },
+  {
+   "name": "expert",
+   "kind": "expert"
+  }
+ ],
+ "determinism_attempts": {
+  "warm128-n2-s0": 8,
+  "bc-s116": 8
+ }
+}
