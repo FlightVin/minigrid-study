@@ -1,0 +1,42 @@
+{
+ "rule": "qualify: mean gain over A >= 0.05, >= 4/6 positive, integrity, confirmation fits; C7 if it qualifies and mean(C-R) >= 0.02, else R7 if it qualifies, else none",
+ "C-A": {
+  "mean": -0.11067708333333333,
+  "n_pos": 0
+ },
+ "R-A": {
+  "mean": 0.00390625,
+  "n_pos": 3
+ },
+ "C-R": {
+  "mean": -0.11458333333333333,
+  "n_pos": 1
+ },
+ "integrity_ok": true,
+ "problems": {
+  "116": [],
+  "117": [],
+  "118": [],
+  "119": [],
+  "120": [],
+  "121": []
+ },
+ "spent_at_gate": {
+  "total": 12492768,
+  "reserve": 0,
+  "scientific": 12492768
+ },
+ "confirmation_bound": {
+  "C7": 45877200,
+  "R7": 32373440
+ },
+ "fits": {
+  "C7": true,
+  "R7": true
+ },
+ "qualifies": {
+  "C7": false,
+  "R7": false
+ },
+ "selected": null
+}
