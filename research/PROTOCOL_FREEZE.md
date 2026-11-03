@@ -1181,3 +1181,19 @@ al. 2018). The study tests one fixed instance of their combination at one streng
   - `experiments/p7/p7-v1.json` ead4a0937f81a597
   - `experiments/p7/c7-v1.json` d2b4ff7c61fe4484
   - `experiments/p7/make_confirm.py` 6564363cb250d636
+
+**Amendment 9 addendum (2026-11-02c, before any training; identities only).**
+- Dataset r7-v1 (batch `20261103T014346-94299`, 45,471 actions; manifest SHA-256 prefix d48bef4a51ac3038). The
+  registry rule rejected and replaced clashing seeds (structure or suffix shared with an earlier role), as for every
+  earlier dataset. K=3 panels (SHA-256 of the layout list): r7_select 64, limits 134-155, baff73ae…; r7_dev 64,
+  135-154, 8ee477d9…; r7_conf 256, 132-159, 3000e95a…; r7_recov 64, 134-155, 1fb7cfd8….
+- Recovery bank (batch `20261103T014425-94422`, 27,794 actions): 480 states, 96 per stratum; SHA-256 cd2739c3….
+  Unique labelled candidates by stratum: on_track 17,382, wrong_key 2,913, key_lost 366, backtracked 1,325,
+  all_unlocked 344. Label check: 479/480 pass. One on_track state has an equally short plan that picks up an
+  obstacle object (pickup gives remaining length plan − 1), which the frozen abstraction excludes. Its label is
+  optimal but its tie set is incomplete. This is the documented abstraction limit, not repaired. The check's
+  wording in C ("no other action shortens it") is read as "no other action gives a strictly shorter plan".
+- Tests batch `20261103T014446-94570` (259,901 actions): default suite 334 passed, 11 skipped; smoke (pause smoke
+  and `test_p7_smoke`) 4 passed.
+- Exact conservative bounds: BC 102,432; probe 165,864; development branch 588,344; seed 2,033,328; development
+  12.20M; confirmation 45.88M (C) or 32.37M (R); planned worst case with C 59.26M.
