@@ -23,6 +23,12 @@ Optional config keys (absent in M3 configs, so earlier runs are unchanged):
   extra_banks: [{"name": n, "path": p}]  further fixed snapshot banks (list of {"snapshot": ...}; path relative to
       the project), evaluated with the same bank_attempts on eval_seed + 2 + index; attempt rows kind "bank_extra".
 
+Auxiliary supervision (owner instruction 2026-11-02c): arms C7 / R7 attach a bc2rl.aux_sup source with coefficient
+  cfg["aux_coef"]. R7 needs --match-run (the same seed's completed C7 branch, whose aux_schedule.json fixes R7's
+  per-update example counts). Optional cfg["recovery_bank"] (path relative to the project): a fixed held-out bank of
+  labelled prefix states; at the fork and at every scheduled evaluation the actor's probability mass on the label set
+  and the share of states whose argmax is in the label set are recorded (forward passes only; no environment actions).
+
 Battery (owner instruction 2026-11-01c; bc2rl.battery): every job checks admission at start and exits 75 without work
 when refused. In scheduled branch/resume jobs SIGTERM (sent by the runner after a STOP) requests checkpoint-and-pause:
 at the next update boundary the job saves recovery.pt, writes paused.json (resume point, hash, actions of this job)
@@ -174,6 +180,57 @@ class Ctx:
                     f.write(json.dumps({"kind": "bank_extra", "bank": name, **r}) + "\n")
         os.replace(tmp, self.run_dir / f"attempts_{tag}.jsonl")
         return out
+
+
+def attach_aux(ctx, cfg, learner, arm, seed, match_run):
+    """Set learner.aux for arms C7 / R7 (before learner.load, so a saved source state is restored)."""
+    from bc2rl import aux_sup as AS
+    step = learner.n_envs * learner.n_steps
+    updates = -(-cfg["continuation_actions"] // step)
+    if arm == "C7":
+        learner.aux = AS.Corrections(seed, cfg["aux_coef"], cfg.get("aux_cap", AS.CAP), cfg.get("aux_quota", AS.QUOTA))
+    elif arm == "R7" and str(match_run).endswith(".json"):
+        # confirmation with R7 selected (no C7 branch): the frozen development-derived schedule file
+        path = ctx.project / match_run
+        learner.aux = AS.DemoReplay(seed, cfg["aux_coef"], ctx.ds, AS.load_c_schedule(path, updates))
+        return str(match_run)
+    elif arm == "R7":
+        assert match_run, "arm R7 needs --match-run (the same seed's completed C7 branch, or a schedule file)"
+        mdir = run_path(match_run) if not str(match_run).startswith("/") else Path(match_run)
+        msum = json.loads((mdir / "summary.json").read_text())
+        assert msum["arm"] == "C7" and msum["seed"] == seed, "match run must be this seed's C7 branch"
+        learner.aux = AS.DemoReplay(seed, cfg["aux_coef"], ctx.ds, AS.load_c_schedule(mdir / "aux_schedule.json", updates))
+        return str(mdir)
+    return None
+
+
+def recovery_agreement(ctx, actor):
+    """Label agreement of the actor on the fixed recovery bank (no environment actions)."""
+    path = ctx.cfg.get("recovery_bank")
+    if not path:
+        return None
+    if not hasattr(ctx, "_rbank"):
+        b = json.loads((ctx.project / path).read_text())
+        st = b["states"]
+        ctx._rbank = {"grid": torch.as_tensor(np.array([s["obs"]["grid"] for s in st], np.uint8), device=ctx.device),
+                      "aux": torch.as_tensor(np.array([s["obs"]["aux"] for s in st], np.int64), device=ctx.device),
+                      "time": torch.as_tensor(np.array([s["obs"]["time"] for s in st], np.float32), device=ctx.device),
+                      "mask": np.array([s["mask"] for s in st]), "cat": [s["stratum"] for s in st], "sha": b["sha256"]}
+    R = ctx._rbank
+    with torch.inference_mode():
+        actor.eval()
+        p = torch.cat([torch.softmax(actor(R["grid"][i:i + 512], R["aux"][i:i + 512], R["time"][i:i + 512]).float(), -1)
+                       for i in range(0, len(R["mask"]), 512)]).cpu().numpy()
+        actor.train()
+    inset = np.array([[(m >> a) & 1 for a in range(7)] for m in R["mask"]], bool)
+    mass = (p * inset).sum(1)
+    top = inset[np.arange(len(p)), p.argmax(1)]
+    out = {"n": int(len(p)), "mass": float(mass.mean()), "argmax_in_label": float(top.mean()), "bank_sha256": R["sha"],
+           "by_stratum": {}}
+    for c in sorted(set(R["cat"])):
+        m = np.array([x == c for x in R["cat"]])
+        out["by_stratum"][c] = {"n": int(m.sum()), "mass": float(mass[m].mean()), "argmax_in_label": float(top[m].mean())}
+    return out
 
 
 def critic_prefit(ctx, pi0, critic):
@@ -361,6 +418,7 @@ def branch(a, cfg):
     component = PP.COMPONENT.get(a.arm, "both")
     learner = PP.PPO(actor, critic, {**cfg, "kl_coef": PP.arm_kl_coef(a.arm, cfg)}, ctx.device,
                      ctx.sampler(alpha, a.arm), anchors, use_kl=use_kl, seed=seed, component=component)
+    match = attach_aux(ctx, cfg, learner, a.arm, seed, getattr(a, "match_run", None))
     learner.load(st)
     fork_actions = learner.counters["env_actions"]
     learner.sampler.clock = lambda: learner.counters["env_actions"] - fork_actions
@@ -379,7 +437,7 @@ def branch(a, cfg):
                          "K": K, "seed": seed,
                          "bc_update": pcfg["bc_update"], "fork_hash": psum["fork_hash"],
                          "probe_run": str(probe_dir), "base_actions": base_actions, "resumed_from": None,
-                         "anchors": anchor_info})
+                         "anchors": anchor_info, "match_run": match})
     curve = []
     t0 = time.time()
     with Heartbeat(interval=5):
@@ -437,6 +495,12 @@ def scheduled(ctx, cfg, learner, pi0_state, meta):
     since_fork = lambda: learner.counters["env_actions"] - meta["base_actions"]
     start = since_fork()
     evals, states = [], {}
+    agreement = {}
+    if start == 0:
+        ra = recovery_agreement(ctx, learner.actor)
+        if ra is not None:
+            agreement[0] = ra
+            ctx.log({"phase": "recovery_agreement", "post_probe_actions": 0, **ra})
     rec_every = cfg.get("recovery_every")
     assert rec_every is None or rec_every % step == 0, "recovery_every must be a rollout multiple"
     recovery = {}
@@ -454,6 +518,10 @@ def scheduled(ctx, cfg, learner, pi0_state, meta):
                 ev = ctx.evaluate(learner.actor, e["attempts"], e["bank_attempts"], role, e.get("tag", f"at_{done}"), lay,
                                   e.get("certify"))
                 ctx.log({"phase": "eval", "post_probe_actions": done, **ev})
+                ra = recovery_agreement(ctx, learner.actor)
+                if ra is not None:
+                    agreement[done] = ra
+                    ctx.log({"phase": "recovery_agreement", "post_probe_actions": done, **ra})
                 evals.append({"actions": done, "tag": ev["tag"], "P1": ev["normal"]["P1"], "q": ev["normal"]["q"],
                               "C4": ev["normal"].get("C4"), "R4": ev["normal"].get("R4"),
                               "P_success_given_arrival": ev["normal"]["P_success_given_arrival"],
@@ -486,7 +554,16 @@ def scheduled(ctx, cfg, learner, pi0_state, meta):
         wall = train_loop(ctx, learner, target - start, "branch", on_update=on_update)
     assert since_fork() == target, (since_fork(), target)
     c = learner.counters
+    aux = None
+    if learner.aux is not None:
+        aux = learner.aux.summary()
+        BAT.write_atomic(ctx.run_dir / "aux_schedule.json", {"arm": meta["arm"], "seed": meta["seed"], "complete": True,
+                                                             "labelled_per_update": learner.aux.schedule(),
+                                                             "history": learner.aux.history})
+        if meta["arm"] == "C7":
+            BAT.write_atomic(ctx.run_dir / "aux_failures.json", learner.aux.failures)
     summary = {**meta, "final": next(e for e in evals if e["actions"] == target), "evals": evals,
+               "recovery_agreement": {str(k): v for k, v in agreement.items()}, "aux": aux,
                "state_hashes": states, "continuation_actions": target, "actions_this_job": ctx.actions,
                "actions": ctx.actions, "counters": c, "train_wall_seconds": wall, "wall_seconds": time.time() - t0}
     BAT.write_atomic(ctx.run_dir / "summary.json", summary)
@@ -517,6 +594,9 @@ def resume(a, cfg):
                      {**cfg, "alpha": meta["alpha"], "kl_coef": meta["kl_coef"]}, ctx.device,
                      ctx.sampler(meta["alpha"], arm), anchors, use_kl=use_kl, seed=seed,
                      component=meta.get("anchor_component", "both"))
+    attach_aux(ctx, cfg, learner, arm, seed, meta.get("match_run"))
+    if learner.aux is not None:
+        assert "aux" in st, "saved state has no auxiliary-source state"
     learner.load(st)
     learner.sampler.clock = lambda: learner.counters["env_actions"] - meta["base_actions"]
     assert PP.state_hash({**learner.state(), "pi0": st["pi0"]}) == saved["hash"], "loaded learner differs from saved state"
@@ -538,6 +618,7 @@ def main():
     ap.add_argument("--arm", choices=list(PP.ARMS))
     ap.add_argument("--alpha", type=float, help="override the config's reset probability")
     ap.add_argument("--kl-coef", type=float, help="override the config's preservation strength")
+    ap.add_argument("--match-run", help="arm R7: the same seed's completed C7 branch (relative to .mae/runs or @/job)")
     ap.add_argument("--state", help="resume: saved branch state, relative to .mae/runs or @/job/state_<n>.pt")
     a = ap.parse_args()
     cfg = json.loads(Path(a.config).read_text())

@@ -1,0 +1,57 @@
+{
+ "n_envs": 16,
+ "n_steps": 128,
+ "gamma": 1.0,
+ "gae_lambda": 0.95,
+ "clip": 0.2,
+ "actor_lr": 3e-05,
+ "critic_lr": 0.0003,
+ "epochs": 4,
+ "minibatch": 512,
+ "ent_coef": 0.0,
+ "max_grad_norm": 0.5,
+ "anchor_batch": 128,
+ "anchor_prefix_weight": 0.25,
+ "alpha": 0.0,
+ "kl_coef": 0.01,
+ "critic_warmup_actions": 16000,
+ "critic_prefit_lr": 0.0003,
+ "critic_prefit_steps": 2000,
+ "probe_actions": 50000,
+ "diag_attempts": 2,
+ "diag_bank_attempts": 2,
+ "continuation_actions": 501760,
+ "save_state_at": [
+  251904,
+  501760
+ ],
+ "update_diagnostics": true,
+ "recovery_every": 100352,
+ "certify_arrivals": true,
+ "trace_eval": true,
+ "track_allocation": true,
+ "dataset_id": "r7-v1",
+ "eval_role": "r7_conf",
+ "bank_role": "p5_bank",
+ "diag_role": "r7_select",
+ "eval_seed": 1019500,
+ "aux_coef": 0.1,
+ "aux_cap": 75000,
+ "aux_quota": 306,
+ "recovery_bank": "data/r7-v1/recovery_bank_v1.json",
+ "eval_schedule": [
+  {
+   "at": 251904,
+   "attempts": 2,
+   "bank_attempts": 0,
+   "tag": "conf_251904"
+  },
+  {
+   "at": 501760,
+   "attempts": 2,
+   "bank_attempts": 0,
+   "tag": "conf_501760"
+  }
+ ],
+ "purpose": "Corrective prefix imitation confirmation study (owner instruction 2026-11-02c; PROTOCOL_FREEZE Amendment 9). K=3; BC rho 0.2 / 8000 (experiments/a4/bc-a4.json); shared probe as in the pilot (critic pre-fit, 51,200 ordinary-PPO actions, pi0/post-probe diagnostics on r7_select 64 x 2 with p5_bank x 2). Arms from one post-probe state: 00 (A, ordinary PPO), R7 (R, + demonstration replay), C7 (C, + corrective labels on learner-visited prefix states); aux coefficient 0.1; at most every 4th eligible prefix transition, 306 queries per update, hard cap 75,000 per branch; PPO settings unchanged. Continuation 501,760 (primary); evaluation at 251,904 (descriptive) and 501,760 on r7_conf 256 x 2, arrivals certified, traced; recovery-bank agreement at 0, 251,904, 501,760. Seeds 122-141 (all kept). Eval seed 1019500."
+}

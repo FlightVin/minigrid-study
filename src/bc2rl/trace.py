@@ -10,6 +10,9 @@ Tracker(env) is created after reset and called around each env.step. summary() r
   noop_actions   actions that changed neither pose, inventory nor grid (bumps, empty pickup/drop/toggle, done)
   pose_repeat_frac  1 - distinct (x, y, dir) / steps; max_cell_visits: most visits to one cell (navigation loops)
   stage_end      "prefix_m<j>" (in module j, j = index of the first locked door), "suffix_no_target" or "carrying"
+  key_drops      (2026-11-02c) drops of module j's key by the state of door j at the drop: "premature" (door still
+                 locked), "unlocked_unpassed" (unlocked, the agent never beyond it), "obsolete" (the agent has stood
+                 beyond door j)
 """
 from bc2rl import task as T
 
@@ -44,6 +47,8 @@ class Tracker:
         self.key_pickups, self.wrong = [], 0
         self.locked_toggles = self.door_closes = self.noop = 0
         self.poses, self.cells = set(), {}
+        self.key_drops = {"premature": 0, "unlocked_unpassed": 0, "obsolete": 0}
+        self.passed = [False] * L.K
         self._enter(env)
 
     def _enter(self, env):
@@ -53,6 +58,9 @@ class Tracker:
             if self.mod_entry[j] is None:
                 self.mod_entry[j] = self.t
         c = tuple(int(v) for v in env.agent_pos)
+        for j, s in enumerate(self.slots):
+            if c[0] > T.DOOR_X[s]:
+                self.passed[j] = True
         self.cells[c] = self.cells.get(c, 0) + 1
         self.poses.add((*c, int(env.agent_dir)))
 
@@ -78,6 +86,10 @@ class Tracker:
             self.key_pickups.append((carry[1], self.t))
             need = next((self.colors[j] for j, o in enumerate(self._doors) if not o), None)
             self.wrong += carry[1] != need
+        if self._action == 4 and carry is None and self._carry is not None and self._carry[0] == "key" \
+                and self._carry[1] in self.colors:
+            j = self.colors.index(self._carry[1])
+            self.key_drops["obsolete" if self.passed[j] else "unlocked_unpassed" if self._doors[j] else "premature"] += 1
         if self._action == 5 and f is not None and f.type == "door":     # toggle
             if fs[1] and f.is_locked:
                 self.locked_toggles += 1
@@ -100,4 +112,4 @@ class Tracker:
                 "key_pickups": self.key_pickups, "wrong_key_pickups": self.wrong, "locked_toggles": self.locked_toggles,
                 "door_closes": self.door_closes, "noop_actions": self.noop,
                 "pose_repeat_frac": 1 - len(self.poses) / max(1, self.t + 1), "max_cell_visits": max(self.cells.values()),
-                "stage_end": stage}
+                "stage_end": stage, "key_drops": dict(self.key_drops)}

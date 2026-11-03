@@ -240,3 +240,21 @@ The watcher then reported the previous batch; it was restarted after the new bat
   - `tests/test_analyze_a4.py` (2): synthetic lineage with a paused and resumed branch, blinding, H2 gating and the
     decomposition identity.
 - Local runs: default suite 304 passed, 6 skipped. Pause smoke 3/3 (unmanaged actions, counted by the ledger).
+
+## 2026-11-02c — Corrective prefix imitation implementation (Amendment 9)
+
+- `src/bc2rl/corrective.py`: frontier-module label planner (layered BFS with first-action sets), state categories,
+  `check_label` verification. Defect found before the freeze: the frontier key's cell stayed impassable after the
+  key was picked up in the search model, so some labels overestimated plan length (44 of 5,349 random-walk states
+  failed the consistency check). Fix: the key cell is free and droppable once the key is held. After the fix: 0
+  violations on 4,045 states (exact one-step check) and in all unit tests.
+- `src/bc2rl/aux_sup.py`: `Corrections` (C) and `DemoReplay` (R) sources; cap, quota, stride; per-epoch chunking.
+- `src/bc2rl/ppo.py`: optional `learner.aux`; observe hook before each env step (normal starts only); auxiliary
+  term per minibatch; gradient sizes of the PPO and auxiliary terms on the first supervised minibatch of each
+  update; source state saved with the learner state. With `aux` None, all code paths and RNG use are unchanged.
+- `src/bc2rl/rl.py`: arms C7/R7 (`--match-run`), recovery-bank agreement at the fork and at evaluations, aux
+  summaries and `aux_schedule.json`.
+- `src/bc2rl/trace.py`: key drops classified by door state (new field; earlier fields unchanged).
+- `src/bc2rl/recovery_bank.py`, `src/bc2rl/eval_replay.py`, `src/bc2rl/splits.py` (roles r7_*).
+- Tests: `tests/test_p7.py` (13) and `tests/test_p7_smoke.py` (real jobs; passed locally in 73 s before the freeze;
+  counted as unmanaged actions). Related suites pass.

@@ -1033,3 +1033,151 @@ inventory, unlock doors directly or restore time. Every helper action is counted
   - `tools/run_program6.py` 891360f95f5a1fe1
   - `experiments/p6/ctrl-v1.json` 58b09ae8e5b75455
   - `experiments/p6/canary-v1.json` 1cdebee751a21daa
+
+### Amendment 9 — 2026-11-02c (in force): corrective prefix imitation study (owner instruction 2026-11-02c)
+
+Frozen before any development outcome. Instruction verbatim in `mac-agentic-engineering/project.md` (harness
+`1efcb5f`). This is a new supervision study. It cannot show, after the fact, that the completed preservation or reset
+interventions work, and it reopens neither.
+
+**A. Questions.**
+1. Do new expert corrections on learner-visited prefix states (C) improve unassisted normal-start success over
+   ordinary PPO (A)?
+2. Do they add value beyond imitation replay of the original prefix demonstrations (R) at a matched example count,
+   coefficient and schedule?
+
+**B. Arms** (one post-probe fork per seed; PPO settings, environment-action allowance and evaluation identical):
+- **A (`00`)**: ordinary PPO, exactly the established arm.
+- **R (`R7`)**: A plus an auxiliary cross-entropy toward the original prefix demonstrations: the K=3 `bc_train` rows
+  with stage 0 of conf-v1 (18,357 rows; the BC data), one-hot recorded expert action.
+- **C (`C7`)**: A plus an auxiliary cross-entropy toward planner labels on states from C's own rollouts.
+- Sampling differences between R and C (documented, intended): R's states are demonstration states drawn uniformly
+  with replacement; C's states are the learner's own prefix states. R's target is the one action the expert planner
+  recorded (seeded tie-breaking); C's target is uniform over every first action of a shortest completion plan.
+- Information privileges: C's labels use a privileged planner on the live simulator state (read-only). R uses
+  stored expert actions. Neither changes starts, actions taken, inventory or time. Evaluation is unassisted in all
+  arms.
+
+**C. Corrective labels** (`src/bc2rl/corrective.py`; docstring is the frozen rule):
+- Current unfinished module = the first active module whose door is locked; goal = stand on its door cell. If no door
+  is locked, the goal is the boundary crossing at (13, 4). Both are read from the observable grid.
+- Recovery is implicit because the search starts from the actual state: backtracking (walk back, toggling closed
+  unlocked doors open), wrong-key possession (drop on an allowed cell, then fetch), premature key loss (fetch the key
+  wherever it lies in the reachable prefix). Key acquisition and door passage are one search, so no handoff rule is
+  needed.
+- Abstraction: region x ≤ the goal door's column; the frontier key is pickable and never dropped; the carried object
+  is droppable and never re-picked; drops allowed on empty interior cells of modules 0..j*, never in front of a door;
+  no door is ever closed; other objects are fixed obstacles.
+- Ties: the label is the set of every first action of a shortest plan (layered BFS with first-action sets); the
+  target is uniform over it. No random numbers.
+- Limits and failures: search cap 200,000 states. Statuses: labelled; time_exceeded (shortest plan longer than the
+  remaining time); unresolved (no plan in the abstraction, blocked goal, or search cap). Failed queries never produce
+  a label and are recorded with their state category. No fallback labels.
+- Observability: labels are a function of the observation (full grid with door states, pose, carried object, time).
+  The training job audits conflicts by observation hash.
+- Verification of labels: `check_label` executes each action once from the snapshot and requires each label action
+  to shorten the remaining plan by exactly 1 and no other action to shorten it. Pre-freeze check: 4,045 random-walk
+  states and all constructed error states in `tests/test_p7.py`, 0 violations (after the fix in IMPLEMENTATION).
+
+**D. Sampling, cap, loss and reuse** (`src/bc2rl/aux_sup.py`, `src/bc2rl/ppo.py`):
+- Eligible transition: a normal-start training decision before the boundary. Counted in rollout order. Eligible
+  transition e is queried if e mod stride = 0, the rollout has fewer than 306 queries, and the branch has fewer than
+  75,000 queries. stride = max(4, ceil(previous rollout's eligible count / 306)); first rollout 4. The 75,000 cap is
+  enforced in code (`Corrections.observe`, asserted per update).
+- Labels come from the current rollout only. No replay buffer.
+- Loss: per PPO minibatch k of each epoch, add 0.1 × mean cross-entropy over chunk k of a per-epoch permutation of
+  the update's labelled examples (`numpy.array_split` into the epoch's 4 minibatches). Each example is used once per
+  epoch, 4 times per update. Behaviour actions, old log-probabilities, rewards, values and advantages are untouched.
+  The PPO objective is unchanged on every state; supervision touches prefix states only. The PPO clip does not
+  constrain the auxiliary term; the shared gradient-norm clip (0.5) applies to the sum.
+- R matching: in update t, R draws exactly n_t demonstration rows, where n_t is the number of labelled examples C used
+  in update t of the same seed (`aux_schedule.json`, read with `--match-run`). Same coefficient, normalization,
+  chunking and epochs.
+- Recorded cost: queried states, labelled examples, failures by status and category, label-set sizes, example uses,
+  planner node expansions and planner seconds, executed-action agreement with the label, policy mass on the label set,
+  observation conflicts, wall time.
+
+**E. Initialization, seeds and panels.**
+- K=3; BC rho 0.2, 8,000 updates (`experiments/a4/bc-a4.json`); the established probe (critic pre-fit, 51,200
+  ordinary-PPO actions); forks hashed; all arms load the same fork (checked).
+- Seeds: development 116-121; confirmation 122-141. Seeds 96-115 stay retired as the closed pilot's unused
+  reservation. Seeds are never filtered or replaced.
+- Dataset r7-v1 = r6-v1 plus new roles (namespaces 137-140): r7_select 64 (pi0/post-probe diagnostics), r7_dev 64
+  (development panel, 64 × 4), r7_conf 256 (confirmation panel, 256 × 2, shared by all confirmation seeds and arms),
+  r7_recov 64 (recovery-bank donor layouts). Disjointness is checked by the registry rule. Panel hashes are recorded
+  in an addendum after generation, before any training.
+- Recovery bank: frozen A4 arm-00 finals (s70-73; no part in this study) on r7_recov, one start each; labelled
+  unique prefix states; up to 96 per stratum (on_track, wrong_key, key_lost, backtracked, all_unlocked); each label
+  verified with `check_label`. Labels never train. Confirmation layouts are never queried for training labels
+  (training uses rl_train only).
+
+**F. Endpoints.** Primary: unassisted normal-start success P1 at 501,760 continuation actions. Descriptive: 251,904.
+No extension after outcomes. Evaluation: development r7_dev 64 × 4 (eval seed 1019000); confirmation r7_conf 256 × 2
+(eval seed 1019500); arrivals certified; traced. Recovery-bank agreement at the fork, 251,904 and 501,760 (forward
+passes only).
+
+**G. Development gate** (`tools/analyze_p7.py dev`; all 6 seeds × 3 arms first; a spending rule, not a test):
+- X ∈ {C, R} qualifies if mean(P1_X − P1_A) ≥ 0.05 at 501,760, at least 4 of 6 paired differences are positive,
+  integrity passes, and its confirmation's conservative bound fits the scientific cap.
+- Select C if C qualifies and mean(P1_C − P1_R) ≥ 0.02. Otherwise R if R qualifies. Otherwise stop training and write
+  up development. No added doses, schedules, seeds or endpoints.
+- The gate is recomputed by `tools/verify_p7.py gate`; `experiments/p7/make_confirm.py` writes confirmation batches
+  only if both agree.
+
+**H. Confirmation** (only if selected; seeds 122-141; never pooled with development):
+- C selected: arms A, R, C. Test 1: two-sided paired t over 20 seeds, C − A, at 0.05. Only if rejected, test 2: C − R
+  at 0.05 (fixed sequence).
+- R selected: arms A, R; one test R − A. R's per-update counts use the frozen schedule
+  round(mean over development seeds of C's n_t), written before any confirmation run.
+- Always reported: estimates, 95% t intervals, crossed seed-and-layout bootstrap intervals (10,000), exact paired
+  sign-flip p. A positive effect is distinguished from a practically large one; no ≥ 0.05 claim unless the interval
+  supports it. Seed-level and crossed scopes are stated separately.
+- Blinding: confirmation outcomes are not read until every planned confirmation run is complete and
+  `analyze_p7.py conf-check` passes. Monitoring reads only execution health.
+- Power (planning scenarios, `reports/p7/power.md`): at paired SD 0.03 / 0.045 / 0.06, power for +0.03 is 0.99 /
+  0.81 / 0.56; 80% MDE 0.020 / 0.030 / 0.040. Twenty seeds do not guarantee resolving +0.03.
+
+**I. Secondary measures and interpretation.** Reach q = A/n, completion after arrival r = S_A/A, planner
+finishability F/A (kept separate from learned completion), arrival and remaining time, key pickups, wrong-key
+pickups, key drops by door state, locked toggles, no-op actions, supervision cost and coverage, update diagnostics
+(raw KL, clip fraction, entropy, gradient norms, auxiliary loss and gradient, label agreement), recovery-bank
+agreement. Rules: C > A supports the tested package; C > R supports an advantage over this replay control; similar
+C and R do not show equivalence; better agreement without better success repeats the transfer problem; a negative
+result concerns this procedure and strength only. Higher r can reflect changed arrival states.
+
+**J. Validation before the seed study** (smoke, separately accounted): `tests/test_p7.py` (labels on constructed
+error states, exactness, read-only queries, loss sign and gradient, cap and stride, state round trip, demonstration
+matching, planner-free evaluation, drop classification) and `tests/test_p7_smoke.py` (real jobs: identical forks,
+learner executes every training action, R matches C per update, agreement recorded, exact pause/resume for C and R,
+action records). Functional checks may repair defects; they never tune lambda. A substantive defect found later stops
+admissions; affected records are kept and the repair is documented before deciding which runs to repeat.
+
+**K. Budget** (from ledger 329,624,666; `tools/run_program7.py`). Ceiling 80M; scientific batches admitted only if
+scientific spent + batch + other incomplete scientific + 0.4M audit ≤ 72M; 8M reserve for verification replay,
+final tests, interruption retries and close-out only. Conservative bounds before data generation: per development
+seed 2,293,360 (BC 102,432; probe 203,344; branch 662,528 × 3); development 13.76M; preparation 0.78M; confirmation
+55.51M (C) or 39.05M (R); planned worst case with C 70.46M + 0.56M already spent. Expected costs are lower.
+
+**L. Verification.** `tools/verify_p7.py` recomputes seed means, contrasts, the gate, the fixed-sequence decision
+and action totals with separate code from the raw rows (shared upstream data). `bc2rl.eval_replay` (reserve)
+re-executes 2 evaluation episodes per branch from the saved actors on CPU, without planner or mask.
+
+**M. Related work** (no novelty claim): interactive imitation with expert relabelling of learner states (DAgger,
+Ross et al. 2011; AggreVaTe, Ross and Bagnell 2014; HG-DAgger, Kelly et al. 2019) and demonstration-augmented RL with
+an auxiliary imitation loss (Nair et al. 2018; DAPG, Rajeswaran et al. 2018; DQfD, Hester et al. 2018; POfD, Kang et
+al. 2018). The study tests one fixed instance of their combination at one strength in this task.
+
+**N. Frozen files (SHA-256 prefixes at the freeze commit).**
+  - `src/bc2rl/corrective.py` 195ac68046c449f0
+  - `src/bc2rl/aux_sup.py` 2fe4240d7e8f2300
+  - `src/bc2rl/ppo.py` 994d1088f27e5aa2
+  - `src/bc2rl/rl.py` b5c3e7d4884c1298
+  - `src/bc2rl/trace.py` affc7c09af1a64dd
+  - `src/bc2rl/recovery_bank.py` 9b75d19866b86fc8
+  - `src/bc2rl/eval_replay.py` 43d970094c019828
+  - `tools/analyze_p7.py` 7f895dd6eec08bd7
+  - `tools/verify_p7.py` c4fc3bd1257b826c
+  - `tools/run_program7.py` bd72a1d85c03ed3f
+  - `experiments/p7/p7-v1.json` ead4a0937f81a597
+  - `experiments/p7/c7-v1.json` d2b4ff7c61fe4484
+  - `experiments/p7/make_confirm.py` 6564363cb250d636

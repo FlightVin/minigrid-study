@@ -15,6 +15,10 @@ Contract (project.md sections 6-7):
   Arm 01 ("both") uses the original expression unchanged. All arms draw the same anchor batches from np_rng,
   which no other part of training uses, so the environment-action stream does not depend on the component.
 - Environment actions are counted exactly. A restored state does not count its skipped prefix.
+- Auxiliary prefix supervision (2026-11-02c; bc2rl.aux_sup): with `learner.aux` set, the source observes each
+  decision during collection (corrections only; read-only planner queries) and supplies the update's labelled
+  examples; minibatch k of each epoch adds coef * mean cross-entropy over chunk k of a per-epoch permutation of those
+  examples. Without a source (aux None) collection, update and RNG use are exactly the original code paths.
 """
 import copy
 import json
@@ -30,7 +34,9 @@ from bc2rl import task as T
 
 ARMS = {"00": (False, False), "10": (True, False), "01": (False, True), "11": (True, True),
         "01p": (False, True), "01s": (False, True), "01w": (False, True), "11s": (True, True),
-        "B5": (True, False), "C5": (True, False), "D5": (True, False)}
+        "B5": (True, False), "C5": (True, False), "D5": (True, False), "R7": (False, False), "C7": (False, False)}
+# Arms R7/C7 (owner instruction 2026-11-02c): ordinary PPO plus auxiliary prefix supervision (bc2rl.aux_sup):
+# R7 demonstration replay, C7 corrective labels on learner-visited prefix states. No resets, no preservation penalty.
 # Arms B5/C5/D5 (owner instruction 2026-11-02, reset-placement pilot): demonstration-state starts under the config's
 # per-arm "assist_schedule" (phases by executed continuation actions); no preservation penalty.
 COMPONENT = {"01p": "prefix", "01s": "suffix", "11s": "suffix"}   # every other arm: "both" (the original loss)
@@ -212,6 +218,7 @@ class PPO:
         self.torch_gen = torch.Generator(device="cpu").manual_seed(seed)
         self.np_rng = np.random.default_rng([seed, 11])
         self.track_alloc = bool(cfg.get("track_allocation"))
+        self.aux = None                  # optional bc2rl.aux_sup source (2026-11-02c)
         self.counters = {"env_actions": 0, "episodes": 0, "successes": 0, "assisted_episodes": 0,
                          "assisted_successes": 0, "normal_episodes": 0, "normal_successes": 0,
                          "normal_accessed": 0, "updates": 0, "actor_minibatches": 0, "timeouts": 0}
@@ -233,7 +240,10 @@ class PPO:
     def collect(self):
         N, S = self.n_envs, self.n_steps
         buf = {k: [] for k in ("grid", "aux", "time", "action", "logp", "value", "reward", "done", "stage", "assisted")}
-        for _ in range(S):
+        observe = self.aux is not None and self.aux.collects
+        if self.aux is not None:
+            self.aux.begin_rollout()
+        for s_ in range(S):
             g, a, t = self._obs_batch(self.obs)
             logits = self.actor(g, a, t)
             value = self.critic(g, a, t)
@@ -251,6 +261,8 @@ class PPO:
                     c = self.counters
                     k = f"steps_{'assisted' if self.assisted[i] else 'normal'}_{_region(env)}"
                     c[k] = c.get(k, 0) + 1
+                if observe and not self.assisted[i]:
+                    self.aux.observe(s_, i, env, self.obs[i], probs[i].numpy(), int(act[i]))
                 o, r, term, trunc, info = env.step(int(act[i]))
                 assert not trunc
                 self.counters["env_actions"] += 1
@@ -317,7 +329,10 @@ class PPO:
         act, old_logp, ret, adv = dev(flat["action"]), dev(flat["logp"]), dev(flat["ret"]), dev(adv)
         stats = {k: [] for k in ("pg_loss", "v_loss", "entropy", "approx_kl", "clipfrac", "anchor_kl",
                                  "anchor_kl_prefix", "anchor_kl_suffix", "anchor_penalty",
-                                 "grad_norm_actor", "grad_norm_critic", "kl_grad_norm", "ratio_max", "ratio_min")}
+                                 "grad_norm_actor", "grad_norm_critic", "kl_grad_norm", "ratio_max", "ratio_min",
+                                 "aux_ce", "aux_label_argmax")}
+        ab = self.aux.batch(flat, self.n_envs, self.device) if self.aux is not None else None
+        n_mb = -(-B // cfg["minibatch"])
         target_kl = cfg.get("target_kl")
         stopped = False
         probe_rows = self._probe_rows()
@@ -330,7 +345,8 @@ class PPO:
             if stopped:
                 break
             perm = torch.randperm(B, generator=self.torch_gen).to(self.device)
-            for mb in perm.split(cfg["minibatch"]):
+            chunks = self.aux.chunks(ab["n"], n_mb) if ab is not None else None
+            for k_mb, mb in enumerate(perm.split(cfg["minibatch"])):
                 logits = self.actor(g[mb], a[mb], t[mb])
                 logp_all = torch.log_softmax(logits, -1)
                 logp = logp_all.gather(1, act[mb, None]).squeeze(1)
@@ -354,6 +370,21 @@ class PPO:
                         for name, m in (("anchor_kl_prefix", pre), ("anchor_kl_suffix", ~pre)):
                             if m.any():
                                 stats[name].append(kl_rows.detach()[m].mean().item())
+                if ab is not None and len(chunks[k_mb]):
+                    ci = torch.as_tensor(chunks[k_mb], device=self.device)
+                    alog = self.actor(ab["grid"][ci], ab["aux"][ci], ab["time"][ci])
+                    ce = -(ab["target"][ci] * torch.log_softmax(alog, -1)).sum(-1).mean()
+                    if "aux_grad_norm" not in stats:       # first supervised minibatch of the update: gradient sizes
+                        ps = [p for p in self.actor.parameters()]
+                        norm = lambda gs: float(torch.sqrt(sum((g ** 2).sum() for g in gs if g is not None)))
+                        stats["aux_grad_norm"] = [norm(torch.autograd.grad(self.aux.coef * ce, ps, retain_graph=True,
+                                                                           allow_unused=True))]
+                        stats["pg_grad_norm"] = [norm(torch.autograd.grad(pg, ps, retain_graph=True, allow_unused=True))]
+                    loss = loss + self.aux.coef * ce
+                    stats["aux_ce"].append(ce.item())
+                    with torch.no_grad():
+                        stats["aux_label_argmax"].append(
+                            (ab["target"][ci].gather(1, alog.argmax(-1, keepdim=True)) > 0).float().mean().item())
                 self.opt_a.zero_grad()
                 loss.backward()
                 gn = torch.nn.utils.clip_grad_norm_(self.actor.parameters(), cfg["max_grad_norm"])
@@ -388,6 +419,8 @@ class PPO:
                 out["actor_update_norm"] = float(sum(((p.detach() - b) ** 2).sum() for p, b in
                                                      zip(self.actor.parameters(), before)) ** 0.5)
         out["minibatches"] = len(stats["pg_loss"])
+        if self.aux is not None:
+            out["aux_n"] = ab["n"] if ab is not None else 0
         out["ratio_max"], out["ratio_min"] = max(stats["ratio_max"]), min(stats["ratio_min"])
         y, yhat = flat["ret"], flat["value"]
         var = y.var().item()
@@ -406,7 +439,7 @@ class PPO:
                 "torch_gen": self.torch_gen.get_state(), "np_rng": self.np_rng.bit_generator.state,
                 "sampler_rng": self.sampler.get_state(),
                 "envs": [e.snapshot() for e in self.envs], "assisted": list(self.assisted),
-                "counters": dict(self.counters)})
+                "counters": dict(self.counters), **({"aux": self.aux.state()} if self.aux is not None else {})})
 
     def load(self, st, load_sampler_rng=True):
         st = copy.deepcopy(st)
@@ -420,6 +453,8 @@ class PPO:
             self.obs[i], _ = self.envs[i].reset(options={"snapshot": snap})
         self.assisted = list(st["assisted"])
         self.counters = dict(st["counters"])
+        if self.aux is not None and "aux" in st:
+            self.aux.load(st["aux"])
 
 
 def state_hash(st):

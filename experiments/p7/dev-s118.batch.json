@@ -1,0 +1,97 @@
+{
+ "jobs": [
+  {
+   "id": "p7-bc-s118",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.bc",
+    "--config",
+    "experiments/a4/bc-a4.json",
+    "--seed",
+    "118"
+   ]
+  },
+  {
+   "id": "p7-probe-K3-s118",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "probe",
+    "--config",
+    "experiments/p7/p7-v1.json",
+    "--K",
+    "3",
+    "--bc-run",
+    "@/p7-bc-s118",
+    "--bc-update",
+    "8000",
+    "--seed",
+    "118"
+   ]
+  },
+  {
+   "id": "p7-K3-s118-00",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/p7/p7-v1.json",
+    "--probe-run",
+    "@/p7-probe-K3-s118",
+    "--arm",
+    "00"
+   ]
+  },
+  {
+   "id": "p7-K3-s118-C7",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/p7/p7-v1.json",
+    "--probe-run",
+    "@/p7-probe-K3-s118",
+    "--arm",
+    "C7"
+   ]
+  },
+  {
+   "id": "p7-K3-s118-R7",
+   "cpu_threads": 1,
+   "memory_gb": 3,
+   "device": "mps",
+   "command": [
+    "{python}",
+    "-m",
+    "bc2rl.rl",
+    "branch",
+    "--config",
+    "experiments/p7/p7-v1.json",
+    "--probe-run",
+    "@/p7-probe-K3-s118",
+    "--arm",
+    "R7",
+    "--match-run",
+    "@/p7-K3-s118-C7"
+   ]
+  }
+ ]
+}

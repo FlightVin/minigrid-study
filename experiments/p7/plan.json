@@ -1,0 +1,58 @@
+{
+ "batches": [
+  {
+   "file": "experiments/p7/data.batch.json",
+   "study": "prep",
+   "category": "scientific",
+   "required": true
+  },
+  {
+   "file": "experiments/p7/recov.batch.json",
+   "study": "prep",
+   "category": "scientific",
+   "required": true
+  },
+  {
+   "file": "experiments/p7/tests.batch.json",
+   "study": "prep",
+   "category": "scientific",
+   "required": true
+  },
+  {
+   "file": "experiments/p7/dev-s116.batch.json",
+   "study": "dev",
+   "category": "scientific",
+   "required": true
+  },
+  {
+   "file": "experiments/p7/dev-s117.batch.json",
+   "study": "dev",
+   "category": "scientific",
+   "required": true
+  },
+  {
+   "file": "experiments/p7/dev-s118.batch.json",
+   "study": "dev",
+   "category": "scientific",
+   "required": true
+  },
+  {
+   "file": "experiments/p7/dev-s119.batch.json",
+   "study": "dev",
+   "category": "scientific",
+   "required": true
+  },
+  {
+   "file": "experiments/p7/dev-s120.batch.json",
+   "study": "dev",
+   "category": "scientific",
+   "required": true
+  },
+  {
+   "file": "experiments/p7/dev-s121.batch.json",
+   "study": "dev",
+   "category": "scientific",
+   "required": true
+  }
+ ]
+}

@@ -1,0 +1,15 @@
+{
+ "purpose": "Held-out recovery-state bank (owner instruction 2026-11-02c section 8; PROTOCOL_FREEZE Amendment 9). Source policies fixed by rule: the 2026-11-02b A4 cohort (arm 00 finals, seeds 70-73, 1,001,472), which take no part in this study. Layouts: the 64 K=3 layouts of r7_recov, one normal start per policy. Labelled, de-duplicated prefix states, up to 96 per stratum (on_track, wrong_key, key_lost, backtracked, all_unlocked). Agreement evaluation only; labels never train.",
+ "dataset_id": "r7-v1",
+ "role": "r7_recov",
+ "n_layouts": 64,
+ "sample_seed": 20261102,
+ "per_stratum": 96,
+ "bank_path": "data/r7-v1/recovery_bank_v1.json",
+ "policies": {
+  "a4_s70": {"kind": "state", "run": "20261102T004500-31671/a4-K3-s70-00", "at": 1001472, "seed": 70},
+  "a4_s71": {"kind": "state", "run": "20261102T010216-37940/a4-K3-s71-00", "at": 1001472, "seed": 71},
+  "a4_s72": {"kind": "state", "run": "20261102T011927-39746/a4-K3-s72-00", "at": 1001472, "seed": 72},
+  "a4_s73": {"kind": "state", "run": "20261102T013603-41276/a4-K3-s73-00", "at": 1001472, "seed": 73}
+ }
+}

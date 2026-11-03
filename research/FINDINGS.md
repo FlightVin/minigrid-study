@@ -1207,6 +1207,11 @@ exploratory.
     8/8 policies respectively.
   - **Beyond masking** (key_all Δ − mask_prefix Δ ≥ 0.05 in both cohorts): met (A4 +0.070, P5 +0.135). Post hoc
     intervals are A4 [−0.002, +0.143] and P5 [+0.078, +0.192].
+    [Corrected 2026-11-02c (F31): the rule above compares two contrasts against base. The direct paired contrast
+    key_all − mask_prefix is A4 +0.070, layout-conditional 95% [−0.002, +0.143], crossed policy-and-layout
+    [−0.035, +0.176]; P5 +0.135, [+0.078, +0.192], crossed [+0.055, +0.215]. The frozen point-estimate verdict
+    stands; an interval supports "beyond masking" only in the P5 cohort. Key-only gains in the A4 cohort: the crossed
+    interval includes zero for key_mid [−0.023, +0.125] and reaches zero for key_all [0.000, +0.195].]
 - **Interactions** (both − key − door + base; interaction between controller modifications, not a decomposition of
   skills):
 
@@ -1236,6 +1241,10 @@ exploratory.
   - **Given key dropped.** In key-only conditions, the learner later dropped the key it had just been given in
     243/502 (A4) and 241/465 (P5) assisted middle-module episodes. These are observations; they do not establish
     why learning failed.
+    [Corrected 2026-11-02c (F31): 243 and 241 count episodes with any drop of the middle-module key while standing
+    in that module, including drops after its door was unlocked or passed, where the key is obsolete and dropping it
+    can be correct. The denominators 502/465 are eligible episodes; KA ran in 501/462. Reclassified by door state
+    by replay: a premature drop (door still locked) occurred in 177/501 (A4) and 183/462 (P5) assisted episodes.]
   - **Masking.** It removed 0.076 (A4) and 0.106 (P5) mean policy mass per masked step. At base, ineffective
     actions were 23.5% and 30.8% of learner prefix steps. Masking eliminated them but raised P1 by only 0.02-0.03.
   - **Suffix limit.** Even with every arrival certified finishable (both_all), the learned suffix finished only 70%
@@ -1257,6 +1266,9 @@ exploratory.
 - **Answers to the instruction's questions.**
   - **What assistance mainly does.** It saves prefix time and changes inventory state, which removes the observed
     pickup and locked-door loops. It does not change how often the learner finishes from an arrival.
+    [Corrected 2026-11-02c (F31): planner assistance changes the trajectory, the inventory and the time use
+    together. It does not isolate one internal skill. Planner finishability (F/A) and learned completion (S_A/A)
+    are separate quantities and are reported separately.]
   - **Eligibility.** Key assistance creates eligibility for door assistance, so door-only results understate door
     errors.
   - **Masking.** It does not capture much of the planner benefit: 0.02-0.03 against 0.10-0.16 for key_all.
@@ -1305,3 +1317,48 @@ exploratory.
      limit. Report r.
   5. **Close the line instead** if the owner judges about 48M conservative actions too costly for an effect expected
      to be a fraction of 0.10-0.16.
+
+## F31 — Record audit of the controller diagnostics (2026-11-02c, section 1; interpretation only)
+
+Source: `tools/audit_p6b.py` → `reports/p6/audit_p6b.{json,md}`; raw rows of the 2026-11-02b controller jobs; key
+drops by replay of 2,846 recorded action strings in fresh environments (0 outcome mismatches; 349,457 counted
+actions, local). Added after outcomes. No historical verdict changes; corrections are marked in F29, F30 and REPORT U.
+
+- **Direct paired contrasts** (cohort mean over 4 policies; 64 layouts × 2 attempts per policy). Layout-conditional
+  = 95% t over layouts with the policies fixed; crossed = policy-and-layout bootstrap.
+
+  | Cohort | Contrast | Mean | Layout-conditional | Crossed |
+  |---|---|---|---|---|
+  | A4 | key_mid − mask_prefix | +0.021 | [−0.053, +0.096] | [−0.070, +0.119] |
+  | A4 | key_all − mask_prefix | +0.070 | [−0.002, +0.143] | [−0.035, +0.176] |
+  | A4 | both_all − mask_prefix | +0.240 | [+0.172, +0.309] | [+0.117, +0.375] |
+  | A4 | key_mid − base | +0.051 | [−0.013, +0.115] | [−0.023, +0.125] |
+  | A4 | key_all − base | +0.100 | [+0.030, +0.169] | [0.000, +0.195] |
+  | P5 | key_mid − mask_prefix | +0.035 | [−0.018, +0.088] | [−0.039, +0.107] |
+  | P5 | key_all − mask_prefix | +0.135 | [+0.078, +0.192] | [+0.055, +0.215] |
+  | P5 | both_all − mask_prefix | +0.314 | [+0.251, +0.378] | [+0.207, +0.418] |
+  | P5 | key_mid − base | +0.059 | [+0.007, +0.110] | [−0.010, +0.125] |
+  | P5 | key_all − base | +0.158 | [+0.099, +0.218] | [+0.078, +0.234] |
+
+  - The A4 key-only crossed intervals include zero (key_mid) or reach it (key_all, lower bound 0.000).
+  - Key assistance beyond masking is supported by a direct interval in the P5 cohort only. In A4 it is not
+    resolved. The F29 verdict was a point-estimate rule on two separate contrasts.
+- **Key drops by door state** (learner drops of a module key; base, key_mid, key_all):
+
+  | Cohort | Condition | Drops | Door locked (premature) | Unlocked, not passed | Passed (obsolete) |
+  |---|---|---|---|---|---|
+  | A4 | base | 2,013 | 413 | 207 | 1,393 |
+  | A4 | key_mid | 2,384 | 1,375 | 181 | 828 |
+  | A4 | key_all | 2,180 | 1,451 | 213 | 516 |
+  | P5 | base | 1,685 | 294 | 176 | 1,215 |
+  | P5 | key_mid | 1,817 | 779 | 213 | 825 |
+  | P5 | key_all | 1,734 | 950 | 212 | 572 |
+
+  - After key assistance in the middle module, a premature drop of that key (door still locked) occurred in
+    177/501 (A4) and 183/462 (P5) assisted key_mid episodes, and 183/512 and 199/510 under key_all. The earlier
+    243/502 and 241/465 counted all in-module drops, including obsolete ones, and used eligible denominators.
+  - At base, most learner key drops (69% A4, 72% P5) were of an obsolete key, which is the correct exchange.
+- **Wording corrections.** Planner finishability (F/A) and learned completion (S_A/A) are separate quantities.
+  Planner assistance changes trajectories, inventory and time together; it does not isolate a learner skill.
+- **Limitation.** The drop classification uses door state at the drop. It does not judge whether the drop was
+  useful for the next action.

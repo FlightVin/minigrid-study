@@ -22,3 +22,14 @@ task family: holding the stored demonstration bank, sampler, estimator and PPO f
 forward-KL penalty to post-boundary states change normal-start success, and is any difference explained by a uniform
 reduction of the mixed penalty? 24 independent seeds, prespecified gate. The pilot contributes only exploratory
 evidence on whether reset and suffix-preservation value depends on a calibrated access/competence regime.
+
+## 2026-11-02c — Corrective prefix imitation (Amendment 9)
+
+- Interactive imitation with expert relabelling of learner-visited states: DAgger (Ross, Gordon, Bagnell 2011),
+  AggreVaTe (Ross, Bagnell 2014), HG-DAgger (Kelly et al. 2019). C is a single-strength instance with a planner
+  expert, current-rollout labels and no aggregation buffer.
+- Demonstration-augmented RL with an auxiliary imitation loss: Nair et al. 2018 (BC loss with Q-filter), DAPG
+  (Rajeswaran et al. 2018), DQfD (Hester et al. 2018), POfD (Kang et al. 2018). R is the matched replay control in
+  this family.
+- Positioning: no novelty claim for combining a planner loss with PPO. The contribution is a controlled comparison
+  in one task family, with matched example counts and schedules.

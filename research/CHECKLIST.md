@@ -213,3 +213,19 @@ Dependencies: each line needs the lines above it unless marked (parallel-safe: d
 - [x] Trajectory inspection (predetermined sample); interpretation; ranked recommendation + one proposal (REPORT U5; not launched)
 - [x] Final tests (321 passed); cost reconciliation (1,396,213 of 2M); FINDINGS F29-F30; REPORT U; STATE; commit + push; stop owned monitors (guard 30539, cron eb95c0a1)
 - [ ] Corrective-imitation study (REPORT U5) or close the line — awaits owner instruction
+
+## 2026-11-02c — Corrective prefix imitation study (Amendment 9)
+
+- [x] Record instruction verbatim (harness `1efcb5f`); restart battery guard and review cron (no duplicates)
+- [x] Section 1 record audit (F31) and marked corrections
+- [x] Label planner, sources, PPO/rl integration, trace drop classification, recovery bank, eval replay
+- [x] Unit tests and local smoke pass; power table; conservative costs; analysis and verification scripts
+- [x] Amendment 9 frozen and committed before outcome-producing runs
+- [ ] Data r7-v1 (registry disjointness) → panel and bank hashes addendum
+- [ ] Recovery bank (label check 0 violations)
+- [ ] Tests + smoke batch in the runner
+- [ ] Development seeds 116-121 (116 canary: health only)
+- [ ] Frozen gate + independent gate recomputation
+- [ ] Confirmation 122-141 (only if selected; blinded until complete)
+- [ ] Reserve: eval replay, final tests; independent verification
+- [ ] FINDINGS, REPORT, STATE, DECISIONS; commit and push; stop owned monitors

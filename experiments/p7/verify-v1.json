@@ -1,0 +1,6 @@
+{
+    "purpose": "Verification replay sample (Amendment 9; reserve): per complete branch, 2 normal-start episodes of the 501,760 evaluation, chosen by rng([verify_seed, seed, arm index]).",
+    "per_branch": 2,
+    "verify_seed": 20261103,
+    "episodes": 156
+}

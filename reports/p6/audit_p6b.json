@@ -1,0 +1,265 @@
+{
+ "note": "Record audit (2026-11-02c, section 1); added after outcomes; interpretation only.",
+ "contrasts": {
+  "A4|key_mid-mask_prefix": {
+   "mean": 0.021484375,
+   "layout_conditional_lo": -0.05327034730868202,
+   "layout_conditional_hi": 0.09623909730868202,
+   "crossed_lo": -0.0703125,
+   "crossed_hi": 0.119140625,
+   "per_policy_means": [
+    0.0078125,
+    0.0390625,
+    0.078125,
+    -0.0390625
+   ],
+   "n_policies_positive": 3
+  },
+  "A4|key_all-mask_prefix": {
+   "mean": 0.0703125,
+   "layout_conditional_lo": -0.001983942861500318,
+   "layout_conditional_hi": 0.14260894286150033,
+   "crossed_lo": -0.03515625,
+   "crossed_hi": 0.17578125,
+   "per_policy_means": [
+    0.109375,
+    -0.0078125,
+    0.15625,
+    0.0234375
+   ],
+   "n_policies_positive": 3
+  },
+  "A4|both_all-mask_prefix": {
+   "mean": 0.240234375,
+   "layout_conditional_lo": 0.17157641686101174,
+   "layout_conditional_hi": 0.30889233313898823,
+   "crossed_lo": 0.11713867187500004,
+   "crossed_hi": 0.375,
+   "per_policy_means": [
+    0.2421875,
+    0.1953125,
+    0.40625,
+    0.1171875
+   ],
+   "n_policies_positive": 4
+  },
+  "A4|key_mid-base": {
+   "mean": 0.05078125,
+   "layout_conditional_lo": -0.013068330599532413,
+   "layout_conditional_hi": 0.11463083059953241,
+   "crossed_lo": -0.0234375,
+   "crossed_hi": 0.125,
+   "per_policy_means": [
+    0.0234375,
+    0.0546875,
+    0.0546875,
+    0.0703125
+   ],
+   "n_policies_positive": 4
+  },
+  "A4|key_all-base": {
+   "mean": 0.099609375,
+   "layout_conditional_lo": 0.02986126254582752,
+   "layout_conditional_hi": 0.16935748745417248,
+   "crossed_lo": 0.0,
+   "crossed_hi": 0.1953125,
+   "per_policy_means": [
+    0.125,
+    0.0078125,
+    0.1328125,
+    0.1328125
+   ],
+   "n_policies_positive": 4
+  },
+  "P5|key_mid-mask_prefix": {
+   "mean": 0.03515625,
+   "layout_conditional_lo": -0.018050976418530262,
+   "layout_conditional_hi": 0.08836347641853026,
+   "crossed_lo": -0.0390625,
+   "crossed_hi": 0.10747070312499929,
+   "per_policy_means": [
+    0.0546875,
+    0.0546875,
+    -0.015625,
+    0.046875
+   ],
+   "n_policies_positive": 3
+  },
+  "P5|key_all-mask_prefix": {
+   "mean": 0.134765625,
+   "layout_conditional_lo": 0.0776758803604454,
+   "layout_conditional_hi": 0.1918553696395546,
+   "crossed_lo": 0.0546875,
+   "crossed_hi": 0.21484375,
+   "per_policy_means": [
+    0.1875,
+    0.1484375,
+    0.078125,
+    0.125
+   ],
+   "n_policies_positive": 4
+  },
+  "P5|both_all-mask_prefix": {
+   "mean": 0.314453125,
+   "layout_conditional_lo": 0.2505373054698429,
+   "layout_conditional_hi": 0.3783689445301571,
+   "crossed_lo": 0.20703125,
+   "crossed_hi": 0.41796875,
+   "per_policy_means": [
+    0.390625,
+    0.3125,
+    0.1953125,
+    0.359375
+   ],
+   "n_policies_positive": 4
+  },
+  "P5|key_mid-base": {
+   "mean": 0.05859375,
+   "layout_conditional_lo": 0.007311878839914181,
+   "layout_conditional_hi": 0.10987562116008581,
+   "crossed_lo": -0.009765625,
+   "crossed_hi": 0.125,
+   "per_policy_means": [
+    0.046875,
+    0.109375,
+    0.03125,
+    0.046875
+   ],
+   "n_policies_positive": 4
+  },
+  "P5|key_all-base": {
+   "mean": 0.158203125,
+   "layout_conditional_lo": 0.09874003086561217,
+   "layout_conditional_hi": 0.21766621913438783,
+   "crossed_lo": 0.078125,
+   "crossed_hi": 0.234375,
+   "per_policy_means": [
+    0.1796875,
+    0.203125,
+    0.125,
+    0.125
+   ],
+   "n_policies_positive": 4
+  }
+ },
+ "drops": {
+  "A4|base": {
+   "episodes_with_drop": 494,
+   "drops": {
+    "door_locked": 413,
+    "door_open_unpassed": 207,
+    "door_passed": 1393,
+    "non_module_key": 0
+   },
+   "middle_key_drops_after_ka": {
+    "door_locked": 0,
+    "door_open_unpassed": 0,
+    "door_passed": 0
+   },
+   "episodes_middle_ka_assisted": 0,
+   "episodes_middle_key_dropped_after_ka": {
+    "door_locked": 0,
+    "any": 0
+   }
+  },
+  "A4|key_mid": {
+   "episodes_with_drop": 483,
+   "drops": {
+    "door_locked": 1375,
+    "door_open_unpassed": 181,
+    "door_passed": 828,
+    "non_module_key": 0
+   },
+   "middle_key_drops_after_ka": {
+    "door_locked": 1058,
+    "door_open_unpassed": 130,
+    "door_passed": 404
+   },
+   "episodes_middle_ka_assisted": 501,
+   "episodes_middle_key_dropped_after_ka": {
+    "door_locked": 177,
+    "any": 479
+   }
+  },
+  "A4|key_all": {
+   "episodes_with_drop": 487,
+   "drops": {
+    "door_locked": 1451,
+    "door_open_unpassed": 213,
+    "door_passed": 516,
+    "non_module_key": 0
+   },
+   "middle_key_drops_after_ka": {
+    "door_locked": 1036,
+    "door_open_unpassed": 135,
+    "door_passed": 33
+   },
+   "episodes_middle_ka_assisted": 512,
+   "episodes_middle_key_dropped_after_ka": {
+    "door_locked": 183,
+    "any": 258
+   }
+  },
+  "P5|base": {
+   "episodes_with_drop": 445,
+   "drops": {
+    "door_locked": 294,
+    "door_open_unpassed": 176,
+    "door_passed": 1215,
+    "non_module_key": 0
+   },
+   "middle_key_drops_after_ka": {
+    "door_locked": 0,
+    "door_open_unpassed": 0,
+    "door_passed": 0
+   },
+   "episodes_middle_ka_assisted": 0,
+   "episodes_middle_key_dropped_after_ka": {
+    "door_locked": 0,
+    "any": 0
+   }
+  },
+  "P5|key_mid": {
+   "episodes_with_drop": 447,
+   "drops": {
+    "door_locked": 779,
+    "door_open_unpassed": 213,
+    "door_passed": 825,
+    "non_module_key": 0
+   },
+   "middle_key_drops_after_ka": {
+    "door_locked": 590,
+    "door_open_unpassed": 143,
+    "door_passed": 466
+   },
+   "episodes_middle_ka_assisted": 462,
+   "episodes_middle_key_dropped_after_ka": {
+    "door_locked": 183,
+    "any": 442
+   }
+  },
+  "P5|key_all": {
+   "episodes_with_drop": 490,
+   "drops": {
+    "door_locked": 950,
+    "door_open_unpassed": 212,
+    "door_passed": 572,
+    "non_module_key": 0
+   },
+   "middle_key_drops_after_ka": {
+    "door_locked": 651,
+    "door_open_unpassed": 155,
+    "door_passed": 97
+   },
+   "episodes_middle_ka_assisted": 510,
+   "episodes_middle_key_dropped_after_ka": {
+    "door_locked": 199,
+    "any": 277
+   }
+  }
+ },
+ "replay": {
+  "episodes": 2846,
+  "mismatches": 0
+ }
+}

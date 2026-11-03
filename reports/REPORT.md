@@ -18,6 +18,10 @@ full prefix assistance by +0.27 to +0.34. Door-only assistance (often ineligible
 actions gave ≤ 0.05. The forms interact positively, and learned suffix completion stayed at 0.57-0.70 even from
 finishable arrivals. These are opportunities under privileged help, not training results. A corrective-imitation
 study is proposed and not launched.
+[Corrected 2026-11-02c (record audit, FINDINGS F31): "beyond masking" is supported by a direct paired interval only
+in the pilot cohort (A4 key_all − mask_prefix +0.070, crossed [−0.035, +0.176]); the A4 key-only crossed intervals
+include or reach zero; premature key drops after key assistance were 177/501 (A4) and 183/462 (P5) episodes, not
+243/502 and 241/465; assistance changes trajectories, inventory and time together and does not isolate a skill.]
 **Programme 2026-11-02 (section T, complete; development only):** [Corrected 2026-11-02b: reference 1 is an assisted reference, not
 a bound on learner performance; "headroom" is withdrawn; denominators in `reports/p6/audit_p5.md`.] The diagnostics on
 A4 checkpoints showed large access headroom: reference 1 (planner prefix, learned suffix) minus P1 was +0.31. Arrivals were mostly finishable
@@ -114,6 +118,9 @@ is a diagnostic study of augmented controllers, not a demonstration of improved 
   - Learned completion after arrival hardly changes (A4 0.65-0.70; P5 0.51-0.57), even when every arrival is
     finishable.
 - **Masking** removes the 23-31% of prefix steps that were ineffective but gives only 0.02-0.03.
+- [Corrected 2026-11-02c (F31): the direct paired key_all − mask_prefix intervals are A4 [−0.002, +0.143]
+  (layout-conditional) and [−0.035, +0.176] (crossed); P5 [+0.078, +0.192] and [+0.055, +0.215]. "Repairs inventory
+  state" describes what the planner does; it does not isolate an inventory skill in the learner.]
 
 ### U3. Unresolved explanations
 - Missing demonstration coverage of learner-visited error states, inadequate exploration in PPO, and representation

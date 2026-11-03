@@ -726,3 +726,27 @@ completion. See FINDINGS F24-F25 and REPORT section S.
 - **Decision.** Under this authorization nothing more is run. One training study (corrective imitation of the
   module subroutine; REPORT U5) is proposed, with "close the line" as the alternative. It needs an owner instruction.
 - **Monitors.** The owned battery guard and the review loop are stopped at completion.
+
+## 2026-11-02c — Owner instruction: corrective prefix imitation study (80M ceiling)
+
+- Instruction recorded verbatim (harness `1efcb5f`). Start ledger 329,624,666. Ceiling 80,000,000; scientific
+  batches capped at 72,000,000; 8,000,000 itemised reserve (verification replay, final tests, interruption retries,
+  close-out). Earlier allowances do not carry over.
+- Monitors: no duplicates found; battery guard restarted (background task, `.mae/monitor/battery_guard.pid`);
+  two-hour review cron `14175706`.
+- Section 1 record audit done locally (349,457 counted actions; F31). Corrections marked in F29, F30, REPORT U.
+- Design frozen as PROTOCOL_FREEZE Amendment 9 before any development outcome:
+  - arms A (00), R (R7: demonstration replay), C (C7: corrective labels); coefficient 0.1; matched examples per
+    update (R reads C's per-update counts for the same seed);
+  - every 4th eligible prefix transition at most; stride adapts upward to keep ≤ 306 queries per update; hard cap
+    75,000 queried states per branch, enforced in code;
+  - development seeds 116-121, confirmation 122-141 (96-115 stay retired as the closed pilot's reservation);
+  - dataset r7-v1 with new roles r7_select, r7_dev, r7_conf (256 × 2), r7_recov;
+  - gate and confirmation rules exactly as in the instruction (Amendment 9 G-H).
+- Choices made under the instruction (engineering, not tuning):
+  - the label set is every shortest first action (uniform target), to avoid arbitrary tie-breaking;
+  - the frontier module is the first locked door, a function of the observation;
+  - R keeps the original one-hot demonstration actions (ordinary replay); the label-form difference is documented;
+  - if R alone is selected, confirmation R uses the rounded mean development C schedule (frozen now);
+  - no suffix competence bank in branch evaluations (not required; saves cost); the probe keeps its established
+    diagnostics.
