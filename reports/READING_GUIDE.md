@@ -61,9 +61,10 @@ Read the files in tier order. Tier 1 is enough for most purposes.
 
 ## Owner instructions
 
-9. **`mac-agentic-engineering/project.md`** (about 3,500 lines). Every owner instruction, recorded verbatim. It is
-   long: read the last few instructions unless you need the history. This file is in a nested repository that is
-   not pushed to GitHub, so it is supplied separately.
+9. **`reports/project.md`** (about 3,500 lines). Every owner instruction, recorded verbatim. It is long: read the
+   last few instructions unless you need the history. It is a copy of `mac-agentic-engineering/project.md` (nested
+   harness repository, not pushed to GitHub), taken at harness commit `ba458b0` (2026-11-03). If the two differ, the
+   harness file is the source.
 
 ## Optional
 
